@@ -1,0 +1,39 @@
+id: iv-intuition
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Instrumental Variables Intuition
+  nb: Intuisjon for instrumentvariabler
+courses:
+  - ec202
+topics:
+  - causal-inference
+  - endogeneity
+  - identification
+tags:
+  - iv
+  - regression
+  - econometrics
+level: intermediate
+prerequisites: []
+related:
+  - ex-iv-concept-check
+  - iv-dag-figure
+  - angrist-podcast-iv
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []

@@ -1,0 +1,7 @@
+## Quick check
+
+Suppose distance to a training center changes program participation. Explain which fact would support relevance and which fact would threaten exclusion.
+
+::: {.teacher-only}
+Solution sketch: relevance is supported by a strong first stage; exclusion is threatened if distance also changes local labor demand or transport costs that directly affect the outcome.
+:::

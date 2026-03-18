@@ -1,0 +1,7 @@
+## Hvorfor denne ressursen star pa listen
+
+Denne episoden gir studentene en rask intuisjon for hvorfor IV hjelper nar valg av behandling er viklet sammen med uobserverte faktorer.
+
+::: {.teacher-only}
+Tildel denne for forelesningen og be studentene ta med ett forslag til instrument til timen.
+:::

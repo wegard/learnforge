@@ -1,0 +1,5 @@
+## En minimal IV-graf
+
+![En enkel rettet graf fra Z til X til Y.](assets/iv-dag.svg)
+
+Grafen holder forelesningen konkret: instrumentet flytter behandlingen, og behandlingen flytter utfallet.

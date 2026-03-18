@@ -1,0 +1,46 @@
+id: angrist-podcast-iv
+kind: resource
+resource_kind: podcast
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Instrumental Variables Episode
+  nb: Episode om instrumentvariabler
+authors:
+  - Joshua Angrist
+published_on: 2025-11-04
+url: https://example.org/resources/angrist-podcast-iv
+courses:
+  - ec202
+topics:
+  - causal-inference
+  - iv
+tags:
+  - podcast
+  - iv
+outputs:
+  - html
+  - pdf
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+difficulty: introductory
+estimated_time_minutes: 32
+why_selected:
+  en: Gives students an intuitive narrative before the formal lecture.
+  nb: Gir studentene en intuitiv fortelling for den formelle forelesningen.
+instructor_note:
+  en: Assign before lecture 4.
+  nb: Tildel for forelesning 4.
+freshness: evergreen
+review_after: 2027-01-01
+approved_by: vegard
+approved_on: 2026-03-18

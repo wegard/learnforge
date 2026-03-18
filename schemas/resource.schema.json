@@ -1,0 +1,278 @@
+{
+  "$defs": {
+    "AIInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "generated_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Generated Fields",
+          "type": "array"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "created_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created On"
+        },
+        "review_state": {
+          "anyOf": [
+            {
+              "enum": [
+                "pending",
+                "approved",
+                "rejected"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review State"
+        }
+      },
+      "title": "AIInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "resource",
+      "title": "Kind",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "reviewed",
+        "approved",
+        "published",
+        "archived"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "visibility": {
+      "enum": [
+        "private",
+        "teacher",
+        "student",
+        "public"
+      ],
+      "title": "Visibility",
+      "type": "string"
+    },
+    "languages": {
+      "items": {
+        "enum": [
+          "en",
+          "nb"
+        ],
+        "type": "string"
+      },
+      "title": "Languages",
+      "type": "array"
+    },
+    "title": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Title",
+      "type": "object"
+    },
+    "courses": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Courses",
+      "type": "array"
+    },
+    "topics": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Topics",
+      "type": "array"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "outputs": {
+      "items": {
+        "enum": [
+          "html",
+          "pdf",
+          "revealjs",
+          "handout",
+          "exercise-sheet"
+        ],
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "array"
+    },
+    "owners": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Owners",
+      "type": "array"
+    },
+    "updated": {
+      "format": "date",
+      "title": "Updated",
+      "type": "string"
+    },
+    "translation_status": {
+      "additionalProperties": {
+        "enum": [
+          "missing",
+          "machine_draft",
+          "edited",
+          "approved"
+        ],
+        "type": "string"
+      },
+      "title": "Translation Status",
+      "type": "object"
+    },
+    "ai": {
+      "$ref": "#/$defs/AIInfo"
+    },
+    "resource_kind": {
+      "enum": [
+        "article",
+        "paper",
+        "podcast",
+        "video",
+        "book",
+        "chapter",
+        "website"
+      ],
+      "title": "Resource Kind",
+      "type": "string"
+    },
+    "authors": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Authors",
+      "type": "array"
+    },
+    "published_on": {
+      "format": "date",
+      "title": "Published On",
+      "type": "string"
+    },
+    "url": {
+      "format": "uri",
+      "minLength": 1,
+      "title": "Url",
+      "type": "string"
+    },
+    "difficulty": {
+      "enum": [
+        "introductory",
+        "intermediate",
+        "advanced"
+      ],
+      "title": "Difficulty",
+      "type": "string"
+    },
+    "estimated_time_minutes": {
+      "exclusiveMinimum": 0,
+      "title": "Estimated Time Minutes",
+      "type": "integer"
+    },
+    "why_selected": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Why Selected",
+      "type": "object"
+    },
+    "instructor_note": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Instructor Note",
+      "type": "object"
+    },
+    "freshness": {
+      "enum": [
+        "evergreen",
+        "time-sensitive"
+      ],
+      "title": "Freshness",
+      "type": "string"
+    },
+    "review_after": {
+      "format": "date",
+      "title": "Review After",
+      "type": "string"
+    },
+    "approved_by": {
+      "title": "Approved By",
+      "type": "string"
+    },
+    "approved_on": {
+      "format": "date",
+      "title": "Approved On",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "status",
+    "visibility",
+    "languages",
+    "title",
+    "updated",
+    "resource_kind",
+    "published_on",
+    "url",
+    "difficulty",
+    "estimated_time_minutes",
+    "why_selected",
+    "instructor_note",
+    "freshness",
+    "review_after",
+    "approved_by",
+    "approved_on"
+  ],
+  "title": "Resource",
+  "type": "object"
+}

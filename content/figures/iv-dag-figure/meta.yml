@@ -1,0 +1,39 @@
+id: iv-dag-figure
+kind: figure
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: IV DAG
+  nb: IV-DAG
+courses:
+  - ec202
+topics:
+  - causal-inference
+  - identification
+tags:
+  - iv
+  - dag
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+caption:
+  en: Instrument Z shifts treatment X, which moves outcome Y.
+  nb: Instrumentet Z flytter behandling X, som igjen flytter utfallet Y.
+alt_text:
+  en: A simple directed graph with arrows Z to X and X to Y.
+  nb: En enkel rettet graf med piler fra Z til X og fra X til Y.
+svg_path: assets/iv-dag.svg
+pdf_path:
+interactive_path:

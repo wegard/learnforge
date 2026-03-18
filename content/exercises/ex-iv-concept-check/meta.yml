@@ -1,0 +1,36 @@
+id: ex-iv-concept-check
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: IV intuition check
+  nb: Sjekk av IV-intuisjon
+courses:
+  - ec202
+topics:
+  - causal-inference
+  - identification
+tags:
+  - iv
+  - exercise
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 8
+concepts:
+  - iv-intuition
+solution_visibility: teacher

@@ -1,0 +1,16 @@
+## Hvorfor IV dukker opp
+
+Et instrument gir variasjon i behandlingen som ikke er forurenset av de samme konfunderende faktorene som gjør den vanlige sammenligningen skjev.
+
+::: {.teacher-only}
+Be studentene foresla en policyvariabel som kan flytte behandling uten a pavirke utfallet direkte.
+:::
+
+## De to kontrollene studentene trenger forst
+
+1. Relevans: instrumentet ma pavirke behandlingen.
+2. Eksklusjon: instrumentet ma ikke pavirke utfallet direkte utenom gjennom behandlingen.
+
+## Hvordan lese designet
+
+Nar disse to kontrollene er plausible, erstatter IV en skjev sammenligning med variasjon som oppforer seg mer som et eksperiment.

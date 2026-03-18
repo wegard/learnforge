@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python3 -m pip install -e .[dev]
+pre-commit install
+teach validate

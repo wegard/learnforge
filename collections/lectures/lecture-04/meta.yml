@@ -1,0 +1,37 @@
+id: lecture-04
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Lecture 4 - Endogeneity and IV
+  nb: Forelesning 4 - Endogenitet og IV
+courses:
+  - ec202
+topics:
+  - causal-inference
+  - iv
+tags:
+  - lecture
+  - iv
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+items:
+  - iv-intuition
+  - iv-dag-figure
+  - ex-iv-concept-check
+  - angrist-podcast-iv

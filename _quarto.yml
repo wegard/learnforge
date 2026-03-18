@@ -1,0 +1,35 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: LearnForge
+  search: true
+  page-navigation: true
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-copy: true
+    number-sections: true
+  pdf:
+    pdf-engine: pdflatex
+    toc: true
+    colorlinks: true
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: false
+    transition: none
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false
+
+filters:
+  - filters/visibility.lua
+
+metadata-files:
+  - _variables.yml

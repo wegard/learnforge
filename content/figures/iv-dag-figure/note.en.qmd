@@ -1,0 +1,5 @@
+## A minimal IV graph
+
+![A simple directed graph from Z to X to Y.](assets/iv-dag.svg)
+
+The graph keeps the lecture language concrete: the instrument moves treatment, and treatment moves the outcome.

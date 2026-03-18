@@ -1,0 +1,65 @@
+id: {{ id }}
+kind: {{ kind }}
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: {{ title_en }}
+  nb: {{ title_nb }}
+courses: []
+topics: []
+tags: []
+outputs:
+  - html
+owners:
+  - {{ owner }}
+updated: {{ updated }}
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+{% if kind == "concept" %}
+level: intermediate
+prerequisites: []
+related: []
+{% elif kind == "exercise" %}
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 10
+concepts: []
+solution_visibility: teacher
+{% elif kind == "figure" %}
+caption:
+  en: Replace with an English caption.
+  nb: Erstatt med en norsk bildetekst.
+alt_text:
+  en: Replace with English alt text.
+  nb: Erstatt med norsk alternativ tekst.
+svg_path: assets/{{ id }}.svg
+pdf_path:
+interactive_path:
+{% elif kind == "resource" %}
+resource_kind: article
+authors:
+  - {{ owner }}
+published_on: {{ updated }}
+url: https://example.org/{{ id }}
+difficulty: introductory
+estimated_time_minutes: 15
+why_selected:
+  en: Explain why the resource matters.
+  nb: Forklar hvorfor ressursen er nyttig.
+instructor_note:
+  en: Add instructor guidance here.
+  nb: Legg til faglærermerknad her.
+freshness: evergreen
+review_after: {{ updated }}
+approved_by: {{ owner }}
+approved_on: {{ updated }}
+{% elif kind == "collection" %}
+collection_kind: {{ collection_kind }}
+items: []
+{% endif %}

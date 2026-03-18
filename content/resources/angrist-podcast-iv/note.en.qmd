@@ -1,0 +1,7 @@
+## Why this resource is on the list
+
+This episode gives students a fast intuition for why IV helps when treatment choice is entangled with unobserved factors.
+
+::: {.teacher-only}
+Assign this before the lecture and ask students to bring one proposed instrument to class.
+:::

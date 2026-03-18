@@ -1,0 +1,3 @@
+The course is organized around reusable concepts, lecture collections, and exercise objects.
+
+Students should read the linked concept note before the lecture and use the exercise sheet for retrieval practice.

@@ -1,0 +1,16 @@
+## Why IV shows up at all
+
+An instrument gives you variation in treatment that is not contaminated by the same confounders that bias the raw comparison.
+
+::: {.teacher-only}
+Prompt the room for one policy variable that plausibly shifts treatment but does not directly move the outcome.
+:::
+
+## The two checks students need first
+
+1. Relevance: the instrument must move the treatment.
+2. Exclusion: the instrument must not directly move the outcome except through the treatment.
+
+## Reading the design
+
+When those two checks are plausible, IV replaces a biased comparison with variation that behaves more like an experiment.
