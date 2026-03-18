@@ -34,6 +34,9 @@ def test_student_build_writes_manifests_and_clean_leakage_report() -> None:
     assert "Search LearnForge" in student_html
     assert "Language:" in student_html
     assert build_manifest["target"]["identifier"] == "iv-intuition"
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "iv-dag-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is True
     assert (
         build_manifest["search_index_path"]
         == "build/exports/student/en/html/assets/search-index.json"
@@ -146,6 +149,27 @@ def test_student_lecture_page_has_course_context_breadcrumbs_and_export_links() 
     assert "Breadcrumbs:" in html
     assert "Slides" in html
     assert "PDF" in html
+    assert 'data-figure-id="iv-dag-figure"' in html
+    assert "Highlight relevance" in html
+
+
+def test_teacher_lecture_reveal_build_reports_static_figure_fallback() -> None:
+    artifact = build_target(
+        "lecture-04",
+        audience="teacher",
+        language="nb",
+        output_format="revealjs",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert 'data-figure-id="iv-dag-figure"' in html
+    assert "Highlight relevance" not in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
 
 
 def test_student_exercise_page_has_language_switch_and_related_links() -> None:
@@ -213,6 +237,46 @@ def test_student_assignment_page_build_has_navigation_exports_and_clean_leakage(
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 2
     assert leakage_report["solution_files_included"] == 0
+
+
+def test_student_figure_page_build_has_interactive_markup_and_manifest() -> None:
+    artifact = build_target(
+        "iv-dag-figure",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figure details" in html
+    assert 'data-figure-id="iv-dag-figure"' in html
+    assert "Highlight relevance" in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["interactive_included"] is True
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "clean"
+
+
+def test_teacher_figure_pdf_build_uses_pdf_fallback() -> None:
+    artifact = build_target(
+        "iv-dag-figure",
+        audience="teacher",
+        language="en",
+        output_format="pdf",
+        root=REPO_ROOT,
+    )
+
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert artifact.output_path.exists()
+    assert artifact.output_path.name == "iv-dag-figure.pdf"
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.pdf")
 
 
 def test_teacher_assignment_page_shows_teacher_export_only() -> None:

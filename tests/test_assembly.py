@@ -33,6 +33,7 @@ def test_collection_assembly_expands_items_from_ids() -> None:
         "angrist-podcast-iv",
     ]
     assert "## Why IV shows up at all" in assembly.markdown
+    assert 'data-figure-id="iv-dag-figure"' in assembly.markdown
     assert "## Why this resource is on the list" in assembly.markdown
 
 
@@ -207,6 +208,46 @@ def test_concept_page_includes_assignment_context() -> None:
     assert "assignment-01/assignment-01.html" in assembly.markdown
 
 
+def test_concept_page_embeds_reusable_figure_with_interactive_html_path() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "iv-intuition",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## Figures" in assembly.markdown
+    assert "### IV DAG" in assembly.markdown
+    assert 'data-figure-id="iv-dag-figure"' in assembly.markdown
+    assert "Highlight relevance" in assembly.markdown
+    assert any(
+        item.figure_id == "iv-dag-figure"
+        and item.context_target_id == "iv-intuition"
+        and item.interactive_included
+        for item in assembly.figure_observations
+    )
+
+
+def test_student_figure_page_matches_snapshot() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "iv-dag-figure",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    snapshot = (
+        REPO_ROOT / "tests" / "snapshots" / "iv-dag-figure.student.en.html.qmd"
+    ).read_text(encoding="utf-8").rstrip()
+
+    assert figure_snapshot_fragment(assembly.markdown) == snapshot
+
+
 def test_home_page_assembly_includes_course_and_topic_navigation() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -272,4 +313,10 @@ def assignment_snapshot_fragment(markdown: str) -> str:
     start = markdown.index("## Exercise sheet")
     end = markdown.index("## Exercise 2: IV assumption sort")
     end = markdown.index("this month.", end) + len("this month.")
+    return markdown[start:end].rstrip()
+
+
+def figure_snapshot_fragment(markdown: str) -> str:
+    start = markdown.index("## Figure details")
+    end = markdown.index("## Used in these courses")
     return markdown[start:end].rstrip()

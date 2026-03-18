@@ -32,15 +32,19 @@ estimated_time_minutes: 10
 concepts: []
 solution_visibility: teacher
 {% elif kind == "figure" %}
+concepts: []
 caption:
   en: Replace with an English caption.
   nb: Erstatt med en norsk bildetekst.
 alt_text:
   en: Replace with English alt text.
   nb: Erstatt med norsk alternativ tekst.
-svg_path: assets/{{ id }}.svg
-pdf_path:
+svg_path: figure.svg
+pdf_path: figure.pdf
 interactive_path:
+asset_inventory:
+  - figure.svg
+  - figure.pdf
 {% elif kind == "resource" %}
 resource_kind: article
 authors:

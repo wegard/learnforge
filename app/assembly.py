@@ -4,13 +4,14 @@ import hashlib
 import os
 import re
 from dataclasses import asdict, dataclass
+from html import escape
 from pathlib import Path
 
 import yaml
 
 from app.config import REPO_ROOT, exports_dir, generated_dir
 from app.indexer import IndexedCourse, IndexedObject, RepositoryIndex
-from app.models import Collection, Exercise, Resource
+from app.models import Collection, Exercise, Figure, Resource
 
 MARKDOWN_LINK_RE = re.compile(r"(\!?\[[^\]]*\]\()([^)]+)(\))")
 TEACHER_BLOCK_RE = re.compile(r"\n?:::\s*\{\.teacher-only\}\n.*?\n:::\s*\n?", re.DOTALL)
@@ -82,6 +83,20 @@ class SolutionObservation:
 
 
 @dataclass(slots=True)
+class FigureObservation:
+    figure_id: str
+    context_target_id: str
+    context_target_kind: str
+    relationship: str
+    svg_source_path: str
+    pdf_source_path: str
+    interactive_source_path: str | None
+    asset_inventory: list[str]
+    interactive_included: bool
+    fallback_asset_path: str
+
+
+@dataclass(slots=True)
 class RelatedEntry:
     identifier: str
     kind: str
@@ -132,6 +147,7 @@ class AssemblyDocument:
     referenced_listing_targets: list[str]
     leakage_observations: list[LeakageObservation]
     solution_observations: list[SolutionObservation]
+    figure_observations: list[FigureObservation]
 
     def build_manifest_payload(self) -> dict[str, object]:
         return {
@@ -144,9 +160,11 @@ class AssemblyDocument:
             "file_dependency_count": len(self.file_dependencies),
             "dependency_edge_count": len(self.dependency_edges),
             "solution_observation_count": len(self.solution_observations),
+            "figure_observation_count": len(self.figure_observations),
             "related_entries": [asdict(entry) for entry in self.related_entries],
             "listing_entries": [asdict(entry) for entry in self.listing_entries],
             "referenced_listing_targets": self.referenced_listing_targets,
+            "figure_uses": [asdict(item) for item in self.figure_observations],
         }
 
     def dependency_manifest_payload(self) -> dict[str, object]:
@@ -198,6 +216,7 @@ class AssemblyBuilder:
         self.dependency_edges: list[DependencyEdge] = []
         self.leakage_observations: list[LeakageObservation] = []
         self.solution_observations: list[SolutionObservation] = []
+        self.figure_observations: list[FigureObservation] = []
         self.referenced_listing_targets: list[str] = []
 
     def assemble(self, target_id: str) -> AssemblyDocument:
@@ -403,8 +422,36 @@ class AssemblyBuilder:
         self._ensure_output_supported(record.model.outputs, record.model.id)
         self._register_object_files(record, role="primary-object", include_note=True)
 
+        target = BuildTargetRef(
+            identifier=record.model.id,
+            kind=record.model.kind,
+            output_category=record.model.kind,
+            title=record.model.title[self.language],
+        )
         content_parts = self._object_page_context_sections(record)
-        content_parts.append(self._load_object_note(record))
+        if isinstance(record.model, Figure):
+            content_parts.append(
+                self._render_figure_embed(
+                    record,
+                    target=target,
+                    relationship="primary-figure",
+                    heading_level=None,
+                    include_note=True,
+                )
+            )
+        else:
+            content_parts.append(self._load_object_note(record))
+            if record.model.kind == "concept":
+                figure_records = self._concept_figure_records(record)
+                if figure_records:
+                    content_parts.append(
+                        self._render_figure_section(
+                            title="Figures" if self.language == "en" else "Figurer",
+                            records=figure_records,
+                            target=target,
+                            relationship="concept-figure",
+                        )
+                    )
         if isinstance(record.model, Exercise):
             solution_section = self._render_exercise_solution_for_page(record)
             if solution_section:
@@ -438,12 +485,6 @@ class AssemblyBuilder:
                 )
             )
 
-        target = BuildTargetRef(
-            identifier=record.model.id,
-            kind=record.model.kind,
-            output_category=record.model.kind,
-            title=record.model.title[self.language],
-        )
         return self._finalize_document(
             target=target,
             markdown_body="\n\n".join(part.rstrip() for part in content_parts if part).rstrip(),
@@ -467,6 +508,12 @@ class AssemblyBuilder:
 
         item_entries: list[ListingEntry] = []
         parts: list[str] = []
+        target = BuildTargetRef(
+            identifier=record.model.id,
+            kind="collection",
+            output_category="collection",
+            title=record.model.title[self.language],
+        )
         if self.output_format == "html":
             course_entries = self._course_related_entries_for_record(record)
             if course_entries:
@@ -505,15 +552,19 @@ class AssemblyBuilder:
                     ),
                 )
             )
-            parts.append(self._load_object_note(item_record))
+            if isinstance(item_record.model, Figure):
+                parts.append(
+                    self._render_figure_embed(
+                        item_record,
+                        target=target,
+                        relationship="item",
+                        heading_level=2,
+                        include_note=True,
+                    )
+                )
+            else:
+                parts.append(self._load_object_note(item_record))
             parts.append("")
-
-        target = BuildTargetRef(
-            identifier=record.model.id,
-            kind="collection",
-            output_category="collection",
-            title=record.model.title[self.language],
-        )
         return self._finalize_document(
             target=target,
             markdown_body="\n".join(parts).rstrip(),
@@ -1113,6 +1164,15 @@ class AssemblyBuilder:
         body = markdown_body.rstrip()
         if self.audience == "student" and self.output_format == "html":
             body = self._render_student_site_document(target=target, markdown_body=body)
+        if self.output_format in {"html", "revealjs"} and self.figure_observations:
+            body = "\n\n".join(
+                [
+                    "<style>",
+                    FIGURE_RENDER_STYLE,
+                    "</style>",
+                    body,
+                ]
+            ).rstrip()
         markdown = frontmatter + "\n" + body + "\n"
         generated_path.write_text(markdown, encoding="utf-8")
         return AssemblyDocument(
@@ -1133,6 +1193,7 @@ class AssemblyBuilder:
             referenced_listing_targets=sorted(set(self.referenced_listing_targets)),
             leakage_observations=self.leakage_observations,
             solution_observations=self.solution_observations,
+            figure_observations=self.figure_observations,
         )
 
     def _render_student_site_document(
@@ -1504,6 +1565,8 @@ class AssemblyBuilder:
             return [self._render_concept_summary(record)]
         if record.model.kind == "exercise":
             return [self._render_exercise_summary(record)]
+        if record.model.kind == "figure":
+            return [self._render_figure_summary(record)]
         if record.model.kind == "resource":
             return [self._render_resource_summary(record)]
         return []
@@ -1581,6 +1644,261 @@ class AssemblyBuilder:
                 f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
             )
         return "\n".join(lines)
+
+    def _render_figure_summary(self, record: IndexedObject) -> str:
+        interactive_label = (
+            "local JS enhancement with static fallback"
+            if record.model.interactive_path and self.language == "en"
+            else (
+                "lokal JS-forbedring med statisk fallback"
+                if record.model.interactive_path
+                else ("static only" if self.language == "en" else "kun statisk")
+            )
+        )
+        lines = [
+            "## Figure details" if self.language == "en" else "## Figurdetaljer",
+            "",
+            f"- {('Interactive mode' if self.language == 'en' else 'Interaktiv modus')}: "
+            f"{interactive_label}",
+            (
+                f"- {('Outputs' if self.language == 'en' else 'Utdata')}: "
+                f"{', '.join(self._output_label(output) for output in record.model.outputs)}"
+            ),
+        ]
+        concept_links = [
+            self._render_link(
+                concept_id,
+                "concept",
+                self.index.objects[concept_id].model.title[self.language],
+                self._planned_output_path(record.model.kind, record.model.id),
+            )
+            for concept_id in record.model.concepts
+            if concept_id in self.index.objects
+            and self._is_listable(
+                self.index.objects[concept_id],
+                require_output_format="html",
+            )
+        ]
+        if concept_links:
+            lines.append(
+                f"- {('Linked concepts' if self.language == 'en' else 'Knyttede begreper')}: "
+                f"{', '.join(concept_links)}"
+            )
+        topic_links = self._topic_links(record, current_kind="figure")
+        if topic_links:
+            lines.append(
+                f"- {('Topics' if self.language == 'en' else 'Temaer')}: {', '.join(topic_links)}"
+            )
+        course_links = self._course_links(record.model.courses, record.model.kind, record.model.id)
+        if course_links:
+            lines.append(
+                f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
+            )
+        return "\n".join(lines)
+
+    def _concept_figure_records(self, record: IndexedObject) -> list[IndexedObject]:
+        figures: list[IndexedObject] = []
+        for related_id in record.model.related:
+            related_record = self.index.objects.get(related_id)
+            if related_record is None or not isinstance(related_record.model, Figure):
+                continue
+            if not self._is_listable(related_record):
+                continue
+            figures.append(related_record)
+        return figures
+
+    def _render_figure_section(
+        self,
+        *,
+        title: str,
+        records: list[IndexedObject],
+        target: BuildTargetRef,
+        relationship: str,
+    ) -> str:
+        sections = [f"## {title}"]
+        for record in records:
+            sections.extend(
+                [
+                    "",
+                    self._render_figure_embed(
+                        record,
+                        target=target,
+                        relationship=relationship,
+                        heading_level=3,
+                        include_note=True,
+                    ),
+                ]
+            )
+        return "\n".join(sections).rstrip()
+
+    def _render_figure_embed(
+        self,
+        record: IndexedObject,
+        *,
+        target: BuildTargetRef,
+        relationship: str,
+        heading_level: int | None,
+        include_note: bool,
+    ) -> str:
+        if not isinstance(record.model, Figure):
+            raise AssemblyError(f"{record.model.id} is not a figure object")
+
+        self._register_object_files(record, role=relationship, include_note=include_note)
+        self._register_figure_assets(record, role=relationship)
+        if record.model.id != target.identifier or target.kind != "figure":
+            self._register_edge(
+                source_id=target.identifier,
+                source_kind=target.kind,
+                target_id=record.model.id,
+                target_kind="figure",
+                relationship=relationship,
+            )
+        self._observe_figure_use(
+            record,
+            target=target,
+            relationship=relationship,
+        )
+
+        parts: list[str] = []
+        if heading_level is not None:
+            parts.extend(["#" * heading_level + f" {record.model.title[self.language]}", ""])
+        if self.output_format in {"html", "revealjs"}:
+            interactive = self.output_format == "html" and bool(record.model.interactive_path)
+            parts.append(
+                self._render_figure_html_block(
+                    record,
+                    interactive=interactive,
+                )
+            )
+        else:
+            parts.append(self._render_figure_print_block(record, target=target))
+        if include_note:
+            note_text = self._load_object_note(record)
+            if note_text:
+                parts.extend(["", note_text])
+        return "\n".join(part.rstrip() for part in parts if part).rstrip()
+
+    def _render_figure_html_block(self, record: IndexedObject, *, interactive: bool) -> str:
+        svg_markup = self._load_figure_svg_markup(record)
+        caption_label = "Caption" if self.language == "en" else "Bildetekst"
+        interactive_marker = "true" if interactive else "false"
+        parts = [
+            (
+                f'<div class="lf-figure-card" data-figure-id="{record.model.id}" '
+                f'data-figure-interactive="{interactive_marker}">'
+            ),
+            '<div class="lf-figure-surface" data-figure-surface>',
+            svg_markup,
+            "</div>",
+            (
+                f'<p class="lf-figure-caption"><strong>{caption_label}:</strong> '
+                f"{escape(record.model.caption[self.language])}</p>"
+            ),
+            "</div>",
+        ]
+        if interactive and record.model.interactive_path:
+            script_path = record.directory / record.model.interactive_path
+            script_text = script_path.read_text(encoding="utf-8").rstrip()
+            parts.extend(["<script>", script_text, "</script>"])
+        return "\n".join(parts)
+
+    def _render_figure_print_block(self, record: IndexedObject, *, target: BuildTargetRef) -> str:
+        image_path = record.directory / record.model.pdf_path
+        relative_image = os.path.relpath(
+            image_path,
+            self._generated_path(target.output_category, target.identifier).parent,
+        ).replace(os.sep, "/")
+        caption = record.model.caption[self.language]
+        alt_text = record.model.alt_text[self.language]
+        return f'![{caption}]({relative_image}){{fig-alt="{alt_text}"}}'
+
+    def _load_figure_svg_markup(self, record: IndexedObject) -> str:
+        svg_path = record.directory / record.model.svg_path
+        svg_markup = svg_path.read_text(encoding="utf-8").strip()
+        title = escape(record.model.title[self.language])
+        desc = escape(record.model.alt_text[self.language])
+        if "<title" in svg_markup:
+            svg_markup = re.sub(
+                r"<title[^>]*>.*?</title>",
+                f"<title>{title}</title>",
+                svg_markup,
+                count=1,
+                flags=re.DOTALL,
+            )
+        else:
+            svg_markup = re.sub(
+                r"(<svg\b[^>]*>)",
+                r"\1<title>" + title + "</title>",
+                svg_markup,
+                count=1,
+            )
+        if "<desc" in svg_markup:
+            svg_markup = re.sub(
+                r"<desc[^>]*>.*?</desc>",
+                f"<desc>{desc}</desc>",
+                svg_markup,
+                count=1,
+                flags=re.DOTALL,
+            )
+        else:
+            svg_markup = re.sub(
+                r"(<svg\b[^>]*>)",
+                r"\1<desc>" + desc + "</desc>",
+                svg_markup,
+                count=1,
+            )
+        return svg_markup.replace("<svg ", '<svg class="lf-figure-svg" ', 1)
+
+    def _register_figure_assets(self, record: IndexedObject, *, role: str) -> None:
+        if not isinstance(record.model, Figure):
+            return
+        for asset in record.model.asset_inventory:
+            self._register_file(record.directory / asset, role=f"{role}-figure-asset")
+
+    def _observe_figure_use(
+        self,
+        record: IndexedObject,
+        *,
+        target: BuildTargetRef,
+        relationship: str,
+    ) -> None:
+        if not isinstance(record.model, Figure):
+            return
+        svg_source_path = str((record.directory / record.model.svg_path).relative_to(self.root))
+        pdf_source_path = str((record.directory / record.model.pdf_path).relative_to(self.root))
+        interactive_source_path = (
+            str((record.directory / record.model.interactive_path).relative_to(self.root))
+            if record.model.interactive_path
+            else None
+        )
+        self.figure_observations.append(
+            FigureObservation(
+                figure_id=record.model.id,
+                context_target_id=target.identifier,
+                context_target_kind=target.kind,
+                relationship=relationship,
+                svg_source_path=svg_source_path,
+                pdf_source_path=pdf_source_path,
+                interactive_source_path=interactive_source_path,
+                asset_inventory=[
+                    str((record.directory / asset).relative_to(self.root))
+                    for asset in record.model.asset_inventory
+                ],
+                interactive_included=(
+                    self.output_format == "html" and bool(record.model.interactive_path)
+                ),
+                fallback_asset_path=str(
+                    (
+                        record.directory
+                        / (
+                            record.model.pdf_path
+                            if self.output_format in {"pdf", "handout", "exercise-sheet"}
+                            else record.model.svg_path
+                        )
+                    ).relative_to(self.root)
+                ),
+            )
+        )
 
     def _assignment_source_set(
         self,
@@ -2852,6 +3170,45 @@ def localized_minutes(minutes: int, language: str) -> str:
     if language == "nb":
         return f"{minutes} minutter"
     return f"{minutes} minutes"
+
+
+FIGURE_RENDER_STYLE = """
+.lf-figure-card {
+  border: 1px solid #d8dee6;
+  border-radius: 0.9rem;
+  padding: 1rem;
+  margin: 0 0 1.25rem 0;
+  background: #f8fafc;
+}
+.lf-figure-surface {
+  overflow-x: auto;
+}
+.lf-figure-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.lf-figure-caption,
+.lf-figure-explainer {
+  margin: 0.85rem 0 0 0;
+}
+.lf-figure-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0 0 0.85rem 0;
+}
+.lf-figure-controls button {
+  border: 1px solid #94a3b8;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  background: #ffffff;
+}
+.lf-figure-controls button.is-active {
+  border-color: #1d4ed8;
+  background: #dbeafe;
+}
+"""
 
 
 STUDENT_SITE_STYLE = """

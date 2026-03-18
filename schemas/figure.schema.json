@@ -171,6 +171,13 @@
     "ai": {
       "$ref": "#/$defs/AIInfo"
     },
+    "concepts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Concepts",
+      "type": "array"
+    },
     "caption": {
       "additionalProperties": {
         "type": "string"
@@ -186,24 +193,21 @@
       "type": "object"
     },
     "svg_path": {
+      "const": "figure.svg",
+      "default": "figure.svg",
       "title": "Svg Path",
       "type": "string"
     },
     "pdf_path": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Pdf Path"
+      "const": "figure.pdf",
+      "default": "figure.pdf",
+      "title": "Pdf Path",
+      "type": "string"
     },
     "interactive_path": {
       "anyOf": [
         {
+          "const": "figure.js",
           "type": "string"
         },
         {
@@ -212,6 +216,13 @@
       ],
       "default": null,
       "title": "Interactive Path"
+    },
+    "asset_inventory": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Asset Inventory",
+      "type": "array"
     }
   },
   "required": [
@@ -223,8 +234,7 @@
     "title",
     "updated",
     "caption",
-    "alt_text",
-    "svg_path"
+    "alt_text"
   ],
   "title": "Figure",
   "type": "object"

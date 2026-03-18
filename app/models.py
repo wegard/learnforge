@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date
+from pathlib import Path
 from typing import Literal
 
 from pydantic import AnyHttpUrl, BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -88,11 +89,25 @@ class Exercise(BaseContentModel):
 class Figure(BaseContentModel):
     kind: Literal["figure"]
     status: ContentStatus
+    concepts: list[str] = Field(default_factory=list)
     caption: dict[str, str]
     alt_text: dict[str, str]
-    svg_path: str
-    pdf_path: str | None = None
-    interactive_path: str | None = None
+    svg_path: Literal["figure.svg"] = "figure.svg"
+    pdf_path: Literal["figure.pdf"] = "figure.pdf"
+    interactive_path: Literal["figure.js"] | None = None
+    asset_inventory: list[str] = Field(default_factory=list)
+
+    @field_validator("asset_inventory")
+    @classmethod
+    def validate_asset_inventory(cls, value: list[str]) -> list[str]:
+        unique = list(dict.fromkeys(value))
+        for item in unique:
+            if not item:
+                raise ValueError("asset_inventory entries must not be empty")
+            path = Path(item)
+            if path.is_absolute() or ".." in path.parts:
+                raise ValueError("asset_inventory entries must stay inside the figure folder")
+        return unique
 
     @model_validator(mode="after")
     def validate_localized_figure_fields(self) -> Figure:
@@ -101,6 +116,12 @@ class Figure(BaseContentModel):
             raise ValueError("caption keys must match languages exactly")
         if set(self.alt_text) != language_set:
             raise ValueError("alt_text keys must match languages exactly")
+        if self.interactive_path and "html" not in self.outputs:
+            raise ValueError("interactive figures must declare html output eligibility")
+        required_assets = [self.svg_path, self.pdf_path]
+        if self.interactive_path:
+            required_assets.append(self.interactive_path)
+        self.asset_inventory = list(dict.fromkeys([*required_assets, *self.asset_inventory]))
         return self
 
 

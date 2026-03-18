@@ -72,9 +72,7 @@ def scaffold_object(
         created_files.append(output_path)
 
     if kind == "figure":
-        assets_dir = target_dir / "assets"
-        assets_dir.mkdir(exist_ok=True)
-        svg_path = assets_dir / f"{identifier}.svg"
+        svg_path = target_dir / "figure.svg"
         svg_path.write_text(
             (
                 '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="240" '
@@ -89,5 +87,24 @@ def scaffold_object(
             encoding="utf-8",
         )
         created_files.append(svg_path)
+        pdf_path = target_dir / "figure.pdf"
+        pdf_path.write_bytes(
+            
+                b"%PDF-1.4\n"
+                b"1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj\n"
+                b"2 0 obj<< /Type /Pages /Kids [3 0 R] /Count 1 >>endobj\n"
+                b"3 0 obj<< /Type /Page /Parent 2 0 R /MediaBox [0 0 200 120] "
+                b"/Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>endobj\n"
+                b"4 0 obj<< /Length 63 >>stream\n"
+                b"BT /F1 16 Tf 48 68 Td (Replace with figure PDF) Tj ET\n"
+                b"endstream endobj\n"
+                b"5 0 obj<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>endobj\n"
+                b"xref\n0 6\n0000000000 65535 f \n0000000010 00000 n \n"
+                b"0000000063 00000 n \n0000000122 00000 n \n0000000263 00000 n \n"
+                b"0000000376 00000 n \ntrailer<< /Size 6 /Root 1 0 R >>\nstartxref\n"
+                b"446\n%%EOF\n"
+            
+        )
+        created_files.append(pdf_path)
 
     return ScaffoldResult(identifier=identifier, target_dir=target_dir, created_files=created_files)

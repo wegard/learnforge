@@ -9,6 +9,11 @@ targets:
     audience: student
     language: en
     format: html
+  - label: Student interactive figure page
+    id: iv-dag-figure
+    audience: student
+    language: en
+    format: html
   - label: Student topic listing
     id: topic-causal-inference
     audience: student
@@ -24,6 +29,11 @@ targets:
     audience: teacher
     language: nb
     format: revealjs
+  - label: Teacher figure PDF fallback
+    id: iv-dag-figure
+    audience: teacher
+    language: en
+    format: pdf
   - label: Student exercise sheet
     id: assignment-01
     audience: student

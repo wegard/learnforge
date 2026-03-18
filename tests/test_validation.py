@@ -23,7 +23,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert payload["build_summary_path"] == "build/reports/build-summary.json"
     assert "translation_coverage" in payload
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 8
+    assert build_summary["target_count"] == 10
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -80,19 +80,18 @@ def test_validator_reports_missing_local_asset(tmp_path: Path) -> None:
 
 def test_validator_reports_missing_figure_fallback_asset(tmp_path: Path) -> None:
     copy_repo_subset(tmp_path)
-    meta_path = tmp_path / "content" / "figures" / "iv-dag-figure" / "meta.yml"
-    meta_path.write_text(
-        meta_path.read_text(encoding="utf-8").replace(
-            "pdf_path:\n",
-            "pdf_path: assets/iv-dag.pdf\n",
-        ),
-        encoding="utf-8",
-    )
+    figure_pdf = tmp_path / "content" / "figures" / "iv-dag-figure" / "figure.pdf"
+    figure_pdf.unlink()
 
     report = validate_repository(tmp_path, run_build_checks=False)
 
     assert any(
         issue.code == "missing-figure-pdf" and issue.object_id == "iv-dag-figure"
+        for issue in report.issues
+    )
+    assert any(
+        issue.code == "interactive-figure-missing-static-fallback"
+        and issue.object_id == "iv-dag-figure"
         for issue in report.issues
     )
 
@@ -105,6 +104,8 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     }
 
     assert ("iv-intuition", "student", "en", "html") in target_keys
+    assert ("iv-dag-figure", "student", "en", "html") in target_keys
+    assert ("iv-dag-figure", "teacher", "en", "pdf") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys
     assert ("assignment-01", "student", "en", "exercise-sheet") in target_keys
     assert ("assignment-01", "teacher", "en", "exercise-sheet") in target_keys
@@ -127,6 +128,20 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         for target in report.build_summary["targets"]
         if target["target_id"] == "lecture-04" and target["format"] == "revealjs"
     )
+    figure_html_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "iv-dag-figure"
+        and target["format"] == "html"
+        and target["audience"] == "student"
+    )
+    figure_pdf_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "iv-dag-figure"
+        and target["format"] == "pdf"
+        and target["audience"] == "teacher"
+    )
     assignment_html_target = next(
         target
         for target in report.build_summary["targets"]
@@ -138,6 +153,8 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert concept_target["integrity"]["status"] == "passed"
     assert concept_target["integrity"]["broken_link_count"] == 0
     assert lecture_target["status"] == "passed"
+    assert figure_html_target["status"] == "passed"
+    assert figure_pdf_target["status"] == "passed"
     assert assignment_html_target["leakage_status"] == "clean"
     assert Path(REPO_ROOT / concept_target["output_path"]).exists()
 

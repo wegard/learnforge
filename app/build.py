@@ -405,6 +405,8 @@ def object_search_entries(
             description = f"{record.model.exercise_type} exercise"
         elif record.model.kind == "concept":
             description = record.model.level
+        elif record.model.kind == "figure":
+            description = record.model.caption[language]
         elif isinstance(record.model, Collection):
             description = localized_collection_description(
                 record.model.collection_kind,

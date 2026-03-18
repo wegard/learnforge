@@ -1,5 +1,1 @@
-## A minimal IV graph
-
-![A simple directed graph from Z to X to Y.](assets/iv-dag.svg)
-
-The graph keeps the lecture language concrete: the instrument moves treatment, and treatment moves the outcome.
+The figure keeps the IV story concrete: first confirm that the instrument moves treatment, then ask whether any direct path to the outcome would break the design.

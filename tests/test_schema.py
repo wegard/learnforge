@@ -7,7 +7,7 @@ import pytest
 from pydantic import ValidationError
 
 from app.config import REPO_ROOT
-from app.models import Concept, Exercise
+from app.models import Concept, Exercise, Figure
 from app.validator import validate_repository
 
 
@@ -72,6 +72,34 @@ def test_exercise_schema_rejects_unknown_solution_storage() -> None:
         Exercise.model_validate(payload)
 
 
+def test_figure_schema_rejects_interactive_without_html_output() -> None:
+    payload = {
+        "id": "demo-figure",
+        "kind": "figure",
+        "status": "approved",
+        "visibility": "student",
+        "languages": ["en", "nb"],
+        "title": {"en": "Demo figure", "nb": "Demofigur"},
+        "courses": ["ec202"],
+        "topics": ["iv"],
+        "tags": ["figure"],
+        "outputs": ["pdf"],
+        "owners": ["vegard"],
+        "updated": date(2026, 3, 18),
+        "translation_status": {"en": "approved", "nb": "approved"},
+        "ai": {"generated_fields": []},
+        "concepts": ["iv-intuition"],
+        "caption": {"en": "Demo caption", "nb": "Demo bildetekst"},
+        "alt_text": {"en": "Demo alt text", "nb": "Demo alternativ tekst"},
+        "svg_path": "figure.svg",
+        "pdf_path": "figure.pdf",
+        "interactive_path": "figure.js",
+    }
+
+    with pytest.raises(ValidationError):
+        Figure.model_validate(payload)
+
+
 def test_validator_rejects_missing_exercise_solution_file(tmp_path) -> None:
     copy_repo_subset(tmp_path)
     solution_path = (
@@ -101,6 +129,20 @@ def test_validator_rejects_teacher_blocks_inside_exercise_note(tmp_path) -> None
     assert any(
         issue.code == "exercise-note-contains-teacher-block"
         and issue.object_id == "ex-iv-concept-check"
+        for issue in report.issues
+    )
+
+
+def test_validator_rejects_figure_without_pdf_fallback(tmp_path) -> None:
+    copy_repo_subset(tmp_path)
+    figure_pdf = tmp_path / "content" / "figures" / "iv-dag-figure" / "figure.pdf"
+    figure_pdf.unlink()
+
+    report = validate_repository(tmp_path, run_build_checks=False)
+
+    assert any(
+        issue.code == "interactive-figure-missing-static-fallback"
+        and issue.object_id == "iv-dag-figure"
         for issue in report.issues
     )
 

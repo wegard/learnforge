@@ -252,8 +252,23 @@ def validate_repository(
                     )
 
         if isinstance(model, Figure):
+            for reference in model.concepts:
+                if reference not in object_ids:
+                    _add_issue(
+                        issues,
+                        code="missing-figure-concept",
+                        message=f"references unknown concept {reference}",
+                        path=record_path,
+                        root=root,
+                        object_id=model.id,
+                        category="cross-reference",
+                    )
             svg_path = record.directory / model.svg_path
-            if not svg_path.exists():
+            svg_exists = svg_path.exists()
+            pdf_path = record.directory / model.pdf_path
+            pdf_exists = pdf_path.exists()
+            interactive_exists = True
+            if not svg_exists:
                 _add_issue(
                     issues,
                     code="missing-figure-asset",
@@ -263,7 +278,7 @@ def validate_repository(
                     object_id=model.id,
                     category="assets",
                 )
-            if model.pdf_path and not (record.directory / model.pdf_path).exists():
+            if not pdf_exists:
                 _add_issue(
                     issues,
                     code="missing-figure-pdf",
@@ -274,6 +289,7 @@ def validate_repository(
                     category="assets",
                 )
             if model.interactive_path and not (record.directory / model.interactive_path).exists():
+                interactive_exists = False
                 _add_issue(
                     issues,
                     code="missing-figure-interactive",
@@ -282,6 +298,57 @@ def validate_repository(
                     root=root,
                     object_id=model.id,
                     category="assets",
+                )
+            for asset in model.asset_inventory:
+                if not (record.directory / asset).exists():
+                    _add_issue(
+                        issues,
+                        code="missing-figure-inventory-asset",
+                        message=f"missing figure inventory asset {asset}",
+                        path=record_path,
+                        root=root,
+                        object_id=model.id,
+                        category="assets",
+                    )
+            if model.interactive_path and (not svg_exists or not pdf_exists):
+                _add_issue(
+                    issues,
+                    code="interactive-figure-missing-static-fallback",
+                    message="interactive figures must keep both SVG and PDF fallbacks buildable",
+                    path=record_path,
+                    root=root,
+                    object_id=model.id,
+                    category="build",
+                )
+            if any(output in {"html", "revealjs"} for output in model.outputs) and not svg_exists:
+                _add_issue(
+                    issues,
+                    code="figure-output-not-buildable",
+                    message="figure declares html/revealjs outputs without a buildable SVG asset",
+                    path=record_path,
+                    root=root,
+                    object_id=model.id,
+                    category="build",
+                )
+            if any(output in {"pdf", "handout"} for output in model.outputs) and not pdf_exists:
+                _add_issue(
+                    issues,
+                    code="figure-output-not-buildable",
+                    message="figure declares print outputs without a buildable PDF fallback",
+                    path=record_path,
+                    root=root,
+                    object_id=model.id,
+                    category="build",
+                )
+            if model.interactive_path and not interactive_exists:
+                _add_issue(
+                    issues,
+                    code="figure-output-not-buildable",
+                    message="figure declares an interactive path that cannot be loaded",
+                    path=record_path,
+                    root=root,
+                    object_id=model.id,
+                    category="build",
                 )
 
         if isinstance(model, Resource) and model.visibility in {"student", "public"}:

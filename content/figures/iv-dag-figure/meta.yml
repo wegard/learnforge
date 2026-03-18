@@ -8,6 +8,8 @@ languages:
 title:
   en: IV DAG
   nb: IV-DAG
+concepts:
+  - iv-intuition
 courses:
   - ec202
 topics:
@@ -29,11 +31,15 @@ translation_status:
 ai:
   generated_fields: []
 caption:
-  en: Instrument Z shifts treatment X, which moves outcome Y.
-  nb: Instrumentet Z flytter behandling X, som igjen flytter utfallet Y.
+  en: Instrument Z moves treatment X, and treatment X moves outcome Y.
+  nb: Instrumentet Z flytter behandling X, og behandling X flytter utfallet Y.
 alt_text:
-  en: A simple directed graph with arrows Z to X and X to Y.
-  nb: En enkel rettet graf med piler fra Z til X og fra X til Y.
-svg_path: assets/iv-dag.svg
-pdf_path:
-interactive_path:
+  en: A directed acyclic graph with arrows from Z to X and from X to Y.
+  nb: En rettet asyklisk graf med piler fra Z til X og fra X til Y.
+svg_path: figure.svg
+pdf_path: figure.pdf
+interactive_path: figure.js
+asset_inventory:
+  - figure.svg
+  - figure.pdf
+  - figure.js

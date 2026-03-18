@@ -2,11 +2,12 @@
 
 ## Current Milestone
 
-- Validation + CI hardening complete checkpoint
+- Phase 7A complete checkpoint: figure pipeline core
 
 ## Non-Goals For This Run
 
-- No figure object or figure interactivity work
+- No full D3 component system
+- No broad figure authoring UI
 - No resource approval workflow
 - No AI draft workflow
 - No deployment or publishing target
@@ -15,610 +16,226 @@
 
 ## Decisions Locked
 
-- `ROADMAP.md` is the source of truth
-- Python is the control-plane language
-- CLI uses `Typer`
-- Data models and validation use `Pydantic`
-- Norwegian language code is locked to `nb`
-- No database in v1
-- Thin CLI only in this milestone; no Textual TUI
-- Quarto is the build engine for site, slides, and PDF paths
+- `ROADMAP.md` remains the source of truth
+- Python remains the control-plane language
+- The CLI remains thin `Typer`; no TUI
+- Pydantic remains the schema/validation layer
+- Norwegian stays locked to `nb`
+- Quarto remains the build engine for site, slides, and PDF paths
 - Source of truth remains plain-text files under git
 - One canonical object ID is shared across languages
-- Language file convention is `note.en.qmd` + `note.nb.qmd` + shared `meta.yml`
-- Teacher/student visibility separation is enforced from the start
-- PDF builds are pinned to `pdflatex` for deterministic local export in this bootstrap slice
-- Quarto cache is pinned into `build/.cache/` to avoid sandboxed home-directory writes
-- Assembly is now centralized in `app/assembly.py`
-- Listing target ids are reserved as `topic-<topic-slug>` and `resources-<course-id>`
-- Quarto website support files are staged in local `site_libs/` and ignored from git
-- Student site home is a first-class synthetic target with stable output at `build/exports/student/<lang>/html/index.html`
-- Student search index is emitted per language at `build/exports/student/<lang>/html/assets/search-index.json`
-- Student language switching links to the direct counterpart when approved and falls back to the other-language home page when it is not
-- Student HTML pages hide Quarto auto format links and only surface manual export links when the built artifact exists on disk
-- Exercise solutions live in dedicated `solution.en.qmd` / `solution.nb.qmd` files
-- Exercise notes must stay student-safe; teacher solution content is assembled separately and never stored inline in exercise notes
-- Inline `.teacher-only` exercise solutions are invalid and rejected by validation
-- Assignment collections are the first exercise-sheet compilation input and may only include exercise objects
-- Student exercise sheets render to `*-exercise-sheet.pdf`; teacher solution sheets render to `*-solution-sheet.pdf`
-- Student exercise-sheet builds must explicitly report solution leakage checks in `teacher-leakage-report.json`
-- Representative validation/build targets are declared centrally in `representative-targets.yml`
-- `teach validate` is now the first-class quality-gate command and writes:
+- Student/teacher visibility separation stays enforced at assembly/build level
+- Exercise solutions remain in separate `solution.en.qmd` / `solution.nb.qmd` files
+- Representative validation/build targets remain declared in `representative-targets.yml`
+- `teach validate` remains the first-class quality-gate command and writes:
   - `build/reports/validation-report.json`
   - `build/reports/build-summary.json`
-- Validation warnings surface editorial/translation gaps without failing the command; validation errors fail the command and CI
-- Representative HTML integrity checks accept planned buildable HTML targets and require real files for local assets and non-HTML export links
-- Quarto support assets are mirrored into `build/site_libs/` after representative renders so exported HTML link paths resolve deterministically in local validation and CI
+- Figure objects now use a locked core asset convention:
+  - `figure.svg`
+  - `figure.pdf`
+  - optional `figure.js`
+  - optional `data/`
+- Figure metadata now carries linked `concepts` plus a normalized `asset_inventory`
+- Figure HTML interactivity is a local progressive-enhancement path only
+- `revealjs` and PDF/print builds always use static fallbacks
+- Build manifests now expose `figure_uses` with source assets, interactive inclusion, and chosen fallback asset per target
 
 ## Completed Tasks
 
-- Added root project files: `pyproject.toml`, `.gitignore`, `.editorconfig`, `.pre-commit-config.yaml`, `Makefile`, `README.md`
-- Added Quarto project config and profiles: `_quarto.yml`, `_quarto-student.yml`, `_quarto-teacher.yml`, `_quarto-en.yml`, `_quarto-nb.yml`, `_variables.yml`
-- Added Python control-plane package under `app/` with:
-  - thin `teach` CLI
-  - repository indexing
-  - schema-backed validation
-  - search indexing
-  - deterministic build materialization
-  - scaffolding for `teach new`
-  - JSON schema export
-- Exported and committed JSON schemas for:
-  - base object
-  - concept
-  - exercise
-  - figure
-  - resource
-  - collection
-- Added seven sample objects:
-  - `iv-intuition`
-  - `ex-iv-concept-check`
-  - `ex-iv-assumption-sort`
-  - `iv-dag-figure`
-  - `angrist-podcast-iv`
-  - `lecture-04`
-  - `assignment-01`
-- Added one sample course:
-  - `ec202`
-- Added teacher-only content blocks and enforced student stripping during build materialization
-- Added Lua visibility filter for Quarto profile-aware conditional content
-- Added templates and shell helpers under `templates/` and `scripts/`
-- Added tests for:
-  - repository validation
-  - schema failure behavior
-  - scaffolding
-  - CLI validate/search
-  - representative render path with teacher/student separation
-- Generated and verified bootstrap outputs:
-  - concept HTML in `en`
-  - concept HTML in `nb`
-  - lecture Reveal.js in `nb`
-  - lecture PDF in `nb`
-  - course landing page HTML in `nb`
-- Refactored the build flow into a first-class assembly pipeline in `app/assembly.py`
-- Added typed assembly for:
-  - object pages
-  - lecture collections
-  - course pages
-  - topic listing pages
-  - resource listing pages
-- Made dependency relationships explicit through:
-  - file dependency tracking with SHA-256 fingerprints
-  - target-to-target dependency edges
-  - build-specific dependency manifests
-- Extended course generation so course pages are compiled from `course.yml` + `plan.yml` + metadata-derived lecture/topic/resource sections
-- Added metadata-driven listing generation for:
-  - `topic-causal-inference`
-  - `resources-ec202`
-- Added related-content blocks for:
-  - concept pages
-  - resource pages
-- Added build reporting for every build target:
-  - `build-manifest.json`
-  - `dependency-manifest.json`
-  - `teacher-leakage-report.json`
-- Hardened student leakage reporting so student builds record:
-  - teacher-only blocks found in source
-  - teacher-only blocks removed during assembly
-  - whether teacher markers remain in generated source or rendered output
-- Added new tests for:
-  - collection expansion
-  - dependency propagation when source notes change
-  - listing generation
-  - related-content generation
-  - manifest/report generation
-  - leakage reporting
-  - snapshot-style listing output verification
-- Added Phase 5 student-site page coverage for:
+- Bootstrap repository, CLI, schemas, sample objects, Quarto project, student/teacher profiles, and representative bootstrap renders
+- Centralized assembly in `app/assembly.py` for object pages, lecture collections, course pages, and metadata-driven listings
+- Student-site MVP:
   - home page
-  - student lecture page polish on top of lecture collections
-  - exercise page polish
-  - concept page polish
-  - resource page polish
-  - topic listing page polish
-- Added student-site shell across home/course/lecture/concept/exercise/resource/listing pages with:
-  - global navigation
-  - inline student search form backed by generated JSON index
-  - breadcrumbs
-  - language switching
-  - manual export links when matching render artifacts exist
-  - shared footer guidance for course-centric and concept-centric navigation
-- Added metadata-driven student home page generation with links into:
-  - courses
-  - topic listings
-  - featured resources
-- Extended course pages with explicit exercise navigation in addition to lectures/topics/resources
-- Extended concept pages with:
-  - at-a-glance metadata
-  - related links
-  - used-in-these-courses links
-- Extended exercise pages with:
-  - exercise metadata block
-  - related links back to concepts and lectures
-- Extended resource pages with:
-  - student-facing resource metadata block
-  - stable external link-out
-  - related links
-- Extended topic/resource listing pages with:
-  - breadcrumbs
-  - related course links
-  - shared student navigation/search shell
-- Added student-language visibility enforcement so student builds and student search indexes exclude:
-  - non-approved translation variants
-  - draft or non-approved resources
-  - teacher-only content
-- Added/extended tests for:
-  - home page generation
-  - lecture page generation
-  - exercise page generation
-  - language-switch generation
-  - fallback behavior when counterpart translations are unavailable
-  - breadcrumb generation
-  - search/nav presence on student pages
-  - student search-index filtering for hidden translations
-- Finalized exercise metadata for compiled sheet workflows by locking:
-  - `exercise_type`
-  - `difficulty`
-  - `estimated_time_minutes`
-  - linked `concepts`
-  - `courses` as course suitability
-  - `solution_visibility`
-  - `outputs`
-  - `solution_storage: separate-file`
-- Added repository support for explicit exercise solution files via `solution.<lang>.qmd`
-- Added validation rules for exercise compiler inputs:
-  - teacher-visible exercises must have solution files for each declared language
-  - exercise notes may not contain inline `.teacher-only` blocks
-  - assignment collections must declare `exercise-sheet` output
-  - assignment collections may only include exercise objects that are `exercise-sheet` eligible
-- Added a first-class assignment compilation path in `app/assembly.py` for student `exercise-sheet` builds
-- Added a teacher-only solution-sheet compilation path from the same assignment source set
-- Extended exercise pages so teacher builds can include separate solution material while student pages remain solution-free
-- Extended build leakage reporting to record:
-  - solution files discovered for a build
-  - whether any solution files were included
-  - whether solution markers survived into generated source or rendered output
-- Added one new exercise object:
-  - `ex-iv-assumption-sort`
-- Added one assignment collection:
-  - `assignment-01`
-- Added new tests for:
-  - exercise metadata validation
-  - solution-file convention validation
-  - assignment sheet assembly
-  - teacher solution-sheet assembly
-  - student solution exclusion
-  - student exercise-sheet leakage reporting
-  - snapshot-style compiled exercise-sheet verification
-- Extended course planning and assembly so assignments are first-class course outputs with explicit `plan.yml` assignment ordering
-- Added first-class assignment HTML pages with:
-  - course context
-  - linked concepts
-  - related resources
-  - included exercise listings
-  - export links to built assignment artifacts
-- Extended concept and exercise pages with explicit `Used in assignments` navigation based on assignment membership
-- Extended assignment validation so course-planned assignments must:
-  - resolve to assignment collections
-  - declare `html` output
-  - declare the hosting course in their metadata
-- Extended build manifests for assignment targets to summarize:
-  - included exercise ids
-  - linked course context ids
-  - linked concept ids
-  - linked resource ids
-  - discovered and included solution files
-  - generated artifacts available at build time
-- Extended student search indexing so HTML-capable assignment collections appear with deterministic collection descriptions
-- Added/extended tests for:
-  - course page assignment surfacing
-  - assignment page generation
-  - assignment breadcrumb/navigation and export-link behavior
-  - concept/exercise assignment-context links
-  - teacher vs student assignment output visibility
-  - assignment manifest contents
-  - course-plan assignment validation
-- Added a repository-level representative target registry in `representative-targets.yml`
-- Hardened `teach validate` into a broader quality-gate subsystem covering:
-  - schema/load checks
-  - cross-reference checks
-  - local asset/file checks in notes, syllabi, and solutions
-  - translation coverage reporting
-  - representative render/build checks
-  - broken-link and manifest-integrity checks over representative outputs
-  - leakage-report escalation into validation failures for student outputs
-- Added machine-readable validation/build summary outputs:
-  - `build/reports/validation-report.json`
-  - `build/reports/build-summary.json`
-- Added representative build integrity reporting with per-target status, artifact paths, leakage status, and broken-link counts
-- Added a reusable representative build script at `scripts/build_representative_targets.py`
-- Updated `Makefile` so `build-samples` runs the representative target registry instead of hard-coded bootstrap commands
-- Added minimal GitHub Actions CI at `.github/workflows/ci.yml` to run:
-  - dependency install
-  - lint
-  - tests
-  - `teach validate`
-  - representative builds
-- Added validation/quality-gate tests for:
-  - validation JSON report structure
-  - broken-reference detection
-  - missing-translation reporting
-  - missing-local-asset detection
-  - missing figure fallback asset detection
-  - representative target registry loading
-  - representative build-summary integrity on real outputs
+  - course pages
+  - lecture pages
+  - exercise pages
+  - concept/resource pages
+  - topic/resource listings
+  - shared navigation, breadcrumbs, search, and language switching
+- Exercise compiler core:
+  - student exercise-sheet compilation
+  - teacher solution-sheet compilation
+  - strict solution separation and leakage reporting
+- Assignment integration:
+  - assignments surfaced on course pages
+  - assignment HTML pages
+  - assignment manifests and navigation
+- Validation + CI hardening:
+  - stronger `teach validate`
+  - machine-readable validation/build summaries
+  - representative target registry
+  - GitHub Actions CI for lint, tests, validation, and representative builds
+- Phase 7A figure pipeline core:
+  - finalized the `figure` model around linked `concepts`, locked asset paths, and normalized `asset_inventory`
+  - added figure validation for missing SVG/PDF assets, missing inventory assets, missing linked concepts, and interactive figures without buildable static fallbacks
+  - added first-class reusable figure rendering in `app/assembly.py` for:
+    - figure pages
+    - concept pages
+    - lecture collection pages
+  - added one local interactive HTML figure path through `content/figures/iv-dag-figure/figure.js`
+  - enforced static fallback behavior for:
+    - `html` via inline SVG fallback
+    - `revealjs` via static SVG only
+    - `pdf` / print via `figure.pdf`
+  - refactored the sample `iv-dag-figure` object to use:
+    - `figure.svg`
+    - `figure.pdf`
+    - `figure.js`
+    - localized note text without page-local image duplication
+  - extended build manifests with:
+    - `figure_observation_count`
+    - `figure_uses`
+    - `interactive_included`
+    - `fallback_asset_path`
+  - added figure representative targets for:
+    - student interactive figure HTML
+    - teacher figure PDF fallback
+  - added/extended tests for:
+    - figure schema validation
+    - missing fallback detection
+    - concept-page figure embedding
+    - lecture/reveal fallback behavior
+    - figure-page manifest contents
+    - representative build coverage
+    - snapshot-style figure fragment verification
 
 ## Remaining Tasks
 
-- Phase 6A core exercise compiler and teacher/student solution separation are complete for the current narrow slice
-- Phase 6B assignment integration and reporting cleanup are complete for the current narrow slice
-- Later roadmap work remains deferred:
-  - Phase 7 figure pipeline and interactivity
-  - resource approval and stale-content workflows
+- Later figure work remains deferred beyond this narrow slice:
+  - broader figure authoring UX
+  - richer interactive packaging beyond the first local JS path
+  - any full D3 component system
+- Later roadmap phases remain deferred:
+  - Phase 8 resource approval and stale-content workflows
   - AI workflows
   - migration tooling
   - deployment/publishing targets
   - preview/release publishing jobs
-  - broader site-wide validation beyond the current representative-target graph where the roadmap later requires it
+  - broader site-wide validation only where later roadmap slices require it
 
 ## Blockers
 
-- None at checkpoint for the single-target `teach build` workflow
-- Parallel HTML renders can still trip Quarto's shared `site_libs` staging behavior; the sequential CLI path used by this repository checkpoint passes cleanly
+- None at this checkpoint for the sequential `teach build` / `teach validate` path
+- Parallel HTML renders can still trip Quarto's shared `site_libs` staging behavior; the sequential repository workflow passes cleanly
 
 ## Files Changed
 
-- `README.md`
-- `pyproject.toml`
-- `.gitignore`
-- `.editorconfig`
-- `.pre-commit-config.yaml`
-- `Makefile`
-- `_quarto.yml`
-- `_quarto-student.yml`
-- `_quarto-teacher.yml`
-- `_quarto-en.yml`
-- `_quarto-nb.yml`
-- `_variables.yml`
 - `IMPLEMENTATION_STATUS.md`
-- `app/`
 - `app/assembly.py`
 - `app/build.py`
-- `app/config.py`
-- `app/indexer.py`
-- `app/validator.py`
-- `app/cli.py`
-- `schemas/`
-- `content/`
-- `collections/`
-- `courses/`
-- `filters/`
-- `formats/`
-- `templates/`
-- `scripts/`
-- `tests/`
-- `tests/snapshots/`
-- `build/.gitkeep` placeholders and generated checkpoint artifacts under ignored build paths
-- Phase 5 slice touched:
-  - `IMPLEMENTATION_STATUS.md`
-  - `README.md`
-  - `app/assembly.py`
-  - `app/build.py`
-  - `app/cli.py`
-  - `tests/test_assembly.py`
-  - `tests/test_builds.py`
-  - `tests/snapshots/topic-causal-inference.student.en.html.qmd`
-- Phase 6A slice touched:
-  - `IMPLEMENTATION_STATUS.md`
-  - `README.md`
-  - `app/assembly.py`
-  - `app/build.py`
-  - `app/config.py`
-  - `app/indexer.py`
-  - `app/models.py`
-  - `app/validator.py`
-  - `content/concepts/iv-intuition/meta.yml`
-  - `content/exercises/ex-iv-concept-check/meta.yml`
-  - `content/exercises/ex-iv-concept-check/note.en.qmd`
-  - `content/exercises/ex-iv-concept-check/note.nb.qmd`
-  - `content/exercises/ex-iv-concept-check/solution.en.qmd`
-  - `content/exercises/ex-iv-concept-check/solution.nb.qmd`
-  - `content/exercises/ex-iv-assumption-sort/`
-  - `collections/assignments/assignment-01/meta.yml`
-  - `schemas/exercise.schema.json`
-  - `tests/test_assembly.py`
-  - `tests/test_builds.py`
-  - `tests/test_schema.py`
-  - `tests/snapshots/assignment-01.student.en.exercise-sheet.qmd`
-- Phase 6B slice touched:
-  - `IMPLEMENTATION_STATUS.md`
-  - `app/assembly.py`
-  - `app/build.py`
 - `app/models.py`
+- `app/scaffold.py`
 - `app/validator.py`
-- `collections/assignments/assignment-01/meta.yml`
-- `courses/ec202/plan.yml`
+- `content/figures/iv-dag-figure/meta.yml`
+- `content/figures/iv-dag-figure/note.en.qmd`
+- `content/figures/iv-dag-figure/note.nb.qmd`
+- `content/figures/iv-dag-figure/figure.svg`
+- `content/figures/iv-dag-figure/figure.pdf`
+- `content/figures/iv-dag-figure/figure.js`
+- `content/figures/iv-dag-figure/assets/iv-dag.svg` removed
+- `representative-targets.yml`
+- `schemas/figure.schema.json`
+- `templates/meta.yml.j2`
 - `tests/test_assembly.py`
 - `tests/test_builds.py`
 - `tests/test_schema.py`
-- Validation + CI hardening slice touched:
-  - `IMPLEMENTATION_STATUS.md`
-  - `Makefile`
-  - `.github/workflows/ci.yml`
-  - `representative-targets.yml`
-  - `scripts/build_representative_targets.py`
-  - `app/build.py`
-  - `app/cli.py`
-  - `app/models.py`
-  - `app/validator.py`
-  - `tests/test_cli.py`
-  - `tests/test_schema.py`
-  - `tests/test_validation.py`
+- `tests/test_validation.py`
+- `tests/snapshots/iv-dag-figure.student.en.html.qmd`
 
 ## Commands Run
 
-- `pwd`
-- `rg --files`
-- `sed -n '1,240p' ROADMAP.md`
-- `sed -n '241,520p' ROADMAP.md`
-- `sed -n '521,860p' ROADMAP.md`
-- `sed -n '861,1200p' ROADMAP.md`
-- `python3 --version`
-- `quarto --version`
-- `pdflatex --version`
-- `tectonic --version`
-- `UV_CACHE_DIR=/tmp/uv-cache uv venv .venv`
-- `UV_CACHE_DIR=/tmp/uv-cache uv pip install --python .venv/bin/python -e '.[dev]'`
-- `.venv/bin/python -m app.schema_export`
-- `.venv/bin/ruff check app tests`
-- `.venv/bin/ruff format app tests`
-- `.venv/bin/pytest`
-- `.venv/bin/teach validate`
-- `.venv/bin/teach search "instrumental variables"`
-- `.venv/bin/teach build iv-intuition --audience student --lang en --format html`
-- `.venv/bin/teach build iv-intuition --audience student --lang nb --format html`
-- `.venv/bin/teach build iv-intuition --audience teacher --lang en --format html`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format revealjs`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format pdf`
-- `.venv/bin/teach build ec202 --audience student --lang nb --format html`
-- `rg -n "Prompt the room" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/teacher/en/html/concept/iv-intuition/iv-intuition.html`
-- `sed -n '1,260p' app/build.py`
-- `sed -n '1,260p' app/indexer.py`
-- `sed -n '1,260p' app/validator.py`
-- `sed -n '1,260p' app/models.py`
-- `sed -n '1,260p' app/cli.py`
-- `.venv/bin/teach build ec202 --audience student --lang en --format html`
-- `.venv/bin/teach build topic-causal-inference --audience student --lang en --format html`
-- `.venv/bin/teach build resources-ec202 --audience student --lang en --format html`
-- `.venv/bin/teach build iv-intuition --audience student --lang en --format html`
-- `.venv/bin/teach build angrist-podcast-iv --audience student --lang en --format html`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format revealjs`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format pdf`
-- `mkdir -p site_libs/quarto-search`
-- `rg -n "Related content|Lecture 4|IV DAG|Instrumental Variables Episode" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-- `rg -n "Topics|Resources|All course resources|Full resource listing|topic-causal-inference|resources-ec202" build/exports/student/en/html/course/ec202/ec202.html`
-- `rg -n "Topic:|Resources for|Instrumental Variables Episode|IV intuition" build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html build/exports/student/en/html/listing/resources-ec202/resources-ec202.html build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
-- `ls build/reports/builds/student/en/html/concept/iv-intuition build/reports/builds/student/en/html/course/ec202 build/reports/builds/student/en/html/listing/topic-causal-inference build/reports/builds/student/en/html/listing/resources-ec202`
-- `sed -n '1,220p' IMPLEMENTATION_STATUS.md`
-- `rg -n "Phase 5|student site|language switch|breadcrumbs|search|navigation|home page|lecture page|course-centric|concept-centric" ROADMAP.md`
-- `sed -n '600,720p' ROADMAP.md`
-- `sed -n '1098,1145p' ROADMAP.md`
-- `sed -n '790,840p' ROADMAP.md`
-- `sed -n '1,260p' app/assembly.py`
-- `sed -n '261,620p' app/assembly.py`
-- `sed -n '620,1220p' app/assembly.py`
-- `sed -n '1,320p' app/build.py`
-- `sed -n '1,260p' app/search.py`
-- `sed -n '1,320p' app/indexer.py`
-- `sed -n '1,340p' app/validator.py`
-- `sed -n '1,320p' app/models.py`
-- `sed -n '1,260p' app/cli.py`
-- `sed -n '1,220p' _quarto-student.yml`
-- `sed -n '1,220p' _quarto-teacher.yml`
-- `sed -n '1,220p' _quarto-en.yml`
-- `sed -n '1,220p' _quarto-nb.yml`
-- `sed -n '1,220p' _variables.yml`
-- `sed -n '1,240p' content/concepts/iv-intuition/meta.yml`
-- `sed -n '1,260p' content/concepts/iv-intuition/note.en.qmd`
-- `sed -n '1,240p' content/exercises/ex-iv-concept-check/meta.yml`
-- `sed -n '1,260p' content/exercises/ex-iv-concept-check/note.en.qmd`
-- `sed -n '1,240p' collections/lectures/lecture-04/meta.yml`
-- `sed -n '1,240p' content/resources/angrist-podcast-iv/meta.yml`
-- `sed -n '1,260p' content/resources/angrist-podcast-iv/note.en.qmd`
-- `rg -n "navbar|breadcrumb|search|quarto-search|Related content|language" build/exports/student/en/html/course/ec202/ec202.html build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
-- `sed -n '70,180p' build/exports/student/en/html/course/ec202/ec202.html`
-- `sed -n '70,200p' build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-- `sed -n '70,220p' build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
-- `wc -l app/assembly.py`
-- `.venv/bin/ruff format app tests`
-- `.venv/bin/ruff check app tests`
-- `.venv/bin/pytest -q`
-- `.venv/bin/teach validate`
-- `.venv/bin/teach build home --audience student --lang en --format html`
-- `.venv/bin/teach build ec202 --audience student --lang en --format html`
-- `.venv/bin/teach build lecture-04 --audience student --lang en --format revealjs`
-- `.venv/bin/teach build lecture-04 --audience student --lang en --format pdf`
-- `.venv/bin/teach build lecture-04 --audience student --lang en --format html`
-- `.venv/bin/teach build iv-intuition --audience student --lang en --format html`
-- `.venv/bin/teach build iv-intuition --audience student --lang nb --format html`
-- `.venv/bin/teach build ex-iv-concept-check --audience student --lang en --format html`
-- `.venv/bin/teach build angrist-podcast-iv --audience student --lang en --format html`
-- `.venv/bin/teach build topic-causal-inference --audience student --lang en --format html`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format revealjs`
-- `rg -n "Browse by Course|Browse by Topic|Featured Resources|How to Use This Site|Search LearnForge" build/exports/student/en/html/index.html`
-- `rg -n "Breadcrumbs:|Language:|Related links|Used in these courses|exercise/ex-iv-concept-check|resource/angrist-podcast-iv|collection/lecture-04" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-- `rg -n "Course context|Slides|PDF|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/collection/lecture-04/lecture-04.html`
-- `rg -n "Exercise details|Language:|Related links|IV intuition" build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
-- `rg -n "Resource details|Open resource|Related links|Language:" build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
-- `rg -n "Used in courses|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
-- `rg -n "Language:|Norsk|English" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/nb/html/concept/iv-intuition/iv-intuition.html`
-- `git status --short`
-- `rg -n "Phase 6|exercise" ROADMAP.md IMPLEMENTATION_STATUS.md`
-- `rg -n "class Exercise|exercise_type|solution_visibility|outputs|exercise" app tests content collections schemas -g '!build/**'`
-- `sed -n '1120,1195p' ROADMAP.md`
-- `sed -n '700,780p' ROADMAP.md`
-- `sed -n '1,220p' content/exercises/ex-iv-concept-check/meta.yml`
-- `sed -n '1,260p' content/exercises/ex-iv-concept-check/note.en.qmd`
-- `sed -n '1,260p' content/exercises/ex-iv-concept-check/note.nb.qmd`
-- `sed -n '1,260p' app/indexer.py`
-- `sed -n '1,260p' app/validator.py`
-- `sed -n '1,260p' app/cli.py`
-- `find collections -maxdepth 3 -type f | sort`
-- `find courses -maxdepth 3 -type f | sort`
-- `sed -n '1,220p' collections/lectures/lecture-04/meta.yml`
-- `sed -n '1,220p' courses/ec202/course.yml`
-- `sed -n '1,220p' courses/ec202/plan.yml`
-- `python -m app.schema_export`
-- `pytest -q`
-- `ruff check app tests`
-- `.venv/bin/python -m app.schema_export`
-- `.venv/bin/python -m pytest -q`
-- `.venv/bin/ruff check app tests`
-- `.venv/bin/ruff check app/build.py --fix`
-- `.venv/bin/teach validate`
-- `.venv/bin/teach build ex-iv-concept-check --audience student --lang en --format html`
-- `.venv/bin/teach build assignment-01 --audience student --lang en --format exercise-sheet`
-- `.venv/bin/teach build assignment-01 --audience teacher --lang en --format exercise-sheet`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format pdf`
-- `sed -n '1,220p' build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
-- `sed -n '1,220p' build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-- `sed -n '1,220p' build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-- `sed -n '1,240p' IMPLEMENTATION_STATUS.md`
-- `sed -n '241,520p' IMPLEMENTATION_STATUS.md`
-- `rg -n "assignment|exercise-sheet|solution-sheet|course page|course pages|Phase 6" ROADMAP.md`
-- `sed -n '1,260p' app/assembly.py`
-- `sed -n '261,620p' app/assembly.py`
-- `sed -n '621,1220p' app/assembly.py`
-- `sed -n '1221,1760p' app/assembly.py`
-- `sed -n '1761,2360p' app/assembly.py`
-- `sed -n '1,620p' app/build.py`
-- `sed -n '1,340p' app/validator.py`
+- `sed -n '1,320p' IMPLEMENTATION_STATUS.md`
+- `sed -n '1150,1188p' ROADMAP.md`
+- `sed -n '186,210p' ROADMAP.md`
+- `sed -n '700,716p' ROADMAP.md`
+- `sed -n '880,890p' ROADMAP.md`
 - `sed -n '1,240p' app/models.py`
-- `sed -n '1,260p' app/indexer.py`
-- `sed -n '1,220p' collections/assignments/assignment-01/meta.yml`
-- `sed -n '1,220p' courses/ec202/plan.yml`
-- `sed -n '1,220p' content/exercises/ex-iv-concept-check/meta.yml`
-- `sed -n '1,220p' content/exercises/ex-iv-assumption-sort/meta.yml`
-- `sed -n '1,240p' content/resources/angrist-podcast-iv/meta.yml`
-- `.venv/bin/ruff check app tests`
-- `.venv/bin/python -m pytest -q`
-- `.venv/bin/teach validate`
-- `.venv/bin/teach build assignment-01 --audience student --lang en --format exercise-sheet`
-- `.venv/bin/teach build assignment-01 --audience student --lang en --format html`
-- `.venv/bin/teach build ec202 --audience student --lang en --format html`
-- `.venv/bin/teach build assignment-01 --audience teacher --lang en --format exercise-sheet`
-- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format pdf`
-- `.venv/bin/teach build iv-intuition --audience student --lang en --format html`
-- `.venv/bin/teach build ex-iv-concept-check --audience student --lang en --format html`
-- `rg -n "Assignments|assignment-01|Assignment 1 - IV checks" build/exports/student/en/html/course/ec202/ec202.html`
-- `rg -n "Assignment details|Included exercises|Course context|Related resources|assignment-01-exercise-sheet.pdf|assignment-01-solution-sheet.pdf|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/collection/assignment-01/assignment-01.html`
-- `rg -n "Used in assignments|assignment-01" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
-- `sed -n '1,260p' build/reports/builds/student/en/html/collection/assignment-01/build-manifest.json`
-- `sed -n '1,260p' build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
-- `sed -n '1,260p' build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-- Validation + CI hardening slice ran:
-  - `sed -n '1,260p' IMPLEMENTATION_STATUS.md`
-  - `sed -n '1,260p' ROADMAP.md`
-  - `sed -n '1,340p' app/validator.py`
-  - `sed -n '1,620p' app/build.py`
-  - `sed -n '1,280p' app/models.py`
-  - `sed -n '1,240p' app/cli.py`
-  - `sed -n '1,360p' tests/test_builds.py`
-  - `sed -n '1,260p' tests/test_schema.py`
-  - `sed -n '1,360p' tests/test_cli.py`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/ruff check app/cli.py app/validator.py --fix`
-  - `./.venv/bin/python -m pytest tests/test_cli.py tests/test_validation.py -q`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach validate`
-  - `./.venv/bin/teach validate --json`
-  - `./.venv/bin/python scripts/build_representative_targets.py`
+- `sed -n '1,240p' app/scaffold.py`
+- `sed -n '1,360p' app/assembly.py`
+- `sed -n '360,920p' app/assembly.py`
+- `sed -n '920,1245p' app/assembly.py`
+- `sed -n '1240,1520p' app/assembly.py`
+- `sed -n '1520,2140p' app/assembly.py`
+- `sed -n '2140,2860p' app/assembly.py`
+- `sed -n '2860,3060p' app/assembly.py`
+- `sed -n '1,240p' app/validator.py`
+- `sed -n '360,760p' app/validator.py`
+- `sed -n '760,1120p' app/validator.py`
+- `sed -n '1,320p' app/build.py`
+- `sed -n '1,220p' content/figures/iv-dag-figure/meta.yml`
+- `sed -n '1,220p' content/figures/iv-dag-figure/note.en.qmd`
+- `sed -n '1,220p' content/figures/iv-dag-figure/note.nb.qmd`
+- `find content/figures -maxdepth 3 -type f | sort`
+- `sed -n '1,240p' tests/test_schema.py`
+- `sed -n '1,260p' tests/test_validation.py`
+- `sed -n '1,240p' tests/test_assembly.py`
+- `sed -n '1,260p' tests/test_builds.py`
+- `which rsvg-convert`
+- `rsvg-convert -f pdf -o content/figures/iv-dag-figure/figure.pdf content/figures/iv-dag-figure/figure.svg`
+- `./.venv/bin/ruff check app/assembly.py app/scaffold.py --fix`
+- `./.venv/bin/ruff check app tests`
+- `./.venv/bin/python -m app.schema_export`
+- `./.venv/bin/python -m pytest -q`
+- `./.venv/bin/teach build iv-dag-figure --audience student --lang en --format html`
+- `./.venv/bin/teach build iv-dag-figure --audience teacher --lang en --format pdf`
+- `./.venv/bin/teach build iv-intuition --audience student --lang en --format html`
+- `./.venv/bin/teach build lecture-04 --audience teacher --lang nb --format revealjs`
+- `./.venv/bin/teach validate`
+- `rg -n "lf-figure|Highlight relevance|figure.js|figure.pdf|IV DAG|Caption" build/exports/student/en/html/figure/iv-dag-figure/iv-dag-figure.html build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
+- `sed -n '1,260p' build/reports/builds/student/en/html/figure/iv-dag-figure/build-manifest.json`
+- `sed -n '1,240p' build/reports/builds/student/en/html/concept/iv-intuition/build-manifest.json`
+- `pdftotext build/exports/teacher/en/pdf/figure/iv-dag-figure/iv-dag-figure.pdf - | sed -n '1,80p'`
 
 ## Test / Build Results
 
 - Validation passed:
-  - `Validated 7 objects and 1 courses. Issues: 0.`
+  - `Validated 7 objects and 1 courses. Errors: 0. Warnings: 0.`
+  - `Representative targets: 10/10 passed`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `31 passed in 35.91s`
-- Phase 6B representative renders passed:
-  - Student course page showing assignments:
-    - `build/exports/student/en/html/course/ec202/ec202.html`
-    - `build/reports/builds/student/en/html/course/ec202/build-manifest.json`
-    - `build/reports/builds/student/en/html/course/ec202/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/course/ec202/teacher-leakage-report.json`
-  - Student assignment HTML page:
+  - `46 passed in 302.31s (0:05:02)`
+- Validation JSON report:
+  - `build/reports/validation-report.json`
+- Build summary JSON:
+  - `build/reports/build-summary.json`
+- Figure representative outputs verified:
+  - Concept page with reusable figure:
+    - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
+    - `build/reports/builds/student/en/html/concept/iv-intuition/build-manifest.json`
+    - `build/reports/builds/student/en/html/concept/iv-intuition/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/concept/iv-intuition/teacher-leakage-report.json`
+  - Lecture collection page reusing the same figure:
+    - `build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
+    - `build/reports/builds/teacher/nb/revealjs/collection/lecture-04/build-manifest.json`
+    - `build/reports/builds/teacher/nb/revealjs/collection/lecture-04/dependency-manifest.json`
+    - `build/reports/builds/teacher/nb/revealjs/collection/lecture-04/teacher-leakage-report.json`
+  - Student HTML figure page with interactive path:
+    - `build/exports/student/en/html/figure/iv-dag-figure/iv-dag-figure.html`
+    - `build/reports/builds/student/en/html/figure/iv-dag-figure/build-manifest.json`
+    - `build/reports/builds/student/en/html/figure/iv-dag-figure/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/figure/iv-dag-figure/teacher-leakage-report.json`
+  - PDF fallback output:
+    - `build/exports/teacher/en/pdf/figure/iv-dag-figure/iv-dag-figure.pdf`
+    - `build/reports/builds/teacher/en/pdf/figure/iv-dag-figure/build-manifest.json`
+    - `build/reports/builds/teacher/en/pdf/figure/iv-dag-figure/dependency-manifest.json`
+    - `build/reports/builds/teacher/en/pdf/figure/iv-dag-figure/teacher-leakage-report.json`
+  - Figure asset usage report:
+    - `build/reports/builds/student/en/html/figure/iv-dag-figure/build-manifest.json`
+    - `figure_observation_count: 1`
+    - `interactive_included: true`
+    - `fallback_asset_path: content/figures/iv-dag-figure/figure.svg`
+- Existing representative outputs still passed:
+  - Student assignment HTML:
     - `build/exports/student/en/html/collection/assignment-01/assignment-01.html`
-    - `build/reports/builds/student/en/html/collection/assignment-01/build-manifest.json`
-    - `build/reports/builds/student/en/html/collection/assignment-01/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
   - Student exercise-sheet PDF:
     - `build/exports/student/en/exercise-sheet/collection/assignment-01/assignment-01-exercise-sheet.pdf`
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
   - Teacher solution-sheet PDF:
     - `build/exports/teacher/en/exercise-sheet/collection/assignment-01/assignment-01-solution-sheet.pdf`
-    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
-    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
-  - Student assignment leakage report confirms clean status:
-    - `build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
-    - `status: clean`
-    - `solution_files_found: 2`
-- Validation + CI hardening slice passed:
-  - `teach validate`
-    - `Validated 7 objects and 1 courses. Errors: 0. Warnings: 0.`
-  - `teach validate --json`
-    - `status: passed`
-    - `representative_target_count: 8`
-    - `representative_target_failure_count: 0`
-  - Lint passed:
-    - `All checks passed!`
-  - Tests passed:
-    - `39 passed in 90.84s`
-  - Representative build script passed:
-    - `8/8 representative targets built`
-  - Validation JSON report:
-    - `build/reports/validation-report.json`
-  - Build summary JSON:
-    - `build/reports/build-summary.json`
-  - Representative outputs verified:
-    - Student concept HTML:
-      - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-    - Teacher lecture Reveal.js:
-      - `build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
-    - Student exercise-sheet PDF:
-      - `build/exports/student/en/exercise-sheet/collection/assignment-01/assignment-01-exercise-sheet.pdf`
-    - Student resource listing HTML:
-      - `build/exports/student/en/html/listing/resources-ec202/resources-ec202.html`
-    - Student assignment HTML:
-      - `build/exports/student/en/html/collection/assignment-01/assignment-01.html`
-    - Teacher solution-sheet PDF:
-      - `build/exports/teacher/en/exercise-sheet/collection/assignment-01/assignment-01-solution-sheet.pdf`
-  - Representative per-target integrity status:
-    - all `8` targets reported `integrity.status: passed`
-    - all representative student targets reported `leakage_status: clean`
+- Student safety rules remain clean:
+  - representative student targets report `leakage_status: clean`
+  - figure HTML pages do not introduce teacher-only leakage
+  - validation finished with `error_count: 0` and `warning_count: 0`
 
 ## CI Workflow Files Added
 
@@ -626,96 +243,10 @@
 
 ## Next Recommended Step
 
-- Stop at this clean validation/CI checkpoint
-- When resuming the roadmap, choose one later slice explicitly rather than expanding validation/CI further in this branch
-- The most natural next slices are:
-  - Phase 7 figure pipeline and fallback policy
-  - a later, explicit publishing/deployment slice once the roadmap calls for preview/release jobs
-    - `solution_files_included: 0`
-  - Assignment navigation verification:
-    - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-    - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
-  - Teacher lecture regression render:
-    - `build/exports/teacher/nb/pdf/collection/lecture-04/lecture-04.pdf`
-    - `build/reports/builds/teacher/nb/pdf/collection/lecture-04/build-manifest.json`
-    - `build/reports/builds/teacher/nb/pdf/collection/lecture-04/dependency-manifest.json`
-    - `build/reports/builds/teacher/nb/pdf/collection/lecture-04/teacher-leakage-report.json`
-- Phase 6A representative renders passed:
-  - Student standalone exercise page:
-    - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
-    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/build-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/teacher-leakage-report.json`
-  - Student exercise sheet:
-    - `build/exports/student/en/exercise-sheet/collection/assignment-01/assignment-01-exercise-sheet.pdf`
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
-  - Teacher solution sheet:
-    - `build/exports/teacher/en/exercise-sheet/collection/assignment-01/assignment-01-solution-sheet.pdf`
-    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
-    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
-    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
-  - Student exercise-sheet leakage report confirms clean status:
-    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
-    - `status: clean`
-    - `solution_files_found: 2`
-    - `solution_files_included: 0`
-- Phase 5 representative renders passed:
-  - Student home page:
-    - `build/exports/student/en/html/index.html`
-    - `build/reports/builds/student/en/html/home/home/build-manifest.json`
-    - `build/reports/builds/student/en/html/home/home/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/home/home/teacher-leakage-report.json`
-    - `build/exports/student/en/html/assets/search-index.json`
-  - Student course page:
-    - `build/exports/student/en/html/course/ec202/ec202.html`
-    - `build/reports/builds/student/en/html/course/ec202/build-manifest.json`
-    - `build/reports/builds/student/en/html/course/ec202/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/course/ec202/teacher-leakage-report.json`
-  - Student lecture page:
-    - `build/exports/student/en/html/collection/lecture-04/lecture-04.html`
-    - `build/reports/builds/student/en/html/collection/lecture-04/build-manifest.json`
-    - `build/reports/builds/student/en/html/collection/lecture-04/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/collection/lecture-04/teacher-leakage-report.json`
-    - export targets verified:
-      - `build/exports/student/en/pdf/collection/lecture-04/lecture-04.pdf`
-      - `build/exports/student/en/revealjs/collection/lecture-04/lecture-04.html`
-  - Student concept page with related links:
-    - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-    - `build/reports/builds/student/en/html/concept/iv-intuition/build-manifest.json`
-    - `build/reports/builds/student/en/html/concept/iv-intuition/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/concept/iv-intuition/teacher-leakage-report.json`
-  - Student exercise page:
-    - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
-    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/build-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/teacher-leakage-report.json`
-  - Student resource page:
-    - `build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
-    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/build-manifest.json`
-    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/teacher-leakage-report.json`
-  - Student topic listing page:
-    - `build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
-    - `build/reports/builds/student/en/html/listing/topic-causal-inference/build-manifest.json`
-    - `build/reports/builds/student/en/html/listing/topic-causal-inference/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/listing/topic-causal-inference/teacher-leakage-report.json`
-  - Cross-language counterpart pair:
-    - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-    - `build/exports/student/nb/html/concept/iv-intuition/iv-intuition.html`
-- Phase 3 / bootstrap regression checks still passed:
-  - `build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
-  - `build/exports/teacher/nb/pdf/collection/lecture-04/lecture-04.pdf`
-- Student safety rules confirmed:
-  - teacher prompt does not appear in student HTML
-  - leakage report status is `clean` for representative student builds, including the assignment HTML page and student exercise-sheet PDF
-  - non-approved translation fallback is covered by tests and excluded from the student search index
-  - student exercise-sheet builds exclude all tracked solution files
-
-## Next Recommended Step
-
-- Stop at this clean Phase 6B checkpoint
-- When the roadmap calls for the next narrow slice:
-  - extend exercise outputs beyond the current assignment HTML/PDF pair only if explicitly required
-  - keep figure work, approval/stale workflows, TUI, AI workflows, migration, and deployment deferred
+- Stop at this clean Phase 7A checkpoint
+- If the roadmap continues with figures next, keep the next slice narrow:
+  - expand figure reuse beyond the current concept/lecture path only where roadmap scope requires it
+  - add richer interactive packaging only after the static-fallback policy remains fully protected
+- Otherwise resume with the next explicitly chosen later phase:
+  - Phase 8 resource approval and stale-content workflows
+  - a later deployment/publishing slice when preview/release jobs are in scope
