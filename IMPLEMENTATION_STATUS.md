@@ -2,24 +2,20 @@
 
 ## Current Milestone
 
-- Phase 3 assembly + metadata listings checkpoint complete:
-  - formalized collection and course assembly as first-class compilation inputs
-  - generated metadata-driven student listings
-  - added related-content blocks
-  - emitted build/dependency/leakage manifests
-  - verified with tests and representative renders
+- Phase 5 completion: navigation + language switch + page coverage
 
 ## Non-Goals For This Run
 
 - No exercise-sheet compiler work
-- No teacher solution-sheet implementation
+- No teacher solution format implementation
 - No approval workflows
 - No stale-content commands
-- No `teach reindex` unless strictly required by this slice
+- No `teach reindex` expansion unless strictly required by this slice
 - No Textual TUI
 - No AI draft workflows
 - No migration tooling
 - No CI/CD or deployment pipeline work
+- No figure interactivity work
 
 ## Decisions Locked
 
@@ -40,6 +36,10 @@
 - Assembly is now centralized in `app/assembly.py`
 - Listing target ids are reserved as `topic-<topic-slug>` and `resources-<course-id>`
 - Quarto website support files are staged in local `site_libs/` and ignored from git
+- Student site home is a first-class synthetic target with stable output at `build/exports/student/<lang>/html/index.html`
+- Student search index is emitted per language at `build/exports/student/<lang>/html/assets/search-index.json`
+- Student language switching links to the direct counterpart when approved and falls back to the other-language home page when it is not
+- Student HTML pages hide Quarto auto format links and only surface manual export links when the built artifact exists on disk
 
 ## Completed Tasks
 
@@ -117,21 +117,69 @@
   - manifest/report generation
   - leakage reporting
   - snapshot-style listing output verification
+- Added Phase 5 student-site page coverage for:
+  - home page
+  - student lecture page polish on top of lecture collections
+  - exercise page polish
+  - concept page polish
+  - resource page polish
+  - topic listing page polish
+- Added student-site shell across home/course/lecture/concept/exercise/resource/listing pages with:
+  - global navigation
+  - inline student search form backed by generated JSON index
+  - breadcrumbs
+  - language switching
+  - manual export links when matching render artifacts exist
+  - shared footer guidance for course-centric and concept-centric navigation
+- Added metadata-driven student home page generation with links into:
+  - courses
+  - topic listings
+  - featured resources
+- Extended course pages with explicit exercise navigation in addition to lectures/topics/resources
+- Extended concept pages with:
+  - at-a-glance metadata
+  - related links
+  - used-in-these-courses links
+- Extended exercise pages with:
+  - exercise metadata block
+  - related links back to concepts and lectures
+- Extended resource pages with:
+  - student-facing resource metadata block
+  - stable external link-out
+  - related links
+- Extended topic/resource listing pages with:
+  - breadcrumbs
+  - related course links
+  - shared student navigation/search shell
+- Added student-language visibility enforcement so student builds and student search indexes exclude:
+  - non-approved translation variants
+  - draft or non-approved resources
+  - teacher-only content
+- Added/extended tests for:
+  - home page generation
+  - lecture page generation
+  - exercise page generation
+  - language-switch generation
+  - fallback behavior when counterpart translations are unavailable
+  - breadcrumb generation
+  - search/nav presence on student pages
+  - student search-index filtering for hidden translations
 
 ## Remaining Tasks
 
+- Phase 5 core student-site MVP is complete for the current narrow slice
 - Later roadmap work only:
   - broaden collection support beyond lectures
-  - add more student-facing pages, navigation, breadcrumbs, and listing coverage
-  - extend related-content logic across more object types
-  - deepen validation into site-wide manifest/link checks
-  - implement Phase 6 exercise compiler and solution separation
+  - deepen site-wide validation into manifest/link integrity checks
+  - expand course planning structures beyond the single lecture list
+  - add richer student-home/course navigation coverage once more real content exists
+  - implement Phase 6 exercise compiler and teacher solution formats
   - add later CLI/reporting commands that were explicitly out of scope for this run
 
 ## Blockers
 
 - None at checkpoint
-- A Quarto `site_libs` staging issue appeared under parallel HTML renders and was resolved by precreating the local staging directory in the build environment
+- The earlier Quarto `site_libs` staging issue remains mitigated by precreating the local staging directory in the build environment before HTML renders
 
 ## Files Changed
 
@@ -166,6 +214,15 @@
 - `tests/`
 - `tests/snapshots/`
 - `build/.gitkeep` placeholders and generated checkpoint artifacts under ignored build paths
+- Phase 5 slice touched:
+  - `IMPLEMENTATION_STATUS.md`
+  - `README.md`
+  - `app/assembly.py`
+  - `app/build.py`
+  - `app/cli.py`
+  - `tests/test_assembly.py`
+  - `tests/test_builds.py`
+  - `tests/snapshots/topic-causal-inference.student.en.html.qmd`
 
 ## Commands Run
 
@@ -211,6 +268,59 @@
 - `rg -n "Topics|Resources|All course resources|Full resource listing|topic-causal-inference|resources-ec202" build/exports/student/en/html/course/ec202/ec202.html`
 - `rg -n "Topic:|Resources for|Instrumental Variables Episode|IV intuition" build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html build/exports/student/en/html/listing/resources-ec202/resources-ec202.html build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
 - `ls build/reports/builds/student/en/html/concept/iv-intuition build/reports/builds/student/en/html/course/ec202 build/reports/builds/student/en/html/listing/topic-causal-inference build/reports/builds/student/en/html/listing/resources-ec202`
+- `sed -n '1,220p' IMPLEMENTATION_STATUS.md`
+- `rg -n "Phase 5|student site|language switch|breadcrumbs|search|navigation|home page|lecture page|course-centric|concept-centric" ROADMAP.md`
+- `sed -n '600,720p' ROADMAP.md`
+- `sed -n '1098,1145p' ROADMAP.md`
+- `sed -n '790,840p' ROADMAP.md`
+- `sed -n '1,260p' app/assembly.py`
+- `sed -n '261,620p' app/assembly.py`
+- `sed -n '620,1220p' app/assembly.py`
+- `sed -n '1,320p' app/build.py`
+- `sed -n '1,260p' app/search.py`
+- `sed -n '1,320p' app/indexer.py`
+- `sed -n '1,340p' app/validator.py`
+- `sed -n '1,320p' app/models.py`
+- `sed -n '1,260p' app/cli.py`
+- `sed -n '1,220p' _quarto-student.yml`
+- `sed -n '1,220p' _quarto-teacher.yml`
+- `sed -n '1,220p' _quarto-en.yml`
+- `sed -n '1,220p' _quarto-nb.yml`
+- `sed -n '1,220p' _variables.yml`
+- `sed -n '1,240p' content/concepts/iv-intuition/meta.yml`
+- `sed -n '1,260p' content/concepts/iv-intuition/note.en.qmd`
+- `sed -n '1,240p' content/exercises/ex-iv-concept-check/meta.yml`
+- `sed -n '1,260p' content/exercises/ex-iv-concept-check/note.en.qmd`
+- `sed -n '1,240p' collections/lectures/lecture-04/meta.yml`
+- `sed -n '1,240p' content/resources/angrist-podcast-iv/meta.yml`
+- `sed -n '1,260p' content/resources/angrist-podcast-iv/note.en.qmd`
+- `rg -n "navbar|breadcrumb|search|quarto-search|Related content|language" build/exports/student/en/html/course/ec202/ec202.html build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
+- `sed -n '70,180p' build/exports/student/en/html/course/ec202/ec202.html`
+- `sed -n '70,200p' build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
+- `sed -n '70,220p' build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
+- `wc -l app/assembly.py`
+- `.venv/bin/ruff format app tests`
+- `.venv/bin/ruff check app tests`
+- `.venv/bin/pytest -q`
+- `.venv/bin/teach validate`
+- `.venv/bin/teach build home --audience student --lang en --format html`
+- `.venv/bin/teach build ec202 --audience student --lang en --format html`
+- `.venv/bin/teach build lecture-04 --audience student --lang en --format revealjs`
+- `.venv/bin/teach build lecture-04 --audience student --lang en --format pdf`
+- `.venv/bin/teach build lecture-04 --audience student --lang en --format html`
+- `.venv/bin/teach build iv-intuition --audience student --lang en --format html`
+- `.venv/bin/teach build iv-intuition --audience student --lang nb --format html`
+- `.venv/bin/teach build ex-iv-concept-check --audience student --lang en --format html`
+- `.venv/bin/teach build angrist-podcast-iv --audience student --lang en --format html`
+- `.venv/bin/teach build topic-causal-inference --audience student --lang en --format html`
+- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format revealjs`
+- `rg -n "Browse by Course|Browse by Topic|Featured Resources|How to Use This Site|Search LearnForge" build/exports/student/en/html/index.html`
+- `rg -n "Breadcrumbs:|Language:|Related links|Used in these courses|exercise/ex-iv-concept-check|resource/angrist-podcast-iv|collection/lecture-04" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
+- `rg -n "Course context|Slides|PDF|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/collection/lecture-04/lecture-04.html`
+- `rg -n "Exercise details|Language:|Related links|IV intuition" build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
+- `rg -n "Resource details|Open resource|Related links|Language:" build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
+- `rg -n "Used in courses|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
+- `rg -n "Language:|Norsk|English" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/nb/html/concept/iv-intuition/iv-intuition.html`
 
 ## Test / Build Results
 
@@ -219,49 +329,62 @@
 - Lint passed:
   - `ruff check app tests`
 - Tests passed:
-  - `12 passed in 4.87s`
-- Phase 3 / Phase 5 representative renders passed:
-  - Student course page with generated listings:
+  - `18 passed in 38.47s`
+- Phase 5 representative renders passed:
+  - Student home page:
+    - `build/exports/student/en/html/index.html`
+    - `build/reports/builds/student/en/html/home/home/build-manifest.json`
+    - `build/reports/builds/student/en/html/home/home/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/home/home/teacher-leakage-report.json`
+    - `build/exports/student/en/html/assets/search-index.json`
+  - Student course page:
     - `build/exports/student/en/html/course/ec202/ec202.html`
     - `build/reports/builds/student/en/html/course/ec202/build-manifest.json`
     - `build/reports/builds/student/en/html/course/ec202/dependency-manifest.json`
     - `build/reports/builds/student/en/html/course/ec202/teacher-leakage-report.json`
+  - Student lecture page:
+    - `build/exports/student/en/html/collection/lecture-04/lecture-04.html`
+    - `build/reports/builds/student/en/html/collection/lecture-04/build-manifest.json`
+    - `build/reports/builds/student/en/html/collection/lecture-04/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/collection/lecture-04/teacher-leakage-report.json`
+    - export targets verified:
+      - `build/exports/student/en/pdf/collection/lecture-04/lecture-04.pdf`
+      - `build/exports/student/en/revealjs/collection/lecture-04/lecture-04.html`
+  - Student concept page with related links:
+    - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
+    - `build/reports/builds/student/en/html/concept/iv-intuition/build-manifest.json`
+    - `build/reports/builds/student/en/html/concept/iv-intuition/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/concept/iv-intuition/teacher-leakage-report.json`
+  - Student exercise page:
+    - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
+    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/build-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/teacher-leakage-report.json`
+  - Student resource page:
+    - `build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
+    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/build-manifest.json`
+    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/teacher-leakage-report.json`
   - Student topic listing page:
     - `build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
     - `build/reports/builds/student/en/html/listing/topic-causal-inference/build-manifest.json`
     - `build/reports/builds/student/en/html/listing/topic-causal-inference/dependency-manifest.json`
     - `build/reports/builds/student/en/html/listing/topic-causal-inference/teacher-leakage-report.json`
-  - Student resource listing page:
-    - `build/exports/student/en/html/listing/resources-ec202/resources-ec202.html`
-    - `build/reports/builds/student/en/html/listing/resources-ec202/build-manifest.json`
-    - `build/reports/builds/student/en/html/listing/resources-ec202/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/listing/resources-ec202/teacher-leakage-report.json`
-  - Concept page with related content and leakage report:
+  - Cross-language counterpart pair:
     - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
-    - `build/reports/builds/student/en/html/concept/iv-intuition/build-manifest.json`
-    - `build/reports/builds/student/en/html/concept/iv-intuition/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/concept/iv-intuition/teacher-leakage-report.json`
-  - Teacher lecture collection build:
-    - `build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
-    - `build/reports/builds/teacher/nb/revealjs/collection/lecture-04/build-manifest.json`
-    - `build/reports/builds/teacher/nb/revealjs/collection/lecture-04/dependency-manifest.json`
-    - `build/reports/builds/teacher/nb/revealjs/collection/lecture-04/teacher-leakage-report.json`
-- Bootstrap regression check passed:
+    - `build/exports/student/nb/html/concept/iv-intuition/iv-intuition.html`
+- Phase 3 / bootstrap regression checks still passed:
+  - `build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
   - `build/exports/teacher/nb/pdf/collection/lecture-04/lecture-04.pdf`
-- Additional sanity render passed:
-  - `build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
-- Audience separation confirmed:
-  - teacher prompt appears in teacher HTML only
+- Student safety rules confirmed:
   - teacher prompt does not appear in student HTML
-- Student leakage reporting confirmed:
-  - concept student build report status is `clean`
-  - topic listing student build report status is `clean`
-  - resource listing student build report status is `clean`
+  - leakage report status is `clean` for representative student builds
+  - non-approved translation fallback is covered by tests and excluded from the student search index
 
 ## Next Recommended Step
 
-- Continue within Phase 5 student-site MVP depth:
-  - add course-centric and concept-centric navigation pages beyond the current minimal listing set
-  - add breadcrumbs / related-links polish and more topic/resource listing coverage
-  - extend search/navigation across the generated student pages
-  - keep Phase 6 exercise-sheet / solution work deferred until explicitly started
+- Start Phase 6 only when ready to keep the slice narrow:
+  - finalize the exercise compiler path
+  - add assignment/problem-sheet compilation
+  - add teacher solution format separation
+  - keep approval/stale/TUI/AI/deployment work deferred until their roadmap phases

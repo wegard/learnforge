@@ -11,10 +11,14 @@ from app.assembly import (
     AssemblyDocument,
     AssemblyError,
     assemble_target,
-    build_output_name,
+    collect_topics,
+    humanize_slug,
+    planned_target_output_path,
+    student_search_index_path,
 )
 from app.config import REPO_ROOT, exports_dir, reports_dir
-from app.indexer import load_repository
+from app.indexer import IndexedObject, RepositoryIndex, load_repository
+from app.models import Resource
 
 RenderableFormat = Literal["html", "pdf", "revealjs", "handout", "exercise-sheet"]
 
@@ -40,6 +44,7 @@ class BuildArtifact:
     build_manifest_path: Path
     dependency_manifest_path: Path
     leakage_report_path: Path
+    search_index_path: Path | None = None
 
 
 class BuildError(RuntimeError):
@@ -70,16 +75,9 @@ def build_target(
     except AssemblyError as exc:
         raise BuildError(str(exc)) from exc
 
-    output_dir = (
-        exports_dir(root)
-        / audience
-        / language
-        / output_format
-        / assembly.target.output_category
-        / target_id
-    )
+    output_dir = assembly.planned_output_path.parent
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_name = build_output_name(target_id, output_format)
+    output_name = assembly.planned_output_path.name
     command = [
         "quarto",
         "render",
@@ -105,11 +103,17 @@ def build_target(
     if result.returncode != 0:
         raise BuildError(result.stderr.strip() or result.stdout.strip() or "quarto render failed")
 
-    output_path = output_dir / output_name
+    output_path = assembly.planned_output_path
+    search_index_path = None
+    if audience == "student" and output_format == "html":
+        search_index_path = write_student_site_search_index(
+            index=index, language=language, root=root
+        )
     build_manifest_path, dependency_manifest_path, leakage_report_path = write_build_reports(
         assembly=assembly,
         command=command,
         output_path=output_path,
+        search_index_path=search_index_path,
         root=root,
     )
 
@@ -125,6 +129,7 @@ def build_target(
         build_manifest_path=build_manifest_path,
         dependency_manifest_path=dependency_manifest_path,
         leakage_report_path=leakage_report_path,
+        search_index_path=search_index_path,
     )
 
 
@@ -143,6 +148,7 @@ def write_build_reports(
     assembly: AssemblyDocument,
     command: list[str],
     output_path: Path,
+    search_index_path: Path | None,
     root: Path,
 ) -> tuple[Path, Path, Path]:
     report_dir = (
@@ -168,6 +174,9 @@ def write_build_reports(
             "build_manifest_path": str(build_manifest_path.relative_to(root)),
             "dependency_manifest_path": str(dependency_manifest_path.relative_to(root)),
             "leakage_report_path": str(leakage_report_path.relative_to(root)),
+            "search_index_path": (
+                str(search_index_path.relative_to(root)) if search_index_path else None
+            ),
         }
     )
     dependency_manifest_payload = assembly.dependency_manifest_payload()
@@ -241,3 +250,243 @@ def build_leakage_report(
             for item in assembly.leakage_observations
         ],
     }
+
+
+def write_student_site_search_index(
+    *,
+    index: RepositoryIndex,
+    language: str,
+    root: Path,
+) -> Path:
+    output_path = student_search_index_path(root, language)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    site_root = exports_dir(root) / "student" / language / "html"
+    payload = {
+        "language": language,
+        "entries": [
+            {
+                "id": "home",
+                "kind": "home",
+                "title": "LearnForge",
+                "description": (
+                    "Browse courses, topics, and featured resources."
+                    if language == "en"
+                    else "Bla gjennom kurs, temaer og utvalgte ressurser."
+                ),
+                "topics": [],
+                "tags": [],
+                "courses": [],
+                "href": str(
+                    planned_target_output_path(
+                        root,
+                        audience="student",
+                        language=language,
+                        output_format="html",
+                        target_kind="home",
+                        target_id="home",
+                    ).relative_to(site_root)
+                ),
+            },
+            *course_search_entries(index=index, language=language, root=root, site_root=site_root),
+            *object_search_entries(index=index, language=language, root=root, site_root=site_root),
+            *topic_search_entries(index=index, language=language, root=root, site_root=site_root),
+            *resource_listing_search_entries(
+                index=index,
+                language=language,
+                root=root,
+                site_root=site_root,
+            ),
+        ],
+    }
+    output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    return output_path
+
+
+def course_search_entries(
+    *,
+    index: RepositoryIndex,
+    language: str,
+    root: Path,
+    site_root: Path,
+) -> list[dict[str, object]]:
+    entries: list[dict[str, object]] = []
+    for record in sorted(index.courses.values(), key=lambda item: item.model.id):
+        if record.model.visibility in {"private", "teacher"}:
+            continue
+        if record.model.status not in {"approved", "published"}:
+            continue
+        if language not in record.model.languages:
+            continue
+        entries.append(
+            {
+                "id": record.model.id,
+                "kind": "course",
+                "title": record.model.title[language],
+                "description": record.model.summary[language],
+                "topics": [],
+                "tags": [],
+                "courses": [record.model.id],
+                "href": str(
+                    planned_target_output_path(
+                        root,
+                        audience="student",
+                        language=language,
+                        output_format="html",
+                        target_kind="course",
+                        target_id=record.model.id,
+                    ).relative_to(site_root)
+                ),
+            }
+        )
+    return entries
+
+
+def object_search_entries(
+    *,
+    index: RepositoryIndex,
+    language: str,
+    root: Path,
+    site_root: Path,
+) -> list[dict[str, object]]:
+    entries: list[dict[str, object]] = []
+    for record in sorted(index.objects.values(), key=lambda item: item.model.id):
+        if not is_student_visible_in_language(record, language):
+            continue
+        kind = record.model.kind if record.model.kind != "collection" else "collection"
+        description = ""
+        if record.model.kind == "resource":
+            description = record.model.why_selected[language]
+        elif record.model.kind == "exercise":
+            description = f"{record.model.exercise_type} exercise"
+        elif record.model.kind == "concept":
+            description = record.model.level
+        entries.append(
+            {
+                "id": record.model.id,
+                "kind": kind,
+                "title": record.model.title[language],
+                "description": description,
+                "topics": record.model.topics,
+                "tags": record.model.tags,
+                "courses": record.model.courses,
+                "href": str(
+                    planned_target_output_path(
+                        root,
+                        audience="student",
+                        language=language,
+                        output_format="html",
+                        target_kind=kind,
+                        target_id=record.model.id,
+                    ).relative_to(site_root)
+                ),
+            }
+        )
+    return entries
+
+
+def topic_search_entries(
+    *,
+    index: RepositoryIndex,
+    language: str,
+    root: Path,
+    site_root: Path,
+) -> list[dict[str, object]]:
+    visible_objects = [
+        record
+        for record in index.objects.values()
+        if is_student_visible_in_language(record, language)
+    ]
+    entries: list[dict[str, object]] = []
+    for topic in collect_topics(visible_objects):
+        entries.append(
+            {
+                "id": f"topic-{topic}",
+                "kind": "topic-listing",
+                "title": humanize_slug(topic),
+                "description": ("Topic listing" if language == "en" else "Temaoversikt"),
+                "topics": [topic],
+                "tags": [],
+                "courses": sorted(
+                    {
+                        course_id
+                        for record in visible_objects
+                        if topic in record.model.topics
+                        for course_id in record.model.courses
+                    }
+                ),
+                "href": str(
+                    planned_target_output_path(
+                        root,
+                        audience="student",
+                        language=language,
+                        output_format="html",
+                        target_kind="topic-listing",
+                        target_id=f"topic-{topic}",
+                    ).relative_to(site_root)
+                ),
+            }
+        )
+    return entries
+
+
+def resource_listing_search_entries(
+    *,
+    index: RepositoryIndex,
+    language: str,
+    root: Path,
+    site_root: Path,
+) -> list[dict[str, object]]:
+    entries: list[dict[str, object]] = []
+    for course_record in sorted(index.courses.values(), key=lambda item: item.model.id):
+        if course_record.model.visibility in {"private", "teacher"}:
+            continue
+        if course_record.model.status not in {"approved", "published"}:
+            continue
+        if language not in course_record.model.languages:
+            continue
+        has_resources = any(
+            isinstance(record.model, Resource)
+            and course_record.model.id in record.model.courses
+            and is_student_visible_in_language(record, language)
+            for record in index.objects.values()
+        )
+        if not has_resources:
+            continue
+        entries.append(
+            {
+                "id": f"resources-{course_record.model.id}",
+                "kind": "resource-listing",
+                "title": (
+                    f"Resources for {course_record.model.title[language]}"
+                    if language == "en"
+                    else f"Ressurser for {course_record.model.title[language]}"
+                ),
+                "description": (
+                    "Course resource listing" if language == "en" else "Kursressursoversikt"
+                ),
+                "topics": [],
+                "tags": ["resources"],
+                "courses": [course_record.model.id],
+                "href": str(
+                    planned_target_output_path(
+                        root,
+                        audience="student",
+                        language=language,
+                        output_format="html",
+                        target_kind="resource-listing",
+                        target_id=f"resources-{course_record.model.id}",
+                    ).relative_to(site_root)
+                ),
+            }
+        )
+    return entries
+
+
+def is_student_visible_in_language(record: IndexedObject, language: str) -> bool:
+    if record.model.visibility in {"private", "teacher"}:
+        return False
+    if record.model.status not in {"approved", "published"}:
+        return False
+    if language not in record.model.languages:
+        return False
+    return record.model.translation_status.get(language) == "approved"

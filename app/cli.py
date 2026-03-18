@@ -79,6 +79,8 @@ def build(
     typer.echo(f"Build manifest: {artifact.build_manifest_path.relative_to(REPO_ROOT)}")
     typer.echo(f"Dependency manifest: {artifact.dependency_manifest_path.relative_to(REPO_ROOT)}")
     typer.echo(f"Teacher leakage report: {artifact.leakage_report_path.relative_to(REPO_ROOT)}")
+    if artifact.search_index_path is not None:
+        typer.echo(f"Student search index: {artifact.search_index_path.relative_to(REPO_ROOT)}")
 
 
 @app.command("new")

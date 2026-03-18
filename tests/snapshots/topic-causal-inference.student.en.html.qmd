@@ -1,10 +1,8 @@
----
-title: Causal Inference
-lang: en
-audience: student
-language_variant: en
----
 Topic: Causal Inference
+
+## Used in courses
+
+- [EC202 - Applied Econometrics](../../course/ec202/ec202.html) [course]
 
 ## Lectures
 
