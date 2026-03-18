@@ -105,6 +105,22 @@ def test_validator_rejects_teacher_blocks_inside_exercise_note(tmp_path) -> None
     )
 
 
+def test_validator_rejects_course_assignment_without_html_output(tmp_path) -> None:
+    copy_repo_subset(tmp_path)
+    meta_path = tmp_path / "collections" / "assignments" / "assignment-01" / "meta.yml"
+    meta_path.write_text(
+        meta_path.read_text(encoding="utf-8").replace("  - html\n", ""),
+        encoding="utf-8",
+    )
+
+    report = validate_repository(tmp_path)
+
+    assert any(
+        issue.code == "assignment-missing-html-output" and issue.object_id == "assignment-01"
+        for issue in report.issues
+    )
+
+
 def copy_repo_subset(target_root) -> None:
     for relative_path in ("content", "collections", "courses"):
         shutil.copytree(REPO_ROOT / relative_path, target_root / relative_path)

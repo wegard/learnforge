@@ -2,18 +2,17 @@
 
 ## Current Milestone
 
-- Phase 6A: exercise compiler core + solution separation
+- Phase 6B complete checkpoint: assignment integration, richer exercise outputs, and status/reporting cleanup
 
 ## Non-Goals For This Run
 
 - No figure object or figure interactivity work
-- No resource approval workflow work
-- No `teach stale`, `teach approve`, or `teach reindex` expansion unless strictly required by this slice
-- No Textual TUI
+- No approval or stale-content workflow work
 - No AI-assisted draft workflows
-- No migration tooling
-- No CI/CD, deployment pipeline, or GitHub Actions work
-- No full migration of legacy materials
+- No Textual TUI
+- No CI/CD or deployment work
+- No broad site-wide validation overhaul beyond assignment-related integrity checks
+- No migration of legacy materials
 
 ## Decisions Locked
 
@@ -40,8 +39,10 @@
 - Student HTML pages hide Quarto auto format links and only surface manual export links when the built artifact exists on disk
 - Exercise solutions live in dedicated `solution.en.qmd` / `solution.nb.qmd` files
 - Exercise notes must stay student-safe; teacher solution content is assembled separately and never stored inline in exercise notes
+- Inline `.teacher-only` exercise solutions are invalid and rejected by validation
 - Assignment collections are the first exercise-sheet compilation input and may only include exercise objects
 - Student exercise sheets render to `*-exercise-sheet.pdf`; teacher solution sheets render to `*-solution-sheet.pdf`
+- Student exercise-sheet builds must explicitly report solution leakage checks in `teacher-leakage-report.json`
 
 ## Completed Tasks
 
@@ -202,22 +203,49 @@
   - student solution exclusion
   - student exercise-sheet leakage reporting
   - snapshot-style compiled exercise-sheet verification
+- Extended course planning and assembly so assignments are first-class course outputs with explicit `plan.yml` assignment ordering
+- Added first-class assignment HTML pages with:
+  - course context
+  - linked concepts
+  - related resources
+  - included exercise listings
+  - export links to built assignment artifacts
+- Extended concept and exercise pages with explicit `Used in assignments` navigation based on assignment membership
+- Extended assignment validation so course-planned assignments must:
+  - resolve to assignment collections
+  - declare `html` output
+  - declare the hosting course in their metadata
+- Extended build manifests for assignment targets to summarize:
+  - included exercise ids
+  - linked course context ids
+  - linked concept ids
+  - linked resource ids
+  - discovered and included solution files
+  - generated artifacts available at build time
+- Extended student search indexing so HTML-capable assignment collections appear with deterministic collection descriptions
+- Added/extended tests for:
+  - course page assignment surfacing
+  - assignment page generation
+  - assignment breadcrumb/navigation and export-link behavior
+  - concept/exercise assignment-context links
+  - teacher vs student assignment output visibility
+  - assignment manifest contents
+  - course-plan assignment validation
 
 ## Remaining Tasks
 
 - Phase 6A core exercise compiler and teacher/student solution separation are complete for the current narrow slice
+- Phase 6B assignment integration and reporting cleanup are complete for the current narrow slice
 - Later roadmap work only:
-  - expand the exercise compiler beyond assignment sheets into other exercise outputs when the roadmap calls for them
-  - decide whether assignments should surface directly from course planning/navigation in a later slice
-  - broaden collection support beyond lectures and assignments
-  - deepen site-wide validation into manifest/link integrity checks
-  - add later CLI/reporting commands that were explicitly out of scope for this run
-  - keep Phase 7 figure pipeline, approval workflows, TUI, AI workflows, migration, and deployment deferred
+  - expand exercise outputs beyond assignment HTML + student sheet + teacher solution sheet when the roadmap explicitly calls for them
+  - decide whether later course/topic surfaces should expose additional assignment/listing views beyond the current course-centric integration
+  - broaden integrity/link validation only when a later slice requires site-wide enforcement
+  - keep Phase 7 figure pipeline, approval/stale workflows, TUI, AI workflows, migration, and deployment deferred
 
 ## Blockers
 
-- None at checkpoint
-- The earlier Quarto `site_libs` staging issue remains mitigated by precreating the local staging directory in the build environment before HTML renders
+- None at checkpoint for the single-target `teach build` workflow
+- Parallel HTML renders can still trip Quarto's shared `site_libs` staging behavior; the sequential CLI path used by this repository checkpoint passes cleanly
 
 ## Files Changed
 
@@ -283,6 +311,17 @@
   - `tests/test_builds.py`
   - `tests/test_schema.py`
   - `tests/snapshots/assignment-01.student.en.exercise-sheet.qmd`
+- Phase 6B slice touched:
+  - `IMPLEMENTATION_STATUS.md`
+  - `app/assembly.py`
+  - `app/build.py`
+  - `app/models.py`
+  - `app/validator.py`
+  - `collections/assignments/assignment-01/meta.yml`
+  - `courses/ec202/plan.yml`
+  - `tests/test_assembly.py`
+  - `tests/test_builds.py`
+  - `tests/test_schema.py`
 
 ## Commands Run
 
@@ -412,6 +451,39 @@
 - `sed -n '1,220p' build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
 - `sed -n '1,220p' build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
 - `sed -n '1,220p' build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+- `sed -n '1,240p' IMPLEMENTATION_STATUS.md`
+- `sed -n '241,520p' IMPLEMENTATION_STATUS.md`
+- `rg -n "assignment|exercise-sheet|solution-sheet|course page|course pages|Phase 6" ROADMAP.md`
+- `sed -n '1,260p' app/assembly.py`
+- `sed -n '261,620p' app/assembly.py`
+- `sed -n '621,1220p' app/assembly.py`
+- `sed -n '1221,1760p' app/assembly.py`
+- `sed -n '1761,2360p' app/assembly.py`
+- `sed -n '1,620p' app/build.py`
+- `sed -n '1,340p' app/validator.py`
+- `sed -n '1,240p' app/models.py`
+- `sed -n '1,260p' app/indexer.py`
+- `sed -n '1,220p' collections/assignments/assignment-01/meta.yml`
+- `sed -n '1,220p' courses/ec202/plan.yml`
+- `sed -n '1,220p' content/exercises/ex-iv-concept-check/meta.yml`
+- `sed -n '1,220p' content/exercises/ex-iv-assumption-sort/meta.yml`
+- `sed -n '1,240p' content/resources/angrist-podcast-iv/meta.yml`
+- `.venv/bin/ruff check app tests`
+- `.venv/bin/python -m pytest -q`
+- `.venv/bin/teach validate`
+- `.venv/bin/teach build assignment-01 --audience student --lang en --format exercise-sheet`
+- `.venv/bin/teach build assignment-01 --audience student --lang en --format html`
+- `.venv/bin/teach build ec202 --audience student --lang en --format html`
+- `.venv/bin/teach build assignment-01 --audience teacher --lang en --format exercise-sheet`
+- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format pdf`
+- `.venv/bin/teach build iv-intuition --audience student --lang en --format html`
+- `.venv/bin/teach build ex-iv-concept-check --audience student --lang en --format html`
+- `rg -n "Assignments|assignment-01|Assignment 1 - IV checks" build/exports/student/en/html/course/ec202/ec202.html`
+- `rg -n "Assignment details|Included exercises|Course context|Related resources|assignment-01-exercise-sheet.pdf|assignment-01-solution-sheet.pdf|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/collection/assignment-01/assignment-01.html`
+- `rg -n "Used in assignments|assignment-01" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
+- `sed -n '1,260p' build/reports/builds/student/en/html/collection/assignment-01/build-manifest.json`
+- `sed -n '1,260p' build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
+- `sed -n '1,260p' build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
 
 ## Test / Build Results
 
@@ -420,7 +492,41 @@
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `26 passed in 23.33s`
+  - `31 passed in 35.91s`
+- Phase 6B representative renders passed:
+  - Student course page showing assignments:
+    - `build/exports/student/en/html/course/ec202/ec202.html`
+    - `build/reports/builds/student/en/html/course/ec202/build-manifest.json`
+    - `build/reports/builds/student/en/html/course/ec202/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/course/ec202/teacher-leakage-report.json`
+  - Student assignment HTML page:
+    - `build/exports/student/en/html/collection/assignment-01/assignment-01.html`
+    - `build/reports/builds/student/en/html/collection/assignment-01/build-manifest.json`
+    - `build/reports/builds/student/en/html/collection/assignment-01/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
+  - Student exercise-sheet PDF:
+    - `build/exports/student/en/exercise-sheet/collection/assignment-01/assignment-01-exercise-sheet.pdf`
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
+  - Teacher solution-sheet PDF:
+    - `build/exports/teacher/en/exercise-sheet/collection/assignment-01/assignment-01-solution-sheet.pdf`
+    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
+    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
+  - Student assignment leakage report confirms clean status:
+    - `build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
+    - `status: clean`
+    - `solution_files_found: 2`
+    - `solution_files_included: 0`
+  - Assignment navigation verification:
+    - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
+    - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
+  - Teacher lecture regression render:
+    - `build/exports/teacher/nb/pdf/collection/lecture-04/lecture-04.pdf`
+    - `build/reports/builds/teacher/nb/pdf/collection/lecture-04/build-manifest.json`
+    - `build/reports/builds/teacher/nb/pdf/collection/lecture-04/dependency-manifest.json`
+    - `build/reports/builds/teacher/nb/pdf/collection/lecture-04/teacher-leakage-report.json`
 - Phase 6A representative renders passed:
   - Student standalone exercise page:
     - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
@@ -490,13 +596,13 @@
   - `build/exports/teacher/nb/pdf/collection/lecture-04/lecture-04.pdf`
 - Student safety rules confirmed:
   - teacher prompt does not appear in student HTML
-  - leakage report status is `clean` for representative student builds
+  - leakage report status is `clean` for representative student builds, including the assignment HTML page and student exercise-sheet PDF
   - non-approved translation fallback is covered by tests and excluded from the student search index
   - student exercise-sheet builds exclude all tracked solution files
 
 ## Next Recommended Step
 
-- Start the next narrow slice only when ready:
-  - expand the exercise compiler beyond the first assignment sheet into the next explicitly required exercise outputs
-  - decide whether assignments should become first-class course-plan navigation entries in a later Phase 6 follow-up
-  - keep figure work, approval/stale workflows, TUI, AI workflows, migration, and deployment deferred until their roadmap phases
+- Stop at this clean Phase 6B checkpoint
+- When the roadmap calls for the next narrow slice:
+  - extend exercise outputs beyond the current assignment HTML/PDF pair only if explicitly required
+  - keep figure work, approval/stale workflows, TUI, AI workflows, migration, and deployment deferred

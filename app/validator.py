@@ -274,6 +274,66 @@ def validate_repository(root: Path = REPO_ROOT) -> ValidationReport:
                     root=root,
                     object_id=model.id,
                 )
+            elif collection_record.model.collection_kind != "lecture":
+                _add_issue(
+                    issues,
+                    code="invalid-lecture-kind",
+                    message=f"course plan lecture entry must be a lecture collection: {lecture_id}",
+                    path=record.plan_path,
+                    root=root,
+                    object_id=model.id,
+                )
+        for assignment_id in record.plan.assignments:
+            assignment_record = index.objects.get(assignment_id)
+            if assignment_record is None or not isinstance(assignment_record.model, Collection):
+                _add_issue(
+                    issues,
+                    code="missing-assignment",
+                    message=(
+                        "course plan references unknown assignment collection "
+                        f"{assignment_id}"
+                    ),
+                    path=record.plan_path,
+                    root=root,
+                    object_id=model.id,
+                )
+                continue
+            if assignment_record.model.collection_kind != "assignment":
+                _add_issue(
+                    issues,
+                    code="invalid-assignment-kind",
+                    message=(
+                        "course plan assignment entry must be an assignment collection: "
+                        f"{assignment_id}"
+                    ),
+                    path=record.plan_path,
+                    root=root,
+                    object_id=model.id,
+                )
+            if "html" not in assignment_record.model.outputs:
+                _add_issue(
+                    issues,
+                    code="assignment-missing-html-output",
+                    message=(
+                        "course-planned assignments must declare html output for "
+                        f"stable student navigation: {assignment_id}"
+                    ),
+                    path=assignment_record.meta_path,
+                    root=root,
+                    object_id=assignment_id,
+                )
+            if model.id not in assignment_record.model.courses:
+                _add_issue(
+                    issues,
+                    code="assignment-course-mismatch",
+                    message=(
+                        f"assignment {assignment_id} is listed in course {model.id} plan but "
+                        "does not declare that course in its metadata"
+                    ),
+                    path=assignment_record.meta_path,
+                    root=root,
+                    object_id=assignment_id,
+                )
 
     if not issues:
         search_index_path = str(write_search_index(index, root).relative_to(root))

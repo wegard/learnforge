@@ -19,7 +19,7 @@ from app.assembly import (
 )
 from app.config import REPO_ROOT, exports_dir, reports_dir
 from app.indexer import IndexedObject, RepositoryIndex, load_repository
-from app.models import Resource
+from app.models import Collection, Resource
 
 RenderableFormat = Literal["html", "pdf", "revealjs", "handout", "exercise-sheet"]
 
@@ -168,6 +168,7 @@ def write_build_reports(
     leakage_report_path = report_dir / "teacher-leakage-report.json"
 
     build_manifest_payload = assembly.build_manifest_payload()
+    generated_artifacts = collect_generated_artifacts(assembly=assembly, root=root)
     build_manifest_payload.update(
         {
             "command": command,
@@ -178,8 +179,12 @@ def write_build_reports(
             "search_index_path": (
                 str(search_index_path.relative_to(root)) if search_index_path else None
             ),
+            "generated_artifacts": generated_artifacts,
         }
     )
+    assignment_details = assignment_manifest_details(assembly, generated_artifacts)
+    if assignment_details is not None:
+        build_manifest_payload["assignment"] = assignment_details
     dependency_manifest_payload = assembly.dependency_manifest_payload()
     leakage_report_payload = build_leakage_report(assembly, output_path, root)
 
@@ -386,6 +391,12 @@ def object_search_entries(
             description = f"{record.model.exercise_type} exercise"
         elif record.model.kind == "concept":
             description = record.model.level
+        elif isinstance(record.model, Collection):
+            description = localized_collection_description(
+                record.model.collection_kind,
+                language=language,
+                item_count=len(record.model.items),
+            )
         entries.append(
             {
                 "id": record.model.id,
@@ -516,3 +527,112 @@ def is_student_visible_in_language(record: IndexedObject, language: str) -> bool
     if language not in record.model.languages:
         return False
     return record.model.translation_status.get(language) == "approved"
+
+
+def collect_generated_artifacts(
+    *,
+    assembly: AssemblyDocument,
+    root: Path,
+) -> list[dict[str, str]]:
+    candidate_formats = ["html", "pdf", "revealjs", "handout", "exercise-sheet"]
+    if assembly.target.kind == "home":
+        candidate_formats = ["html"]
+
+    artifacts: list[dict[str, str]] = []
+    for output_format in candidate_formats:
+        output_path = planned_target_output_path(
+            root,
+            audience=assembly.audience,
+            language=assembly.language,
+            output_format=output_format,
+            target_kind=assembly.target.kind,
+            target_id=assembly.target.identifier,
+        )
+        if not output_path.exists():
+            continue
+        artifacts.append(
+            {
+                "format": output_format,
+                "path": str(output_path.relative_to(root)),
+            }
+        )
+    return artifacts
+
+
+def assignment_manifest_details(
+    assembly: AssemblyDocument,
+    generated_artifacts: list[dict[str, str]],
+) -> dict[str, object] | None:
+    included_exercise_ids = sorted(
+        {
+            edge.target_id
+            for edge in assembly.dependency_edges
+            if edge.source_id == assembly.target.identifier
+            and edge.relationship == "assignment-item"
+        }
+    )
+    if not included_exercise_ids:
+        return None
+
+    return {
+        "included_exercise_ids": included_exercise_ids,
+        "course_context_ids": sorted(
+            {
+                edge.target_id
+                for edge in assembly.dependency_edges
+                if edge.source_id == assembly.target.identifier
+                and edge.relationship == "used-in-course"
+            }
+        ),
+        "linked_concept_ids": sorted(
+            {
+                edge.target_id
+                for edge in assembly.dependency_edges
+                if edge.source_id == assembly.target.identifier
+                and edge.relationship == "assignment-concept"
+            }
+        ),
+        "linked_resource_ids": sorted(
+            {
+                edge.target_id
+                for edge in assembly.dependency_edges
+                if edge.source_id == assembly.target.identifier
+                and edge.relationship == "assignment-resource"
+            }
+        ),
+        "discovered_solution_files": sorted(
+            {item.source_path for item in assembly.solution_observations}
+        ),
+        "included_solution_files": sorted(
+            {
+                item.source_path
+                for item in assembly.solution_observations
+                if item.included_in_output
+            }
+        ),
+        "generated_artifacts": generated_artifacts,
+    }
+
+
+def localized_collection_description(
+    collection_kind: str,
+    *,
+    language: str,
+    item_count: int,
+) -> str:
+    if language == "nb":
+        labels = {
+            "lecture": "Forelesning",
+            "assignment": "Oppgaveark",
+            "module": "Modul",
+            "reading-list": "Leseliste",
+        }
+        return f"{labels.get(collection_kind, 'Samling')} med {item_count} innslag"
+
+    labels = {
+        "lecture": "Lecture",
+        "assignment": "Assignment",
+        "module": "Module",
+        "reading-list": "Reading list",
+    }
+    return f"{labels.get(collection_kind, 'Collection')} with {item_count} items"

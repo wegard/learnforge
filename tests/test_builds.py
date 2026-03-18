@@ -60,9 +60,11 @@ def test_course_page_build_contains_generated_listings() -> None:
 
     assert "Topics" in html
     assert "Exercises" in html
+    assert "Assignments" in html
     assert "Resources" in html
     assert "Search LearnForge" in html
     assert "Breadcrumbs:" in html
+    assert "../../collection/assignment-01/assignment-01.html" in html
     assert "../../listing/topic-causal-inference/topic-causal-inference.html" in html
     assert "../../listing/resources-ec202/resources-ec202.html" in html
     assert "../../exercise/ex-iv-concept-check/ex-iv-concept-check.html" in html
@@ -111,7 +113,7 @@ def test_home_page_build_contains_navigation_and_search() -> None:
     assert 'href="course/ec202/ec202.html"' in html
     assert any(entry["id"] == "home" for entry in search_index["entries"])
     assert any(entry["id"] == "ec202" for entry in search_index["entries"])
-    assert all(entry["id"] != "assignment-01" for entry in search_index["entries"])
+    assert any(entry["id"] == "assignment-01" for entry in search_index["entries"])
 
 
 def test_student_lecture_page_has_course_context_breadcrumbs_and_export_links() -> None:
@@ -159,10 +161,87 @@ def test_student_exercise_page_has_language_switch_and_related_links() -> None:
 
     assert "Exercise details" in html
     assert "Related links" in html
+    assert "Used in assignments" in html
     assert "Language:" in html
     assert "Norsk" in html
     assert "Sjekk av IV-intuisjon" not in html
     assert "strong first stage" not in html
+    assert "../../collection/assignment-01/assignment-01.html" in html
+
+
+def test_student_assignment_page_build_has_navigation_exports_and_clean_leakage() -> None:
+    build_target(
+        "assignment-01",
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    artifact = build_target(
+        "assignment-01",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Assignment details" in html
+    assert "Included exercises" in html
+    assert "Course context" in html
+    assert "Related resources" in html
+    assert "Search LearnForge" in html
+    assert "Breadcrumbs:" in html
+    assert "../../course/ec202/ec202.html" in html
+    assert "assignment-01-exercise-sheet.pdf" in html
+    assert "assignment-01-solution-sheet.pdf" not in html
+    assert build_manifest["assignment"]["included_exercise_ids"] == [
+        "ex-iv-assumption-sort",
+        "ex-iv-concept-check",
+    ]
+    assert build_manifest["assignment"]["course_context_ids"] == ["ec202"]
+    assert build_manifest["assignment"]["linked_concept_ids"] == ["iv-intuition"]
+    assert build_manifest["assignment"]["linked_resource_ids"] == ["angrist-podcast-iv"]
+    assert build_manifest["assignment"]["included_solution_files"] == []
+    assert {item["format"] for item in build_manifest["generated_artifacts"]} >= {
+        "html",
+        "exercise-sheet",
+    }
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 2
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_teacher_assignment_page_shows_teacher_export_only() -> None:
+    build_target(
+        "assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    artifact = build_target(
+        "assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert "Available outputs" in html
+    assert "assignment-01-solution-sheet.pdf" in html
+    assert "assignment-01-exercise-sheet.pdf" not in html
+    assert build_manifest["assignment"]["included_solution_files"] == []
+    assert {item["format"] for item in build_manifest["generated_artifacts"]} >= {
+        "html",
+        "exercise-sheet",
+    }
 
 
 def test_student_assignment_sheet_build_excludes_solution_content_and_reports_clean() -> None:

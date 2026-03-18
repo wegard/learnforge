@@ -173,3 +173,4 @@ class CoursePlan(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     lectures: list[str] = Field(default_factory=list)
+    assignments: list[str] = Field(default_factory=list)

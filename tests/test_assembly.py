@@ -132,6 +132,31 @@ def test_teacher_assignment_assembly_includes_solution_sections() -> None:
     assert all(item.included_in_output for item in assembly.solution_observations)
 
 
+def test_assignment_html_assembly_includes_course_concepts_and_resources() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "assignment-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "## Assignment details" in assembly.markdown
+    assert "## Included exercises" in assembly.markdown
+    assert "## Linked concepts" in assembly.markdown
+    assert "## Related resources" in assembly.markdown
+    assert "Course context" in assembly.markdown
+    assert "iv-intuition" in related_ids
+    assert "angrist-podcast-iv" in related_ids
+    assert "ec202" in related_ids
+    assert len(assembly.solution_observations) == 2
+    assert all(not item.included_in_output for item in assembly.solution_observations)
+
+
 def test_topic_listing_matches_snapshot() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -165,6 +190,21 @@ def test_resource_page_generates_related_content() -> None:
     assert "iv-intuition" in related_ids
     assert "lecture-04" in related_ids
     assert "## Related links" in assembly.markdown
+
+
+def test_concept_page_includes_assignment_context() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "iv-intuition",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## Used in assignments" in assembly.markdown
+    assert "assignment-01/assignment-01.html" in assembly.markdown
 
 
 def test_home_page_assembly_includes_course_and_topic_navigation() -> None:

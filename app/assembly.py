@@ -100,6 +100,15 @@ class ListingEntry:
 
 
 @dataclass(slots=True)
+class AssignmentSourceSet:
+    exercises: list[IndexedObject]
+    listing_entries: list[ListingEntry]
+    total_minutes: int
+    concept_ids: list[str]
+    topic_ids: list[str]
+
+
+@dataclass(slots=True)
 class BuildTargetRef:
     identifier: str
     kind: str
@@ -408,6 +417,16 @@ class AssemblyBuilder:
                     entries=related_entries,
                 )
             )
+        assignment_entries = self._assignment_related_entries_for_object(record)
+        if assignment_entries:
+            content_parts.append(
+                self._render_related_section(
+                    title="Used in assignments"
+                    if self.language == "en"
+                    else "Brukt i oppgaveark",
+                    entries=assignment_entries,
+                )
+            )
         course_entries = self._course_related_entries_for_record(record)
         if course_entries:
             content_parts.append(
@@ -428,7 +447,7 @@ class AssemblyBuilder:
         return self._finalize_document(
             target=target,
             markdown_body="\n\n".join(part.rstrip() for part in content_parts if part).rstrip(),
-            related_entries=related_entries,
+            related_entries=[*related_entries, *assignment_entries, *course_entries],
             listing_entries=[],
         )
 
@@ -437,7 +456,13 @@ class AssemblyBuilder:
         self._ensure_language(record.model.languages, record.model.id)
         self._ensure_output_supported(record.model.outputs, record.model.id)
         if record.model.collection_kind == "assignment":
-            return self._assemble_assignment_collection(record)
+            if self.output_format == "exercise-sheet":
+                return self._assemble_assignment_sheet(record)
+            if self.output_format == "html":
+                return self._assemble_assignment_page(record)
+            raise AssemblyError(
+                "assignment collections currently support html and exercise-sheet only"
+            )
         self._register_object_files(record, role="primary-collection", include_note=False)
 
         item_entries: list[ListingEntry] = []
@@ -496,71 +521,102 @@ class AssemblyBuilder:
             listing_entries=item_entries,
         )
 
-    def _assemble_assignment_collection(self, record: IndexedObject) -> AssemblyDocument:
+    def _assemble_assignment_page(self, record: IndexedObject) -> AssemblyDocument:
+        self._register_object_files(record, role="primary-assignment", include_note=False)
+        current_output = self._planned_output_path("collection", record.model.id)
+        source_set = self._assignment_source_set(
+            record,
+            current_output=current_output,
+            include_notes=False,
+            observe_solutions=True,
+        )
+        course_entries = self._course_related_entries_for_record(record)
+        concept_entries = self._assignment_concept_entries(
+            record,
+            concept_ids=source_set.concept_ids,
+            current_output=current_output,
+        )
+        resource_entries = self._assignment_resource_entries(
+            record,
+            topic_ids=source_set.topic_ids,
+            current_output=current_output,
+        )
+
+        parts: list[str] = []
+        if course_entries:
+            parts.append(
+                self._render_related_section(
+                    title="Course context" if self.language == "en" else "Kurskontekst",
+                    entries=course_entries,
+                )
+            )
+        parts.append(
+            self._render_assignment_page_summary(
+                record=record,
+                source_set=source_set,
+                current_output=current_output,
+            )
+        )
+        parts.append(
+            self._render_listing_section(
+                title="Included exercises" if self.language == "en" else "Inkluderte oppgaver",
+                entries=source_set.listing_entries,
+            )
+        )
+        if concept_entries:
+            parts.append(
+                self._render_related_section(
+                    title="Linked concepts" if self.language == "en" else "Knyttede begreper",
+                    entries=concept_entries,
+                )
+            )
+        if resource_entries:
+            parts.append(
+                self._render_related_section(
+                    title="Related resources"
+                    if self.language == "en"
+                    else "Relaterte ressurser",
+                    entries=resource_entries,
+                )
+            )
+
+        target = BuildTargetRef(
+            identifier=record.model.id,
+            kind="collection",
+            output_category="collection",
+            title=record.model.title[self.language],
+        )
+        return self._finalize_document(
+            target=target,
+            markdown_body="\n\n".join(part.rstrip() for part in parts if part).rstrip(),
+            related_entries=[*course_entries, *concept_entries, *resource_entries],
+            listing_entries=source_set.listing_entries,
+        )
+
+    def _assemble_assignment_sheet(self, record: IndexedObject) -> AssemblyDocument:
         if self.output_format != "exercise-sheet":
             raise AssemblyError("assignment collections currently support exercise-sheet only")
 
         self._register_object_files(record, role="primary-assignment", include_note=False)
         current_output = self._planned_output_path("collection", record.model.id)
         include_solutions = self.audience == "teacher"
-
-        exercise_records: list[IndexedObject] = []
-        listing_entries: list[ListingEntry] = []
-        total_minutes = 0
-        concept_ids: list[str] = []
-
-        for item_id in record.model.items:
-            item_record = self.index.objects[item_id]
-            if not isinstance(item_record.model, Exercise):
-                raise AssemblyError(
-                    f"assignment collection {record.model.id} may only include exercises: {item_id}"
-                )
-            if self._exclude_from_audience(item_record.model.visibility):
-                continue
-            self._ensure_language(item_record.model.languages, item_id)
-            if "exercise-sheet" not in item_record.model.outputs:
-                raise AssemblyError(f"{item_id} does not support exercise-sheet builds")
-            self._register_edge(
-                source_id=record.model.id,
-                source_kind="collection",
-                target_id=item_record.model.id,
-                target_kind="exercise",
-                relationship="assignment-item",
-            )
-            self._register_object_files(item_record, role="assignment-item", include_note=True)
-            exercise_records.append(item_record)
-            total_minutes += item_record.model.estimated_time_minutes
-            concept_ids.extend(item_record.model.concepts)
-            listing_entries.append(
-                ListingEntry(
-                    identifier=item_record.model.id,
-                    kind="exercise",
-                    title=item_record.model.title[self.language],
-                    description=localized_minutes(
-                        item_record.model.estimated_time_minutes,
-                        self.language,
-                    ),
-                    href=self._page_href(
-                        current_output=current_output,
-                        target_kind="exercise",
-                        target_id=item_record.model.id,
-                    ),
-                )
-            )
-
-        if not exercise_records:
-            raise AssemblyError(f"assignment collection {record.model.id} has no visible exercises")
-
+        source_set = self._assignment_source_set(
+            record,
+            current_output=current_output,
+            include_notes=True,
+            observe_solutions=False,
+        )
+        course_entries = self._course_related_entries_for_record(record)
         parts = [
             self._render_assignment_sheet_summary(
                 record=record,
-                exercises=exercise_records,
-                total_minutes=total_minutes,
-                concept_ids=sorted(dict.fromkeys(concept_ids)),
+                exercises=source_set.exercises,
+                total_minutes=source_set.total_minutes,
+                concept_ids=source_set.concept_ids,
                 include_solutions=include_solutions,
             )
         ]
-        for index, exercise_record in enumerate(exercise_records, start=1):
+        for index, exercise_record in enumerate(source_set.exercises, start=1):
             parts.append(
                 self._render_assignment_exercise_section(
                     exercise_record,
@@ -585,8 +641,8 @@ class AssemblyBuilder:
         return self._finalize_document(
             target=target,
             markdown_body="\n\n".join(part.rstrip() for part in parts if part).rstrip(),
-            related_entries=[],
-            listing_entries=listing_entries,
+            related_entries=course_entries,
+            listing_entries=source_set.listing_entries,
         )
 
     def _assemble_course_page(self, record: IndexedCourse) -> AssemblyDocument:
@@ -609,6 +665,7 @@ class AssemblyBuilder:
         )
 
         lecture_entries: list[ListingEntry] = []
+        assignment_entries: list[ListingEntry] = []
         exercise_entries: list[ListingEntry] = []
         course_objects = self._course_objects(record.model.id)
         topics = collect_topics(course_objects)
@@ -656,6 +713,42 @@ class AssemblyBuilder:
                         current_output=self._planned_output_path("course", record.model.id),
                         target_kind="collection",
                         target_id=lecture_record.model.id,
+                    ),
+                )
+            )
+
+        for assignment_id in record.plan.assignments:
+            assignment_record = self.index.objects[assignment_id]
+            if not self._is_listable(assignment_record, require_output_format="html"):
+                continue
+            source_set = self._assignment_source_set(
+                assignment_record,
+                current_output=self._planned_output_path("course", record.model.id),
+                include_notes=False,
+                observe_solutions=False,
+            )
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="course",
+                target_id=assignment_record.model.id,
+                target_kind="collection",
+                relationship="assignment",
+            )
+            self._register_object_files(
+                assignment_record,
+                role="course-assignment",
+                include_note=False,
+            )
+            assignment_entries.append(
+                ListingEntry(
+                    identifier=assignment_record.model.id,
+                    kind="collection",
+                    title=assignment_record.model.title[self.language],
+                    description=self._assignment_listing_description(source_set),
+                    href=self._page_href(
+                        current_output=self._planned_output_path("course", record.model.id),
+                        target_kind="collection",
+                        target_id=assignment_record.model.id,
                     ),
                 )
             )
@@ -768,6 +861,10 @@ class AssemblyBuilder:
                 entries=exercise_entries,
             ),
             self._render_listing_section(
+                title="Assignments" if self.language == "en" else "Oppgaveark",
+                entries=assignment_entries,
+            ),
+            self._render_listing_section(
                 title="Topics" if self.language == "en" else "Temaer",
                 entries=topic_entries,
                 suffix=(
@@ -830,6 +927,7 @@ class AssemblyBuilder:
             related_entries=[],
             listing_entries=[
                 *lecture_entries,
+                *assignment_entries,
                 *exercise_entries,
                 *topic_entries,
                 *resource_entries,
@@ -1484,6 +1582,151 @@ class AssemblyBuilder:
             )
         return "\n".join(lines)
 
+    def _assignment_source_set(
+        self,
+        record: IndexedObject,
+        *,
+        current_output: Path,
+        include_notes: bool,
+        observe_solutions: bool,
+    ) -> AssignmentSourceSet:
+        exercise_records: list[IndexedObject] = []
+        listing_entries: list[ListingEntry] = []
+        total_minutes = 0
+        concept_ids: list[str] = []
+        topic_ids: list[str] = []
+
+        for item_id in record.model.items:
+            item_record = self.index.objects[item_id]
+            if not isinstance(item_record.model, Exercise):
+                raise AssemblyError(
+                    f"assignment collection {record.model.id} may only include exercises: {item_id}"
+                )
+            if self._exclude_from_audience(item_record.model.visibility):
+                continue
+            self._ensure_language(item_record.model.languages, item_id)
+            if "exercise-sheet" not in item_record.model.outputs:
+                raise AssemblyError(f"{item_id} does not support exercise-sheet builds")
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="collection",
+                target_id=item_record.model.id,
+                target_kind="exercise",
+                relationship="assignment-item",
+            )
+            self._register_object_files(
+                item_record,
+                role="assignment-item",
+                include_note=include_notes,
+            )
+            if observe_solutions:
+                self._load_exercise_solution(item_record, include_solution=False)
+            exercise_records.append(item_record)
+            total_minutes += item_record.model.estimated_time_minutes
+            concept_ids.extend(item_record.model.concepts)
+            topic_ids.extend(item_record.model.topics)
+            listing_entries.append(
+                ListingEntry(
+                    identifier=item_record.model.id,
+                    kind="exercise",
+                    title=item_record.model.title[self.language],
+                    description=localized_minutes(
+                        item_record.model.estimated_time_minutes,
+                        self.language,
+                    ),
+                    href=self._page_href(
+                        current_output=current_output,
+                        target_kind="exercise",
+                        target_id=item_record.model.id,
+                    ),
+                )
+            )
+
+        if not exercise_records:
+            raise AssemblyError(f"assignment collection {record.model.id} has no visible exercises")
+
+        return AssignmentSourceSet(
+            exercises=exercise_records,
+            listing_entries=listing_entries,
+            total_minutes=total_minutes,
+            concept_ids=sorted(dict.fromkeys(concept_ids)),
+            topic_ids=sorted(dict.fromkeys(topic_ids)),
+        )
+
+    def _assignment_listing_description(self, source_set: AssignmentSourceSet) -> str:
+        exercise_count = len(source_set.exercises)
+        exercise_label = "exercises" if self.language == "en" else "oppgaver"
+        time_label = localized_minutes(source_set.total_minutes, self.language)
+        return f"{exercise_count} {exercise_label}, {time_label}"
+
+    def _render_assignment_page_summary(
+        self,
+        *,
+        record: IndexedObject,
+        source_set: AssignmentSourceSet,
+        current_output: Path,
+    ) -> str:
+        lines = [
+            "## Assignment details" if self.language == "en" else "## Oppgavearkdetaljer",
+            "",
+            f"- {('Exercises' if self.language == 'en' else 'Oppgaver')}: "
+            f"{len(source_set.exercises)}",
+            (
+                f"- {('Estimated time' if self.language == 'en' else 'Estimert tid')}: "
+                f"{localized_minutes(source_set.total_minutes, self.language)}"
+            ),
+            (
+                f"- {('Outputs' if self.language == 'en' else 'Utdata')}: "
+                f"{', '.join(self._output_label(output) for output in record.model.outputs)}"
+            ),
+        ]
+        course_links = self._course_links(record.model.courses, "collection", record.model.id)
+        if course_links:
+            lines.append(
+                f"- {('Course suitability' if self.language == 'en' else 'Passer for kurs')}: "
+                f"{', '.join(course_links)}"
+            )
+        if source_set.concept_ids:
+            concept_links = [
+                self._render_link(
+                    concept_id,
+                    "concept",
+                    self.index.objects[concept_id].model.title[self.language],
+                    current_output,
+                )
+                for concept_id in source_set.concept_ids
+                if concept_id in self.index.objects
+                and self._is_listable(
+                    self.index.objects[concept_id],
+                    require_output_format="html",
+                )
+            ]
+            if concept_links:
+                lines.append(
+                    f"- {('Linked concepts' if self.language == 'en' else 'Knyttede begreper')}: "
+                    f"{', '.join(concept_links)}"
+                )
+
+        export_links = self._available_export_links(
+            target=BuildTargetRef(
+                identifier=record.model.id,
+                kind="collection",
+                output_category="collection",
+                title=record.model.title[self.language],
+            ),
+            current_output=current_output,
+        )
+        if export_links:
+            lines.extend(
+                [
+                    "",
+                    "## Available outputs" if self.language == "en" else "## Tilgjengelige utdata",
+                    "",
+                    *[f"- {link}" for link in export_links],
+                ]
+            )
+        return "\n".join(lines)
+
     def _render_assignment_sheet_summary(
         self,
         *,
@@ -1677,6 +1920,96 @@ class AssemblyBuilder:
             entries=entries,
         )
 
+    def _assignment_concept_entries(
+        self,
+        record: IndexedObject,
+        *,
+        concept_ids: list[str],
+        current_output: Path,
+    ) -> list[RelatedEntry]:
+        entries: list[RelatedEntry] = []
+        for concept_id in concept_ids:
+            concept_record = self.index.objects.get(concept_id)
+            if concept_record is None or not self._is_listable(
+                concept_record,
+                require_output_format="html",
+            ):
+                continue
+            self._register_object_files(
+                concept_record,
+                role="assignment-concept",
+                include_note=False,
+            )
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="collection",
+                target_id=concept_id,
+                target_kind="concept",
+                relationship="assignment-concept",
+            )
+            entries.append(
+                RelatedEntry(
+                    identifier=concept_id,
+                    kind="concept",
+                    title=concept_record.model.title[self.language],
+                    relationship="assignment-concept",
+                    href=self._page_href(
+                        current_output=current_output,
+                        target_kind="concept",
+                        target_id=concept_id,
+                    ),
+                )
+            )
+        return entries
+
+    def _assignment_resource_entries(
+        self,
+        record: IndexedObject,
+        *,
+        topic_ids: list[str],
+        current_output: Path,
+    ) -> list[RelatedEntry]:
+        candidates: list[tuple[int, IndexedObject]] = []
+        for item in self.index.objects.values():
+            if not isinstance(item.model, Resource) or not self._is_listable(
+                item,
+                require_output_format="html",
+            ):
+                continue
+            if not set(record.model.courses) & set(item.model.courses):
+                continue
+            shared_topics = sorted(set(topic_ids) & set(item.model.topics))
+            if not shared_topics:
+                continue
+            shared_courses = set(record.model.courses) & set(item.model.courses)
+            score = len(shared_topics) * 100 + len(shared_courses) * 10
+            candidates.append((score, item))
+
+        entries: list[RelatedEntry] = []
+        for _, item in sorted(candidates, key=lambda value: (-value[0], value[1].model.id))[:5]:
+            self._register_object_files(item, role="assignment-resource", include_note=False)
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="collection",
+                target_id=item.model.id,
+                target_kind="resource",
+                relationship="assignment-resource",
+            )
+            entries.append(
+                RelatedEntry(
+                    identifier=item.model.id,
+                    kind="resource",
+                    title=item.model.title[self.language],
+                    relationship="assignment-resource",
+                    href=self._page_href(
+                        current_output=current_output,
+                        target_kind="resource",
+                        target_id=item.model.id,
+                    ),
+                )
+            )
+        return entries
+
     def _course_related_entries_for_record(self, record: IndexedObject) -> list[RelatedEntry]:
         entries: list[RelatedEntry] = []
         current_output = self._planned_output_path(
@@ -1808,6 +2141,88 @@ class AssemblyBuilder:
             return self._related_entries_for_resource(record)
         return []
 
+    def _assignment_related_entries_for_object(self, record: IndexedObject) -> list[RelatedEntry]:
+        if record.model.kind == "exercise":
+            return self._assignment_entries_for_exercise(record)
+        if record.model.kind == "concept":
+            return self._assignment_entries_for_concept(record)
+        return []
+
+    def _assignment_entries_for_exercise(self, record: IndexedObject) -> list[RelatedEntry]:
+        current_output = self._planned_output_path(record.model.kind, record.model.id)
+        entries: list[RelatedEntry] = []
+        for item in sorted(self.index.objects.values(), key=lambda value: value.model.id):
+            if not (
+                isinstance(item.model, Collection)
+                and item.model.collection_kind == "assignment"
+                and record.model.id in item.model.items
+                and self._is_listable(item, require_output_format="html")
+            ):
+                continue
+            self._register_object_files(item, role="assignment-context", include_note=False)
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="exercise",
+                target_id=item.model.id,
+                target_kind="collection",
+                relationship="used-in-assignment",
+            )
+            entries.append(
+                RelatedEntry(
+                    identifier=item.model.id,
+                    kind="collection",
+                    title=item.model.title[self.language],
+                    relationship="used-in-assignment",
+                    href=self._page_href(
+                        current_output=current_output,
+                        target_kind="collection",
+                        target_id=item.model.id,
+                    ),
+                )
+            )
+        return entries
+
+    def _assignment_entries_for_concept(self, record: IndexedObject) -> list[RelatedEntry]:
+        current_output = self._planned_output_path(record.model.kind, record.model.id)
+        entries: list[RelatedEntry] = []
+        for item in sorted(self.index.objects.values(), key=lambda value: value.model.id):
+            if not (
+                isinstance(item.model, Collection)
+                and item.model.collection_kind == "assignment"
+                and self._is_listable(item, require_output_format="html")
+            ):
+                continue
+            supports_concept = any(
+                exercise_id in self.index.objects
+                and isinstance(self.index.objects[exercise_id].model, Exercise)
+                and record.model.id in self.index.objects[exercise_id].model.concepts
+                for exercise_id in item.model.items
+            )
+            if not supports_concept:
+                continue
+            self._register_object_files(item, role="assignment-context", include_note=False)
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="concept",
+                target_id=item.model.id,
+                target_kind="collection",
+                relationship="used-in-assignment",
+            )
+            entries.append(
+                RelatedEntry(
+                    identifier=item.model.id,
+                    kind="collection",
+                    title=item.model.title[self.language],
+                    relationship="used-in-assignment",
+                    href=self._page_href(
+                        current_output=current_output,
+                        target_kind="collection",
+                        target_id=item.model.id,
+                    ),
+                )
+            )
+        return entries
+
     def _related_entries_for_concept(self, record: IndexedObject) -> list[RelatedEntry]:
         entries: list[RelatedEntry] = []
         seen_ids: set[str] = set()
@@ -1918,6 +2333,7 @@ class AssemblyBuilder:
         for item in sorted(self.index.objects.values(), key=lambda value: value.model.id):
             if (
                 isinstance(item.model, Collection)
+                and item.model.collection_kind != "assignment"
                 and record.model.id in item.model.items
                 and self._is_listable(item, require_output_format="html")
             ):
@@ -2002,7 +2418,7 @@ class AssemblyBuilder:
     def _render_related_section(self, *, title: str, entries: list[RelatedEntry]) -> str:
         lines = [f"## {title}", ""]
         for entry in entries:
-            kind_label = KIND_LABELS.get(entry.kind, entry.kind.title())
+            kind_label = self._kind_label(entry.kind, entry.identifier)
             target_text = (
                 f"[{entry.title}]({entry.href})"
                 if self.output_format == "html" and entry.href
@@ -2010,6 +2426,19 @@ class AssemblyBuilder:
             )
             lines.append(f"- {target_text} [{kind_label.lower()}]")
         return "\n".join(lines)
+
+    def _kind_label(self, kind: str, identifier: str) -> str:
+        if kind == "collection":
+            record = self.index.objects.get(identifier)
+            if record is not None and isinstance(record.model, Collection):
+                labels = {
+                    "lecture": "Lecture" if self.language == "en" else "Forelesning",
+                    "assignment": "Assignment" if self.language == "en" else "Oppgaveark",
+                    "module": "Module" if self.language == "en" else "Modul",
+                    "reading-list": "Reading list" if self.language == "en" else "Leseliste",
+                }
+                return labels.get(record.model.collection_kind, "Collection")
+        return KIND_LABELS.get(kind, kind.title())
 
     def _render_listing_section(
         self,

@@ -16,6 +16,7 @@ tags:
   - assignment
   - iv
 outputs:
+  - html
   - exercise-sheet
 owners:
   - vegard
