@@ -19,13 +19,13 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
 
     assert payload["status"] == "passed_with_warnings"
     assert payload["error_count"] == 0
-    assert payload["warning_count"] == 2
+    assert payload["warning_count"] == 4
     assert payload["build_summary_path"] == "build/reports/build-summary.json"
     assert "translation_coverage" in payload
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] == 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 12
+    assert build_summary["target_count"] == 13
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -61,7 +61,12 @@ def test_validator_reports_missing_translation_warning(tmp_path: Path) -> None:
         and issue.object_id == "angrist-podcast-iv"
         for issue in report.issues
     )
-    assert report.translation_coverage["missing_variant_count"] == 1
+    assert report.translation_coverage["missing_variant_count"] >= 1
+    assert any(
+        entry["id"] == "angrist-podcast-iv"
+        and "nb" in entry["missing_languages"]
+        for entry in report.translation_coverage["missing_variants"]
+    )
 
 
 def test_validator_reports_missing_local_asset(tmp_path: Path) -> None:
@@ -109,6 +114,7 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("iv-dag-figure", "student", "en", "html") in target_keys
     assert ("iv-dag-figure", "teacher", "en", "pdf") in target_keys
     assert ("angrist-podcast-iv", "student", "en", "html") in target_keys
+    assert ("tem0052-lecture-05", "student", "en", "html") in target_keys
     assert ("resource-inbox", "teacher", "en", "html") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys
     assert ("assignment-01", "student", "en", "exercise-sheet") in target_keys
@@ -132,6 +138,11 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         target
         for target in report.build_summary["targets"]
         if target["target_id"] == "lecture-04" and target["format"] == "revealjs"
+    )
+    tem0052_lecture_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "tem0052-lecture-05" and target["format"] == "html"
     )
     figure_html_target = next(
         target
@@ -172,6 +183,7 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert concept_target["integrity"]["status"] == "passed"
     assert concept_target["integrity"]["broken_link_count"] == 0
     assert lecture_target["status"] == "passed"
+    assert tem0052_lecture_target["status"] == "passed"
     assert figure_html_target["status"] == "passed"
     assert figure_pdf_target["status"] == "passed"
     assert resource_page_target["status"] == "passed"

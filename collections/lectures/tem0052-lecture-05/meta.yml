@@ -1,0 +1,35 @@
+id: tem0052-lecture-05
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 5 - Model selection, evaluation, and assessment
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - model-selection
+  - cross-validation
+  - bias-variance
+tags:
+  - lecture
+  - model-selection
+  - validation
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - bias-variance-tradeoff
+  - model-assessment-lab

@@ -1,0 +1,33 @@
+## Lab brief
+
+Use the Iris dataset to practice model assessment rather than model storytelling. The
+goal is to compare simple classification workflows and explain what the resampling
+results say about bias, variance, and stability.
+
+## Tasks
+
+1. Fit a `k`-nearest neighbors classifier on the Iris data and evaluate `k = 1` to
+   `15` with stratified cross-validation.
+2. Compare at least three classifiers such as kNN, logistic regression, and a
+   decision tree using the same cross-validation protocol.
+3. Hold out one test split and inspect the confusion matrix for the best candidate
+   model.
+4. Write a short conclusion explaining:
+   - which model you would keep,
+   - what signs of high bias or high variance you observe,
+   - why cross-validation is more informative than training accuracy here.
+
+## Starter outline
+
+```python
+from sklearn.datasets import load_iris
+from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+```
+
+Keep the workflow reproducible. Use a fixed `random_state` for every split that relies
+on randomness, and report the mean cross-validation score together with the spread
+across folds.

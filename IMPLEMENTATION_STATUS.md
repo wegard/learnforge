@@ -5,6 +5,7 @@
 - Phase 8A complete checkpoint: resource curation workflow core
 - Repository maintenance: course inbox staging for legacy-course intake
 - Phase 11 kickoff complete checkpoint: `tem0052` migration inventory + canonical course shell
+- Phase 11 complete checkpoint: `tem0052` first canonical promotion slice
 
 ## Non-Goals For This Run
 
@@ -14,6 +15,7 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
+- No broad `tem0052` migration beyond one first-wave concept, one first-wave exercise, and one lecture collection
 - No Textual TUI
 - No broad redesign of existing student navigation beyond what resource workflow required
 
@@ -143,6 +145,8 @@
   - migration starts with `en` only
   - legacy notebooks remain reference material, not source of truth
   - new canonical material should prefer `.qmd` for exposition and `.py` for reusable code
+- The first promoted `tem0052` lecture is allowed to start from the strongest migrated
+  content block rather than forcing lecture-number order
 - Hardened the Quarto/build path so `course-inbox/` is excluded from project rendering
 - Fixed single-file Quarto build handling to:
   - keep project rendering compatible with the inbox exclusion
@@ -151,10 +155,27 @@
 - Added regression coverage for the migration-stage course shell:
   - repository validation now expects two tracked courses
   - `tem0052` student HTML builds without dead resource-listing links
+- Promoted the first canonical `tem0052` concept:
+  - `content/concepts/bias-variance-tradeoff/`
+- Promoted the first canonical `tem0052` exercise with teacher solution separation:
+  - `content/exercises/model-assessment-lab/`
+  - `solution.en.qmd`
+- Assembled the first canonical `tem0052` lecture collection using only promoted objects:
+  - `collections/lectures/tem0052-lecture-05/meta.yml`
+- Wired the first lecture into `courses/tem0052/plan.yml`
+- Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
+- Added regression coverage for:
+  - `tem0052` course page lecture/exercise surfacing
+  - direct concept/exercise student pages
+  - lecture assembly from promoted object IDs only
+  - representative-target validation for `tem0052-lecture-05`
+- Hardened Quarto project/build hygiene for repeated renders by:
+  - excluding `build/generated/**` and other build trees from project render discovery
+  - clearing stale `build/generated/**/*_files` scratch directories before each render
 
 ## Remaining Tasks
 
-- Stop at this clean `tem0052` migration kickoff checkpoint
+- Stop at this clean `tem0052` first-promotion checkpoint
 - Later resource-workflow work remains deferred:
   - broader course/topic filtering controls beyond the current inbox/listing path
   - richer approval workflows beyond the narrow `approve` transition command
@@ -162,9 +183,11 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - no first promoted `tem0052` concept/exercise objects yet
-  - no `tem0052` lecture collections yet
+  - only one first-wave `tem0052` concept/exercise/lecture is promoted so far
+  - no `tem0052` figures promoted yet
+  - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
+  - no broader lecture sequence for `tem0052` yet
 - Later roadmap phases remain deferred:
   - Phase 9 AI-assisted draft workflows
   - migration tooling
@@ -175,7 +198,7 @@
 ## Blockers
 
 - None at this checkpoint for the sequential `teach build` / `teach validate` / `teach stale resources` path
-- Quarto still expects sequential HTML builds because of shared `site_libs` staging; the repository workflow and CI path remain stable when builds run sequentially
+- Quarto still expects sequential builds because of shared `site_libs` staging and generated scratch space; the repository workflow and CI path remain stable when renders run sequentially
 
 ## Files Changed
 
@@ -205,6 +228,12 @@
 - `courses/tem0052/plan.yml`
 - `courses/tem0052/syllabus.en.qmd`
 - `courses/tem0052/MIGRATION_INVENTORY.md`
+- `collections/lectures/tem0052-lecture-05/meta.yml`
+- `content/concepts/bias-variance-tradeoff/meta.yml`
+- `content/concepts/bias-variance-tradeoff/note.en.qmd`
+- `content/exercises/model-assessment-lab/meta.yml`
+- `content/exercises/model-assessment-lab/note.en.qmd`
+- `content/exercises/model-assessment-lab/solution.en.qmd`
 - `representative-targets.yml`
 - `schemas/resource.schema.json`
 - `templates/meta.yml.j2`
@@ -267,28 +296,45 @@
   - `sed -n '760,860p' app/assembly.py`
   - `sed -n '2985,3045p' app/assembly.py`
   - `quarto render --help`
+- `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+- `./.venv/bin/python -m pytest -q tests/test_schema.py tests/test_builds.py`
+- `./.venv/bin/ruff check app tests`
+- `./.venv/bin/python -m pytest -q`
+- `./.venv/bin/teach validate`
+- `tem0052` first canonical promotion:
+  - `mkdir -p content/concepts/bias-variance-tradeoff content/exercises/model-assessment-lab collections/lectures/tem0052-lecture-05`
+  - `./.venv/bin/teach build bias-variance-tradeoff --audience student --lang en --format html`
+  - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
   - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/python -m pytest -q tests/test_schema.py tests/test_builds.py`
-  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/teach build tem0052-lecture-05 --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052-lecture-05 --audience teacher --lang en --format revealjs`
+  - `./.venv/bin/teach build lecture-04 --audience student --lang en --format revealjs`
+  - `./.venv/bin/teach build lecture-04 --audience student --lang en --format pdf`
+  - `./.venv/bin/python -m pytest -q tests/test_schema.py tests/test_assembly.py tests/test_builds.py tests/test_validation.py`
+  - `./.venv/bin/python -m pytest -q -x`
   - `./.venv/bin/python -m pytest -q`
   - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 10 objects and 2 courses. Errors: 0. Warnings: 2.`
-  - `Representative targets: 12/12 passed`
-  - Warnings are expected in this slice for the sample stale approved resource:
-    - `resource-hidden-from-student-site`
-    - `stale-resource`
+  - `Validated 13 objects and 2 courses. Errors: 0. Warnings: 4.`
+  - `Representative targets: 13/13 passed`
+  - Warnings are expected in this checkpoint for:
+    - the sample stale approved resource:
+      - `resource-hidden-from-student-site`
+      - `stale-resource`
+    - the English-only migration-stage `tem0052` concept/exercise:
+      - `missing-approved-translation` for `bias-variance-tradeoff`
+      - `missing-approved-translation` for `model-assessment-lab`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `59 passed in 130.34s (0:02:10)`
+  - `63 passed in 184.01s (0:03:04)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
-  - `teach validate` still passed with `Errors: 0. Warnings: 2. Representative targets: 12/12 passed`
+  - `teach validate` still passed with `Errors: 0. Warnings: 4. Representative targets: 13/13 passed`
 - `tem0052` migration kickoff checks passed:
   - `30 passed in 48.25s` for `tests/test_schema.py tests/test_builds.py`
   - `teach build tem0052 --audience student --lang en --format html` succeeded
@@ -328,15 +374,36 @@
   - student topic listing
   - student assignment HTML
   - student exercise sheet
+  - `tem0052` student lecture HTML
   - teacher lecture slides
   - teacher figure PDF fallback
   - teacher solution sheet
-- `tem0052` migration-stage outputs verified:
+- `tem0052` first promoted outputs verified:
+  - Student concept page:
+    - `build/exports/student/en/html/concept/bias-variance-tradeoff/bias-variance-tradeoff.html`
+    - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/build-manifest.json`
+    - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/teacher-leakage-report.json`
+  - Student exercise page:
+    - `build/exports/student/en/html/exercise/model-assessment-lab/model-assessment-lab.html`
+    - `build/reports/builds/student/en/html/exercise/model-assessment-lab/build-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/model-assessment-lab/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/model-assessment-lab/teacher-leakage-report.json`
   - Student course page:
     - `build/exports/student/en/html/course/tem0052/tem0052.html`
     - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
     - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
     - `build/reports/builds/student/en/html/course/tem0052/teacher-leakage-report.json`
+  - Student lecture page:
+    - `build/exports/student/en/html/collection/tem0052-lecture-05/tem0052-lecture-05.html`
+    - `build/reports/builds/student/en/html/collection/tem0052-lecture-05/build-manifest.json`
+    - `build/reports/builds/student/en/html/collection/tem0052-lecture-05/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/collection/tem0052-lecture-05/teacher-leakage-report.json`
+  - Teacher lecture slides:
+    - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-05/tem0052-lecture-05.html`
+    - `build/reports/builds/teacher/en/revealjs/collection/tem0052-lecture-05/build-manifest.json`
+    - `build/reports/builds/teacher/en/revealjs/collection/tem0052-lecture-05/dependency-manifest.json`
+    - `build/reports/builds/teacher/en/revealjs/collection/tem0052-lecture-05/teacher-leakage-report.json`
   - Tracked migration inventory:
     - `courses/tem0052/MIGRATION_INVENTORY.md`
 
@@ -345,13 +412,11 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote the first real `tem0052` canonical objects from the inventory:
-  - 1 concept from the statistical foundations / bias-variance block
-  - 1 converted exercise with `solution.en.qmd`
-  - 1 lecture collection assembled only from promoted objects
-
-- Stop at this clean Phase 8A checkpoint
-- If resource workflow continues next, keep the next slice narrow:
-  - add richer teacher editorial views or tighter publication filters only where the roadmap requires them
-  - avoid starting AI-assisted ingestion until the review-state and publication rules remain unchanged and well-tested
-- Otherwise move to the next explicitly selected roadmap slice after resource governance
+- Promote the next `tem0052` object pair from the same model-assessment block:
+  - `model-selection-cross-validation`
+  - either `house-prices-regression` or `spam-filtering-naive-bayes`
+- Then decide whether `tem0052` stays intentionally English-only for the next checkpoint or whether `nb` placeholders/translations should start for promoted student-visible objects
+- Keep the next migration slice narrow:
+  - one additional concept
+  - one additional exercise
+  - one additional lecture or a refinement of `tem0052-lecture-05`

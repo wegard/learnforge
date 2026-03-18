@@ -1,0 +1,35 @@
+## Why the trade-off matters
+
+Predictive modelling fails in two opposite ways. A model can be too rigid and miss
+real structure in the data, or it can be too flexible and chase accidental noise in
+the training sample.
+
+Bias is the systematic error that remains when the model class is too simple for the
+signal we are trying to learn. Variance is the instability that appears when small
+changes in the sample produce large changes in the fitted model.
+
+::: {.teacher-only}
+Ask students to sketch how training error and validation error move as model
+flexibility increases, then use that sketch to motivate why cross-validation matters.
+:::
+
+## What students should look for
+
+Training error alone is not a model-selection rule. As flexibility increases, training
+error usually falls even when the model is becoming less useful for new data.
+
+The operational question is therefore not “Which model fits this sample best?” but
+“Which level of complexity gives the most reliable out-of-sample performance?”
+
+## Cross-validation as the practical answer
+
+Cross-validation is the main workflow for answering that question in `TEM 0052`.
+
+1. Define a candidate set of models or tuning values.
+2. Estimate out-of-sample performance repeatedly on held-out folds.
+3. Prefer the simplest specification that performs well and remains stable across
+   resamples.
+
+This is why model assessment, hyper-parameter tuning, and the bias-variance trade-off
+belong in the same lecture block: they are different views of the same generalization
+problem.

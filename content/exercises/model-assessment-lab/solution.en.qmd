@@ -1,0 +1,32 @@
+Use a fixed evaluation protocol first, then compare models inside that protocol.
+
+## Suggested approach
+
+1. Load the Iris data and define `StratifiedKFold(n_splits=5, shuffle=True,
+   random_state=42)`.
+2. Evaluate `KNeighborsClassifier` over a grid such as `k = 1, ..., 15`.
+3. Compare the best kNN candidate against `LogisticRegression(max_iter=500,
+   random_state=42)` and `DecisionTreeClassifier(random_state=42)`.
+4. Fit the final chosen model on a training split and inspect the confusion matrix on a
+   held-out test split.
+
+## What students should typically find
+
+- Very small `k` values can look unstable because the classifier reacts strongly to
+  local noise.
+- Mid-range values of `k` usually perform more consistently on Iris than `k = 1`.
+- Logistic regression is often competitive because the dataset is relatively clean and
+  low-dimensional.
+- A single decision tree can achieve high training accuracy while showing more
+  variation across folds.
+- The confusion matrix usually shows most confusion between versicolor and virginica,
+  not setosa.
+
+## Interpreting the results
+
+The point of the lab is not the exact winning score. The point is that model choice
+should be tied to a repeatable out-of-sample rule.
+
+Low training error does not guarantee good generalization. Cross-validation gives a
+direct check on expected out-of-sample performance, while the fold-to-fold variation
+helps students see when a model is sensitive to sample changes.

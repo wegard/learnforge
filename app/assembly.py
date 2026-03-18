@@ -600,7 +600,7 @@ class AssemblyBuilder:
             parts.append("")
         return self._finalize_document(
             target=target,
-            markdown_body="\n".join(parts).rstrip(),
+            markdown_body="\n\n".join(part.rstrip() for part in parts if part).rstrip(),
             related_entries=[],
             listing_entries=item_entries,
         )

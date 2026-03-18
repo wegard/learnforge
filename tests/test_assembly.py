@@ -73,6 +73,27 @@ def test_collection_assembly_updates_when_object_changes(tmp_path: Path) -> None
     assert "A revised instrument explanation" in refreshed.markdown
 
 
+def test_tem0052_lecture_assembly_expands_only_promoted_objects() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-05",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["bias-variance-tradeoff", "model-assessment-lab"]
+    assert "## Why the trade-off matters" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "iv-intuition" not in assembly.markdown
+
+
 def test_assignment_assembly_compiles_multiple_exercises_without_student_solutions() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -244,6 +265,24 @@ def test_concept_page_includes_assignment_context() -> None:
 
     assert "## Used in assignments" in assembly.markdown
     assert "assignment-01/assignment-01.html" in assembly.markdown
+
+
+def test_tem0052_concept_page_links_promoted_exercise() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bias-variance-tradeoff",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "model-assessment-lab" in related_ids
+    assert "tem0052" in [entry.identifier for entry in assembly.related_entries]
+    assert "## Related links" in assembly.markdown
 
 
 def test_concept_page_embeds_reusable_figure_with_interactive_html_path() -> None:

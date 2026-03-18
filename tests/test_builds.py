@@ -77,7 +77,7 @@ def test_course_page_build_contains_generated_listings() -> None:
     assert "resources-ec202" in build_manifest["referenced_listing_targets"]
 
 
-def test_tem0052_migration_course_page_builds_without_empty_resource_listing_links() -> None:
+def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -> None:
     artifact = build_target(
         "tem0052",
         audience="student",
@@ -91,9 +91,70 @@ def test_tem0052_migration_course_page_builds_without_empty_resource_listing_lin
     assert "TEM 0052 - Predictive Modelling with Machine Learning" in html
     assert "Browse by Course" not in html
     assert "Course Overview" in html
+    assert "../../collection/tem0052-lecture-05/tem0052-lecture-05.html" in html
+    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in html
+    assert "Lecture 5 - Model selection, evaluation, and assessment" in html
+    assert "Model assessment lab" in html
     assert "No entries." in html
     assert "resources-tem0052" not in html
     assert "Search LearnForge" in html
+
+
+def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
+    concept_artifact = build_target(
+        "bias-variance-tradeoff",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    exercise_artifact = build_target(
+        "model-assessment-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    concept_html = concept_artifact.output_path.read_text(encoding="utf-8")
+    exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
+
+    assert "Bias-variance trade-off" in concept_html
+    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
+    assert "../../course/tem0052/tem0052.html" in concept_html
+    assert "teacher-only" not in concept_html
+
+    assert "Model assessment lab" in exercise_html
+    assert "Bias-variance trade-off" in exercise_html
+    assert "The point of the lab is not the exact winning score." not in exercise_html
+    assert "lf-solution-block" not in exercise_html
+
+
+def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
+    artifact = build_target(
+        "tem0052-lecture-05",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Course context" in html
+    assert "This lecture includes" in html
+    assert "Bias-variance trade-off" in html
+    assert "Model assessment lab" in html
+    assert "iv-intuition" not in html
+    assert "lecture-04" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["bias-variance-tradeoff", "model-assessment-lab"]
 
 
 def test_listing_build_writes_reports() -> None:

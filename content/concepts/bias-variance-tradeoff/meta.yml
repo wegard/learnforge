@@ -1,0 +1,35 @@
+id: bias-variance-tradeoff
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Bias-variance trade-off
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - model-selection
+  - cross-validation
+  - bias-variance
+tags:
+  - model-selection
+  - validation
+  - generalization
+level: intermediate
+prerequisites: []
+related:
+  - model-assessment-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

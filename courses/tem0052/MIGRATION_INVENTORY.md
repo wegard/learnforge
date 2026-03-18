@@ -87,6 +87,12 @@ These can stay in the inbox until the classical-ML core is migrated.
 
 Build the first LearnForge checkpoint for `tem0052` around the classical-ML core.
 
+### Promoted in the current checkpoint
+
+- Concept: `bias-variance-tradeoff`
+- Exercise: `model-assessment-lab`
+- Lecture collection: `tem0052-lecture-05`
+
 ### First concept candidates
 
 - `bias-variance-tradeoff`

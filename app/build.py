@@ -82,6 +82,7 @@ def build_target(
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = assembly.planned_output_path
     output_name = output_path.name
+    cleanup_generated_support_dirs(root)
     command = [
         "quarto",
         "render",
@@ -167,6 +168,22 @@ def build_env(root: Path) -> dict[str, str]:
     env.setdefault("QUARTO_CACHE_DIR", str(cache_dir))
     env.setdefault("XDG_CACHE_HOME", str(cache_dir))
     return env
+
+
+def cleanup_generated_support_dirs(root: Path) -> None:
+    generated_root = root / "build" / "generated"
+    if not generated_root.exists():
+        return
+    candidates = sorted(
+        generated_root.rglob("*_files"),
+        key=lambda path: len(path.parts),
+        reverse=True,
+    )
+    for path in candidates:
+        if path.is_symlink() or path.is_file():
+            path.unlink(missing_ok=True)
+        elif path.is_dir():
+            shutil.rmtree(path, ignore_errors=True)
 
 
 def sync_site_libs(root: Path, output_dir: Path) -> None:

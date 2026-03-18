@@ -29,6 +29,11 @@ targets:
     audience: student
     language: en
     format: html
+  - label: TEM0052 lecture page
+    id: tem0052-lecture-05
+    audience: student
+    language: en
+    format: html
   - label: Teacher lecture slides
     id: lecture-04
     audience: teacher
