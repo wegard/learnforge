@@ -1,0 +1,6 @@
+## Assumption sort
+
+Label each statement as relevance, exclusion, or not enough information.
+
+1. Commuting distance strongly predicts who takes the training program.
+2. Places farther from the training center also have fewer employers hiring this month.

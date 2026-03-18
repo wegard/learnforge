@@ -1,0 +1,31 @@
+## Exercise sheet
+
+Student-facing compiled sheet assembled from reusable exercise objects.
+
+- Exercises: 2
+- Estimated time: 20 minutes
+- Linked concepts: Instrumental Variables Intuition
+- Course suitability: EC202 - Applied Econometrics
+
+## Exercise 1: IV intuition check
+
+- Type: conceptual
+- Difficulty: easy
+- Estimated time: 8 minutes
+
+## Quick check
+
+Suppose distance to a training center changes program participation. Explain which fact would support relevance and which fact would threaten exclusion.
+
+## Exercise 2: IV assumption sort
+
+- Type: conceptual
+- Difficulty: medium
+- Estimated time: 12 minutes
+
+## Assumption sort
+
+Label each statement as relevance, exclusion, or not enough information.
+
+1. Commuting distance strongly predicts who takes the training program.
+2. Places farther from the training center also have fewer employers hiring this month.

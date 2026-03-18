@@ -202,6 +202,12 @@
       "title": "Concepts",
       "type": "array"
     },
+    "solution_storage": {
+      "const": "separate-file",
+      "default": "separate-file",
+      "title": "Solution Storage",
+      "type": "string"
+    },
     "solution_visibility": {
       "default": "teacher",
       "enum": [

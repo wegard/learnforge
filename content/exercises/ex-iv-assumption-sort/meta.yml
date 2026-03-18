@@ -1,4 +1,4 @@
-id: ex-iv-concept-check
+id: ex-iv-assumption-sort
 kind: exercise
 status: approved
 visibility: student
@@ -6,13 +6,13 @@ languages:
   - en
   - nb
 title:
-  en: IV intuition check
-  nb: Sjekk av IV-intuisjon
+  en: IV assumption sort
+  nb: Sortering av IV-antakelser
 courses:
   - ec202
 topics:
-  - causal-inference
   - identification
+  - iv
 tags:
   - iv
   - exercise
@@ -29,8 +29,8 @@ translation_status:
 ai:
   generated_fields: []
 exercise_type: conceptual
-difficulty: easy
-estimated_time_minutes: 8
+difficulty: medium
+estimated_time_minutes: 12
 concepts:
   - iv-intuition
 solution_storage: separate-file

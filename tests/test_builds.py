@@ -111,6 +111,7 @@ def test_home_page_build_contains_navigation_and_search() -> None:
     assert 'href="course/ec202/ec202.html"' in html
     assert any(entry["id"] == "home" for entry in search_index["entries"])
     assert any(entry["id"] == "ec202" for entry in search_index["entries"])
+    assert all(entry["id"] != "assignment-01" for entry in search_index["entries"])
 
 
 def test_student_lecture_page_has_course_context_breadcrumbs_and_export_links() -> None:
@@ -161,6 +162,65 @@ def test_student_exercise_page_has_language_switch_and_related_links() -> None:
     assert "Language:" in html
     assert "Norsk" in html
     assert "Sjekk av IV-intuisjon" not in html
+    assert "strong first stage" not in html
+
+
+def test_student_assignment_sheet_build_excludes_solution_content_and_reports_clean() -> None:
+    artifact = build_target(
+        "assignment-01",
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+
+    generated = artifact.source_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert artifact.output_path.exists()
+    assert artifact.output_path.name == "assignment-01-exercise-sheet.pdf"
+    assert "## Exercise sheet" in generated
+    assert "strong first stage" not in generated
+    assert "lf-solution-block" not in generated
+    assert build_manifest["target"]["identifier"] == "assignment-01"
+    assert build_manifest["output_path"] == (
+        "build/exports/student/en/exercise-sheet/collection/assignment-01/"
+        "assignment-01-exercise-sheet.pdf"
+    )
+    assert any(
+        edge["relationship"] == "assignment-item"
+        and edge["target_id"] == "ex-iv-assumption-sort"
+        for edge in dependency_manifest["dependency_edges"]
+    )
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 2
+    assert leakage_report["solution_files_included"] == 0
+    assert not leakage_report["generated_source_contains_solution_marker"]
+    assert all(not item["included_in_output"] for item in leakage_report["solution_details"])
+
+
+def test_teacher_solution_sheet_build_includes_solution_content() -> None:
+    artifact = build_target(
+        "assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+
+    generated = artifact.source_path.read_text(encoding="utf-8")
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert artifact.output_path.exists()
+    assert artifact.output_path.name == "assignment-01-solution-sheet.pdf"
+    assert "Teacher solution sheet" in generated
+    assert "strong first stage" in generated
+    assert "lf-solution-block" in generated
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 2
+    assert leakage_report["solution_files_included"] == 2
 
 
 def test_building_nb_home_search_index_excludes_unapproved_translation(tmp_path) -> None:

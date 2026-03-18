@@ -10,11 +10,12 @@ import yaml
 
 from app.config import REPO_ROOT, exports_dir, generated_dir
 from app.indexer import IndexedCourse, IndexedObject, RepositoryIndex
-from app.models import Collection, Resource
+from app.models import Collection, Exercise, Resource
 
 MARKDOWN_LINK_RE = re.compile(r"(\!?\[[^\]]*\]\()([^)]+)(\))")
 TEACHER_BLOCK_RE = re.compile(r"\n?:::\s*\{\.teacher-only\}\n.*?\n:::\s*\n?", re.DOTALL)
 STUDENT_BLOCK_RE = re.compile(r"\n?:::\s*\{\.student-only\}\n.*?\n:::\s*\n?", re.DOTALL)
+SOLUTION_BLOCK_MARKER = "lf-solution-block"
 
 TOPIC_TARGET_PREFIX = "topic-"
 RESOURCE_LISTING_PREFIX = "resources-"
@@ -72,6 +73,15 @@ class LeakageObservation:
 
 
 @dataclass(slots=True)
+class SolutionObservation:
+    exercise_id: str
+    source_path: str
+    visibility: str
+    included_in_output: bool
+    reason: str
+
+
+@dataclass(slots=True)
 class RelatedEntry:
     identifier: str
     kind: str
@@ -112,6 +122,7 @@ class AssemblyDocument:
     listing_entries: list[ListingEntry]
     referenced_listing_targets: list[str]
     leakage_observations: list[LeakageObservation]
+    solution_observations: list[SolutionObservation]
 
     def build_manifest_payload(self) -> dict[str, object]:
         return {
@@ -123,6 +134,7 @@ class AssemblyDocument:
             "planned_output_path": str(self.planned_output_path),
             "file_dependency_count": len(self.file_dependencies),
             "dependency_edge_count": len(self.dependency_edges),
+            "solution_observation_count": len(self.solution_observations),
             "related_entries": [asdict(entry) for entry in self.related_entries],
             "listing_entries": [asdict(entry) for entry in self.listing_entries],
             "referenced_listing_targets": self.referenced_listing_targets,
@@ -176,6 +188,7 @@ class AssemblyBuilder:
         self.file_dependencies: dict[tuple[str, str], FileDependency] = {}
         self.dependency_edges: list[DependencyEdge] = []
         self.leakage_observations: list[LeakageObservation] = []
+        self.solution_observations: list[SolutionObservation] = []
         self.referenced_listing_targets: list[str] = []
 
     def assemble(self, target_id: str) -> AssemblyDocument:
@@ -206,7 +219,11 @@ class AssemblyBuilder:
             and course.model.status in {"approved", "published"}
         ]
         topics = collect_topics(
-            [record for record in self.index.objects.values() if self._is_listable(record)]
+            [
+                record
+                for record in self.index.objects.values()
+                if self._is_listable(record, require_output_format="html")
+            ]
         )
         resources = [
             record
@@ -214,7 +231,8 @@ class AssemblyBuilder:
                 self.index.objects.values(),
                 key=lambda item: item.model.title[self.language],
             )
-            if isinstance(record.model, Resource) and self._is_listable(record)
+            if isinstance(record.model, Resource)
+            and self._is_listable(record, require_output_format="html")
         ]
 
         course_entries: list[ListingEntry] = []
@@ -267,7 +285,7 @@ class AssemblyBuilder:
                             [
                                 record
                                 for record in self.index.objects.values()
-                                if self._is_listable(record)
+                                if self._is_listable(record, require_output_format="html")
                             ],
                             topic,
                         ),
@@ -373,10 +391,15 @@ class AssemblyBuilder:
     def _assemble_object_page(self, record: IndexedObject) -> AssemblyDocument:
         self._ensure_visibility(record.model.visibility, record.model.id)
         self._ensure_language(record.model.languages, record.model.id)
+        self._ensure_output_supported(record.model.outputs, record.model.id)
         self._register_object_files(record, role="primary-object", include_note=True)
 
         content_parts = self._object_page_context_sections(record)
         content_parts.append(self._load_object_note(record))
+        if isinstance(record.model, Exercise):
+            solution_section = self._render_exercise_solution_for_page(record)
+            if solution_section:
+                content_parts.append(solution_section)
         related_entries = self._related_entries_for_object(record)
         if related_entries:
             content_parts.append(
@@ -412,6 +435,9 @@ class AssemblyBuilder:
     def _assemble_collection(self, record: IndexedObject) -> AssemblyDocument:
         self._ensure_visibility(record.model.visibility, record.model.id)
         self._ensure_language(record.model.languages, record.model.id)
+        self._ensure_output_supported(record.model.outputs, record.model.id)
+        if record.model.collection_kind == "assignment":
+            return self._assemble_assignment_collection(record)
         self._register_object_files(record, role="primary-collection", include_note=False)
 
         item_entries: list[ListingEntry] = []
@@ -468,6 +494,99 @@ class AssemblyBuilder:
             markdown_body="\n".join(parts).rstrip(),
             related_entries=[],
             listing_entries=item_entries,
+        )
+
+    def _assemble_assignment_collection(self, record: IndexedObject) -> AssemblyDocument:
+        if self.output_format != "exercise-sheet":
+            raise AssemblyError("assignment collections currently support exercise-sheet only")
+
+        self._register_object_files(record, role="primary-assignment", include_note=False)
+        current_output = self._planned_output_path("collection", record.model.id)
+        include_solutions = self.audience == "teacher"
+
+        exercise_records: list[IndexedObject] = []
+        listing_entries: list[ListingEntry] = []
+        total_minutes = 0
+        concept_ids: list[str] = []
+
+        for item_id in record.model.items:
+            item_record = self.index.objects[item_id]
+            if not isinstance(item_record.model, Exercise):
+                raise AssemblyError(
+                    f"assignment collection {record.model.id} may only include exercises: {item_id}"
+                )
+            if self._exclude_from_audience(item_record.model.visibility):
+                continue
+            self._ensure_language(item_record.model.languages, item_id)
+            if "exercise-sheet" not in item_record.model.outputs:
+                raise AssemblyError(f"{item_id} does not support exercise-sheet builds")
+            self._register_edge(
+                source_id=record.model.id,
+                source_kind="collection",
+                target_id=item_record.model.id,
+                target_kind="exercise",
+                relationship="assignment-item",
+            )
+            self._register_object_files(item_record, role="assignment-item", include_note=True)
+            exercise_records.append(item_record)
+            total_minutes += item_record.model.estimated_time_minutes
+            concept_ids.extend(item_record.model.concepts)
+            listing_entries.append(
+                ListingEntry(
+                    identifier=item_record.model.id,
+                    kind="exercise",
+                    title=item_record.model.title[self.language],
+                    description=localized_minutes(
+                        item_record.model.estimated_time_minutes,
+                        self.language,
+                    ),
+                    href=self._page_href(
+                        current_output=current_output,
+                        target_kind="exercise",
+                        target_id=item_record.model.id,
+                    ),
+                )
+            )
+
+        if not exercise_records:
+            raise AssemblyError(f"assignment collection {record.model.id} has no visible exercises")
+
+        parts = [
+            self._render_assignment_sheet_summary(
+                record=record,
+                exercises=exercise_records,
+                total_minutes=total_minutes,
+                concept_ids=sorted(dict.fromkeys(concept_ids)),
+                include_solutions=include_solutions,
+            )
+        ]
+        for index, exercise_record in enumerate(exercise_records, start=1):
+            parts.append(
+                self._render_assignment_exercise_section(
+                    exercise_record,
+                    number=index,
+                    include_solution=include_solutions,
+                )
+            )
+
+        title = record.model.title[self.language]
+        if include_solutions:
+            title = (
+                f"{title} - Teacher Solution Sheet"
+                if self.language == "en"
+                else f"{title} - Losningsark for laerer"
+            )
+        target = BuildTargetRef(
+            identifier=record.model.id,
+            kind="collection",
+            output_category="collection",
+            title=title,
+        )
+        return self._finalize_document(
+            target=target,
+            markdown_body="\n\n".join(part.rstrip() for part in parts if part).rstrip(),
+            related_entries=[],
+            listing_entries=listing_entries,
         )
 
     def _assemble_course_page(self, record: IndexedCourse) -> AssemblyDocument:
@@ -725,7 +844,7 @@ class AssemblyBuilder:
         matches = [
             item
             for item in self.index.objects.values()
-            if topic in item.model.topics and self._is_listable(item)
+            if topic in item.model.topics and self._is_listable(item, require_output_format="html")
         ]
         if not matches:
             raise AssemblyError(f"no content found for topic {topic}")
@@ -806,7 +925,7 @@ class AssemblyBuilder:
             for item in self.index.objects.values()
             if isinstance(item.model, Resource)
             and course_id in item.model.courses
-            and self._is_listable(item)
+            and self._is_listable(item, require_output_format="html")
         ]
         if not resources:
             raise AssemblyError(f"no resources found for course {course_id}")
@@ -915,6 +1034,7 @@ class AssemblyBuilder:
             listing_entries=listing_entries,
             referenced_listing_targets=sorted(set(self.referenced_listing_targets)),
             leakage_observations=self.leakage_observations,
+            solution_observations=self.solution_observations,
         )
 
     def _render_student_site_document(
@@ -1177,7 +1297,12 @@ class AssemblyBuilder:
         if target_kind == "topic-listing":
             topic = identifier.removeprefix(TOPIC_TARGET_PREFIX)
             return any(
-                topic in record.model.topics and self._is_listable(record, language=language)
+                topic in record.model.topics
+                and self._is_listable(
+                    record,
+                    language=language,
+                    require_output_format="html",
+                )
                 for record in self.index.objects.values()
             )
         if target_kind == "resource-listing":
@@ -1188,7 +1313,11 @@ class AssemblyBuilder:
             return any(
                 isinstance(record.model, Resource)
                 and course_id in record.model.courses
-                and self._is_listable(record, language=language)
+                and self._is_listable(
+                    record,
+                    language=language,
+                    require_output_format="html",
+                )
                 for record in self.index.objects.values()
             )
         return False
@@ -1231,7 +1360,15 @@ class AssemblyBuilder:
             "pdf": "PDF",
             "revealjs": "Slides" if self.language == "en" else "Lysbilder",
             "handout": "Handout" if self.language == "en" else "Handout",
-            "exercise-sheet": "Exercise sheet" if self.language == "en" else "Ovingsark",
+            "exercise-sheet": (
+                "Solution sheet"
+                if self.audience == "teacher" and self.language == "en"
+                else (
+                    "Losningsark"
+                    if self.audience == "teacher"
+                    else ("Exercise sheet" if self.language == "en" else "Ovingsark")
+                )
+            ),
         }
         for export_format in ("pdf", "revealjs", "handout", "exercise-sheet"):
             if export_format not in outputs:
@@ -1253,6 +1390,16 @@ class AssemblyBuilder:
     def _search_index_href(self, current_output: Path) -> str:
         search_index_path = student_search_index_path(self.root, self.language)
         return os.path.relpath(search_index_path, current_output.parent).replace(os.sep, "/")
+
+    def _output_label(self, output_format: str) -> str:
+        labels = {
+            "html": "HTML",
+            "pdf": "PDF",
+            "revealjs": "Slides" if self.language == "en" else "Lysbilder",
+            "handout": "Handout" if self.language == "en" else "Handout",
+            "exercise-sheet": "Exercise sheet" if self.language == "en" else "Ovingsark",
+        }
+        return labels.get(output_format, output_format)
 
     def _object_page_context_sections(self, record: IndexedObject) -> list[str]:
         if record.model.kind == "concept":
@@ -1294,6 +1441,22 @@ class AssemblyBuilder:
                 f"- {('Time' if self.language == 'en' else 'Tid')}: "
                 f"{localized_minutes(record.model.estimated_time_minutes, self.language)}"
             ),
+            (
+                f"- {('Solution visibility' if self.language == 'en' else 'Losningssynlighet')}: "
+                + (
+                    "teacher-only separate file"
+                    if record.model.solution_visibility == "teacher" and self.language == "en"
+                    else (
+                        "egen fil kun for laerer"
+                        if record.model.solution_visibility == "teacher"
+                        else ("private file" if self.language == "en" else "privat fil")
+                    )
+                )
+            ),
+            (
+                f"- {('Outputs' if self.language == 'en' else 'Utdata')}: "
+                f"{', '.join(self._output_label(output) for output in record.model.outputs)}"
+            ),
         ]
         concept_links = [
             self._render_link(
@@ -1304,14 +1467,153 @@ class AssemblyBuilder:
             )
             for concept_id in record.model.concepts
             if concept_id in self.index.objects
-            and self._is_listable(self.index.objects[concept_id])
+            and self._is_listable(
+                self.index.objects[concept_id],
+                require_output_format="html",
+            )
         ]
         if concept_links:
             lines.append(
                 f"- {('Concepts' if self.language == 'en' else 'Begreper')}: "
                 f"{', '.join(concept_links)}"
             )
+        course_links = self._course_links(record.model.courses, record.model.kind, record.model.id)
+        if course_links:
+            lines.append(
+                f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
+            )
         return "\n".join(lines)
+
+    def _render_assignment_sheet_summary(
+        self,
+        *,
+        record: IndexedObject,
+        exercises: list[IndexedObject],
+        total_minutes: int,
+        concept_ids: list[str],
+        include_solutions: bool,
+    ) -> str:
+        heading = (
+            "## Teacher solution sheet" if include_solutions and self.language == "en" else None
+        )
+        if include_solutions and self.language == "nb":
+            heading = "## Losningsark for laerer"
+        if not include_solutions and self.language == "en":
+            heading = "## Exercise sheet"
+        if not include_solutions and self.language == "nb":
+            heading = "## Ovingsark"
+
+        lines = [heading, ""]
+        if include_solutions:
+            lines.append(
+                "For teacher use only. This version includes solution material that is excluded "
+                "from student builds."
+                if self.language == "en"
+                else "Kun for laererbruk. Denne versjonen inkluderer losningsmateriale som er "
+                "utelatt fra studentbyggen."
+            )
+        else:
+            lines.append(
+                "Student-facing compiled sheet assembled from reusable exercise objects."
+                if self.language == "en"
+                else "Studentvendt kompilert ark satt sammen av gjenbrukbare oppgaveobjekter."
+            )
+        lines.extend(
+            [
+                "",
+                f"- {('Exercises' if self.language == 'en' else 'Oppgaver')}: {len(exercises)}",
+                f"- {('Estimated time' if self.language == 'en' else 'Estimert tid')}: "
+                f"{localized_minutes(total_minutes, self.language)}",
+            ]
+        )
+        concept_links = [
+            self._render_link(
+                concept_id,
+                "concept",
+                self.index.objects[concept_id].model.title[self.language],
+                self._planned_output_path("collection", record.model.id),
+            )
+            for concept_id in concept_ids
+            if concept_id in self.index.objects and self._is_listable(
+                self.index.objects[concept_id], require_output_format="html"
+            )
+        ]
+        if concept_links:
+            lines.append(
+                f"- {('Linked concepts' if self.language == 'en' else 'Knyttede begreper')}: "
+                f"{', '.join(concept_links)}"
+            )
+        course_links = self._course_links(record.model.courses, "collection", record.model.id)
+        if course_links:
+            lines.append(
+                f"- {('Course suitability' if self.language == 'en' else 'Passer for kurs')}: "
+                f"{', '.join(course_links)}"
+            )
+        return "\n".join(lines)
+
+    def _render_assignment_exercise_section(
+        self,
+        record: IndexedObject,
+        *,
+        number: int,
+        include_solution: bool,
+    ) -> str:
+        lines = [
+            (
+                f"## Exercise {number}: {record.model.title[self.language]}"
+                if self.language == "en"
+                else f"## Oppgave {number}: {record.model.title[self.language]}"
+            ),
+            "",
+            f"- {('Type' if self.language == 'en' else 'Type')}: {record.model.exercise_type}",
+            (
+                f"- {('Difficulty' if self.language == 'en' else 'Vanskelighetsgrad')}: "
+                f"{record.model.difficulty}"
+            ),
+            (
+                f"- {('Estimated time' if self.language == 'en' else 'Estimert tid')}: "
+                f"{localized_minutes(record.model.estimated_time_minutes, self.language)}"
+            ),
+            "",
+            self._load_object_note(record),
+        ]
+        solution_block = self._render_exercise_solution_block(
+            record,
+            heading_level=3,
+            include_solution=include_solution,
+        )
+        if solution_block:
+            lines.extend(["", solution_block])
+        return "\n".join(lines).rstrip()
+
+    def _render_exercise_solution_for_page(self, record: IndexedObject) -> str:
+        return self._render_exercise_solution_block(
+            record,
+            heading_level=2,
+            include_solution=self.audience == "teacher",
+        )
+
+    def _render_exercise_solution_block(
+        self,
+        record: IndexedObject,
+        *,
+        heading_level: int,
+        include_solution: bool,
+    ) -> str:
+        solution_text = self._load_exercise_solution(record, include_solution=include_solution)
+        if not solution_text:
+            return ""
+        heading_prefix = "#" * heading_level
+        heading = "Solution" if self.language == "en" else "Losning"
+        return "\n".join(
+            [
+                f"::: {{.{SOLUTION_BLOCK_MARKER}}}",
+                f"{heading_prefix} {heading}",
+                "",
+                solution_text.rstrip(),
+                ":::",
+            ]
+        )
 
     def _render_resource_summary(self, record: IndexedObject) -> str:
         why_label = (
@@ -1366,7 +1668,7 @@ class AssemblyBuilder:
                 ),
             )
             for item_record in [self.index.objects[item_id] for item_id in record.model.items]
-            if self._is_listable(item_record)
+            if self._is_listable(item_record, require_output_format="html")
         ]
         return self._render_listing_section(
             title="This lecture includes"
@@ -1456,6 +1758,8 @@ class AssemblyBuilder:
             )
             if href:
                 links.append(f"[{course_record.model.title[self.language]}]({href})")
+            else:
+                links.append(course_record.model.title[self.language])
         return links
 
     def _topic_links(self, record: IndexedObject, *, current_kind: str) -> list[str]:
@@ -1509,7 +1813,9 @@ class AssemblyBuilder:
         seen_ids: set[str] = set()
         for related_id in record.model.related:
             related_record = self.index.objects.get(related_id)
-            if related_record is None or not self._is_listable(related_record):
+            if related_record is None or not self._is_listable(
+                related_record, require_output_format="html"
+            ):
                 continue
             seen_ids.add(related_id)
             self._register_object_files(related_record, role="related-content", include_note=False)
@@ -1542,7 +1848,7 @@ class AssemblyBuilder:
             for item in self.index.objects.values()
             if isinstance(item.model, Collection)
             and record.model.id in item.model.items
-            and self._is_listable(item)
+            and self._is_listable(item, require_output_format="html")
         ]
         for collection_record in sorted(collections, key=lambda item: item.model.id):
             if collection_record.model.id in seen_ids:
@@ -1583,7 +1889,9 @@ class AssemblyBuilder:
 
         for concept_id in record.model.concepts:
             concept_record = self.index.objects.get(concept_id)
-            if concept_record is None or not self._is_listable(concept_record):
+            if concept_record is None or not self._is_listable(
+                concept_record, require_output_format="html"
+            ):
                 continue
             self._register_object_files(concept_record, role="related-content", include_note=False)
             self._register_edge(
@@ -1611,7 +1919,7 @@ class AssemblyBuilder:
             if (
                 isinstance(item.model, Collection)
                 and record.model.id in item.model.items
-                and self._is_listable(item)
+                and self._is_listable(item, require_output_format="html")
             ):
                 self._register_object_files(item, role="related-content", include_note=False)
                 self._register_edge(
@@ -1639,7 +1947,9 @@ class AssemblyBuilder:
     def _related_entries_for_resource(self, record: IndexedObject) -> list[RelatedEntry]:
         candidates: list[tuple[int, IndexedObject]] = []
         for item in self.index.objects.values():
-            if item.model.id == record.model.id or not self._is_listable(item):
+            if item.model.id == record.model.id or not self._is_listable(
+                item, require_output_format="html"
+            ):
                 continue
             shared_topics = sorted(set(record.model.topics) & set(item.model.topics))
             shared_courses = sorted(set(record.model.courses) & set(item.model.courses))
@@ -1820,6 +2130,58 @@ class AssemblyBuilder:
         )
         return self._strip_visibility_blocks(rewritten, note_path).rstrip()
 
+    def _load_exercise_solution(
+        self,
+        record: IndexedObject,
+        *,
+        include_solution: bool,
+    ) -> str:
+        if not isinstance(record.model, Exercise):
+            return ""
+
+        solution_path = record.solution_path(self.language)
+        if not solution_path.exists():
+            if include_solution and record.model.solution_visibility == "teacher":
+                raise AssemblyError(
+                    f"missing solution file for {record.model.id} in {self.language}"
+                )
+            return ""
+
+        if include_solution and record.model.solution_visibility == "teacher":
+            self._register_file(solution_path, role="exercise-solution")
+            self.solution_observations.append(
+                SolutionObservation(
+                    exercise_id=record.model.id,
+                    source_path=str(solution_path.relative_to(self.root)),
+                    visibility=record.model.solution_visibility,
+                    included_in_output=True,
+                    reason="teacher-output-includes-solution",
+                )
+            )
+            raw = solution_path.read_text(encoding="utf-8")
+            rewritten = rewrite_relative_links(
+                raw,
+                solution_path.parent,
+                self._generated_path(record.model.kind, record.model.id),
+            )
+            return self._strip_visibility_blocks(rewritten, solution_path).rstrip()
+
+        reason = (
+            "private-solution-remains-hidden"
+            if record.model.solution_visibility == "private"
+            else "student-output-excludes-solution"
+        )
+        self.solution_observations.append(
+            SolutionObservation(
+                exercise_id=record.model.id,
+                source_path=str(solution_path.relative_to(self.root)),
+                visibility=record.model.solution_visibility,
+                included_in_output=False,
+                reason=reason,
+            )
+        )
+        return ""
+
     def _strip_visibility_blocks(self, content: str, source_path: Path) -> str:
         teacher_found = len(TEACHER_BLOCK_RE.findall(content))
         student_found = len(STUDENT_BLOCK_RE.findall(content))
@@ -1853,10 +2215,20 @@ class AssemblyBuilder:
         if not self._language_available(languages, translation_status, self.language):
             raise AssemblyError(f"{identifier} does not support language {self.language}")
 
+    def _ensure_output_supported(self, outputs: list[str], identifier: str) -> None:
+        if self.output_format not in outputs:
+            raise AssemblyError(f"{identifier} does not support format {self.output_format}")
+
     def _exclude_from_audience(self, visibility: str) -> bool:
         return self.audience == "student" and visibility in {"private", "teacher"}
 
-    def _is_listable(self, record: IndexedObject, *, language: str | None = None) -> bool:
+    def _is_listable(
+        self,
+        record: IndexedObject,
+        *,
+        language: str | None = None,
+        require_output_format: str | None = None,
+    ) -> bool:
         selected_language = language or self.language
         if self._exclude_from_audience(record.model.visibility):
             return False
@@ -1865,6 +2237,8 @@ class AssemblyBuilder:
             record.model.translation_status,
             selected_language,
         ):
+            return False
+        if require_output_format and require_output_format not in record.model.outputs:
             return False
         return record.model.status in {"approved", "published"}
 
@@ -1956,13 +2330,13 @@ class AssemblyBuilder:
         return f"[{label}]({href})" if href else label
 
 
-def build_output_name(identifier: str, output_format: str) -> str:
+def build_output_name(identifier: str, output_format: str, *, audience: str) -> str:
     extension = ".pdf" if output_format in {"pdf", "handout", "exercise-sheet"} else ".html"
     suffix = ""
     if output_format == "handout":
         suffix = "-handout"
     elif output_format == "exercise-sheet":
-        suffix = "-exercise-sheet"
+        suffix = "-solution-sheet" if audience == "teacher" else "-exercise-sheet"
     return f"{identifier}{suffix}{extension}"
 
 
@@ -2015,7 +2389,11 @@ def planned_output_path(
     base = exports_dir(root) / audience / language / output_format
     if output_category == "home" and output_format == "html":
         return base / "index.html"
-    return base / output_category / identifier / build_output_name(identifier, output_format)
+    return base / output_category / identifier / build_output_name(
+        identifier,
+        output_format,
+        audience=audience,
+    )
 
 
 def planned_target_output_path(

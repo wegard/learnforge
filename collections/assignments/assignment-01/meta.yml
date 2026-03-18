@@ -1,0 +1,30 @@
+id: assignment-01
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Assignment 1 - IV checks
+  nb: Oppgaveark 1 - IV-sjekker
+courses:
+  - ec202
+topics: []
+tags:
+  - assignment
+  - iv
+outputs:
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+items:
+  - ex-iv-concept-check
+  - ex-iv-assumption-sort

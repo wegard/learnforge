@@ -81,6 +81,7 @@ class Exercise(BaseContentModel):
     difficulty: Literal["easy", "medium", "hard"]
     estimated_time_minutes: int = Field(gt=0)
     concepts: list[str] = Field(default_factory=list)
+    solution_storage: Literal["separate-file"] = "separate-file"
     solution_visibility: Literal["private", "teacher"] = "teacher"
 
 

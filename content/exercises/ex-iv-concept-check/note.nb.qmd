@@ -1,7 +1,3 @@
 ## Kort sjekk
 
 Anta at avstand til et opplaeringssenter pavirker deltakelse i et program. Forklar hvilket faktum som stotter relevans, og hvilket faktum som truer eksklusjon.
-
-::: {.teacher-only}
-Losningsskisse: relevans stottes av en sterk forste fase; eksklusjon trues dersom avstand ogsa endrer lokal arbeidsmarkedsettersporsel eller transportkostnader som direkte pavirker utfallet.
-:::

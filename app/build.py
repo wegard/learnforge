@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Literal
 
 from app.assembly import (
+    SOLUTION_BLOCK_MARKER,
     AssemblyDocument,
     AssemblyError,
     assemble_target,
@@ -208,11 +209,17 @@ def build_leakage_report(
     teacher_blocks_removed = sum(
         item.teacher_blocks_removed for item in assembly.leakage_observations
     )
+    solution_files_found = len(assembly.solution_observations)
+    solution_files_included = sum(
+        1 for item in assembly.solution_observations if item.included_in_output
+    )
 
     generated_source_has_marker = (
         ".teacher-only" in generated_source_text or "teacher-only" in generated_source_text
     )
     output_has_marker = ".teacher-only" in output_text or "teacher-only" in output_text
+    generated_source_has_solution_marker = SOLUTION_BLOCK_MARKER in generated_source_text
+    output_has_solution_marker = SOLUTION_BLOCK_MARKER in output_text
 
     status = "not_applicable"
     if assembly.audience == "student":
@@ -221,6 +228,9 @@ def build_leakage_report(
             if teacher_blocks_removed == teacher_blocks_found
             and not generated_source_has_marker
             and not output_has_marker
+            and solution_files_included == 0
+            and not generated_source_has_solution_marker
+            and not output_has_solution_marker
             else "leak-detected"
         )
 
@@ -235,8 +245,12 @@ def build_leakage_report(
         "status": status,
         "teacher_blocks_found": teacher_blocks_found,
         "teacher_blocks_removed": teacher_blocks_removed,
+        "solution_files_found": solution_files_found,
+        "solution_files_included": solution_files_included,
         "generated_source_contains_teacher_marker": generated_source_has_marker,
         "output_contains_teacher_marker": output_has_marker,
+        "generated_source_contains_solution_marker": generated_source_has_solution_marker,
+        "output_contains_solution_marker": output_has_solution_marker,
         "generated_source_path": str(assembly.generated_path.relative_to(root)),
         "output_path": str(output_path.relative_to(root)),
         "details": [
@@ -248,6 +262,16 @@ def build_leakage_report(
                 "student_blocks_removed": item.student_blocks_removed,
             }
             for item in assembly.leakage_observations
+        ],
+        "solution_details": [
+            {
+                "exercise_id": item.exercise_id,
+                "source_path": item.source_path,
+                "visibility": item.visibility,
+                "included_in_output": item.included_in_output,
+                "reason": item.reason,
+            }
+            for item in assembly.solution_observations
         ],
     }
 
@@ -351,6 +375,8 @@ def object_search_entries(
     entries: list[dict[str, object]] = []
     for record in sorted(index.objects.values(), key=lambda item: item.model.id):
         if not is_student_visible_in_language(record, language):
+            continue
+        if "html" not in record.model.outputs:
             continue
         kind = record.model.kind if record.model.kind != "collection" else "collection"
         description = ""

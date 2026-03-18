@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from app.config import REPO_ROOT, reports_dir
 from app.indexer import LoadError, load_repository, write_search_index
 from app.models import Collection, Concept, Exercise, Figure, Resource
+
+TEACHER_BLOCK_RE = re.compile(r":::\s*\{\.teacher-only\}")
 
 
 @dataclass(slots=True)
@@ -133,6 +136,32 @@ def validate_repository(root: Path = REPO_ROOT) -> ValidationReport:
                         root=root,
                         object_id=model.id,
                     )
+            for language in model.languages:
+                note_path = record.note_path(language)
+                if note_path.exists() and TEACHER_BLOCK_RE.search(
+                    note_path.read_text(encoding="utf-8")
+                ):
+                    _add_issue(
+                        issues,
+                        code="exercise-note-contains-teacher-block",
+                        message=(
+                            "exercise notes must not contain teacher-only blocks; use "
+                            f"solution.{language}.qmd instead"
+                        ),
+                        path=note_path,
+                        root=root,
+                        object_id=model.id,
+                    )
+                solution_path = record.solution_path(language)
+                if model.solution_visibility == "teacher" and not solution_path.exists():
+                    _add_issue(
+                        issues,
+                        code="missing-solution",
+                        message=f"missing solution note for language {language}",
+                        path=solution_path,
+                        root=root,
+                        object_id=model.id,
+                    )
 
         if isinstance(model, Figure):
             svg_path = record.directory / model.svg_path
@@ -178,8 +207,18 @@ def validate_repository(root: Path = REPO_ROOT) -> ValidationReport:
                 )
 
         if isinstance(model, Collection):
+            if model.collection_kind == "assignment" and "exercise-sheet" not in model.outputs:
+                _add_issue(
+                    issues,
+                    code="assignment-missing-exercise-sheet-output",
+                    message="assignment collections must declare exercise-sheet output",
+                    path=record_path,
+                    root=root,
+                    object_id=model.id,
+                )
             for item_id in model.items:
-                if item_id not in object_ids:
+                item_record = index.objects.get(item_id)
+                if item_record is None:
                     _add_issue(
                         issues,
                         code="missing-collection-item",
@@ -188,6 +227,28 @@ def validate_repository(root: Path = REPO_ROOT) -> ValidationReport:
                         root=root,
                         object_id=model.id,
                     )
+                    continue
+                if model.collection_kind == "assignment":
+                    if not isinstance(item_record.model, Exercise):
+                        _add_issue(
+                            issues,
+                            code="assignment-item-not-exercise",
+                            message=f"assignment collections may only include exercises: {item_id}",
+                            path=record_path,
+                            root=root,
+                            object_id=model.id,
+                        )
+                    elif "exercise-sheet" not in item_record.model.outputs:
+                        _add_issue(
+                            issues,
+                            code="exercise-not-sheet-eligible",
+                            message=(
+                                f"exercise {item_id} is missing exercise-sheet output eligibility"
+                            ),
+                            path=item_record.meta_path,
+                            root=root,
+                            object_id=item_id,
+                        )
 
     for record in index.courses.values():
         model = record.model

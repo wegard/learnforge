@@ -14,6 +14,7 @@ from app.config import (
     REPO_ROOT,
     index_dir,
     object_note_filename,
+    solution_note_filename,
 )
 from app.models import (
     Collection,
@@ -53,6 +54,11 @@ class IndexedObject:
 
     def note_path(self, language: str) -> Path:
         return self.directory / object_note_filename(language)
+
+    def solution_path(self, language: str) -> Path:
+        if not isinstance(self.model, Exercise):
+            raise ValueError(f"{self.model.id} is not an exercise")
+        return self.directory / solution_note_filename(language)
 
 
 @dataclass(slots=True)

@@ -22,6 +22,7 @@ level: intermediate
 prerequisites: []
 related:
   - ex-iv-concept-check
+  - ex-iv-assumption-sort
   - iv-dag-figure
   - angrist-podcast-iv
 outputs:

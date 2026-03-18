@@ -2,20 +2,18 @@
 
 ## Current Milestone
 
-- Phase 5 completion: navigation + language switch + page coverage
+- Phase 6A: exercise compiler core + solution separation
 
 ## Non-Goals For This Run
 
-- No exercise-sheet compiler work
-- No teacher solution format implementation
-- No approval workflows
-- No stale-content commands
-- No `teach reindex` expansion unless strictly required by this slice
+- No figure object or figure interactivity work
+- No resource approval workflow work
+- No `teach stale`, `teach approve`, or `teach reindex` expansion unless strictly required by this slice
 - No Textual TUI
-- No AI draft workflows
+- No AI-assisted draft workflows
 - No migration tooling
-- No CI/CD or deployment pipeline work
-- No figure interactivity work
+- No CI/CD, deployment pipeline, or GitHub Actions work
+- No full migration of legacy materials
 
 ## Decisions Locked
 
@@ -40,6 +38,10 @@
 - Student search index is emitted per language at `build/exports/student/<lang>/html/assets/search-index.json`
 - Student language switching links to the direct counterpart when approved and falls back to the other-language home page when it is not
 - Student HTML pages hide Quarto auto format links and only surface manual export links when the built artifact exists on disk
+- Exercise solutions live in dedicated `solution.en.qmd` / `solution.nb.qmd` files
+- Exercise notes must stay student-safe; teacher solution content is assembled separately and never stored inline in exercise notes
+- Assignment collections are the first exercise-sheet compilation input and may only include exercise objects
+- Student exercise sheets render to `*-exercise-sheet.pdf`; teacher solution sheets render to `*-solution-sheet.pdf`
 
 ## Completed Tasks
 
@@ -60,12 +62,14 @@
   - figure
   - resource
   - collection
-- Added five hand-made sample objects:
+- Added seven sample objects:
   - `iv-intuition`
   - `ex-iv-concept-check`
+  - `ex-iv-assumption-sort`
   - `iv-dag-figure`
   - `angrist-podcast-iv`
   - `lecture-04`
+  - `assignment-01`
 - Added one sample course:
   - `ec202`
 - Added teacher-only content blocks and enforced student stripping during build materialization
@@ -164,17 +168,51 @@
   - breadcrumb generation
   - search/nav presence on student pages
   - student search-index filtering for hidden translations
+- Finalized exercise metadata for compiled sheet workflows by locking:
+  - `exercise_type`
+  - `difficulty`
+  - `estimated_time_minutes`
+  - linked `concepts`
+  - `courses` as course suitability
+  - `solution_visibility`
+  - `outputs`
+  - `solution_storage: separate-file`
+- Added repository support for explicit exercise solution files via `solution.<lang>.qmd`
+- Added validation rules for exercise compiler inputs:
+  - teacher-visible exercises must have solution files for each declared language
+  - exercise notes may not contain inline `.teacher-only` blocks
+  - assignment collections must declare `exercise-sheet` output
+  - assignment collections may only include exercise objects that are `exercise-sheet` eligible
+- Added a first-class assignment compilation path in `app/assembly.py` for student `exercise-sheet` builds
+- Added a teacher-only solution-sheet compilation path from the same assignment source set
+- Extended exercise pages so teacher builds can include separate solution material while student pages remain solution-free
+- Extended build leakage reporting to record:
+  - solution files discovered for a build
+  - whether any solution files were included
+  - whether solution markers survived into generated source or rendered output
+- Added one new exercise object:
+  - `ex-iv-assumption-sort`
+- Added one assignment collection:
+  - `assignment-01`
+- Added new tests for:
+  - exercise metadata validation
+  - solution-file convention validation
+  - assignment sheet assembly
+  - teacher solution-sheet assembly
+  - student solution exclusion
+  - student exercise-sheet leakage reporting
+  - snapshot-style compiled exercise-sheet verification
 
 ## Remaining Tasks
 
-- Phase 5 core student-site MVP is complete for the current narrow slice
+- Phase 6A core exercise compiler and teacher/student solution separation are complete for the current narrow slice
 - Later roadmap work only:
-  - broaden collection support beyond lectures
+  - expand the exercise compiler beyond assignment sheets into other exercise outputs when the roadmap calls for them
+  - decide whether assignments should surface directly from course planning/navigation in a later slice
+  - broaden collection support beyond lectures and assignments
   - deepen site-wide validation into manifest/link integrity checks
-  - expand course planning structures beyond the single lecture list
-  - add richer student-home/course navigation coverage once more real content exists
-  - implement Phase 6 exercise compiler and teacher solution formats
   - add later CLI/reporting commands that were explicitly out of scope for this run
+  - keep Phase 7 figure pipeline, approval workflows, TUI, AI workflows, migration, and deployment deferred
 
 ## Blockers
 
@@ -223,6 +261,28 @@
   - `tests/test_assembly.py`
   - `tests/test_builds.py`
   - `tests/snapshots/topic-causal-inference.student.en.html.qmd`
+- Phase 6A slice touched:
+  - `IMPLEMENTATION_STATUS.md`
+  - `README.md`
+  - `app/assembly.py`
+  - `app/build.py`
+  - `app/config.py`
+  - `app/indexer.py`
+  - `app/models.py`
+  - `app/validator.py`
+  - `content/concepts/iv-intuition/meta.yml`
+  - `content/exercises/ex-iv-concept-check/meta.yml`
+  - `content/exercises/ex-iv-concept-check/note.en.qmd`
+  - `content/exercises/ex-iv-concept-check/note.nb.qmd`
+  - `content/exercises/ex-iv-concept-check/solution.en.qmd`
+  - `content/exercises/ex-iv-concept-check/solution.nb.qmd`
+  - `content/exercises/ex-iv-assumption-sort/`
+  - `collections/assignments/assignment-01/meta.yml`
+  - `schemas/exercise.schema.json`
+  - `tests/test_assembly.py`
+  - `tests/test_builds.py`
+  - `tests/test_schema.py`
+  - `tests/snapshots/assignment-01.student.en.exercise-sheet.qmd`
 
 ## Commands Run
 
@@ -321,15 +381,67 @@
 - `rg -n "Resource details|Open resource|Related links|Language:" build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
 - `rg -n "Used in courses|Breadcrumbs:|Search LearnForge" build/exports/student/en/html/listing/topic-causal-inference/topic-causal-inference.html`
 - `rg -n "Language:|Norsk|English" build/exports/student/en/html/concept/iv-intuition/iv-intuition.html build/exports/student/nb/html/concept/iv-intuition/iv-intuition.html`
+- `git status --short`
+- `rg -n "Phase 6|exercise" ROADMAP.md IMPLEMENTATION_STATUS.md`
+- `rg -n "class Exercise|exercise_type|solution_visibility|outputs|exercise" app tests content collections schemas -g '!build/**'`
+- `sed -n '1120,1195p' ROADMAP.md`
+- `sed -n '700,780p' ROADMAP.md`
+- `sed -n '1,220p' content/exercises/ex-iv-concept-check/meta.yml`
+- `sed -n '1,260p' content/exercises/ex-iv-concept-check/note.en.qmd`
+- `sed -n '1,260p' content/exercises/ex-iv-concept-check/note.nb.qmd`
+- `sed -n '1,260p' app/indexer.py`
+- `sed -n '1,260p' app/validator.py`
+- `sed -n '1,260p' app/cli.py`
+- `find collections -maxdepth 3 -type f | sort`
+- `find courses -maxdepth 3 -type f | sort`
+- `sed -n '1,220p' collections/lectures/lecture-04/meta.yml`
+- `sed -n '1,220p' courses/ec202/course.yml`
+- `sed -n '1,220p' courses/ec202/plan.yml`
+- `python -m app.schema_export`
+- `pytest -q`
+- `ruff check app tests`
+- `.venv/bin/python -m app.schema_export`
+- `.venv/bin/python -m pytest -q`
+- `.venv/bin/ruff check app tests`
+- `.venv/bin/ruff check app/build.py --fix`
+- `.venv/bin/teach validate`
+- `.venv/bin/teach build ex-iv-concept-check --audience student --lang en --format html`
+- `.venv/bin/teach build assignment-01 --audience student --lang en --format exercise-sheet`
+- `.venv/bin/teach build assignment-01 --audience teacher --lang en --format exercise-sheet`
+- `.venv/bin/teach build lecture-04 --audience teacher --lang nb --format pdf`
+- `sed -n '1,220p' build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
+- `sed -n '1,220p' build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+- `sed -n '1,220p' build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
 
 ## Test / Build Results
 
 - Validation passed:
-  - `Validated 5 objects and 1 courses. Issues: 0.`
+  - `Validated 7 objects and 1 courses. Issues: 0.`
 - Lint passed:
-  - `ruff check app tests`
+  - `All checks passed!`
 - Tests passed:
-  - `18 passed in 38.47s`
+  - `26 passed in 23.33s`
+- Phase 6A representative renders passed:
+  - Student standalone exercise page:
+    - `build/exports/student/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html`
+    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/build-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/ex-iv-concept-check/teacher-leakage-report.json`
+  - Student exercise sheet:
+    - `build/exports/student/en/exercise-sheet/collection/assignment-01/assignment-01-exercise-sheet.pdf`
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
+  - Teacher solution sheet:
+    - `build/exports/teacher/en/exercise-sheet/collection/assignment-01/assignment-01-solution-sheet.pdf`
+    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/dependency-manifest.json`
+    - `build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
+  - Student exercise-sheet leakage report confirms clean status:
+    - `build/reports/builds/student/en/exercise-sheet/collection/assignment-01/teacher-leakage-report.json`
+    - `status: clean`
+    - `solution_files_found: 2`
+    - `solution_files_included: 0`
 - Phase 5 representative renders passed:
   - Student home page:
     - `build/exports/student/en/html/index.html`
@@ -380,11 +492,11 @@
   - teacher prompt does not appear in student HTML
   - leakage report status is `clean` for representative student builds
   - non-approved translation fallback is covered by tests and excluded from the student search index
+  - student exercise-sheet builds exclude all tracked solution files
 
 ## Next Recommended Step
 
-- Start Phase 6 only when ready to keep the slice narrow:
-  - finalize the exercise compiler path
-  - add assignment/problem-sheet compilation
-  - add teacher solution format separation
-  - keep approval/stale/TUI/AI/deployment work deferred until their roadmap phases
+- Start the next narrow slice only when ready:
+  - expand the exercise compiler beyond the first assignment sheet into the next explicitly required exercise outputs
+  - decide whether assignments should become first-class course-plan navigation entries in a later Phase 6 follow-up
+  - keep figure work, approval/stale workflows, TUI, AI workflows, migration, and deployment deferred until their roadmap phases

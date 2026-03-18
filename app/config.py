@@ -36,6 +36,10 @@ def object_note_filename(language: str) -> str:
     return f"note.{language}.qmd"
 
 
+def solution_note_filename(language: str) -> str:
+    return f"solution.{language}.qmd"
+
+
 def build_dir(root: Path = REPO_ROOT) -> Path:
     return root / "build"
 

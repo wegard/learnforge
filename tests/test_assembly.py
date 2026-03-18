@@ -72,6 +72,66 @@ def test_collection_assembly_updates_when_object_changes(tmp_path: Path) -> None
     assert "A revised instrument explanation" in refreshed.markdown
 
 
+def test_assignment_assembly_compiles_multiple_exercises_without_student_solutions() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "assignment-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id
+        for edge in assembly.dependency_edges
+        if edge.relationship == "assignment-item"
+    ]
+
+    assert assembly.target.kind == "collection"
+    assert edge_targets == ["ex-iv-concept-check", "ex-iv-assumption-sort"]
+    assert "## Exercise 1: IV intuition check" in assembly.markdown
+    assert "## Exercise 2: IV assumption sort" in assembly.markdown
+    assert "teacher-output-includes-solution" not in assembly.markdown
+    assert "lf-solution-block" not in assembly.markdown
+    assert all(not item.included_in_output for item in assembly.solution_observations)
+
+
+def test_assignment_student_sheet_matches_snapshot() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "assignment-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    snapshot = (
+        REPO_ROOT / "tests" / "snapshots" / "assignment-01.student.en.exercise-sheet.qmd"
+    ).read_text(encoding="utf-8").rstrip()
+
+    assert assignment_snapshot_fragment(assembly.markdown) == snapshot
+
+
+def test_teacher_assignment_assembly_includes_solution_sections() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "assignment-01",
+        index=index,
+        audience="teacher",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+
+    assert "Teacher Solution Sheet" in assembly.markdown
+    assert "lf-solution-block" in assembly.markdown
+    assert "strong first stage" in assembly.markdown
+    assert all(item.included_in_output for item in assembly.solution_observations)
+
+
 def test_topic_listing_matches_snapshot() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -165,4 +225,11 @@ def copy_repo_subset(target_root: Path) -> None:
 def topic_snapshot_fragment(markdown: str) -> str:
     start = markdown.index("Topic: Causal Inference")
     end = markdown.index('<footer class="lf-page-footer">')
+    return markdown[start:end].rstrip()
+
+
+def assignment_snapshot_fragment(markdown: str) -> str:
+    start = markdown.index("## Exercise sheet")
+    end = markdown.index("## Exercise 2: IV assumption sort")
+    end = markdown.index("this month.", end) + len("this month.")
     return markdown[start:end].rstrip()
