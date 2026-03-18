@@ -236,6 +236,22 @@ def test_validator_rejects_course_assignment_without_html_output(tmp_path) -> No
     )
 
 
+def test_validator_ignores_course_inbox_material(tmp_path) -> None:
+    copy_repo_subset(tmp_path)
+    inbox_dir = tmp_path / "course-inbox" / "ec202" / "notes"
+    inbox_dir.mkdir(parents=True)
+    (inbox_dir / "meta.yml").write_text(
+        "id: should-not-load\nkind: concept\nstatus: approved\n",
+        encoding="utf-8",
+    )
+    (inbox_dir / "note.en.qmd").write_text("# Legacy note\n", encoding="utf-8")
+
+    report = validate_repository(tmp_path, run_build_checks=False)
+
+    assert report.object_count == 10
+    assert all(not issue.path.startswith("course-inbox/") for issue in report.issues)
+
+
 def copy_repo_subset(target_root) -> None:
     for relative_path in ("content", "collections", "courses"):
         shutil.copytree(REPO_ROOT / relative_path, target_root / relative_path)

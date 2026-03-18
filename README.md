@@ -48,6 +48,11 @@ pytest
 
 Generated outputs are written under `build/exports/`, generated build/validation reports under `build/reports/`, and the filesystem search index under `build/index/`. Student home pages render to `build/exports/student/<lang>/html/index.html`.
 
+For migration and redesign work, use `course-inbox/` as a temporary local staging
+area for legacy material. It is git-ignored by default and excluded from validation,
+search, and build inputs until material is promoted into `content/`, `collections/`,
+or `courses/`.
+
 ## Conventions Locked
 
 - `ROADMAP.md` is the implementation source of truth

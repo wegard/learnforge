@@ -24,3 +24,7 @@ _freeze/*
 
 /.quarto/
 **/*.quarto_ipynb
+
+course-inbox/*
+!course-inbox/.gitkeep
+!course-inbox/README.md

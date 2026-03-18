@@ -3,6 +3,7 @@
 ## Current Milestone
 
 - Phase 8A complete checkpoint: resource curation workflow core
+- Repository maintenance: course inbox staging for legacy-course intake
 
 ## Non-Goals For This Run
 
@@ -117,6 +118,13 @@
     - approval CLI behavior
     - stale-report CLI behavior
     - validation/build report contents for the resource workflow
+- Added a git-ignored `course-inbox/` staging area for legacy course material intake
+- Locked the intake rule that `course-inbox/` is never scanned as canonical content,
+  indexed for search, or used as a build input
+- Added written intake conventions for per-course subfolders and coarse sorting
+  buckets in `course-inbox/README.md`
+- Added regression coverage to prove validation ignores stray `meta.yml` files under
+  `course-inbox/`
 
 ## Remaining Tasks
 
@@ -125,6 +133,10 @@
   - broader course/topic filtering controls beyond the current inbox/listing path
   - richer approval workflows beyond the narrow `approve` transition command
   - any AI-assisted resource suggestion ingestion
+- Legacy migration remains deferred beyond inbox staging:
+  - no migration inventory yet
+  - no import scripts/templates yet
+  - no automatic conversion from `course-inbox/` into canonical objects
 - Later roadmap phases remain deferred:
   - Phase 9 AI-assisted draft workflows
   - migration tooling
@@ -141,6 +153,9 @@
 
 - `IMPLEMENTATION_STATUS.md`
 - `README.md`
+- `.gitignore`
+- `course-inbox/.gitkeep`
+- `course-inbox/README.md`
 - `app/assembly.py`
 - `app/build.py`
 - `app/cli.py`
@@ -198,6 +213,15 @@
 - Artifact/report inspection:
   - `./.venv/bin/python - <<'PY' ... inspect validation/build/stale JSON payloads ... PY`
   - `rg -n "angrist-podcast-iv|iv-candidate-newsletter|iv-reviewed-primer|iv-policy-brief-stale|Resource Inbox|Candidate resources|Reviewed resources|Stale resources" build/exports/student/en/html/listing/resources-ec202/resources-ec202.html build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html build/exports/teacher/en/html/listing/resource-inbox/resource-inbox.html`
+- Course inbox staging:
+  - `sed -n '1,220p' .gitignore`
+  - `sed -n '1,220p' README.md`
+  - `sed -n '1,260p' app/indexer.py`
+  - `sed -n '1,260p' app/config.py`
+  - `sed -n '1,220p' tests/test_schema.py`
+  - `./.venv/bin/python -m pytest -q tests/test_schema.py`
+  - `mkdir -p course-inbox/ec202/notes && printf 'temporary\n' > course-inbox/ec202/notes/sample.txt && git check-ignore -v course-inbox/ec202/notes/sample.txt && rm course-inbox/ec202/notes/sample.txt`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
@@ -211,6 +235,10 @@
   - `All checks passed!`
 - Tests passed:
   - `57 passed in 131.39s (0:02:11)`
+- Course inbox regression checks passed:
+  - `11 passed in 0.31s` for `tests/test_schema.py`
+  - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
+  - `teach validate` still passed with `Errors: 0. Warnings: 2. Representative targets: 12/12 passed`
 - Validation JSON report:
   - `build/reports/validation-report.json`
 - Build summary JSON:
