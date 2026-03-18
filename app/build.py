@@ -21,6 +21,7 @@ from app.assembly import (
 from app.config import REPO_ROOT, exports_dir, reports_dir
 from app.indexer import IndexedObject, RepositoryIndex, load_repository
 from app.models import Collection, Resource
+from app.resource_workflow import resource_student_visibility_decision
 
 RenderableFormat = Literal["html", "pdf", "revealjs", "handout", "exercise-sheet"]
 
@@ -292,6 +293,7 @@ def build_leakage_report(
             }
             for item in assembly.solution_observations
         ],
+        "resource_workflow": assembly.resource_workflow_summary,
     }
 
 
@@ -400,7 +402,10 @@ def object_search_entries(
         kind = record.model.kind if record.model.kind != "collection" else "collection"
         description = ""
         if record.model.kind == "resource":
-            description = record.model.why_selected[language]
+            description = record.model.summary.get(language) or record.model.why_selected.get(
+                language,
+                "",
+            )
         elif record.model.kind == "exercise":
             description = f"{record.model.exercise_type} exercise"
         elif record.model.kind == "concept":
@@ -538,6 +543,12 @@ def resource_listing_search_entries(
 def is_student_visible_in_language(record: IndexedObject, language: str) -> bool:
     if record.model.visibility in {"private", "teacher"}:
         return False
+    if isinstance(record.model, Resource):
+        return resource_student_visibility_decision(
+            record,
+            language=language,
+            require_output_format="html",
+        ).visible_to_student
     if record.model.status not in {"approved", "published"}:
         return False
     if language not in record.model.languages:

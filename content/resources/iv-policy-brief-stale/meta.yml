@@ -1,0 +1,56 @@
+id: iv-policy-brief-stale
+kind: resource
+resource_kind: website
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Stale policy brief on instrument choice
+  nb: Utdatert policy-notat om instrumentvalg
+authors:
+  - Policy Lab
+published_on: 2025-01-10
+url: https://example.org/resources/iv-policy-brief-stale
+courses:
+  - ec202
+topics:
+  - iv
+  - causal-inference
+tags:
+  - policy
+  - stale
+outputs:
+  - html
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+difficulty: intermediate
+estimated_time_minutes: 14
+summary:
+  en: Previously approved policy brief that now requires a freshness review.
+  nb: Tidligere godkjent policy-notat som na krever en ferskhetsgjennomgang.
+why_selected:
+  en: Useful applied example, but the policy context now needs re-verification.
+  nb: Nyttig anvendt eksempel, men policykonteksten ma na verifiseres pa nytt.
+instructor_note:
+  en: Hide from students until the factual claims are checked.
+  nb: Skjul for studenter til de faktiske pastandene er kontrollert.
+freshness: time-sensitive
+review_after: 2026-03-01
+approved_by: vegard
+approved_on: 2026-03-10
+approval_history:
+  - action: reviewed
+    by: vegard
+    acted_on: 2026-03-08
+  - action: approved
+    by: vegard
+    acted_on: 2026-03-10
+stale_flag: false

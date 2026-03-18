@@ -1,6 +1,6 @@
 # LearnForge
 
-LearnForge is a git-backed, markdown-first teaching publishing system. The current checkpoint covers the roadmap's bootstrap foundation, the student-site MVP, and the first exercise-compiler slice: reusable content objects, schema validation, first-class assembly, bilingual Quarto builds, and separate student/teacher exercise outputs from the same source set.
+LearnForge is a git-backed, markdown-first teaching publishing system. The current checkpoint covers the roadmap's bootstrap foundation, the student-site MVP, the exercise compiler core, figure reuse, and the first resource-curation workflow slice: reusable content objects, schema validation, first-class assembly, bilingual Quarto builds, separate student/teacher exercise outputs, and explicit resource approval/stale reporting.
 
 ## Current Scope
 
@@ -8,11 +8,12 @@ LearnForge is a git-backed, markdown-first teaching publishing system. The curre
 - Python control plane with `Typer` and `Pydantic`
 - Quarto project with `student` / `teacher` and `en` / `nb` profiles
 - Base schemas plus `concept`, `exercise`, `figure`, `resource`, and `collection`
-- Seven sample objects, one assignment collection, and one sample course
+- Ten sample objects, one assignment collection, and one sample course
 - Validation, search, open, new, and build CLI commands
 - First-class assembly for course pages, lecture pages, topic listings, and resource listings
 - Student-site navigation with breadcrumbs, language switching, related links, and search-backed navigation shell
 - Exercise compiler path with separate `solution.<lang>.qmd` files and teacher-only solution sheets
+- Resource workflow states for `candidate`, `reviewed`, `approved`, and `published`
 - Representative renders for home, course, lecture, concept, exercise, resource, topic listing, slides, and PDF export paths
 
 ## Requirements
@@ -40,6 +41,8 @@ teach build lecture-04 --audience teacher --lang nb --format pdf
 teach build ec202 --audience student --lang en --format html
 teach build topic-causal-inference --audience student --lang en --format html
 teach build resources-ec202 --audience student --lang en --format html
+teach build resource-inbox --audience teacher --lang en --format html
+teach stale resources
 pytest
 ```
 

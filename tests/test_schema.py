@@ -7,15 +7,16 @@ import pytest
 from pydantic import ValidationError
 
 from app.config import REPO_ROOT
-from app.models import Concept, Exercise, Figure
+from app.models import Concept, Exercise, Figure, Resource
 from app.validator import validate_repository
 
 
 def test_sample_repository_validates_cleanly() -> None:
     report = validate_repository(REPO_ROOT, run_build_checks=False)
     assert report.ok
-    assert report.object_count == 7
+    assert report.object_count == 10
     assert report.course_count == 1
+    assert report.warning_count == 2
     assert report.search_index_path == "build/index/content-index.json"
 
 
@@ -98,6 +99,78 @@ def test_figure_schema_rejects_interactive_without_html_output() -> None:
 
     with pytest.raises(ValidationError):
         Figure.model_validate(payload)
+
+
+def test_resource_schema_requires_review_after_for_time_sensitive_state() -> None:
+    payload = {
+        "id": "demo-resource",
+        "kind": "resource",
+        "status": "approved",
+        "visibility": "student",
+        "languages": ["en", "nb"],
+        "title": {"en": "Demo resource", "nb": "Demoressurs"},
+        "courses": ["ec202"],
+        "topics": ["iv"],
+        "tags": ["resource"],
+        "outputs": ["html"],
+        "owners": ["vegard"],
+        "updated": date(2026, 3, 18),
+        "translation_status": {"en": "approved", "nb": "approved"},
+        "ai": {"generated_fields": []},
+        "resource_kind": "article",
+        "authors": ["vegard"],
+        "published_on": date(2026, 3, 1),
+        "url": "https://example.org/demo-resource",
+        "difficulty": "introductory",
+        "estimated_time_minutes": 10,
+        "summary": {"en": "Demo summary", "nb": "Demosammendrag"},
+        "why_selected": {"en": "Why it matters", "nb": "Hvorfor det betyr noe"},
+        "instructor_note": {"en": "Teacher note", "nb": "Laerernotat"},
+        "freshness": "time-sensitive",
+        "approved_by": "vegard",
+        "approved_on": date(2026, 3, 18),
+        "approval_history": [{"action": "approved", "by": "vegard", "acted_on": "2026-03-18"}],
+        "stale_flag": False,
+    }
+
+    with pytest.raises(ValidationError):
+        Resource.model_validate(payload)
+
+
+def test_resource_schema_rejects_candidate_with_approval_metadata() -> None:
+    payload = {
+        "id": "demo-candidate-resource",
+        "kind": "resource",
+        "status": "candidate",
+        "visibility": "student",
+        "languages": ["en"],
+        "title": {"en": "Demo candidate"},
+        "courses": ["ec202"],
+        "topics": [],
+        "tags": ["resource"],
+        "outputs": ["html"],
+        "owners": ["vegard"],
+        "updated": date(2026, 3, 18),
+        "translation_status": {"en": "edited"},
+        "ai": {"generated_fields": [], "source": "openai", "review_state": "pending"},
+        "resource_kind": "article",
+        "authors": ["vegard"],
+        "published_on": date(2026, 3, 18),
+        "url": "https://example.org/demo-candidate-resource",
+        "difficulty": "introductory",
+        "estimated_time_minutes": 8,
+        "summary": {"en": "Draft summary"},
+        "why_selected": {"en": "Draft reason"},
+        "instructor_note": {"en": "Review first"},
+        "freshness": "evergreen",
+        "approved_by": "vegard",
+        "approved_on": date(2026, 3, 18),
+        "approval_history": [],
+        "stale_flag": False,
+    }
+
+    with pytest.raises(ValidationError):
+        Resource.model_validate(payload)
 
 
 def test_validator_rejects_missing_exercise_solution_file(tmp_path) -> None:

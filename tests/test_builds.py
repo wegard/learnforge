@@ -4,6 +4,8 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
 from app.build import build_target, write_student_site_search_index
 from app.config import REPO_ROOT
 from app.indexer import load_repository
@@ -94,6 +96,80 @@ def test_listing_build_writes_reports() -> None:
         edge["relationship"] == "topic-match" for edge in dependency_manifest["dependency_edges"]
     )
     assert leakage_report["status"] == "clean"
+
+
+def test_student_resource_page_build_is_only_for_published_resource() -> None:
+    artifact = build_target(
+        "angrist-podcast-iv",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Resource details" in html
+    assert "Workflow state" in html
+    assert "published" in html
+    assert "Instructor note" not in html
+    assert build_manifest["resource_workflow"]["resource"]["visible_to_student"] is True
+    assert leakage_report["status"] == "clean"
+
+
+def test_student_resource_listing_excludes_non_approved_and_stale_resources() -> None:
+    artifact = build_target(
+        "resources-ec202",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "angrist-podcast-iv" in html
+    assert "iv-candidate-newsletter" not in html
+    assert "iv-reviewed-primer" not in html
+    assert "iv-policy-brief-stale" not in html
+    assert build_manifest["resource_workflow"]["included_resource_ids"] == ["angrist-podcast-iv"]
+    assert {item["id"] for item in build_manifest["resource_workflow"]["excluded_resources"]} == {
+        "iv-candidate-newsletter",
+        "iv-reviewed-primer",
+        "iv-policy-brief-stale",
+    }
+    assert leakage_report["status"] == "clean"
+
+
+def test_teacher_resource_inbox_build_surfaces_candidate_reviewed_and_stale_resources() -> None:
+    artifact = build_target(
+        "resource-inbox",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert "Resource Inbox" in html
+    assert "Candidate resources" in html
+    assert "Reviewed resources" in html
+    assert "Stale resources" in html
+    assert "iv-candidate-newsletter" in html
+    assert "iv-reviewed-primer" in html
+    assert "iv-policy-brief-stale" in html
+    assert build_manifest["resource_workflow"]["status_counts"] == {
+        "candidate": 1,
+        "reviewed": 1,
+        "approved": 1,
+        "published": 1,
+    }
 
 
 def test_home_page_build_contains_navigation_and_search() -> None:
@@ -379,6 +455,20 @@ def test_building_nb_home_search_index_excludes_unapproved_translation(tmp_path)
     payload = json.loads(search_index_path.read_text(encoding="utf-8"))
 
     assert all(entry["id"] != "angrist-podcast-iv" for entry in payload["entries"])
+    assert all(entry["id"] != "iv-candidate-newsletter" for entry in payload["entries"])
+
+
+def test_student_build_rejects_stale_resource_page() -> None:
+    from app.build import BuildError
+
+    with pytest.raises(BuildError):
+        build_target(
+            "iv-policy-brief-stale",
+            audience="student",
+            language="en",
+            output_format="html",
+            root=REPO_ROOT,
+        )
 
 
 def copy_repo_subset(target_root: Path) -> None:

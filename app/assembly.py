@@ -12,6 +12,13 @@ import yaml
 from app.config import REPO_ROOT, exports_dir, generated_dir
 from app.indexer import IndexedCourse, IndexedObject, RepositoryIndex
 from app.models import Collection, Exercise, Figure, Resource
+from app.resource_workflow import (
+    RESOURCE_INBOX_TARGET_ID,
+    build_resource_workflow_summary,
+    resource_is_stale,
+    resource_student_visibility_decision,
+    resource_visibility_manifest_entry,
+)
 
 MARKDOWN_LINK_RE = re.compile(r"(\!?\[[^\]]*\]\()([^)]+)(\))")
 TEACHER_BLOCK_RE = re.compile(r"\n?:::\s*\{\.teacher-only\}\n.*?\n:::\s*\n?", re.DOTALL)
@@ -30,6 +37,7 @@ KIND_LABELS = {
     "exercise": "Exercise",
     "figure": "Figure",
     "resource": "Resource",
+    "resource-inbox": "Resource inbox",
     "resource-listing": "Resource listing",
     "topic-listing": "Topic listing",
 }
@@ -148,9 +156,10 @@ class AssemblyDocument:
     leakage_observations: list[LeakageObservation]
     solution_observations: list[SolutionObservation]
     figure_observations: list[FigureObservation]
+    resource_workflow_summary: dict[str, object] | None = None
 
     def build_manifest_payload(self) -> dict[str, object]:
-        return {
+        payload: dict[str, object] = {
             "target": asdict(self.target),
             "audience": self.audience,
             "language": self.language,
@@ -166,6 +175,9 @@ class AssemblyDocument:
             "referenced_listing_targets": self.referenced_listing_targets,
             "figure_uses": [asdict(item) for item in self.figure_observations],
         }
+        if self.resource_workflow_summary is not None:
+            payload["resource_workflow"] = self.resource_workflow_summary
+        return payload
 
     def dependency_manifest_payload(self) -> dict[str, object]:
         return {
@@ -218,10 +230,13 @@ class AssemblyBuilder:
         self.solution_observations: list[SolutionObservation] = []
         self.figure_observations: list[FigureObservation] = []
         self.referenced_listing_targets: list[str] = []
+        self.resource_workflow_summary: dict[str, object] | None = None
 
     def assemble(self, target_id: str) -> AssemblyDocument:
         if target_id == HOME_TARGET_ID:
             return self._assemble_home_page()
+        if target_id == RESOURCE_INBOX_TARGET_ID:
+            return self._assemble_resource_inbox()
         if target_id in self.index.objects:
             record = self.index.objects[target_id]
             if isinstance(record.model, Collection):
@@ -420,6 +435,16 @@ class AssemblyBuilder:
         self._ensure_visibility(record.model.visibility, record.model.id)
         self._ensure_language(record.model.languages, record.model.id)
         self._ensure_output_supported(record.model.outputs, record.model.id)
+        if self.audience == "student" and isinstance(record.model, Resource):
+            decision = resource_student_visibility_decision(
+                record,
+                language=self.language,
+                require_output_format=self.output_format,
+            )
+            if not decision.visible_to_student:
+                raise AssemblyError(
+                    f"{record.model.id} is not student-publishable: {', '.join(decision.reasons)}"
+                )
         self._register_object_files(record, role="primary-object", include_note=True)
 
         target = BuildTargetRef(
@@ -456,6 +481,14 @@ class AssemblyBuilder:
             solution_section = self._render_exercise_solution_for_page(record)
             if solution_section:
                 content_parts.append(solution_section)
+        if isinstance(record.model, Resource):
+            self.resource_workflow_summary = {
+                "resource": resource_visibility_manifest_entry(
+                    record,
+                    language=self.language,
+                    require_output_format=self.output_format,
+                )
+            }
         related_entries = self._related_entries_for_object(record)
         if related_entries:
             content_parts.append(
@@ -1069,19 +1102,36 @@ class AssemblyBuilder:
             raise AssemblyError(f"unknown course for resource listing: {course_id}")
 
         self._register_file(course_record.course_path, role="resource-listing-course")
-        resources = [
+        all_resources = [
             item
             for item in self.index.objects.values()
             if isinstance(item.model, Resource)
             and course_id in item.model.courses
-            and self._is_listable(item, require_output_format="html")
         ]
-        if not resources:
+        included_resources: list[IndexedObject] = []
+        excluded_resources: list[dict[str, object]] = []
+        for record in sorted(all_resources, key=lambda item: item.model.title[self.language]):
+            decision = resource_student_visibility_decision(
+                record,
+                language=self.language,
+                require_output_format="html",
+            )
+            if decision.visible_to_student:
+                included_resources.append(record)
+            else:
+                excluded_resources.append(
+                    {
+                        "id": record.model.id,
+                        "status": record.model.status,
+                        "reasons": decision.reasons,
+                    }
+                )
+        if not included_resources:
             raise AssemblyError(f"no resources found for course {course_id}")
 
         current_output = self._planned_output_path("listing", target_id)
         entries: list[ListingEntry] = []
-        for record in sorted(resources, key=lambda item: item.model.title[self.language]):
+        for record in included_resources:
             self._register_object_files(record, role="resource-listing-entry", include_note=False)
             self._register_edge(
                 source_id=target_id,
@@ -1130,6 +1180,15 @@ class AssemblyBuilder:
                 ],
             ),
         )
+        self.resource_workflow_summary = {
+            "course_id": course_id,
+            "included_resource_ids": [record.model.id for record in included_resources],
+            "excluded_resources": excluded_resources,
+            "status_counts": build_resource_workflow_summary(
+                self.index,
+                language=self.language,
+            )["status_counts"],
+        }
         target = BuildTargetRef(
             identifier=target_id,
             kind="resource-listing",
@@ -1141,6 +1200,107 @@ class AssemblyBuilder:
             markdown_body=body,
             related_entries=[],
             listing_entries=entries,
+        )
+
+    def _assemble_resource_inbox(self) -> AssemblyDocument:
+        if self.audience != "teacher" or self.output_format != "html":
+            raise AssemblyError("resource inbox builds currently support teacher html only")
+
+        workflow_summary = build_resource_workflow_summary(self.index, language=self.language)
+        resource_records = [
+            record
+            for record in sorted(self.index.objects.values(), key=lambda item: item.model.id)
+            if isinstance(record.model, Resource)
+        ]
+        current_output = self._planned_output_path("listing", RESOURCE_INBOX_TARGET_ID)
+        candidate_entries: list[ListingEntry] = []
+        reviewed_entries: list[ListingEntry] = []
+        stale_entries: list[ListingEntry] = []
+
+        for record in resource_records:
+            self._register_object_files(record, role="resource-inbox-entry", include_note=False)
+            self._register_edge(
+                source_id=RESOURCE_INBOX_TARGET_ID,
+                source_kind="resource-inbox",
+                target_id=record.model.id,
+                target_kind="resource",
+                relationship="resource-inbox-entry",
+            )
+            entry = ListingEntry(
+                identifier=record.model.id,
+                kind="resource",
+                title=record.model.title[self.language],
+                description=self._resource_inbox_description(record),
+                href=self._page_href(
+                    current_output=current_output,
+                    target_kind="resource",
+                    target_id=record.model.id,
+                ),
+            )
+            if record.model.status == "candidate":
+                candidate_entries.append(entry)
+            if record.model.status == "reviewed":
+                reviewed_entries.append(entry)
+            if resource_is_stale(record.model):
+                stale_entries.append(entry)
+
+        counts = workflow_summary["status_counts"]
+        body_sections = [
+            "# Resource Inbox" if self.language == "en" else "# Ressursinnboks",
+            "",
+            (
+                "Use this inbox to review candidate resources before they are approved for "
+                "student publication."
+                if self.language == "en"
+                else "Bruk denne innboksen til a gjennomga ressurskandidater for de godkjennes "
+                "for studentpublisering."
+            ),
+            "",
+            "## Workflow summary" if self.language == "en" else "## Arbeidsflytsammendrag",
+            "",
+            f"- Candidate: {counts['candidate']}",
+            f"- Reviewed: {counts['reviewed']}",
+            f"- Approved: {counts['approved']}",
+            f"- Published: {counts['published']}",
+            (
+                f"- Stale resources: {workflow_summary['stale_resource_count']}"
+                if self.language == "en"
+                else f"- Utlopende ressurser: {workflow_summary['stale_resource_count']}"
+            ),
+            "",
+            self._render_listing_section(
+                title="Candidate resources"
+                if self.language == "en"
+                else "Kandidatressurser",
+                entries=candidate_entries,
+            ),
+            "",
+            self._render_listing_section(
+                title="Reviewed resources"
+                if self.language == "en"
+                else "Gjennomgaatte ressurser",
+                entries=reviewed_entries,
+            ),
+            "",
+            self._render_listing_section(
+                title="Stale resources"
+                if self.language == "en"
+                else "Utlopende ressurser",
+                entries=stale_entries,
+            ),
+        ]
+        self.resource_workflow_summary = workflow_summary
+        target = BuildTargetRef(
+            identifier=RESOURCE_INBOX_TARGET_ID,
+            kind="resource-inbox",
+            output_category="listing",
+            title="Resource Inbox" if self.language == "en" else "Ressursinnboks",
+        )
+        return self._finalize_document(
+            target=target,
+            markdown_body="\n".join(body_sections).rstrip(),
+            related_entries=[],
+            listing_entries=[*candidate_entries, *reviewed_entries, *stale_entries],
         )
 
     def _finalize_document(
@@ -1194,6 +1354,7 @@ class AssemblyBuilder:
             leakage_observations=self.leakage_observations,
             solution_observations=self.solution_observations,
             figure_observations=self.figure_observations,
+            resource_workflow_summary=self.resource_workflow_summary,
         )
 
     def _render_student_site_document(
@@ -2180,9 +2341,14 @@ class AssemblyBuilder:
         why_label = (
             "Why this matters" if self.language == "en" else "Hvorfor dette er nyttig"
         )
+        summary_label = "Summary" if self.language == "en" else "Sammendrag"
         lines = [
             "## Resource details" if self.language == "en" else "## Ressursdetaljer",
             "",
+            (
+                f"- {('Workflow state' if self.language == 'en' else 'Arbeidsflytstatus')}: "
+                f"{record.model.status}"
+            ),
             f"- {('Type' if self.language == 'en' else 'Type')}: {record.model.resource_kind}",
             (
                 f"- {('Authors' if self.language == 'en' else 'Forfattere')}: "
@@ -2196,12 +2362,52 @@ class AssemblyBuilder:
                 f"- {('Time' if self.language == 'en' else 'Tid')}: "
                 f"{localized_minutes(record.model.estimated_time_minutes, self.language)}"
             ),
-            f"- {why_label}: {record.model.why_selected[self.language]}",
+            f"- {summary_label}: {record.model.summary.get(self.language, '')}",
+            f"- {why_label}: {record.model.why_selected.get(self.language, '')}",
             (
                 f"- {('Open resource' if self.language == 'en' else 'Apne ressurs')}: "
                 f"[{record.model.url}]({record.model.url})"
             ),
         ]
+        if record.model.review_after is not None:
+            lines.append(
+                f"- {('Review after' if self.language == 'en' else 'Revurder etter')}: "
+                f"{record.model.review_after.isoformat()}"
+            )
+        if self.audience == "teacher":
+            stale_label = "yes" if self.language == "en" else "ja"
+            fresh_label = "no" if self.language == "en" else "nei"
+            instructor_label = (
+                "Instructor note" if self.language == "en" else "Faglaerermerknad"
+            )
+            approval_history_label = (
+                "Approval history" if self.language == "en" else "Godkjenningshistorikk"
+            )
+            lines.extend(
+                [
+                    (
+                        f"- {instructor_label}: "
+                        f"{record.model.instructor_note.get(self.language, '')}"
+                    ),
+                    (
+                        f"- {('Stale' if self.language == 'en' else 'Utlopt')}: "
+                        f"{stale_label if resource_is_stale(record.model) else fresh_label}"
+                    ),
+                ]
+            )
+            if record.model.approval_history:
+                history_entries = ", ".join(
+                    f"{item.action}:{item.by}@{item.acted_on.isoformat()}"
+                    for item in record.model.approval_history
+                )
+                lines.append(
+                    f"- {approval_history_label}: {history_entries}"
+                )
+            if record.model.ai.source or record.model.ai.generated_fields:
+                lines.append(
+                    f"- {('AI provenance' if self.language == 'en' else 'AI-opphav')}: "
+                    f"{record.model.ai.source or 'unknown'}"
+                )
         topic_links = self._topic_links(record, current_kind="resource")
         if topic_links:
             lines.append(
@@ -2213,6 +2419,24 @@ class AssemblyBuilder:
                 f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
             )
         return "\n".join(lines)
+
+    def _resource_inbox_description(self, record: IndexedObject) -> str:
+        summary = record.model.summary.get(self.language) or record.model.why_selected.get(
+            self.language,
+            "",
+        )
+        descriptors = [
+            f"state={record.model.status}",
+            f"courses={','.join(record.model.courses) or '-'}",
+            f"topics={','.join(record.model.topics) or '-'}",
+        ]
+        if resource_is_stale(record.model):
+            descriptors.append("stale=yes")
+        if record.model.ai.source:
+            descriptors.append(f"ai={record.model.ai.source}")
+        if summary:
+            descriptors.append(summary)
+        return "; ".join(descriptors)
 
     def _render_collection_summary(self, record: IndexedObject) -> str:
         current_output = self._planned_output_path("collection", record.model.id)
@@ -2987,6 +3211,16 @@ class AssemblyBuilder:
             return False
         if require_output_format and require_output_format not in record.model.outputs:
             return False
+        if isinstance(record.model, Resource):
+            if self.audience == "student":
+                return resource_student_visibility_decision(
+                    record,
+                    language=selected_language,
+                    require_output_format=require_output_format,
+                ).visible_to_student
+            return True
+        if self.audience != "student":
+            return True
         return record.model.status in {"approved", "published"}
 
     def _language_available(
@@ -3119,7 +3353,7 @@ def output_category_for_kind(target_kind: str) -> str:
         return "collection"
     if target_kind == "course":
         return "course"
-    if target_kind in {"topic-listing", "resource-listing"}:
+    if target_kind in {"topic-listing", "resource-listing", "resource-inbox"}:
         return "listing"
     raise AssemblyError(f"unsupported target kind for output category: {target_kind}")
 

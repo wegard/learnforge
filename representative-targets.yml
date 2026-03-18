@@ -24,11 +24,21 @@ targets:
     audience: student
     language: en
     format: html
+  - label: Student approved resource page
+    id: angrist-podcast-iv
+    audience: student
+    language: en
+    format: html
   - label: Teacher lecture slides
     id: lecture-04
     audience: teacher
     language: nb
     format: revealjs
+  - label: Teacher resource inbox
+    id: resource-inbox
+    audience: teacher
+    language: en
+    format: html
   - label: Teacher figure PDF fallback
     id: iv-dag-figure
     audience: teacher

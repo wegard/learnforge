@@ -11,7 +11,7 @@ Audience = Literal["student", "teacher"]
 ObjectKind = Literal["concept", "exercise", "figure", "resource", "collection"]
 Visibility = Literal["private", "teacher", "student", "public"]
 ContentStatus = Literal["draft", "review", "approved", "published", "archived"]
-ResourceStatus = Literal["candidate", "reviewed", "approved", "published", "archived"]
+ResourceStatus = Literal["candidate", "reviewed", "approved", "published"]
 TranslationState = Literal["missing", "machine_draft", "edited", "approved"]
 OutputFormat = Literal["html", "pdf", "revealjs", "handout", "exercise-sheet"]
 
@@ -25,6 +25,14 @@ class AIInfo(BaseModel):
     source: str | None = None
     created_on: date | None = None
     review_state: Literal["pending", "approved", "rejected"] | None = None
+
+
+class ApprovalHistoryEntry(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    action: Literal["reviewed", "approved", "published"]
+    by: str = Field(min_length=1)
+    acted_on: date
 
 
 class BaseContentModel(BaseModel):
@@ -134,20 +142,47 @@ class Resource(BaseContentModel):
     url: AnyHttpUrl
     difficulty: Literal["introductory", "intermediate", "advanced"]
     estimated_time_minutes: int = Field(gt=0)
-    why_selected: dict[str, str]
-    instructor_note: dict[str, str]
+    summary: dict[str, str] = Field(default_factory=dict)
+    why_selected: dict[str, str] = Field(default_factory=dict)
+    instructor_note: dict[str, str] = Field(default_factory=dict)
     freshness: Literal["evergreen", "time-sensitive"]
-    review_after: date
-    approved_by: str
-    approved_on: date
+    review_after: date | None = None
+    approved_by: str | None = None
+    approved_on: date | None = None
+    approval_history: list[ApprovalHistoryEntry] = Field(default_factory=list)
+    stale_flag: bool = False
 
     @model_validator(mode="after")
     def validate_localized_resource_fields(self) -> Resource:
         language_set = set(self.languages)
-        if set(self.why_selected) != language_set:
-            raise ValueError("why_selected keys must match languages exactly")
-        if set(self.instructor_note) != language_set:
-            raise ValueError("instructor_note keys must match languages exactly")
+        if not self.courses and not self.topics:
+            raise ValueError("resource must link to at least one course or topic")
+        for field_name in ("summary", "why_selected", "instructor_note"):
+            value = getattr(self, field_name)
+            if value and set(value) != language_set:
+                raise ValueError(f"{field_name} keys must match languages exactly")
+        if self.freshness == "time-sensitive" and self.review_after is None:
+            raise ValueError("time-sensitive resources must declare review_after")
+        if self.status in {"candidate", "reviewed"}:
+            if self.approved_by or self.approved_on:
+                raise ValueError(
+                    "candidate/reviewed resources must not declare approved_by or approved_on"
+                )
+        if self.status in {"approved", "published"}:
+            if not self.approved_by or self.approved_on is None:
+                raise ValueError(
+                    "approved/published resources must declare approved_by and approved_on"
+                )
+            for field_name in ("summary", "why_selected"):
+                value = getattr(self, field_name)
+                if set(value) != language_set:
+                    raise ValueError(
+                        f"approved/published resources require localized {field_name}"
+                    )
+                if any(not text.strip() for text in value.values()):
+                    raise ValueError(
+                        f"approved/published resources require non-empty {field_name} values"
+                    )
         return self
 
 

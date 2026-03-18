@@ -23,6 +23,12 @@ from app.models import (
     RepresentativeTargetRegistry,
     Resource,
 )
+from app.resource_workflow import (
+    RESOURCE_INBOX_TARGET_ID,
+    build_resource_workflow_summary,
+    resource_is_stale,
+    resource_student_visibility_decision,
+)
 
 TEACHER_BLOCK_RE = re.compile(r":::\s*\{\.teacher-only\}")
 MARKDOWN_LINK_RE = re.compile(r"!\[[^\]]*]\(([^)]+)\)|\[[^\]]*]\(([^)]+)\)")
@@ -89,6 +95,7 @@ class ValidationReport:
     search_index_path: str | None = None
     build_summary: dict[str, object] = field(default_factory=dict)
     translation_coverage: dict[str, object] = field(default_factory=dict)
+    resource_workflow: dict[str, object] = field(default_factory=dict)
     category_counts: dict[str, int] = field(default_factory=dict)
     representative_target_count: int = 0
     representative_target_failure_count: int = 0
@@ -351,17 +358,52 @@ def validate_repository(
                     category="build",
                 )
 
-        if isinstance(model, Resource) and model.visibility in {"student", "public"}:
-            if model.status in {"approved", "published"} and (
-                not model.approved_by or not model.approved_on
+        if isinstance(model, Resource):
+            if (
+                model.visibility in {"student", "public"}
+                and model.status in {"approved", "published"}
             ):
+                if not model.approved_by or not model.approved_on:
+                    _add_issue(
+                        issues,
+                        code="missing-approval-metadata",
+                        message=(
+                            "student-visible approved resources need approved_by and "
+                            "approved_on"
+                        ),
+                        path=record_path,
+                        root=root,
+                        object_id=model.id,
+                        category="editorial",
+                    )
+                decision = resource_student_visibility_decision(
+                    record,
+                    language="en",
+                    require_output_format="html",
+                )
+                if not decision.visible_to_student:
+                    _add_issue(
+                        issues,
+                        code="resource-hidden-from-student-site",
+                        message=(
+                            "student-visible resource will be excluded from student publication: "
+                            + ", ".join(decision.reasons)
+                        ),
+                        path=record_path,
+                        root=root,
+                        object_id=model.id,
+                        severity="warning",
+                        category="editorial",
+                    )
+            if resource_is_stale(model):
                 _add_issue(
                     issues,
-                    code="missing-approval-metadata",
-                    message="student-visible approved resources need approved_by and approved_on",
+                    code="stale-resource",
+                    message="resource is review-due or stale",
                     path=record_path,
                     root=root,
                     object_id=model.id,
+                    severity="warning",
                     category="editorial",
                 )
 
@@ -524,6 +566,7 @@ def validate_repository(
                 )
 
     translation_coverage = _collect_translation_coverage(index=index, root=root, issues=issues)
+    resource_workflow = build_resource_workflow_summary(index=index, language="en")
     representative_targets, representative_target_issues = _load_representative_targets(root)
     issues.extend(representative_target_issues)
 
@@ -566,6 +609,7 @@ def validate_repository(
         search_index_path=search_index_path,
         build_summary=build_summary,
         translation_coverage=translation_coverage,
+        resource_workflow=resource_workflow,
         category_counts=category_counts,
         representative_target_count=len(representative_targets),
         representative_target_failure_count=int(build_summary.get("failure_count", 0)),
@@ -1271,6 +1315,18 @@ def _expected_html_output_paths(*, index, root: Path) -> set[Path]:
                 ).resolve()
             )
 
+    for language in LANGUAGES:
+        expected.add(
+            planned_target_output_path(
+                root,
+                audience="teacher",
+                language=language,
+                output_format="html",
+                target_kind="resource-inbox",
+                target_id=RESOURCE_INBOX_TARGET_ID,
+            ).resolve()
+        )
+
     return expected
 
 
@@ -1307,6 +1363,8 @@ def _representative_target_kind(target_id: str, *, index) -> str | None:
         return "topic-listing"
     if target_id.startswith("resources-"):
         return "resource-listing"
+    if target_id == RESOURCE_INBOX_TARGET_ID:
+        return "resource-inbox"
     return None
 
 
@@ -1339,6 +1397,7 @@ def write_validation_report(
         "search_index_path": report.search_index_path,
         "build_summary_path": str(build_summary_path.relative_to(root)),
         "translation_coverage": report.translation_coverage,
+        "resource_workflow": report.resource_workflow,
         "representative_target_count": report.representative_target_count,
         "representative_target_failure_count": report.representative_target_failure_count,
     }

@@ -55,6 +55,37 @@
       },
       "title": "AIInfo",
       "type": "object"
+    },
+    "ApprovalHistoryEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "reviewed",
+            "approved",
+            "published"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "by": {
+          "minLength": 1,
+          "title": "By",
+          "type": "string"
+        },
+        "acted_on": {
+          "format": "date",
+          "title": "Acted On",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "by",
+        "acted_on"
+      ],
+      "title": "ApprovalHistoryEntry",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -74,8 +105,7 @@
         "candidate",
         "reviewed",
         "approved",
-        "published",
-        "archived"
+        "published"
       ],
       "title": "Status",
       "type": "string"
@@ -216,6 +246,13 @@
       "title": "Estimated Time Minutes",
       "type": "integer"
     },
+    "summary": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Summary",
+      "type": "object"
+    },
     "why_selected": {
       "additionalProperties": {
         "type": "string"
@@ -239,18 +276,54 @@
       "type": "string"
     },
     "review_after": {
-      "format": "date",
-      "title": "Review After",
-      "type": "string"
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Review After"
     },
     "approved_by": {
-      "title": "Approved By",
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Approved By"
     },
     "approved_on": {
-      "format": "date",
-      "title": "Approved On",
-      "type": "string"
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Approved On"
+    },
+    "approval_history": {
+      "items": {
+        "$ref": "#/$defs/ApprovalHistoryEntry"
+      },
+      "title": "Approval History",
+      "type": "array"
+    },
+    "stale_flag": {
+      "default": false,
+      "title": "Stale Flag",
+      "type": "boolean"
     }
   },
   "required": [
@@ -266,12 +339,7 @@
     "url",
     "difficulty",
     "estimated_time_minutes",
-    "why_selected",
-    "instructor_note",
-    "freshness",
-    "review_after",
-    "approved_by",
-    "approved_on"
+    "freshness"
   ],
   "title": "Resource",
   "type": "object"

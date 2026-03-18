@@ -1,0 +1,49 @@
+id: iv-reviewed-primer
+kind: resource
+resource_kind: chapter
+status: reviewed
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Reviewed primer on IV assumptions
+  nb: Gjennomgaatt innforing i IV-antakelser
+authors:
+  - LearnForge editorial team
+published_on: 2025-09-15
+url: https://example.org/resources/iv-reviewed-primer
+courses:
+  - ec202
+topics:
+  - iv
+tags:
+  - primer
+  - reviewed
+outputs:
+  - html
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: approved
+  nb: edited
+ai:
+  generated_fields: []
+difficulty: introductory
+estimated_time_minutes: 18
+summary:
+  en: Reviewed primer that could become a student-facing pre-read on core IV assumptions.
+  nb: Gjennomgaatt innforing som kan bli studentvennlig forlesing om kjerneantakelser for IV.
+why_selected:
+  en: Clear bridge between the intuition lecture and formal assumptions.
+  nb: Tydelig bro mellom intuitiv forelesning og formelle antakelser.
+instructor_note:
+  en: Needs one more pass on notation consistency before approval.
+  nb: Trenger en ekstra runde pa notasjonssamsvar for godkjenning.
+freshness: evergreen
+approval_history:
+  - action: reviewed
+    by: vegard
+    acted_on: 2026-03-18
+stale_flag: false

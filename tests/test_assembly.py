@@ -193,6 +193,44 @@ def test_resource_page_generates_related_content() -> None:
     assert "## Related links" in assembly.markdown
 
 
+def test_teacher_resource_inbox_assembly_surfaces_candidate_reviewed_and_stale_resources() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "resource-inbox",
+        index=index,
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    listed_ids = [entry.identifier for entry in assembly.listing_entries]
+
+    assert assembly.target.kind == "resource-inbox"
+    assert "## Workflow summary" in assembly.markdown
+    assert "## Candidate resources" in assembly.markdown
+    assert "## Reviewed resources" in assembly.markdown
+    assert "## Stale resources" in assembly.markdown
+    assert "iv-candidate-newsletter" in listed_ids
+    assert "iv-reviewed-primer" in listed_ids
+    assert "iv-policy-brief-stale" in listed_ids
+    assert assembly.resource_workflow_summary["status_counts"]["candidate"] == 1
+
+
+def test_student_cannot_assemble_candidate_resource_page() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+
+    with pytest.raises(AssemblyError):
+        assemble_target(
+            "iv-candidate-newsletter",
+            index=index,
+            audience="student",
+            language="en",
+            output_format="html",
+            root=REPO_ROOT,
+        )
+
+
 def test_concept_page_includes_assignment_context() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(

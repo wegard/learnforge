@@ -1,0 +1,3 @@
+## Hvorfor denne ressursen star pa listen
+
+Dette policy-notatet var tidligere et kompakt anvendt eksempel pa instrumentvalg, men det holdes na tilbake i paavente av en ferskhetsgjennomgang.

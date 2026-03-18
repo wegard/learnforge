@@ -1,0 +1,52 @@
+id: iv-candidate-newsletter
+kind: resource
+resource_kind: article
+status: candidate
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: Candidate newsletter on IV examples
+  nb: Kandidatnyhetsbrev om IV-eksempler
+authors:
+  - Editorial team
+published_on: 2026-03-01
+url: https://example.org/resources/iv-candidate-newsletter
+courses:
+  - ec202
+topics:
+  - causal-inference
+  - iv
+tags:
+  - newsletter
+  - candidate
+outputs:
+  - html
+owners:
+  - vegard
+updated: 2026-03-18
+translation_status:
+  en: edited
+  nb: machine_draft
+ai:
+  generated_fields:
+    - summary.en
+  source: openai
+  created_on: 2026-03-18
+  review_state: pending
+difficulty: introductory
+estimated_time_minutes: 12
+summary:
+  en: Draft pointer to recent IV examples from practice.
+  nb: Utkast til pekere mot nye IV-eksempler fra praksis.
+why_selected:
+  en: Candidate for future lecture prep if the examples hold up under review.
+  nb: Kandidat til senere forelesningsforberedelse dersom eksemplene holder ved gjennomgang.
+instructor_note:
+  en: Verify whether the examples are methodologically sound before approval.
+  nb: Kontroller om eksemplene er metodisk solide for godkjenning.
+freshness: time-sensitive
+review_after: 2026-04-15
+approval_history: []
+stale_flag: false

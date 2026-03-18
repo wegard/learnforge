@@ -1,7 +1,7 @@
 id: angrist-podcast-iv
 kind: resource
 resource_kind: podcast
-status: approved
+status: published
 visibility: student
 languages:
   - en
@@ -34,6 +34,9 @@ ai:
   generated_fields: []
 difficulty: introductory
 estimated_time_minutes: 32
+summary:
+  en: Short podcast episode that gives a quick intuition for instrumental variables.
+  nb: Kort podkastepisode som gir en rask intuisjon for instrumentvariabler.
 why_selected:
   en: Gives students an intuitive narrative before the formal lecture.
   nb: Gir studentene en intuitiv fortelling for den formelle forelesningen.
@@ -44,3 +47,14 @@ freshness: evergreen
 review_after: 2027-01-01
 approved_by: vegard
 approved_on: 2026-03-18
+approval_history:
+  - action: reviewed
+    by: vegard
+    acted_on: 2026-03-16
+  - action: approved
+    by: vegard
+    acted_on: 2026-03-17
+  - action: published
+    by: vegard
+    acted_on: 2026-03-18
+stale_flag: false

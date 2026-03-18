@@ -1,0 +1,3 @@
+## Reviewed summary
+
+This reviewed primer explains why relevance and exclusion need separate arguments before students move on to the formal estimator.

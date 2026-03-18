@@ -17,13 +17,15 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     payload = json.loads(report_path.read_text(encoding="utf-8"))
     build_summary = json.loads(build_summary_path.read_text(encoding="utf-8"))
 
-    assert payload["status"] == "passed"
+    assert payload["status"] == "passed_with_warnings"
     assert payload["error_count"] == 0
-    assert payload["warning_count"] == 0
+    assert payload["warning_count"] == 2
     assert payload["build_summary_path"] == "build/reports/build-summary.json"
     assert "translation_coverage" in payload
+    assert "resource_workflow" in payload
+    assert payload["resource_workflow"]["status_counts"]["candidate"] == 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 10
+    assert build_summary["target_count"] == 12
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -106,6 +108,8 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("iv-intuition", "student", "en", "html") in target_keys
     assert ("iv-dag-figure", "student", "en", "html") in target_keys
     assert ("iv-dag-figure", "teacher", "en", "pdf") in target_keys
+    assert ("angrist-podcast-iv", "student", "en", "html") in target_keys
+    assert ("resource-inbox", "teacher", "en", "html") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys
     assert ("assignment-01", "student", "en", "exercise-sheet") in target_keys
     assert ("assignment-01", "teacher", "en", "exercise-sheet") in target_keys
@@ -117,6 +121,7 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert report.ok
     assert report.build_summary["status"] == "passed"
     assert report.build_summary["failure_count"] == 0
+    assert report.resource_workflow["stale_resource_count"] == 1
 
     concept_target = next(
         target
@@ -149,14 +154,50 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         and target["format"] == "html"
         and target["audience"] == "student"
     )
+    resource_page_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "angrist-podcast-iv"
+        and target["format"] == "html"
+        and target["audience"] == "student"
+    )
+    resource_inbox_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "resource-inbox"
+        and target["format"] == "html"
+        and target["audience"] == "teacher"
+    )
 
     assert concept_target["integrity"]["status"] == "passed"
     assert concept_target["integrity"]["broken_link_count"] == 0
     assert lecture_target["status"] == "passed"
     assert figure_html_target["status"] == "passed"
     assert figure_pdf_target["status"] == "passed"
+    assert resource_page_target["status"] == "passed"
+    assert resource_inbox_target["status"] == "passed"
     assert assignment_html_target["leakage_status"] == "clean"
     assert Path(REPO_ROOT / concept_target["output_path"]).exists()
+
+
+def test_validation_report_tracks_resource_workflow_state() -> None:
+    report = validate_repository(REPO_ROOT, run_build_checks=False)
+
+    assert report.resource_workflow["status_counts"] == {
+        "candidate": 1,
+        "reviewed": 1,
+        "approved": 1,
+        "published": 1,
+    }
+    assert report.resource_workflow["student_visible_resource_ids"] == ["angrist-podcast-iv"]
+    assert any(
+        entry["id"] == "iv-policy-brief-stale"
+        for entry in report.resource_workflow["stale_resources"]
+    )
+    assert any(
+        issue.code == "stale-resource" and issue.object_id == "iv-policy-brief-stale"
+        for issue in report.issues
+    )
 
 
 def copy_repo_subset(target_root: Path) -> None:

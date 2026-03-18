@@ -1,6 +1,6 @@
 id: {{ id }}
 kind: {{ kind }}
-status: approved
+status: {{ "candidate" if kind == "resource" else "approved" }}
 visibility: student
 languages:
   - en
@@ -17,8 +17,8 @@ owners:
   - {{ owner }}
 updated: {{ updated }}
 translation_status:
-  en: approved
-  nb: approved
+  en: {{ "edited" if kind == "resource" else "approved" }}
+  nb: {{ "machine_draft" if kind == "resource" else "approved" }}
 ai:
   generated_fields: []
 {% if kind == "concept" %}
@@ -53,6 +53,9 @@ published_on: {{ updated }}
 url: https://example.org/{{ id }}
 difficulty: introductory
 estimated_time_minutes: 15
+summary:
+  en: Add a short English summary.
+  nb: Legg til et kort norsk sammendrag.
 why_selected:
   en: Explain why the resource matters.
   nb: Forklar hvorfor ressursen er nyttig.
@@ -60,9 +63,8 @@ instructor_note:
   en: Add instructor guidance here.
   nb: Legg til faglærermerknad her.
 freshness: evergreen
-review_after: {{ updated }}
-approved_by: {{ owner }}
-approved_on: {{ updated }}
+approval_history: []
+stale_flag: false
 {% elif kind == "collection" %}
 collection_kind: {{ collection_kind }}
 items: []
