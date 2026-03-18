@@ -29,10 +29,12 @@ teach build iv-intuition --audience student --lang nb --format html
 teach build lecture-04 --audience teacher --lang nb --format revealjs
 teach build lecture-04 --audience teacher --lang nb --format pdf
 teach build ec202 --audience student --lang nb --format html
+teach build topic-causal-inference --audience student --lang en --format html
+teach build resources-ec202 --audience student --lang en --format html
 pytest
 ```
 
-Generated outputs are written under `build/exports/`, generated validation reports under `build/reports/`, and the filesystem search index under `build/index/`.
+Generated outputs are written under `build/exports/`, generated build/validation reports under `build/reports/`, and the filesystem search index under `build/index/`.
 
 ## Conventions Locked
 

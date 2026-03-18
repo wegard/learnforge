@@ -4,7 +4,7 @@ import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from app.config import REPO_ROOT, REPORTS_DIR
+from app.config import REPO_ROOT, reports_dir
 from app.indexer import LoadError, load_repository, write_search_index
 from app.models import Collection, Concept, Exercise, Figure, Resource
 
@@ -227,7 +227,7 @@ def validate_repository(root: Path = REPO_ROOT) -> ValidationReport:
 
 
 def write_validation_report(report: ValidationReport, root: Path = REPO_ROOT) -> Path:
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    reports_dir(root).mkdir(parents=True, exist_ok=True)
     output_path = root / "build" / "reports" / "validation-report.json"
     payload = {
         "issue_count": report.issue_count,

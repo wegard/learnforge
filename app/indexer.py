@@ -11,8 +11,8 @@ from pydantic import ValidationError
 from app.config import (
     COLLECTION_DIRS,
     CONTENT_KIND_DIRS,
-    INDEX_DIR,
     REPO_ROOT,
+    index_dir,
     object_note_filename,
 )
 from app.models import (
@@ -173,7 +173,7 @@ def write_search_index(index: RepositoryIndex, root: Path = REPO_ROOT) -> Path:
             for record in sorted(index.courses.values(), key=lambda item: item.model.id)
         ],
     }
-    INDEX_DIR.mkdir(parents=True, exist_ok=True)
+    index_dir(root).mkdir(parents=True, exist_ok=True)
     output_path = root / "build" / "index" / "content-index.json"
     output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return output_path

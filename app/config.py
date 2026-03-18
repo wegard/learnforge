@@ -34,3 +34,23 @@ TEMPLATES_DIR = REPO_ROOT / "templates"
 
 def object_note_filename(language: str) -> str:
     return f"note.{language}.qmd"
+
+
+def build_dir(root: Path = REPO_ROOT) -> Path:
+    return root / "build"
+
+
+def exports_dir(root: Path = REPO_ROOT) -> Path:
+    return build_dir(root) / "exports"
+
+
+def generated_dir(root: Path = REPO_ROOT) -> Path:
+    return build_dir(root) / "generated"
+
+
+def index_dir(root: Path = REPO_ROOT) -> Path:
+    return build_dir(root) / "index"
+
+
+def reports_dir(root: Path = REPO_ROOT) -> Path:
+    return build_dir(root) / "reports"

@@ -76,6 +76,9 @@ def build(
         raise typer.Exit(code=1) from exc
 
     typer.echo(f"Built {artifact.target_id} -> {artifact.output_path.relative_to(REPO_ROOT)}")
+    typer.echo(f"Build manifest: {artifact.build_manifest_path.relative_to(REPO_ROOT)}")
+    typer.echo(f"Dependency manifest: {artifact.dependency_manifest_path.relative_to(REPO_ROOT)}")
+    typer.echo(f"Teacher leakage report: {artifact.leakage_report_path.relative_to(REPO_ROOT)}")
 
 
 @app.command("new")

@@ -1,0 +1,27 @@
+---
+title: Causal Inference
+lang: en
+audience: student
+language_variant: en
+---
+Topic: Causal Inference
+
+## Lectures
+
+- [Lecture 4 - Endogeneity and IV](../../collection/lecture-04/lecture-04.html) - ec202
+
+## Concepts
+
+- [Instrumental Variables Intuition](../../concept/iv-intuition/iv-intuition.html) - ec202
+
+## Exercises
+
+- [IV intuition check](../../exercise/ex-iv-concept-check/ex-iv-concept-check.html) - ec202
+
+## Figures
+
+- [IV DAG](../../figure/iv-dag-figure/iv-dag-figure.html) - ec202
+
+## Resources
+
+- [Instrumental Variables Episode](../../resource/angrist-podcast-iv/angrist-podcast-iv.html) - ec202
