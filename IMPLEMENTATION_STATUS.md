@@ -2,17 +2,16 @@
 
 ## Current Milestone
 
-- Phase 6B complete checkpoint: assignment integration, richer exercise outputs, and status/reporting cleanup
+- Validation + CI hardening complete checkpoint
 
 ## Non-Goals For This Run
 
 - No figure object or figure interactivity work
-- No approval or stale-content workflow work
-- No AI-assisted draft workflows
+- No resource approval workflow
+- No AI draft workflow
+- No deployment or publishing target
+- No migration tooling
 - No Textual TUI
-- No CI/CD or deployment work
-- No broad site-wide validation overhaul beyond assignment-related integrity checks
-- No migration of legacy materials
 
 ## Decisions Locked
 
@@ -43,6 +42,13 @@
 - Assignment collections are the first exercise-sheet compilation input and may only include exercise objects
 - Student exercise sheets render to `*-exercise-sheet.pdf`; teacher solution sheets render to `*-solution-sheet.pdf`
 - Student exercise-sheet builds must explicitly report solution leakage checks in `teacher-leakage-report.json`
+- Representative validation/build targets are declared centrally in `representative-targets.yml`
+- `teach validate` is now the first-class quality-gate command and writes:
+  - `build/reports/validation-report.json`
+  - `build/reports/build-summary.json`
+- Validation warnings surface editorial/translation gaps without failing the command; validation errors fail the command and CI
+- Representative HTML integrity checks accept planned buildable HTML targets and require real files for local assets and non-HTML export links
+- Quarto support assets are mirrored into `build/site_libs/` after representative renders so exported HTML link paths resolve deterministically in local validation and CI
 
 ## Completed Tasks
 
@@ -231,16 +237,48 @@
   - teacher vs student assignment output visibility
   - assignment manifest contents
   - course-plan assignment validation
+- Added a repository-level representative target registry in `representative-targets.yml`
+- Hardened `teach validate` into a broader quality-gate subsystem covering:
+  - schema/load checks
+  - cross-reference checks
+  - local asset/file checks in notes, syllabi, and solutions
+  - translation coverage reporting
+  - representative render/build checks
+  - broken-link and manifest-integrity checks over representative outputs
+  - leakage-report escalation into validation failures for student outputs
+- Added machine-readable validation/build summary outputs:
+  - `build/reports/validation-report.json`
+  - `build/reports/build-summary.json`
+- Added representative build integrity reporting with per-target status, artifact paths, leakage status, and broken-link counts
+- Added a reusable representative build script at `scripts/build_representative_targets.py`
+- Updated `Makefile` so `build-samples` runs the representative target registry instead of hard-coded bootstrap commands
+- Added minimal GitHub Actions CI at `.github/workflows/ci.yml` to run:
+  - dependency install
+  - lint
+  - tests
+  - `teach validate`
+  - representative builds
+- Added validation/quality-gate tests for:
+  - validation JSON report structure
+  - broken-reference detection
+  - missing-translation reporting
+  - missing-local-asset detection
+  - missing figure fallback asset detection
+  - representative target registry loading
+  - representative build-summary integrity on real outputs
 
 ## Remaining Tasks
 
 - Phase 6A core exercise compiler and teacher/student solution separation are complete for the current narrow slice
 - Phase 6B assignment integration and reporting cleanup are complete for the current narrow slice
-- Later roadmap work only:
-  - expand exercise outputs beyond assignment HTML + student sheet + teacher solution sheet when the roadmap explicitly calls for them
-  - decide whether later course/topic surfaces should expose additional assignment/listing views beyond the current course-centric integration
-  - broaden integrity/link validation only when a later slice requires site-wide enforcement
-  - keep Phase 7 figure pipeline, approval/stale workflows, TUI, AI workflows, migration, and deployment deferred
+- Later roadmap work remains deferred:
+  - Phase 7 figure pipeline and interactivity
+  - resource approval and stale-content workflows
+  - AI workflows
+  - migration tooling
+  - deployment/publishing targets
+  - preview/release publishing jobs
+  - broader site-wide validation beyond the current representative-target graph where the roadmap later requires it
 
 ## Blockers
 
@@ -315,13 +353,26 @@
   - `IMPLEMENTATION_STATUS.md`
   - `app/assembly.py`
   - `app/build.py`
+- `app/models.py`
+- `app/validator.py`
+- `collections/assignments/assignment-01/meta.yml`
+- `courses/ec202/plan.yml`
+- `tests/test_assembly.py`
+- `tests/test_builds.py`
+- `tests/test_schema.py`
+- Validation + CI hardening slice touched:
+  - `IMPLEMENTATION_STATUS.md`
+  - `Makefile`
+  - `.github/workflows/ci.yml`
+  - `representative-targets.yml`
+  - `scripts/build_representative_targets.py`
+  - `app/build.py`
+  - `app/cli.py`
   - `app/models.py`
   - `app/validator.py`
-  - `collections/assignments/assignment-01/meta.yml`
-  - `courses/ec202/plan.yml`
-  - `tests/test_assembly.py`
-  - `tests/test_builds.py`
+  - `tests/test_cli.py`
   - `tests/test_schema.py`
+  - `tests/test_validation.py`
 
 ## Commands Run
 
@@ -484,6 +535,23 @@
 - `sed -n '1,260p' build/reports/builds/student/en/html/collection/assignment-01/build-manifest.json`
 - `sed -n '1,260p' build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
 - `sed -n '1,260p' build/reports/builds/teacher/en/exercise-sheet/collection/assignment-01/build-manifest.json`
+- Validation + CI hardening slice ran:
+  - `sed -n '1,260p' IMPLEMENTATION_STATUS.md`
+  - `sed -n '1,260p' ROADMAP.md`
+  - `sed -n '1,340p' app/validator.py`
+  - `sed -n '1,620p' app/build.py`
+  - `sed -n '1,280p' app/models.py`
+  - `sed -n '1,240p' app/cli.py`
+  - `sed -n '1,360p' tests/test_builds.py`
+  - `sed -n '1,260p' tests/test_schema.py`
+  - `sed -n '1,360p' tests/test_cli.py`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/ruff check app/cli.py app/validator.py --fix`
+  - `./.venv/bin/python -m pytest tests/test_cli.py tests/test_validation.py -q`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach validate`
+  - `./.venv/bin/teach validate --json`
+  - `./.venv/bin/python scripts/build_representative_targets.py`
 
 ## Test / Build Results
 
@@ -518,6 +586,51 @@
     - `build/reports/builds/student/en/html/collection/assignment-01/teacher-leakage-report.json`
     - `status: clean`
     - `solution_files_found: 2`
+- Validation + CI hardening slice passed:
+  - `teach validate`
+    - `Validated 7 objects and 1 courses. Errors: 0. Warnings: 0.`
+  - `teach validate --json`
+    - `status: passed`
+    - `representative_target_count: 8`
+    - `representative_target_failure_count: 0`
+  - Lint passed:
+    - `All checks passed!`
+  - Tests passed:
+    - `39 passed in 90.84s`
+  - Representative build script passed:
+    - `8/8 representative targets built`
+  - Validation JSON report:
+    - `build/reports/validation-report.json`
+  - Build summary JSON:
+    - `build/reports/build-summary.json`
+  - Representative outputs verified:
+    - Student concept HTML:
+      - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`
+    - Teacher lecture Reveal.js:
+      - `build/exports/teacher/nb/revealjs/collection/lecture-04/lecture-04.html`
+    - Student exercise-sheet PDF:
+      - `build/exports/student/en/exercise-sheet/collection/assignment-01/assignment-01-exercise-sheet.pdf`
+    - Student resource listing HTML:
+      - `build/exports/student/en/html/listing/resources-ec202/resources-ec202.html`
+    - Student assignment HTML:
+      - `build/exports/student/en/html/collection/assignment-01/assignment-01.html`
+    - Teacher solution-sheet PDF:
+      - `build/exports/teacher/en/exercise-sheet/collection/assignment-01/assignment-01-solution-sheet.pdf`
+  - Representative per-target integrity status:
+    - all `8` targets reported `integrity.status: passed`
+    - all representative student targets reported `leakage_status: clean`
+
+## CI Workflow Files Added
+
+- `.github/workflows/ci.yml`
+
+## Next Recommended Step
+
+- Stop at this clean validation/CI checkpoint
+- When resuming the roadmap, choose one later slice explicitly rather than expanding validation/CI further in this branch
+- The most natural next slices are:
+  - Phase 7 figure pipeline and fallback policy
+  - a later, explicit publishing/deployment slice once the roadmap calls for preview/release jobs
     - `solution_files_included: 0`
   - Assignment navigation verification:
     - `build/exports/student/en/html/concept/iv-intuition/iv-intuition.html`

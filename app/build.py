@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -104,6 +105,7 @@ def build_target(
     if result.returncode != 0:
         raise BuildError(result.stderr.strip() or result.stdout.strip() or "quarto render failed")
 
+    sync_site_libs(root, output_dir)
     output_path = assembly.planned_output_path
     search_index_path = None
     if audience == "student" and output_format == "html":
@@ -142,6 +144,18 @@ def build_env(root: Path) -> dict[str, str]:
     env.setdefault("QUARTO_CACHE_DIR", str(cache_dir))
     env.setdefault("XDG_CACHE_HOME", str(cache_dir))
     return env
+
+
+def sync_site_libs(root: Path, output_dir: Path) -> None:
+    source_candidates = [
+        output_dir / "site_libs",
+        root / "site_libs",
+    ]
+    source = next((candidate for candidate in source_candidates if candidate.exists()), None)
+    if source is None:
+        return
+    destination = root / "build" / "site_libs"
+    shutil.copytree(source, destination, dirs_exist_ok=True)
 
 
 def write_build_reports(

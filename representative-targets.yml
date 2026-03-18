@@ -1,0 +1,41 @@
+targets:
+  - label: Student course page
+    id: ec202
+    audience: student
+    language: en
+    format: html
+  - label: Student concept page
+    id: iv-intuition
+    audience: student
+    language: en
+    format: html
+  - label: Student topic listing
+    id: topic-causal-inference
+    audience: student
+    language: en
+    format: html
+  - label: Student resource listing
+    id: resources-ec202
+    audience: student
+    language: en
+    format: html
+  - label: Teacher lecture slides
+    id: lecture-04
+    audience: teacher
+    language: nb
+    format: revealjs
+  - label: Student exercise sheet
+    id: assignment-01
+    audience: student
+    language: en
+    format: exercise-sheet
+  - label: Student assignment page
+    id: assignment-01
+    audience: student
+    language: en
+    format: html
+  - label: Teacher solution sheet
+    id: assignment-01
+    audience: teacher
+    language: en
+    format: exercise-sheet

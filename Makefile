@@ -1,17 +1,16 @@
-.PHONY: install validate test build-samples
+.PHONY: install lint validate test build-samples
 
 install:
 	python3 -m pip install -e .[dev]
+
+lint:
+	ruff check app tests
 
 validate:
 	teach validate
 
 test:
-	pytest
+	pytest -q
 
 build-samples:
-	teach build iv-intuition --audience student --lang en --format html
-	teach build iv-intuition --audience student --lang nb --format html
-	teach build lecture-04 --audience teacher --lang nb --format revealjs
-	teach build lecture-04 --audience teacher --lang nb --format pdf
-	teach build ec202 --audience student --lang nb --format html
+	python scripts/build_representative_targets.py

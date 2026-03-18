@@ -174,3 +174,32 @@ class CoursePlan(BaseModel):
 
     lectures: list[str] = Field(default_factory=list)
     assignments: list[str] = Field(default_factory=list)
+
+
+class RepresentativeTarget(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    id: str = Field(pattern=SLUG_PATTERN)
+    audience: Audience
+    language: Language
+    format: OutputFormat
+    label: str = Field(min_length=1)
+
+
+class RepresentativeTargetRegistry(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    targets: list[RepresentativeTarget] = Field(default_factory=list)
+
+    @field_validator("targets")
+    @classmethod
+    def validate_targets(cls, value: list[RepresentativeTarget]) -> list[RepresentativeTarget]:
+        if not value:
+            raise ValueError("targets must not be empty")
+        seen: set[tuple[str, str, str, str]] = set()
+        for target in value:
+            key = (target.id, target.audience, target.language, target.format)
+            if key in seen:
+                raise ValueError(f"duplicate representative target: {key}")
+            seen.add(key)
+        return value

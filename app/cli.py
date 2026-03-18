@@ -4,6 +4,7 @@ import json
 import os
 import shlex
 import subprocess
+from dataclasses import asdict
 
 import typer
 
@@ -22,16 +23,26 @@ def validate(
     json_output: bool = typer.Option(False, "--json", help="Print the validation report as JSON."),
 ) -> None:
     report = validate_repository(REPO_ROOT)
-    report_path = write_validation_report(report, REPO_ROOT)
+    report_path, build_summary_path = write_validation_report(report, REPO_ROOT)
     if json_output:
         typer.echo(
             json.dumps(
                 {
+                    "status": report.status,
                     "issue_count": report.issue_count,
+                    "error_count": report.error_count,
+                    "warning_count": report.warning_count,
                     "object_count": report.object_count,
                     "course_count": report.course_count,
-                    "issues": [issue.__dict__ for issue in report.issues],
+                    "issues": [asdict(issue) for issue in report.issues],
+                    "category_counts": report.category_counts,
                     "search_index_path": report.search_index_path,
+                    "build_summary_path": str(build_summary_path.relative_to(REPO_ROOT)),
+                    "translation_coverage": report.translation_coverage,
+                    "representative_target_count": report.representative_target_count,
+                    "representative_target_failure_count": (
+                        report.representative_target_failure_count
+                    ),
                     "report_path": str(report_path.relative_to(REPO_ROOT)),
                 },
                 indent=2,
@@ -40,12 +51,21 @@ def validate(
     else:
         typer.echo(
             f"Validated {report.object_count} objects and {report.course_count} courses. "
-            f"Issues: {report.issue_count}. Report: {report_path.relative_to(REPO_ROOT)}"
+            f"Errors: {report.error_count}. Warnings: {report.warning_count}. "
+            f"Report: {report_path.relative_to(REPO_ROOT)}"
+        )
+        typer.echo(f"Build summary: {build_summary_path.relative_to(REPO_ROOT)}")
+        typer.echo(
+            "Representative targets: "
+            f"{report.representative_target_count - report.representative_target_failure_count}/"
+            f"{report.representative_target_count} passed"
         )
         if report.search_index_path:
             typer.echo(f"Search index: {report.search_index_path}")
         for issue in report.issues:
-            typer.echo(f"[{issue.code}] {issue.path}: {issue.message}")
+            typer.echo(
+                f"[{issue.severity}:{issue.code}] {issue.path}: {issue.message}"
+            )
     raise typer.Exit(code=0 if report.ok else 1)
 
 

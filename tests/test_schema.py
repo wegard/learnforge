@@ -12,7 +12,7 @@ from app.validator import validate_repository
 
 
 def test_sample_repository_validates_cleanly() -> None:
-    report = validate_repository(REPO_ROOT)
+    report = validate_repository(REPO_ROOT, run_build_checks=False)
     assert report.ok
     assert report.object_count == 7
     assert report.course_count == 1
@@ -79,7 +79,7 @@ def test_validator_rejects_missing_exercise_solution_file(tmp_path) -> None:
     )
     solution_path.unlink()
 
-    report = validate_repository(tmp_path)
+    report = validate_repository(tmp_path, run_build_checks=False)
 
     assert any(
         issue.code == "missing-solution" and issue.object_id == "ex-iv-concept-check"
@@ -96,7 +96,7 @@ def test_validator_rejects_teacher_blocks_inside_exercise_note(tmp_path) -> None
         encoding="utf-8",
     )
 
-    report = validate_repository(tmp_path)
+    report = validate_repository(tmp_path, run_build_checks=False)
 
     assert any(
         issue.code == "exercise-note-contains-teacher-block"
@@ -113,7 +113,7 @@ def test_validator_rejects_course_assignment_without_html_output(tmp_path) -> No
         encoding="utf-8",
     )
 
-    report = validate_repository(tmp_path)
+    report = validate_repository(tmp_path, run_build_checks=False)
 
     assert any(
         issue.code == "assignment-missing-html-output" and issue.object_id == "assignment-01"
@@ -124,3 +124,7 @@ def test_validator_rejects_course_assignment_without_html_output(tmp_path) -> No
 def copy_repo_subset(target_root) -> None:
     for relative_path in ("content", "collections", "courses"):
         shutil.copytree(REPO_ROOT / relative_path, target_root / relative_path)
+    shutil.copy(
+        REPO_ROOT / "representative-targets.yml",
+        target_root / "representative-targets.yml",
+    )
