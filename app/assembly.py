@@ -903,6 +903,7 @@ class AssemblyBuilder:
         ]
         course_resources.sort(key=lambda item: item.model.title[self.language])
         resource_listing_id = f"{RESOURCE_LISTING_PREFIX}{record.model.id}"
+        has_resource_listing = bool(course_resources)
         self.referenced_listing_targets.append(resource_listing_id)
         self._register_edge(
             source_id=record.model.id,
@@ -963,7 +964,7 @@ class AssemblyBuilder:
                         "All course resources" if self.language == "en" else "Alle kursressurser",
                         self._planned_output_path("course", record.model.id),
                     )
-                    if self.output_format == "html"
+                    if self.output_format == "html" and has_resource_listing
                     else ""
                 ),
             ),
@@ -979,7 +980,7 @@ class AssemblyBuilder:
                         else "Full ressursoversikt",
                         self._planned_output_path("course", record.model.id),
                     )
-                    if self.output_format == "html"
+                    if self.output_format == "html" and has_resource_listing
                     else ""
                 ),
             ),

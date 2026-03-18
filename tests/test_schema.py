@@ -15,7 +15,7 @@ def test_sample_repository_validates_cleanly() -> None:
     report = validate_repository(REPO_ROOT, run_build_checks=False)
     assert report.ok
     assert report.object_count == 10
-    assert report.course_count == 1
+    assert report.course_count == 2
     assert report.warning_count == 2
     assert report.search_index_path == "build/index/content-index.json"
 

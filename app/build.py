@@ -80,7 +80,8 @@ def build_target(
 
     output_dir = assembly.planned_output_path.parent
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_name = assembly.planned_output_path.name
+    output_path = assembly.planned_output_path
+    output_name = output_path.name
     command = [
         "quarto",
         "render",
@@ -91,9 +92,9 @@ def build_target(
         FORMAT_TO_QUARTO[output_format],
         "--output",
         output_name,
-        "--output-dir",
-        str(output_dir.relative_to(root)),
     ]
+    if FORMAT_TO_QUARTO[output_format] == "pdf":
+        command.extend(["-M", "pdf-engine:pdflatex"])
 
     result = subprocess.run(
         command,
@@ -106,8 +107,29 @@ def build_target(
     if result.returncode != 0:
         raise BuildError(result.stderr.strip() or result.stdout.strip() or "quarto render failed")
 
+    rendered_candidates = [
+        assembly.generated_path.parent / output_name,
+        root / output_name,
+    ]
+    rendered_output = next((path for path in rendered_candidates if path.exists()), None)
+    if rendered_output is None:
+        raise BuildError(
+            "expected rendered output missing: "
+            + ", ".join(str(path.relative_to(root)) for path in rendered_candidates)
+        )
+    if rendered_output.resolve() != output_path.resolve():
+        if output_path.exists():
+            output_path.unlink()
+        shutil.move(str(rendered_output), str(output_path))
+
+    rendered_support_dir = assembly.generated_path.parent / f"{assembly.generated_path.stem}_files"
+    if rendered_support_dir.exists():
+        destination_support_dir = output_dir / rendered_support_dir.name
+        if destination_support_dir.exists():
+            shutil.rmtree(destination_support_dir)
+        shutil.move(str(rendered_support_dir), str(destination_support_dir))
+
     sync_site_libs(root, output_dir)
-    output_path = assembly.planned_output_path
     search_index_path = None
     if audience == "student" and output_format == "html":
         search_index_path = write_student_site_search_index(

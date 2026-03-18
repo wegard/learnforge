@@ -15,6 +15,7 @@ LearnForge is a git-backed, markdown-first teaching publishing system. The curre
 - Exercise compiler path with separate `solution.<lang>.qmd` files and teacher-only solution sheets
 - Resource workflow states for `candidate`, `reviewed`, `approved`, and `published`
 - Representative renders for home, course, lecture, concept, exercise, resource, topic listing, slides, and PDF export paths
+- A migration-stage `tem0052` course shell and tracked inventory for promoting legacy material from `course-inbox/`
 
 ## Requirements
 

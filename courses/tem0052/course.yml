@@ -1,0 +1,12 @@
+id: tem0052
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: TEM 0052 - Predictive Modelling with Machine Learning
+summary:
+  en: A migration-stage course shell for the redesigned Predictive Modelling with Machine Learning course.
+owners:
+  - vegard
+updated: 2026-03-18

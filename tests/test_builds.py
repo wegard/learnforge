@@ -77,6 +77,25 @@ def test_course_page_build_contains_generated_listings() -> None:
     assert "resources-ec202" in build_manifest["referenced_listing_targets"]
 
 
+def test_tem0052_migration_course_page_builds_without_empty_resource_listing_links() -> None:
+    artifact = build_target(
+        "tem0052",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+
+    assert "TEM 0052 - Predictive Modelling with Machine Learning" in html
+    assert "Browse by Course" not in html
+    assert "Course Overview" in html
+    assert "No entries." in html
+    assert "resources-tem0052" not in html
+    assert "Search LearnForge" in html
+
+
 def test_listing_build_writes_reports() -> None:
     artifact = build_target(
         "topic-causal-inference",

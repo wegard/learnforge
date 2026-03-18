@@ -1,0 +1,72 @@
+# Course Overview
+
+`TEM 0052 Predictive Modelling with Machine Learning` is being rebuilt in LearnForge as
+an English-first course with reusable concepts, figures, exercises, and lecture
+collections.
+
+The course focuses on traditional machine-learning methods and the statistical
+principles behind predictive modelling before introducing a short conceptual bridge to
+neural networks.
+
+## Knowledge Goals
+
+- Explain the statistical foundations of predictive modelling, including overfitting,
+  regularisation, and the bias-variance trade-off.
+- Compare core machine-learning methods for regression, classification, clustering,
+  and ensemble learning.
+- Understand strengths, limitations, and practical trade-offs related to
+  interpretability, computational cost, and predictive accuracy.
+- Distinguish traditional statistical learning from deep learning and identify when
+  each is appropriate.
+
+## Skills Goals
+
+- Design, implement, and validate predictive models in Python using standard
+  scientific and machine-learning libraries.
+- Build reproducible preprocessing and feature-engineering pipelines.
+- Apply cross-validation, hyper-parameter tuning, and model-selection workflows.
+- Extend linear models to penalised regression and generalized linear modelling
+  variants.
+- Evaluate model performance critically and communicate findings in professional
+  reports and presentations.
+
+## General Competence
+
+- Translate practical business or societal problems into data-driven predictive
+  questions.
+- Plan and execute a substantial semester project with statistical rigour and
+  pragmatic data-science practice.
+- Reflect on ethical, legal, and sustainability aspects of predictive analytics,
+  including fairness, privacy, and transparency.
+
+## Planned Content Areas
+
+- Statistical foundations and bias-variance thinking
+- Data preparation and preprocessing pipelines
+- Linear and penalised regression
+- Classification methods including k-NN, Naive Bayes, logistic regression, and SVMs
+- Tree-based methods and ensembles
+- Unsupervised learning with clustering and dimensionality reduction
+- Model assessment, resampling, and learning curves
+- Responsible ML and reproducibility
+- A short neural-network bridge
+
+## Teaching Format
+
+Teaching will combine lectures with interactive working sessions.
+
+Students are expected to prepare for class by reading assigned material and working
+through guided examples.
+
+The central learning activity is an individual semester project where each student
+defines a predictive problem, selects a dataset, builds models, and presents the
+results.
+
+## Tools And Workflow
+
+- Python is the primary programming language.
+- Generative AI tools may be used as workflow assistants, but students remain fully
+  responsible for the statistical quality, correctness, and ethical compliance of
+  their work.
+- Course assets are being migrated from legacy notebook and slide material into
+  LearnForge's object model.
