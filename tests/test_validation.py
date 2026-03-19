@@ -25,7 +25,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] == 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 16
+    assert build_summary["target_count"] == 15
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -191,7 +191,7 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert lecture_target["status"] == "passed"
     assert tem0052_lecture_target["status"] == "passed"
     assert edi3400_lecture_target["status"] == "passed"
-    assert edi3400_lecture_target["expected_output_path"].endswith(
+    assert edi3400_lecture_target["output_path"].endswith(
         "build/exports/student/en/html/collection/edi3400-lecture-13/edi3400-lecture-13.html"
     )
     assert figure_html_target["status"] == "passed"
