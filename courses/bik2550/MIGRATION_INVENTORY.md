@@ -43,11 +43,11 @@ This file tracks the migration of legacy material from
 
 | Legacy source | Target kind | Proposed target id | Status |
 | --- | --- | --- | --- |
-| `modul_3/dag1/Store_språkmodeller_og_NLP.tex` | concept | `nlp-text-data-finance` | pending |
-| `modul_3/dag1/llms.tex` | concept | `llms-deep-dive` | pending |
-| `modul_3/dag2/Multimodalitet_i_Finans.tex` | concept | `multimodality-in-finance` | pending |
-| `modul_3/dag3/Oppsumering_AI_finans.tex` + `Anvendelser.tex` | concept | `ai-applications-finance-summary` | pending |
-| `modul_3/ressurser/Predict_the_next_token_part1.ipynb` | exercise | `next-token-prediction-exercise` | pending |
+| `modul_3/dag1/Store_språkmodeller_og_NLP.tex` | concept | `nlp-text-data-finance` | **promoted** |
+| `modul_3/dag1/llms.tex` | concept | `llms-deep-dive` | **promoted** |
+| `modul_3/dag2/Multimodalitet_i_Finans.tex` | concept | `multimodality-in-finance` | **promoted** |
+| `modul_3/dag3/Oppsumering_AI_finans.tex` + `Anvendelser.tex` | concept | `ai-applications-finance-summary` | **promoted** |
+| `modul_3/ressurser/Predict_the_next_token_part1.ipynb` | exercise | `next-token-prediction-exercise` | **promoted** |
 
 ### Rewrite Fresh (later waves)
 
@@ -105,3 +105,11 @@ This file tracks the migration of legacy material from
 - Lecture collection: `bik2550-m1d1`
 - Lecture collection: `bik2550-m1d2`
 - Lecture collection: `bik2550-m1d3`
+- Concept: `nlp-text-data-finance`
+- Concept: `llms-deep-dive`
+- Concept: `multimodality-in-finance`
+- Concept: `ai-applications-finance-summary`
+- Exercise: `next-token-prediction-exercise`
+- Lecture collection: `bik2550-m3d1`
+- Lecture collection: `bik2550-m3d2`
+- Lecture collection: `bik2550-m3d3`
