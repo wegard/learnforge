@@ -25,6 +25,7 @@ def test_gra4164_course_is_indexed_with_current_canonical_slices() -> None:
         "gra4164-lecture-07",
         "gra4164-lecture-08",
         "gra4164-lecture-09",
+        "gra4164-lecture-10",
         "gra4164-lecture-11",
     ]
     assert course.plan.assignments == [
@@ -64,7 +65,7 @@ def test_gra4164_course_assembles_with_current_practical_day_slice() -> None:
 
     assert assembly.target.kind == "course"
     assert assembly.target.identifier == "gra4164"
-    assert listing_ids[:10] == [
+    assert listing_ids[:11] == [
         "gra4164-lecture-01",
         "gra4164-lecture-02",
         "gra4164-lecture-03",
@@ -74,6 +75,7 @@ def test_gra4164_course_assembles_with_current_practical_day_slice() -> None:
         "gra4164-lecture-07",
         "gra4164-lecture-08",
         "gra4164-lecture-09",
+        "gra4164-lecture-10",
         "gra4164-lecture-11",
     ]
     assert "sotu-boolean-search-topic-modeling" in listing_ids
@@ -93,6 +95,7 @@ def test_gra4164_course_assembles_with_current_practical_day_slice() -> None:
     assert "Lecture 7 - LLMs and tokenization" in assembly.markdown
     assert "Lecture 8 - Attention and transformers" in assembly.markdown
     assert "Lecture 9 - LLM architecture and training" in assembly.markdown
+    assert "Lecture 10 - Practical day 2" in assembly.markdown
     assert "Lecture 11 - Prompt engineering" in assembly.markdown
     assert "State of the Union - Boolean search and topic modelling" in assembly.markdown
     assert "State of the Union - word embeddings and semantic change" in assembly.markdown
@@ -439,6 +442,30 @@ def test_gra4164_lecture_09_assembly_expands_llm_architecture_training_block() -
     assert "## Lab brief" not in assembly.markdown
 
 
+def test_gra4164_lecture_10_assembly_expands_practical_day_2_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "gra4164-lecture-10",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "word-embeddings-sotu-analysis",
+        "bert-finetuning-text-classification",
+    ]
+    assert "## Lab brief" in assembly.markdown
+    assert "semantic change over time" in assembly.markdown
+    assert "## Part 1: Benchmark fine-tuning task" in assembly.markdown
+
+
 def test_prompt_engineering_for_nlp_concept_links_gra4164_sequence() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -536,6 +563,7 @@ def test_word_embeddings_sotu_analysis_links_embeddings_and_course() -> None:
     assert "text-preprocessing-nlp" in related_ids
     assert "word-embeddings-word2vec" in related_ids
     assert "gra4164-assignment-02" in related_ids
+    assert "gra4164-lecture-10" in related_ids
     assert "gra4164" in related_ids
 
 
@@ -564,6 +592,7 @@ def test_bert_finetuning_text_classification_links_llm_pipeline_and_course() -> 
     assert "llm-input-output-architecture" in related_ids
     assert "llm-training-and-finetuning" in related_ids
     assert "gra4164-assignment-03" in related_ids
+    assert "gra4164-lecture-10" in related_ids
     assert "gra4164" in related_ids
 
 
@@ -953,6 +982,7 @@ def test_gra4164_course_student_page_builds_with_practical_day_lecture() -> None
     assert "Lecture 7 - LLMs and tokenization" in html
     assert "Lecture 8 - Attention and transformers" in html
     assert "Lecture 9 - LLM architecture and training" in html
+    assert "Lecture 10 - Practical day 2" in html
     assert "Lecture 11 - Prompt engineering" in html
     assert "State of the Union - Boolean search and topic modelling" in html
     assert "State of the Union - word embeddings and semantic change" in html

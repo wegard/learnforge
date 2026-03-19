@@ -1,0 +1,38 @@
+id: gra4164-lecture-10
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 10 - Practical day 2
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - deep-learning
+  - text-classification
+tags:
+  - lecture
+  - practical-day
+  - llm
+  - lab
+  - project-guidance
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - word-embeddings-sotu-analysis
+  - bert-finetuning-text-classification

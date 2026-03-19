@@ -95,6 +95,7 @@ These can stay in the inbox until the core NLP content is migrated.
 | `gra4164-lecture-07` | LLMs and Tokenization | `llm-introduction-tokenization` |
 | `gra4164-lecture-08` | Attention and Transformers | `attention-and-transformers` |
 | `gra4164-lecture-09` | LLM Architecture and Training | `llm-input-output-architecture`, `llm-training-and-finetuning` |
+| `gra4164-lecture-10` | Practical Day 2 | `word-embeddings-sotu-analysis`, `bert-finetuning-text-classification` |
 | `gra4164-lecture-11` | Prompt Engineering | `prompt-engineering-for-nlp`, `prompt-engineering-reflection` |
 
 ## Proposed Assignment Collections
@@ -159,13 +160,14 @@ Content objects should list relevant concepts from other courses in `related:`:
 - Lecture collection: `gra4164-lecture-07`
 - Lecture collection: `gra4164-lecture-08`
 - Lecture collection: `gra4164-lecture-09`
+- Lecture collection: `gra4164-lecture-10`
 - Lecture collection: `gra4164-lecture-11`
 
 ## Next Migration Actions
 
-1. Decide whether the practical-day labs should remain standalone exercises only or
-   also be grouped into optional workshop collections.
-2. Reconcile remaining draft objects surfaced by `gra4164`, especially
+1. Reconcile remaining draft objects surfaced by `gra4164`, especially
    `topic-modeling-lsa-lda`, if they should appear as fully approved course
    concepts.
+2. Decide whether the final presentation session should be represented as a
+   canonical collection or remain syllabus-only course structure.
 3. Leave all remaining legacy files in the inbox until explicitly promoted.
