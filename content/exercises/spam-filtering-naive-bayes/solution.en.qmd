@@ -1,0 +1,46 @@
+The safest teacher solution is a compact, reproducible text-classification workflow
+that separates tokenization, probability estimation, and evaluation cleanly.
+
+## Suggested approach
+
+1. Load the SMS Spam Collection with `pandas.read_csv(..., sep="\t")` and map the
+   target to a clear binary coding, for example `ham=0`, `spam=1`.
+2. Use one deterministic, stratified train/test split so the spam base rate stays
+   comparable across runs.
+3. Fit `CountVectorizer()` on the training messages only and transform the test set
+   with the fitted vocabulary.
+4. Estimate the class priors from the training labels and estimate class-conditional
+   token probabilities with additive smoothing so zero counts do not collapse the log
+   scores.
+5. Score each test message with log-posteriors of the form
+   `log P(C_k) + sum_j x_j log P(token_j | C_k)` and predict the class with the
+   larger score.
+6. Evaluate the manual classifier with a confusion matrix plus accuracy, precision,
+   and recall.
+7. Fit `MultinomialNB()` on the same count matrix and compare the results directly to
+   the manual implementation.
+
+## What students should usually find
+
+- The spam class is the minority class, so raw accuracy alone can hide bad filtering
+  behavior.
+- A simple multinomial naive Bayes model often performs surprisingly well on this
+  dataset because token counts carry strong signal for promotional language.
+- Words tied to prizes, free offers, urgent calls to action, and reply instructions
+  usually receive strong spam weight, while conversational words are more common in
+  ham.
+- The manual implementation and `MultinomialNB` should land in the same performance
+  neighborhood when smoothing and tokenization are handled consistently.
+
+## Teaching emphasis
+
+The important point is not whether students optimize the best possible score.
+The important point is that they can explain the full pipeline: split, vectorize,
+estimate, predict, and evaluate.
+
+Use the debrief to stress two things:
+
+- precision and recall matter more than a single overall accuracy number in a spam
+  setting,
+- the conditional-independence assumption is unrealistic for language, but still
+  useful when the goal is a fast, interpretable baseline.

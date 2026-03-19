@@ -268,15 +268,15 @@ class AssemblyBuilder:
                 if self._is_listable(record, require_output_format="html")
             ]
         )
-        resources = [
-            record
-            for record in sorted(
-                self.index.objects.values(),
-                key=lambda item: item.model.title[self.language],
-            )
-            if isinstance(record.model, Resource)
-            and self._is_listable(record, require_output_format="html")
-        ]
+        resources = sorted(
+            [
+                record
+                for record in self.index.objects.values()
+                if isinstance(record.model, Resource)
+                and self._is_listable(record, require_output_format="html")
+            ],
+            key=lambda item: item.model.title[self.language],
+        )
 
         course_entries: list[ListingEntry] = []
         topic_entries: list[ListingEntry] = []

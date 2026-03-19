@@ -28,6 +28,7 @@ related:
   - model-selection-cross-validation
   - bias-variance-tradeoff
   - model-assessment-lab
+  - spam-filtering-naive-bayes
 outputs:
   - html
   - pdf

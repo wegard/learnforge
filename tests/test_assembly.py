@@ -372,6 +372,7 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
     assert "logistic-regression-classification" in related_ids
     assert "model-assessment-lab" in related_ids
     assert "house-prices-regression" in related_ids
+    assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in [entry.identifier for entry in assembly.related_entries]
     assert "## Related links" in assembly.markdown
 
@@ -396,6 +397,7 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
     assert "logistic-regression-classification" in related_ids
     assert "model-assessment-lab" in related_ids
     assert "house-prices-regression" in related_ids
+    assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 
@@ -460,6 +462,7 @@ def test_logistic_regression_concept_links_tem0052_classification_content() -> N
     assert "model-selection-cross-validation" in related_ids
     assert "bias-variance-tradeoff" in related_ids
     assert "model-assessment-lab" in related_ids
+    assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 
@@ -481,6 +484,7 @@ def test_knn_concept_links_tem0052_classification_content() -> None:
     assert "model-selection-cross-validation" in related_ids
     assert "bias-variance-tradeoff" in related_ids
     assert "model-assessment-lab" in related_ids
+    assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 
@@ -510,6 +514,27 @@ def test_model_assessment_exercise_links_tem0052_classification_concepts() -> No
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
         "model-assessment-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "bias-variance-tradeoff" in related_ids
+    assert "knn-supervised-learning" in related_ids
+    assert "model-selection-cross-validation" in related_ids
+    assert "logistic-regression-classification" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
+def test_spam_filtering_exercise_links_tem0052_classification_concepts() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "spam-filtering-naive-bayes",
         index=index,
         audience="student",
         language="en",

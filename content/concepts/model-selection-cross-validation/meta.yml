@@ -31,6 +31,7 @@ related:
   - logistic-regression-classification
   - model-assessment-lab
   - house-prices-regression
+  - spam-filtering-naive-bayes
 outputs:
   - html
   - pdf

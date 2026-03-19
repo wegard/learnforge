@@ -18,6 +18,7 @@
 - Phase 11 complete checkpoint: `tem0052` eighth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` ninth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` lecture 7 assembly slice
+- Phase 11 complete checkpoint: `tem0052` third exercise promotion slice
 
 ## Non-Goals For This Run
 
@@ -27,7 +28,7 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No broad `tem0052` migration beyond one additional concept and narrow metadata/navigation integration
+- No broad `tem0052` migration beyond one additional exercise and narrow metadata/navigation integration
 - Keep `tem0052` intentionally English-only in this slice
 - No Textual TUI
 - No broad redesign of existing student navigation beyond what resource workflow required
@@ -194,6 +195,9 @@
 - Promoted the second canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/house-prices-regression/`
   - `solution.en.qmd`
+- Promoted the third canonical `tem0052` exercise with teacher solution separation:
+  - `content/exercises/spam-filtering-naive-bayes/`
+  - `solution.en.qmd`
 - Assembled the first canonical `tem0052` lecture collection using only promoted objects:
   - `collections/lectures/tem0052-lecture-05/meta.yml`
 - Assembled the second canonical `tem0052` lecture collection using only promoted objects:
@@ -205,6 +209,11 @@
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
+- Linked the promoted spam-filtering exercise into the current `tem0052` classification graph:
+  - `bias-variance-tradeoff`
+  - `knn-supervised-learning`
+  - `logistic-regression-classification`
+  - `model-selection-cross-validation`
 - Linked the promoted linear-regression concept into the current `tem0052` concept/exercise graph:
   - `bias-variance-tradeoff`
   - `model-selection-cross-validation`
@@ -266,6 +275,15 @@
   - ensuring `build/generated/...` parent directories are created before writing generated `.qmd` files
   - using in-memory assembled markdown for leakage reports instead of re-reading transient generated files from disk
   - retrying Quarto renders once when they fail on transient missing-generated-input errors
+- Hardened local-authoring tolerance so new incomplete course shells and draft/review
+  content do not crash repository loading or `teach validate`:
+  - course directories are only indexed once both `course.yml` and `plan.yml` exist
+  - `translation_status: draft` is accepted for in-progress content
+  - draft/review content is skipped by strict validation gates until it is ready for
+    publication checks
+- Moved transient Quarto render inputs to `.learnforge-generated/` instead of
+  `build/generated/` and rewrote the generated source before each render attempt to
+  reduce staging-related flakiness during iterative authoring
 
 ## Remaining Tasks
 
@@ -277,7 +295,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - nine first-wave `tem0052` concepts, two exercises, and four lectures are promoted so far
+  - nine first-wave `tem0052` concepts, three exercises, and four lectures are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -291,8 +309,14 @@
 
 ## Blockers
 
-- None at this checkpoint for the sequential `teach build` / `teach validate` / `teach stale resources` path
-- Quarto still expects sequential builds because of shared `site_libs` staging and generated scratch space; the repository workflow and CI path remain stable when renders run sequentially
+- The stable checkpoint path is currently:
+  - sequential `teach build ...`
+  - sequential `teach validate`
+  - focused `pytest` subsets around the edited area
+- The broad Quarto-heavy `pytest -q` sweep is still non-deterministic while new local
+  draft courses/concepts are being added in parallel to this workspace
+- Quarto still expects sequential builds because of shared `site_libs` staging and
+  transient render scratch space
 
 ## Files Changed
 
@@ -305,9 +329,11 @@
 - `app/assembly.py`
 - `app/build.py`
 - `app/cli.py`
+- `app/indexer.py`
 - `app/models.py`
 - `app/resource_workflow.py`
 - `app/validator.py`
+- `.learnforge-generated/.gitkeep`
 - `content/concepts/model-selection-cross-validation/meta.yml`
 - `content/concepts/model-selection-cross-validation/note.en.qmd`
 - `content/concepts/decision-tree-learning/meta.yml`
@@ -350,6 +376,9 @@
 - `content/exercises/house-prices-regression/meta.yml`
 - `content/exercises/house-prices-regression/note.en.qmd`
 - `content/exercises/house-prices-regression/solution.en.qmd`
+- `content/exercises/spam-filtering-naive-bayes/meta.yml`
+- `content/exercises/spam-filtering-naive-bayes/note.en.qmd`
+- `content/exercises/spam-filtering-naive-bayes/solution.en.qmd`
 - `representative-targets.yml`
 - `schemas/resource.schema.json`
 - `templates/meta.yml.j2`
@@ -538,32 +567,40 @@
   - `./.venv/bin/teach build tem0052-lecture-07 --audience teacher --lang en --format revealjs`
   - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
   - `./.venv/bin/teach validate`
+- `tem0052` third exercise promotion:
+  - `rg -n "spam|naive bayes|Naive Bayes" courses/tem0052/MIGRATION_INVENTORY.md content collections tests course-inbox/predictive-modelling-with-machine-learning -S`
+  - `sed -n '1,240p' content/exercises/house-prices-regression/note.en.qmd`
+  - `sed -n '1,260p' content/exercises/house-prices-regression/solution.en.qmd`
+  - `python - <<'PY' ... inspect exercises/to_students/02_Spam_filtering_with_naive_bayes.ipynb ... PY`
+  - `python - <<'PY' ... inspect exercises/VHL_solutions/02_Spam_filtering_with_naive_bayes_VHL.ipynb ... PY`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q tests/test_cli.py tests/test_schema.py tests/test_validation.py tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts`
+  - `./.venv/bin/teach build spam-filtering-naive-bayes --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
-- Validation passed with warnings:
-  - `Validated 25 objects and 2 courses. Errors: 0. Warnings: 13.`
+- Validation passed with warnings on the current working tree:
+  - `Validated 41 objects and 5 courses. Errors: 0. Warnings: 15.`
   - `Representative targets: 13/13 passed`
-  - Warnings are expected in this checkpoint for:
-    - the sample stale approved resource:
-      - `resource-hidden-from-student-site`
-      - `stale-resource`
-    - the English-only migration-stage `tem0052` concepts/exercises:
-      - `missing-approved-translation` for `bias-variance-tradeoff`
-      - `missing-approved-translation` for `decision-tree-learning`
-      - `missing-approved-translation` for `ensemble-methods-introduction`
-      - `missing-approved-translation` for `knn-supervised-learning`
-      - `missing-approved-translation` for `linear-regression-prediction`
-      - `missing-approved-translation` for `logistic-regression-classification`
-      - `missing-approved-translation` for `model-selection-cross-validation`
-      - `missing-approved-translation` for `penalized-linear-models`
-      - `missing-approved-translation` for `random-forests`
-      - `missing-approved-translation` for `house-prices-regression`
-      - `missing-approved-translation` for `model-assessment-lab`
+  - current warnings are expected from:
+    - the sample stale approved resource
+    - English-only `tem0052` student-visible objects
+    - new local draft-authoring content outside this migration slice
 - Lint passed:
   - `All checks passed!`
-- Tests passed:
-  - `76 passed in 245.03s (0:04:05)`
+- Focused tests passed for the edited area:
+  - `26 passed in 134.32s (0:02:14)` for
+    - `tests/test_cli.py`
+    - `tests/test_schema.py`
+    - `tests/test_validation.py`
+    - `tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts`
+- Isolated builds passed:
+  - `teach build spam-filtering-naive-bayes --audience student --lang en --format html`
+  - `teach build tem0052 --audience student --lang en --format html`
+- Full `pytest -q` is currently non-deterministic under active local authoring changes
+  and broader Quarto staging churn, so it is not the reliable gate for this checkpoint
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
@@ -689,6 +726,11 @@
     - `build/reports/builds/student/en/html/exercise/house-prices-regression/build-manifest.json`
     - `build/reports/builds/student/en/html/exercise/house-prices-regression/dependency-manifest.json`
     - `build/reports/builds/student/en/html/exercise/house-prices-regression/teacher-leakage-report.json`
+  - Student exercise page:
+    - `build/exports/student/en/html/exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html`
+    - `build/reports/builds/student/en/html/exercise/spam-filtering-naive-bayes/build-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/spam-filtering-naive-bayes/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/spam-filtering-naive-bayes/teacher-leakage-report.json`
   - Student course page:
     - `build/exports/student/en/html/course/tem0052/tem0052.html`
     - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
@@ -712,11 +754,11 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote the next `tem0052` classification exercise from the legacy notebook set:
-  - `spam-filtering-naive-bayes`
-- The course can stay intentionally English-only for the next checkpoint; the resulting
-  translation warnings are currently expected and non-blocking
-- Keep the next migration slice narrow:
-  - one additional exercise
-  - optionally one small supporting figure from the same block
-  - add a new lecture collection only if the promoted tree/classification material is strong enough to stand on its own
+- Promote one supporting concept for the new classification exercise:
+  - `naive-bayes-classification` as a fresh authored concept, or
+  - `ml-preprocessing-pipelines` if you want the exercise to point more strongly into
+    text feature engineering
+- After that, decide whether `spam-filtering-naive-bayes` should be folded into
+  `tem0052-lecture-03` or left as a standalone course exercise
+- Keep `tem0052` intentionally English-only until the migration slice is broader;
+  the resulting translation warnings remain expected and non-blocking

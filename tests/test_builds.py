@@ -97,12 +97,14 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "../../collection/tem0052-lecture-07/tem0052-lecture-07.html" in html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in html
     assert "../../exercise/house-prices-regression/house-prices-regression.html" in html
+    assert "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html" in html
     assert "Lecture 2 - Linear prediction and regularization" in html
     assert "Lecture 3 - Classification methods" in html
     assert "Lecture 5 - Model selection, evaluation, and assessment" in html
     assert "Lecture 7 - Ensemble methods and random forests" in html
     assert "Model assessment lab" in html
     assert "House-price prediction" in html
+    assert "Spam filtering with naive Bayes" in html
     assert "No entries." in html
     assert "resources-tem0052" not in html
     assert "Search LearnForge" in html
@@ -186,6 +188,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    third_exercise_artifact = build_target(
+        "spam-filtering-naive-bayes",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
 
     concept_html = concept_artifact.output_path.read_text(encoding="utf-8")
     second_concept_html = second_concept_artifact.output_path.read_text(encoding="utf-8")
@@ -198,6 +207,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     ninth_concept_html = ninth_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
+    third_exercise_html = third_exercise_artifact.output_path.read_text(encoding="utf-8")
 
     assert "Bias-variance trade-off" in concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
@@ -210,6 +220,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     )
     assert "../../course/tem0052/tem0052.html" in concept_html
     assert "teacher-only" not in concept_html
+    assert (
+        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
+        in concept_html
+    )
 
     assert "Model selection and cross-validation" in second_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in second_concept_html
@@ -224,6 +238,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         in second_concept_html
     )
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in second_concept_html
+    assert (
+        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
+        in second_concept_html
+    )
     assert "teacher-only" not in second_concept_html
 
     assert "Linear regression for prediction" in third_concept_html
@@ -263,6 +281,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         in fifth_concept_html
     )
     assert (
+        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
+        in fifth_concept_html
+    )
+    assert (
         "../knn-supervised-learning/knn-supervised-learning.html" in fifth_concept_html
     )
     assert (
@@ -278,6 +300,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
 
     assert "k-nearest neighbors for supervised learning" in sixth_concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in sixth_concept_html
+    assert (
+        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
+        in sixth_concept_html
+    )
     assert "../decision-tree-learning/decision-tree-learning.html" in sixth_concept_html
     assert (
         "../logistic-regression-classification/logistic-regression-classification.html"
@@ -354,6 +380,14 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "Model selection and cross-validation" in second_exercise_html
     assert "the exact ranking depends on the preprocessing rule" not in second_exercise_html
     assert "lf-solution-block" not in second_exercise_html
+
+    assert "Spam filtering with naive Bayes" in third_exercise_html
+    assert "Bias-variance trade-off" in third_exercise_html
+    assert "k-nearest neighbors for supervised learning" in third_exercise_html
+    assert "Model selection and cross-validation" in third_exercise_html
+    assert "Logistic regression for classification" in third_exercise_html
+    assert "The safest teacher solution" not in third_exercise_html
+    assert "lf-solution-block" not in third_exercise_html
 
 
 def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:

@@ -101,7 +101,11 @@ def iter_object_meta_paths(root: Path = REPO_ROOT) -> list[Path]:
 
 
 def iter_course_paths(root: Path = REPO_ROOT) -> list[Path]:
-    return sorted((root / "courses").glob("*/course.yml"))
+    return sorted(
+        path
+        for path in (root / "courses").glob("*/course.yml")
+        if (path.parent / "plan.yml").exists()
+    )
 
 
 def load_repository(

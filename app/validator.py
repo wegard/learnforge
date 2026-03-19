@@ -160,6 +160,8 @@ def validate_repository(
     for record in index.objects.values():
         model = record.model
         record_path = record.meta_path
+        if getattr(model, "status", None) in {"draft", "review"}:
+            continue
 
         if not isinstance(model, Collection):
             for language in model.languages:

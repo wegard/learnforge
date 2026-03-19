@@ -1,0 +1,57 @@
+## Lab brief
+
+Build a reproducible SMS spam classifier in plain Python.
+The point of the lab is not to keep the old notebook workflow alive.
+The point is to understand text features, class probabilities, log-score prediction,
+and honest evaluation on held-out data.
+
+Use a normal script, for example `spam_filtering_naive_bayes.py`, plus a short note
+that reports your results and your main modeling choices.
+
+Use the public SMS Spam Collection from UCI or an equivalent local course copy.
+Do not fit preprocessing rules on the full dataset before you split the data.
+
+## Tasks
+
+1. Load the SMS spam data and map the labels to a numeric target with a documented
+   convention, for example `ham=0` and `spam=1`.
+2. Create one fixed train/test split. Keep the split deterministic and stratified so
+   the class balance is comparable across runs.
+3. Turn the message text into a count matrix with `CountVectorizer`. Fit the
+   vocabulary on the training messages only, then transform the test messages with
+   the trained vectorizer.
+4. Compute the empirical class probabilities from the training data and explain what
+   they say about the base rate of spam in this dataset.
+5. Write a manual multinomial naive Bayes classifier with additive smoothing. Use the
+   training counts to estimate the conditional token probabilities for each class.
+6. Score the test messages with log-posterior scores, convert those scores into class
+   predictions, and report at least:
+   - accuracy,
+   - precision,
+   - recall,
+   - a confusion matrix.
+7. Inspect the learned token frequencies. Report a short list of words that look most
+   associated with spam and with ham, and explain whether the model is learning
+   something sensible or merely exploiting obvious artifacts.
+8. Fit `MultinomialNB` from scikit-learn under the same split and compare it to your
+   manual implementation.
+9. Write a short interpretation section covering:
+   - where the conditional-independence assumption is useful,
+   - where it is unrealistic for natural language data,
+   - what kinds of false positives would be costly in a production spam filter,
+   - what preprocessing or evaluation change you would try next.
+
+## Starter outline
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+```
+
+Keep the workflow deterministic.
+Use one fixed split, keep the vectorizer fit inside the training workflow, and report
+the same metrics for both the manual and scikit-learn implementations.

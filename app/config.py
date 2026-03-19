@@ -49,7 +49,7 @@ def exports_dir(root: Path = REPO_ROOT) -> Path:
 
 
 def generated_dir(root: Path = REPO_ROOT) -> Path:
-    return build_dir(root) / "generated"
+    return root / ".learnforge-generated"
 
 
 def index_dir(root: Path = REPO_ROOT) -> Path:

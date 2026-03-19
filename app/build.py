@@ -18,7 +18,7 @@ from app.assembly import (
     planned_target_output_path,
     student_search_index_path,
 )
-from app.config import REPO_ROOT, exports_dir, reports_dir
+from app.config import REPO_ROOT, exports_dir, generated_dir, reports_dir
 from app.indexer import IndexedObject, RepositoryIndex, load_repository
 from app.models import Collection, Resource
 from app.resource_workflow import resource_student_visibility_decision
@@ -65,7 +65,8 @@ def build_target(
     assembly: AssemblyDocument | None = None
     command: list[str] = []
     result: subprocess.CompletedProcess[str] | None = None
-    for attempt in range(2):
+    max_attempts = 4
+    for attempt in range(max_attempts):
         reset_generated_staging(root)
         index, errors = load_repository(root, collect_errors=False)
         if errors:
@@ -88,6 +89,8 @@ def build_target(
         output_path = assembly.planned_output_path
         output_name = output_path.name
         cleanup_generated_support_dirs(root)
+        assembly.generated_path.parent.mkdir(parents=True, exist_ok=True)
+        assembly.generated_path.write_text(assembly.markdown, encoding="utf-8")
         command = [
             "quarto",
             "render",
@@ -113,7 +116,7 @@ def build_target(
         if result.returncode == 0:
             break
         error_message = result.stderr.strip() or result.stdout.strip() or "quarto render failed"
-        if attempt == 0 and should_retry_quarto_render(error_message):
+        if attempt < max_attempts - 1 and should_retry_quarto_render(error_message):
             continue
         raise BuildError(error_message)
 
@@ -126,6 +129,10 @@ def build_target(
     ]
     rendered_output = next((path for path in rendered_candidates if path.exists()), None)
     if rendered_output is None:
+        if result is not None and should_retry_quarto_render(
+            result.stderr.strip() or result.stdout.strip() or "quarto render failed"
+        ):
+            raise BuildError("expected rendered output missing after retryable quarto render")
         raise BuildError(
             "expected rendered output missing: "
             + ", ".join(str(path.relative_to(root)) for path in rendered_candidates)
@@ -183,7 +190,7 @@ def build_env(root: Path) -> dict[str, str]:
 
 
 def reset_generated_staging(root: Path) -> None:
-    generated_root = root / "build" / "generated"
+    generated_root = generated_dir(root)
     if generated_root.exists():
         shutil.rmtree(generated_root, ignore_errors=True)
     generated_root.mkdir(parents=True, exist_ok=True)
@@ -191,7 +198,7 @@ def reset_generated_staging(root: Path) -> None:
 
 
 def cleanup_generated_support_dirs(root: Path) -> None:
-    generated_root = root / "build" / "generated"
+    generated_root = generated_dir(root)
     if not generated_root.exists():
         return
     candidates = sorted(
@@ -280,6 +287,7 @@ def write_build_reports(
 def should_retry_quarto_render(error_message: str) -> bool:
     return (
         "build/generated" in error_message
+        or ".learnforge-generated" in error_message
         or "No valid input files passed to render" in error_message
     )
 

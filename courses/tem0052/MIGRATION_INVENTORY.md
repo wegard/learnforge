@@ -100,6 +100,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Concept: `logistic-regression-classification`
 - Exercise: `model-assessment-lab`
 - Exercise: `house-prices-regression`
+- Exercise: `spam-filtering-naive-bayes`
 - Lecture collection: `tem0052-lecture-02`
 - Lecture collection: `tem0052-lecture-03`
 - Lecture collection: `tem0052-lecture-05`

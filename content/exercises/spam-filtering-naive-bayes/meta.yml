@@ -1,0 +1,42 @@
+id: spam-filtering-naive-bayes
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Spam filtering with naive Bayes
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - text-classification
+  - model-selection
+tags:
+  - exercise
+  - scikit-learn
+  - naive-bayes
+  - text-classification
+  - count-vectorizer
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - bias-variance-tradeoff
+  - knn-supervised-learning
+  - logistic-regression-classification
+  - model-selection-cross-validation
+solution_storage: separate-file
+solution_visibility: teacher

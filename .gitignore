@@ -14,6 +14,8 @@ build/exports/*
 !build/exports/.gitkeep
 build/generated/*
 !build/generated/.gitkeep
+.learnforge-generated/*
+!.learnforge-generated/.gitkeep
 build/index/*
 !build/index/.gitkeep
 build/reports/*

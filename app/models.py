@@ -12,7 +12,7 @@ ObjectKind = Literal["concept", "exercise", "figure", "resource", "collection"]
 Visibility = Literal["private", "teacher", "student", "public"]
 ContentStatus = Literal["draft", "review", "approved", "published", "archived"]
 ResourceStatus = Literal["candidate", "reviewed", "approved", "published"]
-TranslationState = Literal["missing", "machine_draft", "edited", "approved"]
+TranslationState = Literal["draft", "missing", "machine_draft", "edited", "approved"]
 OutputFormat = Literal["html", "pdf", "revealjs", "handout", "exercise-sheet"]
 
 SLUG_PATTERN = r"^[a-z0-9]+(?:-[a-z0-9]+)*$"

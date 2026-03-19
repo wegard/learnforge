@@ -1,0 +1,38 @@
+id: bik2550-m1d1
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Modul 1, Dag 1 — Introduksjon til AI
+courses:
+  - bik2550
+topics:
+  - ai-fundamentals
+  - tools
+tags:
+  - lecture
+  - ai
+  - python
+  - generative-ai
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+items:
+  - what-is-ai-overview
+  - ai-history-timeline
+  - ai-in-finance-landscape
+  - python-jupyter-introduction
+  - data-analysis-with-jupyter
+  - generative-ai-introduction
