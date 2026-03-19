@@ -12,6 +12,7 @@
 - Phase 11 complete checkpoint: `tem0052` fourth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` fifth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` sixth concept promotion slice
+- Phase 11 complete checkpoint: `tem0052` lecture 2 assembly slice
 
 ## Non-Goals For This Run
 
@@ -184,6 +185,8 @@
   - `solution.en.qmd`
 - Assembled the first canonical `tem0052` lecture collection using only promoted objects:
   - `collections/lectures/tem0052-lecture-05/meta.yml`
+- Assembled the second canonical `tem0052` lecture collection using only promoted objects:
+  - `collections/lectures/tem0052-lecture-02/meta.yml`
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
@@ -207,6 +210,9 @@
   - `logistic-regression-classification`
   - `model-assessment-lab`
 - Wired the first lecture into `courses/tem0052/plan.yml`
+- Wired the current promoted lecture sequence into `courses/tem0052/plan.yml`:
+  - `tem0052-lecture-02`
+  - `tem0052-lecture-05`
 - Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
 - Added regression coverage for:
   - `tem0052` course page lecture/exercise surfacing
@@ -239,7 +245,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - six first-wave `tem0052` concepts and two exercises/one lecture are promoted so far
+  - six first-wave `tem0052` concepts, two exercises, and two lectures are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -294,6 +300,7 @@
 - `courses/tem0052/plan.yml`
 - `courses/tem0052/syllabus.en.qmd`
 - `courses/tem0052/MIGRATION_INVENTORY.md`
+- `collections/lectures/tem0052-lecture-02/meta.yml`
 - `collections/lectures/tem0052-lecture-05/meta.yml`
 - `content/concepts/bias-variance-tradeoff/meta.yml`
 - `content/concepts/bias-variance-tradeoff/note.en.qmd`
@@ -429,11 +436,20 @@
   - `./.venv/bin/python -m pytest -q`
   - `./.venv/bin/teach build knn-supervised-learning --audience student --lang en --format html`
   - `./.venv/bin/teach validate`
+- `tem0052` lecture 2 assembly:
+  - `sed -n '1,240p' courses/tem0052/plan.yml`
+  - `sed -n '1,240p' collections/lectures/tem0052-lecture-05/meta.yml`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach build tem0052-lecture-02 --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052-lecture-02 --audience teacher --lang en --format revealjs`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 19 objects and 2 courses. Errors: 0. Warnings: 10.`
+  - `Validated 20 objects and 2 courses. Errors: 0. Warnings: 10.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
@@ -451,7 +467,7 @@
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `70 passed in 207.26s (0:03:27)`
+  - `72 passed in 216.50s (0:03:36)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
@@ -487,6 +503,16 @@
   - `build/reports/builds/student/en/html/concept/knn-supervised-learning/build-manifest.json`
   - `build/reports/builds/student/en/html/concept/knn-supervised-learning/dependency-manifest.json`
   - `build/reports/builds/student/en/html/concept/knn-supervised-learning/teacher-leakage-report.json`
+- New `tem0052` lecture artifact paths:
+  - `build/exports/student/en/html/collection/tem0052-lecture-02/tem0052-lecture-02.html`
+  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-02/tem0052-lecture-02.html`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-02/build-manifest.json`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-02/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-02/teacher-leakage-report.json`
+- Updated `tem0052` course artifact paths:
+  - `build/exports/student/en/html/course/tem0052/tem0052.html`
+  - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
+  - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
 - Representative resource outputs verified:
   - Student approved resource page:
     - `build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`

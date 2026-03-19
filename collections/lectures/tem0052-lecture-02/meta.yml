@@ -1,0 +1,36 @@
+id: tem0052-lecture-02
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 2 - Linear prediction and regularization
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - regression
+  - linear-models
+  - regularization
+tags:
+  - lecture
+  - regression
+  - regularization
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - linear-regression-prediction
+  - penalized-linear-models
+  - house-prices-regression

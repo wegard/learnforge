@@ -99,6 +99,32 @@ def test_tem0052_lecture_assembly_expands_only_promoted_objects() -> None:
     assert "iv-intuition" not in assembly.markdown
 
 
+def test_tem0052_lecture_02_assembly_expands_regression_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-02",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "linear-regression-prediction",
+        "penalized-linear-models",
+        "house-prices-regression",
+    ]
+    assert "## Linear regression is the first serious baseline" in assembly.markdown
+    assert "## Why we penalize a linear model" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "model-assessment-lab" not in assembly.markdown
+
+
 def test_assignment_assembly_compiles_multiple_exercises_without_student_solutions() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
