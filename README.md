@@ -22,6 +22,7 @@ LearnForge is a git-backed, markdown-first teaching publishing system. The curre
 - Python 3.13+
 - Quarto 1.8+
 - A PDF engine available to Quarto (`pdflatex` or `tectonic`)
+- A Chromium-based browser for `--format slides-pdf`
 
 ## Quick Start
 
@@ -39,6 +40,8 @@ teach build angrist-podcast-iv --audience student --lang en --format html
 teach build lecture-04 --audience student --lang en --format html
 teach build lecture-04 --audience teacher --lang nb --format revealjs
 teach build lecture-04 --audience teacher --lang nb --format pdf
+teach build lecture-04 --audience teacher --lang nb --format slides-pdf
+teach translation-status bik2551 --lang en
 teach build ec202 --audience student --lang en --format html
 teach build topic-causal-inference --audience student --lang en --format html
 teach build resources-ec202 --audience student --lang en --format html

@@ -7,7 +7,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 LANGUAGES = ("en", "nb")
 AUDIENCES = ("student", "teacher")
 OBJECT_KINDS = ("concept", "exercise", "figure", "resource", "collection")
-OUTPUT_FORMATS = ("html", "pdf", "revealjs", "handout", "exercise-sheet")
+OUTPUT_FORMATS = ("html", "pdf", "revealjs", "slides-pdf", "handout", "exercise-sheet")
 
 CONTENT_KIND_DIRS = {
     "concept": "content/concepts",

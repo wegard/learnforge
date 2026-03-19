@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+import app.build as build_module
 from app.build import build_target, write_student_site_search_index
 from app.config import REPO_ROOT
 from app.indexer import load_repository
@@ -119,6 +120,30 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "No entries." in html
     assert "resources-tem0052" not in html
     assert "Search LearnForge" in html
+
+
+def test_bik2551_course_page_builds_in_english() -> None:
+    artifact = build_target(
+        "bik2551",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+
+    assert "BIK 2551 - Artificial Intelligence for Increased Productivity" in html
+    assert "Lectures" in html
+    assert "Assignments" in html
+    assert "Resources" in html
+    assert "../../collection/bik2551-day-01/bik2551-day-01.html" in html
+    assert "../../collection/bik2551-day-04/bik2551-day-04.html" in html
+    assert "../../collection/bik2551-project-brief/bik2551-project-brief.html" in html
+    assert "Day 4 - Strategy, Leadership, and the Future of Work" in html
+    assert "NotebookLM for source-grounded work" in html
+    assert "Project brief - project assignment and mini-experiment" in html
+    assert "Kursoversikt" not in html
 
 
 def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
@@ -873,6 +898,46 @@ def test_student_lecture_page_has_course_context_breadcrumbs_and_export_links() 
     assert "Highlight relevance" in html
 
 
+def test_student_lecture_page_shows_slide_pdf_export_when_available(monkeypatch) -> None:
+    def fake_export(*, revealjs_output_path: Path, output_path: Path, root: Path) -> list[str]:
+        assert revealjs_output_path.name == "lecture-04.html"
+        assert revealjs_output_path.exists()
+        output_path.write_bytes(b"%PDF-1.4\n% slide pdf test\n")
+        return ["fake-browser", f"--print-to-pdf={output_path}"]
+
+    monkeypatch.setattr(build_module, "export_revealjs_pdf", fake_export)
+
+    slides_artifact = build_target(
+        "lecture-04",
+        audience="student",
+        language="en",
+        output_format="slides-pdf",
+        root=REPO_ROOT,
+    )
+    html_artifact = build_target(
+        "lecture-04",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = html_artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(slides_artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert slides_artifact.output_path.exists()
+    assert slides_artifact.output_path.name == "lecture-04-slides.pdf"
+    assert "../../slides-pdf/collection/lecture-04/lecture-04-slides.pdf" in html
+    assert "Slide PDF" in html
+    assert build_manifest["output_path"] == (
+        "build/exports/student/en/slides-pdf/collection/lecture-04/lecture-04-slides.pdf"
+    )
+    assert {item["format"] for item in build_manifest["generated_artifacts"]} >= {
+        "slides-pdf",
+    }
+    assert len(build_manifest["commands"]) == 2
+
+
 def test_teacher_lecture_reveal_build_reports_static_figure_fallback() -> None:
     artifact = build_target(
         "lecture-04",
@@ -907,7 +972,7 @@ def test_student_exercise_page_has_language_switch_and_related_links() -> None:
     assert "Related links" in html
     assert "Used in assignments" in html
     assert "Language:" in html
-    assert "Norsk" in html
+    assert "Norwegian" in html
     assert "Sjekk av IV-intuisjon" not in html
     assert "strong first stage" not in html
     assert "../../collection/assignment-01/assignment-01.html" in html

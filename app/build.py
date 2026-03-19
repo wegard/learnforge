@@ -14,6 +14,7 @@ from app.assembly import (
     AssemblyDocument,
     AssemblyError,
     assemble_target,
+    build_output_name,
     collect_topics,
     humanize_slug,
     planned_target_output_path,
@@ -24,7 +25,7 @@ from app.indexer import IndexedObject, RepositoryIndex, load_repository
 from app.models import Collection, Resource
 from app.resource_workflow import resource_student_visibility_decision
 
-RenderableFormat = Literal["html", "pdf", "revealjs", "handout", "exercise-sheet"]
+RenderableFormat = Literal["html", "pdf", "revealjs", "slides-pdf", "handout", "exercise-sheet"]
 
 FORMAT_TO_QUARTO = {
     "html": "html",
@@ -33,6 +34,16 @@ FORMAT_TO_QUARTO = {
     "handout": "pdf",
     "exercise-sheet": "pdf",
 }
+
+SLIDES_PDF_OUTPUT_FORMAT = "slides-pdf"
+SLIDES_PDF_BROWSER_ENV = "LEARNFORGE_SLIDES_PDF_BROWSER"
+SLIDES_PDF_BROWSER_CANDIDATES = (
+    "google-chrome-stable",
+    "google-chrome",
+    "chromium",
+    "chromium-browser",
+    "chrome",
+)
 
 
 @dataclass(slots=True)
@@ -69,6 +80,7 @@ def build_target(
 ) -> BuildArtifact:
     assembly: AssemblyDocument | None = None
     command: list[str] = []
+    commands: list[list[str]] = []
     result: subprocess.CompletedProcess[str] | None = None
     max_attempts = 4
     for attempt in range(max_attempts):
@@ -92,25 +104,30 @@ def build_target(
         output_dir = assembly.planned_output_path.parent
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = assembly.planned_output_path
-        output_name = output_path.name
+        quarto_format = quarto_format_for_output(output_format)
+        rendered_output_name = rendered_output_name_for_target(
+            target_id,
+            output_format=output_format,
+            audience=audience,
+        )
         prepare_generated_target_dir(assembly.generated_path)
         assembly.generated_path.write_text(assembly.markdown, encoding="utf-8")
-        command = [
+        quarto_command = [
             "quarto",
             "render",
             str(assembly.generated_path.relative_to(root)),
             "--profile",
             f"{audience},{language}",
             "--to",
-            FORMAT_TO_QUARTO[output_format],
+            quarto_format,
             "--output",
-            output_name,
+            rendered_output_name,
         ]
-        if FORMAT_TO_QUARTO[output_format] == "pdf":
-            command.extend(["-M", "pdf-engine:pdflatex"])
+        if quarto_format == "pdf":
+            quarto_command.extend(["-M", "pdf-engine:pdflatex"])
 
         result = subprocess.run(
-            command,
+            quarto_command,
             cwd=root,
             capture_output=True,
             text=True,
@@ -127,33 +144,43 @@ def build_target(
     if assembly is None:
         raise BuildError("assembly generation failed")
 
-    rendered_candidates = [
-        assembly.generated_path.parent / output_name,
-        root / output_name,
-    ]
-    rendered_output = next((path for path in rendered_candidates if path.exists()), None)
-    if rendered_output is None:
-        if result is not None and should_retry_quarto_render(
-            result.stderr.strip() or result.stdout.strip() or "quarto render failed"
-        ):
-            raise BuildError("expected rendered output missing after retryable quarto render")
-        raise BuildError(
-            "expected rendered output missing: "
-            + ", ".join(str(path.relative_to(root)) for path in rendered_candidates)
+    rendered_output = locate_rendered_output(
+        generated_path=assembly.generated_path,
+        output_name=rendered_output_name,
+        root=root,
+        result=result,
+    )
+    commands = [quarto_command]
+
+    if output_format == SLIDES_PDF_OUTPUT_FORMAT:
+        command = export_revealjs_pdf(
+            revealjs_output_path=rendered_output,
+            output_path=output_path,
+            root=root,
         )
-    if rendered_output.resolve() != output_path.resolve():
-        if output_path.exists():
-            output_path.unlink()
-        shutil.move(str(rendered_output), str(output_path))
+        commands.append(command)
+    else:
+        command = quarto_command
+        if rendered_output.resolve() != output_path.resolve():
+            if output_path.exists():
+                output_path.unlink()
+            shutil.move(str(rendered_output), str(output_path))
 
-    rendered_support_dir = assembly.generated_path.parent / f"{assembly.generated_path.stem}_files"
-    if rendered_support_dir.exists():
-        destination_support_dir = output_dir / rendered_support_dir.name
-        if destination_support_dir.exists():
-            shutil.rmtree(destination_support_dir)
-        shutil.move(str(rendered_support_dir), str(destination_support_dir))
+        rendered_support_dir = rendered_support_path(
+            generated_path=assembly.generated_path,
+            output_name=rendered_output_name,
+        )
+        if rendered_support_dir.exists():
+            destination_support_dir = output_dir / rendered_support_dir.name
+            if destination_support_dir.exists():
+                shutil.rmtree(destination_support_dir)
+            # Keep Quarto sidecar assets in the generated staging tree so later
+            # renders do not trip over stale generated .qmd files whose *_files
+            # directories have already been moved away.
+            shutil.copytree(rendered_support_dir, destination_support_dir)
 
-    sync_site_libs(root, output_dir)
+        sync_site_libs(root, output_dir)
+
     search_index_path = None
     if audience == "student" and output_format == "html":
         search_index_path = write_student_site_search_index(
@@ -162,6 +189,7 @@ def build_target(
     build_manifest_path, dependency_manifest_path, leakage_report_path = write_build_reports(
         assembly=assembly,
         command=command,
+        commands=commands,
         output_path=output_path,
         search_index_path=search_index_path,
         root=root,
@@ -181,6 +209,136 @@ def build_target(
         leakage_report_path=leakage_report_path,
         search_index_path=search_index_path,
     )
+
+
+def quarto_format_for_output(output_format: RenderableFormat) -> str:
+    if output_format == SLIDES_PDF_OUTPUT_FORMAT:
+        return "revealjs"
+    return FORMAT_TO_QUARTO[output_format]
+
+
+def rendered_output_name_for_target(
+    target_id: str,
+    *,
+    output_format: RenderableFormat,
+    audience: str,
+) -> str:
+    if output_format == SLIDES_PDF_OUTPUT_FORMAT:
+        return build_output_name(target_id, "revealjs", audience=audience)
+    return build_output_name(target_id, output_format, audience=audience)
+
+
+def locate_rendered_output(
+    *,
+    generated_path: Path,
+    output_name: str,
+    root: Path,
+    result: subprocess.CompletedProcess[str] | None,
+) -> Path:
+    rendered_candidates = [
+        generated_path.parent / output_name,
+        root / output_name,
+    ]
+    rendered_output = next((path for path in rendered_candidates if path.exists()), None)
+    if rendered_output is None:
+        if result is not None and should_retry_quarto_render(
+            result.stderr.strip() or result.stdout.strip() or "quarto render failed"
+        ):
+            raise BuildError("expected rendered output missing after retryable quarto render")
+        raise BuildError(
+            "expected rendered output missing: "
+            + ", ".join(str(path.relative_to(root)) for path in rendered_candidates)
+        )
+    return rendered_output
+
+
+def rendered_support_path(*, generated_path: Path, output_name: str) -> Path:
+    return generated_path.parent / f"{Path(output_name).stem}_files"
+
+
+def resolve_slides_pdf_browser() -> str:
+    configured = os.environ.get(SLIDES_PDF_BROWSER_ENV)
+    if configured:
+        return configured
+    for candidate in SLIDES_PDF_BROWSER_CANDIDATES:
+        resolved = shutil.which(candidate)
+        if resolved:
+            return resolved
+    raise BuildError(
+        "slides-pdf export requires a Chromium-based browser. "
+        f"Set {SLIDES_PDF_BROWSER_ENV} or install one of: "
+        + ", ".join(SLIDES_PDF_BROWSER_CANDIDATES)
+    )
+
+
+def export_revealjs_pdf(
+    *,
+    revealjs_output_path: Path,
+    output_path: Path,
+    root: Path,
+) -> list[str]:
+    browser = resolve_slides_pdf_browser()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    print_url = revealjs_output_path.resolve().as_uri() + "?print-pdf"
+    commands_to_try = browser_commands_for_slide_pdf(
+        browser=browser,
+        output_path=output_path,
+        print_url=print_url,
+    )
+    last_error = "slides-pdf export failed"
+
+    for candidate_command in commands_to_try:
+        if output_path.exists():
+            output_path.unlink()
+        result = subprocess.run(
+            candidate_command,
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+            env=build_env(root),
+        )
+        if result.returncode == 0 and output_path.exists():
+            return candidate_command
+        last_error = (
+            result.stderr.strip() or result.stdout.strip() or "slides-pdf export failed"
+        )
+
+    raise BuildError(last_error)
+
+
+def browser_commands_for_slide_pdf(
+    *,
+    browser: str,
+    output_path: Path,
+    print_url: str,
+) -> list[list[str]]:
+    common_flags = [
+        "--headless=new",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-crash-reporter",
+        "--disable-breakpad",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--allow-file-access-from-files",
+        "--run-all-compositor-stages-before-draw",
+        "--virtual-time-budget=10000",
+        f"--print-to-pdf={output_path}",
+    ]
+    commands = [
+        [browser, *common_flags, print_url],
+        [browser, *common_flags, "--no-sandbox", print_url],
+    ]
+    unique_commands: list[list[str]] = []
+    seen: set[tuple[str, ...]] = set()
+    for command in commands:
+        key = tuple(command)
+        if key in seen:
+            continue
+        seen.add(key)
+        unique_commands.append(command)
+    return unique_commands
 
 
 def build_env(root: Path) -> dict[str, str]:
@@ -222,6 +380,7 @@ def write_build_reports(
     *,
     assembly: AssemblyDocument,
     command: list[str],
+    commands: list[list[str]],
     output_path: Path,
     search_index_path: Path | None,
     root: Path,
@@ -246,6 +405,7 @@ def write_build_reports(
     build_manifest_payload.update(
         {
             "command": command,
+            "commands": commands,
             "output_path": str(output_path.relative_to(root)),
             "build_manifest_path": str(build_manifest_path.relative_to(root)),
             "dependency_manifest_path": str(dependency_manifest_path.relative_to(root)),
@@ -626,7 +786,7 @@ def collect_generated_artifacts(
     assembly: AssemblyDocument,
     root: Path,
 ) -> list[dict[str, str]]:
-    candidate_formats = ["html", "pdf", "revealjs", "handout", "exercise-sheet"]
+    candidate_formats = ["html", "pdf", "revealjs", "slides-pdf", "handout", "exercise-sheet"]
     if assembly.target.kind == "home":
         candidate_formats = ["html"]
 
