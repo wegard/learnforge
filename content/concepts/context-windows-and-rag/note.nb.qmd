@@ -1,6 +1,6 @@
 ## Forskjellen på å spørre og å gi modellen noe å jobbe med
 
-En spraakmodell som svarer uten tilleggsinformasjon bruker bare det den lærte
+En språkmodell som svarer uten tilleggsinformasjon bruker bare det den lærte
 under trening. Det er som å stille et spørsmål til en kollega som ikke har lest
 sakspapirene. I `BIK 2551` lærer vi to måter å gi modellen relevant kunnskap:
 kontekstvinduet og RAG-systemer.
@@ -11,9 +11,9 @@ Kontekstvinduet er alt modellen kan se i en enkelt samtale — prompten din,
 tidligere meldinger, og eventuelle dokumenter du har lagt ved. Tenk på det som
 modellens korttidsminne.
 
-Moderne modeller har kontekstvinduer på hundretusener til over en million
-tokens. Det betyr at du i mange tilfeller kan lime inn et helt dokument og be
-modellen jobbe direkte med innholdet.
+Mange moderne modeller har svært store kontekstvinduer. I praksis betyr det at
+du ofte kan lime inn lange dokumenter og be modellen jobbe direkte med
+innholdet.
 
 Praktiske konsekvenser:
 
@@ -60,7 +60,7 @@ er det nok å lime inn tekst, og når ville en RAG-løsning vært bedre?
 
 ## Hvor dette emnet passer i `BIK 2551`
 
-Kontekstvindu og RAG bygger videre på grunnforståelsen av spraakmodeller fra
+Kontekstvindu og RAG bygger videre på grunnforståelsen av språkmodeller fra
 Dag 1. Kunnskapen er direkte anvendbar i workshopen der deltakerne setter opp
 egne KI-assistenter med tilpasset kunnskapsbase.
 

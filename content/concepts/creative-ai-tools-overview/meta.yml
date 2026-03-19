@@ -1,27 +1,27 @@
-id: generative-ai-fundamentals
+id: creative-ai-tools-overview
 kind: concept
 status: approved
 visibility: student
 languages:
   - nb
 title:
-  nb: Generativ KI og store språkmodeller
+  nb: Kreative KI-verktøy for bilder og presentasjoner
 courses:
   - bik2551
 topics:
   - ai-literacy
 tags:
-  - llm
-  - next-token-prediction
-  - hallucinations
-  - pre-training
-  - fine-tuning
-  - rag
+  - multimodal
+  - image-generation
+  - presentation-tools
+  - licensing
+  - demo-tools
 level: introductory
 prerequisites: []
 related:
   - prompt-engineering-basics
   - ai-ethics-law-security
+  - custom-ai-assistants
 outputs:
   - html
   - pdf

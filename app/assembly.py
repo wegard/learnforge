@@ -2710,7 +2710,7 @@ class AssemblyBuilder:
     def _listing_cards(self, entries: list[ListingEntry]) -> list[str]:
         cards: list[str] = []
         for entry in entries:
-            kind_label = KIND_LABELS.get(entry.kind, entry.kind.title())
+            kind_label = self._kind_label(entry.kind, entry.identifier)
             link = (
                 f'<a href="{entry.href}" class="lf-listing-link">'
                 f"{escape(entry.title)}</a>"

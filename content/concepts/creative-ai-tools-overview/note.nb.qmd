@@ -1,0 +1,77 @@
+## Kreative KI-verktøy er nyttige når målet er å utforske, ikke bare å svare
+
+Generativ KI brukes ikke bare til tekst. I `BIK 2551` møter deltakerne også
+verktøy som lager bilder, presentasjoner, video eller visuelle skisser. Poenget
+er ikke å mestre alle plattformer, men å forstå hvilke typer oppgaver disse
+verktøyene egner seg for i en arbeidshverdag.
+
+## Tre hovedkategorier av kreative verktøy
+
+De fleste kreative KI-verktøy faller i én av tre kategorier:
+
+- **Bildegeneratorer** lager illustrasjoner, enkle visualiseringer eller
+  idéutkast fra tekstbeskrivelser.
+- **Presentasjonsverktøy** foreslår struktur, lysbilder og visuelle oppsett fra
+  et tema eller et tekstutkast.
+- **Multimodale arbeidsflater** kombinerer tekst, bilder, lyd og diagrammer i
+  én og samme prosess.
+
+Det viktigste skillet går ikke mellom merkenavn, men mellom hva du vil oppnå:
+idéutvikling, kommunikasjon eller ferdig produksjon.
+
+## Når disse verktøyene faktisk skaper verdi
+
+Kreative verktøy er særlig nyttige når du trenger:
+
+- en rask førsteversjon av et visuelt uttrykk,
+- flere alternative måter å presentere samme budskap på,
+- støtte til å gjøre komplisert stoff enklere å kommunisere.
+
+De fungerer dårligere når kravene til faglig presisjon, visuell identitet eller
+juridisk kontroll er høye. Et KI-generert bilde kan være godt nok til idéarbeid,
+men ikke nødvendigvis til ekstern publisering uten kvalitetssikring.
+
+## Bruk kreative verktøy som samarbeidspartnere
+
+Den beste arbeidsformen er ofte iterativ:
+
+1. Start med en tydelig oppgave og et konkret publikum.
+2. Be verktøyet lage flere forslag, ikke én «ferdig» løsning.
+3. Velg det beste utkastet og forbedre det manuelt.
+4. Kvalitetssikre språk, fakta, grafikk og rettigheter før bruk.
+
+Dette gjør verktøyene nyttige som kreative sparringspartnere, ikke som
+autonome produsenter.
+
+## Lisens, opphavsrett og omdømmerisiko
+
+Kreative KI-verktøy reiser egne spørsmål om opphavsrett, lisens og intern
+profilbruk. Før du bruker generert materiale i jobb, bør du avklare:
+
+- om verktøyet kan brukes i en kommersiell eller institusjonell kontekst,
+- om virksomheten har retningslinjer for genererte bilder og video,
+- om innholdet kan misforstås som dokumentasjon eller fakta når det egentlig er
+  illustrasjon.
+
+Dette er særlig viktig når KI brukes i presentasjoner, kundedialog eller
+undervisning.
+
+::: {.teacher-only}
+Vis to raske kontraster: ett bildegenereringsverktøy og ett
+presentasjonsverktøy. Diskuter etterpå hva som faktisk sparte tid, og hva som
+fortsatt krevde menneskelig redigering for å bli godt nok.
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Denne modulen utvider deltakernes forståelse av hva generativ KI kan brukes til
+utover tekst. Den passer mellom grunnleggende prompting og prosjektarbeidet,
+fordi mange deltakere vil bruke KI til å formidle idéer, ikke bare analysere
+dem.
+
+## Praktiske poeng å ta med videre
+
+- Velg verktøy etter oppgave, ikke etter hype.
+- Bruk kreative verktøy til idéutkast og variasjon, ikke blind sluttproduksjon.
+- Kvalitetssikre alltid innhold som skal deles med andre.
+- Avklar lisens og intern policy før du bruker generert materiale eksternt.

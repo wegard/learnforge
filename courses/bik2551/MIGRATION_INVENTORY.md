@@ -43,14 +43,15 @@ lecture notes.
 
 ### Rewrite Fresh
 
-These topics appear in the course but need fresh authoring rather than
-migration from a single clear legacy source.
+These topics needed fresh authoring rather than direct migration from a
+single clear legacy source. They are now covered in canonical LearnForge
+objects.
 
-| Topic | Reason | Planned target kind |
+| Topic | Canonical coverage | Status |
 | --- | --- | --- |
-| Kreative KI-verktøy (bilder, presentasjoner) | Demo-heavy session, needs curated tool overview | concept or resource |
-| NotebookLM og kildebaserte systemer | Tool-specific demo, better as a resource or short concept | concept or resource |
-| Prosjektoppgave og mini-eksperiment | Assessment guidance, not a reusable concept — fits syllabus or assignment brief | assignment / course material |
+| Kreative KI-verktøy (bilder, presentasjoner) | `creative-ai-tools-overview` | approved |
+| NotebookLM og kildebaserte systemer | `context-windows-and-rag`, `notebooklm-source-grounding-guide` | approved |
+| Prosjektoppgave og mini-eksperiment | `bik2551-project-brief` + prosjektøvelser | approved |
 
 ### Defer
 
@@ -130,9 +131,21 @@ Day 4 content — 3 objects promoted:
 | `ai-future-of-work` | concept | approved |
 | `bik2551-day-04` | collection (lecture) | approved |
 
+Course support and assessment content — 7 objects promoted:
+
+| Object id | Kind | Status |
+| --- | --- | --- |
+| `creative-ai-tools-overview` | concept | approved |
+| `notebooklm-source-grounding-guide` | resource | approved |
+| `ki-assistenter-arbeidslivet-guide` | resource | approved |
+| `project-problem-and-baseline` | exercise | approved |
+| `mini-experiment-measurement-plan` | exercise | approved |
+| `final-report-and-video-brief` | exercise | approved |
+| `bik2551-project-brief` | collection (assignment) | approved |
+
 ## Next Migration Actions
 
 All four campus days are now promoted. Remaining work:
 
-1. Promote items from the "Rewrite Fresh" bucket as needed.
+1. Expand the curated resource set if the teaching team wants more pre-reads.
 2. Leave all remaining legacy files in the inbox until they are explicitly promoted.

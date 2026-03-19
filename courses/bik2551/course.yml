@@ -1,10 +1,10 @@
 id: bik2551
-status: draft
+status: approved
 visibility: student
 languages:
   - nb
 title:
-  nb: BIK 2551 - AI-kompetanse for okt produktivitet
+  nb: BIK 2551 - Kunstig intelligens for økt produktivitet
 summary:
   nb: Executive-kurs om bruk av generativ KI for kunnskapsarbeidere ved BI.
 owners:

@@ -1,0 +1,11 @@
+## Why this resource is on the list
+
+This resource gives a concrete example of a tool designed to work from uploaded
+sources, citations, and document evidence. It pairs well with the module on
+context windows and RAG because it makes the difference between free-form text
+generation and source-grounded work very visible.
+
+::: {.teacher-only}
+Use it after the demo and ask participants which tasks require citations and
+which can be handled with ordinary chat.
+:::

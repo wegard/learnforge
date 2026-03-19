@@ -20,13 +20,13 @@ En god Custom Instruction inneholder:
 
 ## GPTs, Gems og Projects: Spesialiserte assistenter
 
-Plattformene tilbyr ulike måter å bygge mer avanserte assistenter:
+Plattformene tilbyr ulike måter å bygge mer avanserte assistenter. Navnene og
+funksjonsomfanget endrer seg over tid, men mønsteret er det samme:
 
-- **GPTs (OpenAI)** — Selvstendige assistenter med egne instruksjoner og
-  kunnskapsbase. Kan deles med andre.
-- **Gems (Google)** — Tilsvarende konsept i Google AI Studio og Gemini.
-- **Projects (Claude)** — Prosjektbaserte arbeidsområder med faste
-  instruksjoner og opplastede dokumenter.
+- **Delte assistenter** med egne instruksjoner og kunnskapsbase.
+- **Prosjektflater** der dokumenter, samtaler og retningslinjer samles.
+- **Personlige profiler** eller faste instruksjoner som gjelder på tvers av
+  samtaler.
 
 Felles for alle er at du kombinerer en persona (hvem assistenten er) med en
 kunnskapsbase (hva den har tilgang til). Det gjør at assistenten kan gi

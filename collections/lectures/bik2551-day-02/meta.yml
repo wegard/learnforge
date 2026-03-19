@@ -29,6 +29,8 @@ ai:
   generated_fields: []
 items:
   - context-windows-and-rag
+  - notebooklm-source-grounding-guide
   - advanced-prompting-techniques
   - custom-ai-assistants
   - custom-assistant-setup
+  - ki-assistenter-arbeidslivet-guide

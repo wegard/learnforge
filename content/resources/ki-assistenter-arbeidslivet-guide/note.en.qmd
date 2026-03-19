@@ -1,0 +1,11 @@
+## Why this resource is on the list
+
+This guide is useful because it translates much of the course into a concrete
+Norwegian organizational context: scoping, roles, data, legal constraints,
+quality assurance, and operating model. It works well as a bridge from hands-on
+course use to follow-on work inside participants' own organizations.
+
+::: {.teacher-only}
+Ask participants to read the sections on scoping, competence, and legal
+conditions before finalizing their project plan.
+:::

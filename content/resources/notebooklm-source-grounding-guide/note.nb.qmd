@@ -1,0 +1,11 @@
+## Hvorfor denne ressursen står på listen
+
+Denne ressursen viser et konkret eksempel på et verktøy som er bygget for å
+arbeide med egne kilder, sitater og dokumentgrunnlag. Den passer godt sammen
+med modulen om kontekstvindu og RAG fordi den gjør forskjellen mellom fri
+språkgenerering og kildebasert arbeid svært tydelig.
+
+::: {.teacher-only}
+Bruk ressursen som oppfølging etter demoen: be deltakerne identifisere hvilke
+arbeidsoppgaver som krever kilder, og hvilke som kan løses med vanlig chat.
+:::

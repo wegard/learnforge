@@ -1,0 +1,58 @@
+id: notebooklm-source-grounding-guide
+kind: resource
+resource_kind: website
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: NotebookLM for source-grounded work
+  nb: NotebookLM som kildebasert arbeidsflate
+authors:
+  - Google Labs
+published_on: 2024-06-06
+url: https://blog.google/technology/ai/notebooklm-goes-global-support-for-websites-slides-fact-check/
+courses:
+  - bik2551
+topics:
+  - ai-literacy
+  - prompt-engineering
+tags:
+  - notebooklm
+  - source-grounded
+  - citations
+  - google
+outputs:
+  - html
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+difficulty: introductory
+estimated_time_minutes: 8
+summary:
+  en: Official overview of NotebookLM showing how uploaded sources, citations, and fact-checking fit into the workflow.
+  nb: Offisiell oversikt over NotebookLM som viser hvordan kildehenvisninger, opplastede kilder og faktasjekk inngår i arbeidsflyten.
+why_selected:
+  en: Fits day 2 well because it makes the difference between free-form chat and working from your own sources concrete.
+  nb: Passer godt som støtte til dag 2 fordi ressursen konkret viser forskjellen mellom fri dialog og arbeid med egne kilder.
+instructor_note:
+  en: Use as a short pre-read or follow-up after the demo on context windows, sources, and precision.
+  nb: Bruk som kort ressurs eller oppfølging etter demo av kontekstvindu, kilder og presisjon.
+freshness: time-sensitive
+review_after: 2026-06-06
+approved_by: vegard
+approved_on: 2026-03-19
+approval_history:
+  - action: reviewed
+    by: vegard
+    acted_on: 2026-03-19
+  - action: approved
+    by: vegard
+    acted_on: 2026-03-19
+stale_flag: false

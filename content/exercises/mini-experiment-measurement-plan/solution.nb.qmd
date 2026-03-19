@@ -1,0 +1,18 @@
+## Lærerveiledning
+
+En god måleplan er enkel, konsistent og koblet til prosjektmålet.
+
+### Kjennetegn på en sterk besvarelse
+
+- Det er tydelig hvilken oppgave som sammenlignes før og etter.
+- Målepunktene er få nok til at deltakeren faktisk vil føre logg.
+- Loggboken skiller mellom observasjoner og antakelser.
+- Planen beskriver hvordan kvalitet skal vurderes, ikke bare tidsbruk.
+- Risikovurderingen er knyttet til den konkrete arbeidsprosessen.
+
+### Vanlige svakheter
+
+- For mange målepunkter uten realistisk datainnsamling.
+- Sammenligning av ulike typer oppgaver som ikke er direkte sammenlignbare.
+- Ingen plan for kvalitetssikring av output.
+- Ingen refleksjon om data, personvern eller intern policy.

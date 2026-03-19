@@ -1,0 +1,33 @@
+id: bik2551-project-brief
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Oppgaveark - prosjektoppgave og mini-eksperiment
+courses:
+  - bik2551
+topics:
+  - ai-strategy
+  - ai-automation
+  - prompt-engineering
+tags:
+  - assignment
+  - project
+  - mini-experiment
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+items:
+  - project-problem-and-baseline
+  - mini-experiment-measurement-plan
+  - final-report-and-video-brief

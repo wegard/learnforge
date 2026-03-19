@@ -1,0 +1,24 @@
+## Lærerveiledning
+
+Bruk denne som vurderingsstøtte, ikke som fasit.
+
+### En sterk sluttrapport
+
+- viser en klar sammenheng mellom problem, tiltak og resultat,
+- dokumenterer både gevinster og begrensninger,
+- bruker konkrete eksempler på prompts, arbeidsflyt eller output,
+- inneholder en troverdig refleksjon om ansvarlig bruk.
+
+### En sterk videopresentasjon
+
+- prioriterer poeng fremfor detaljer,
+- forklarer prosjektet på et språk ikke-tekniske interessenter forstår,
+- viser hvorfor prosjektet betyr noe for arbeidshverdagen,
+- avslutter med et tydelig neste steg.
+
+### Tegn på en svak leveranse
+
+- mye verktøyprat, men lite problemforståelse,
+- påstander om effekt uten logg, observasjoner eller sammenligning,
+- manglende vurdering av risiko, kvalitet eller menneskelig kontroll,
+- uklar anbefaling om hva organisasjonen bør gjøre videre.

@@ -1,0 +1,40 @@
+## Avgrens prosjektet før du velger verktøy
+
+Velg én konkret arbeidsoppgave eller «tidstyv» fra egen jobb som du vil
+forbedre med KI. Målet i denne øvelsen er å definere problemet tydelig nok til
+at prosjektet blir gjennomførbart i løpet av kurset.
+
+### Steg 1: Formuler problemet
+
+Skriv én setning som beskriver:
+
+- hva som tar unødvendig tid i dag,
+- hvem som påvirkes,
+- hvorfor det er verdt å forbedre.
+
+### Steg 2: Beskriv nåsituasjonen
+
+Lag en enkel as-is-beskrivelse av prosessen:
+
+1. Hvilke 4-6 steg består oppgaven av i dag?
+2. Hvor mye tid bruker du normalt på hvert steg?
+3. Hvor oppstår ventetid, dobbeltarbeid eller kvalitetsproblemer?
+
+### Steg 3: Beskriv ønsket situasjon
+
+Skisser en to-be-prosess med KI-støtte:
+
+- Hvilket steg skal KI hjelpe med?
+- Hva skal fortsatt gjøres av mennesker?
+- Hvilket resultat ønsker du å oppnå?
+
+### Steg 4: Sett mål og suksesskriterier
+
+Definer 2-3 konkrete mål, for eksempel:
+
+- redusert tidsbruk,
+- bedre kvalitet eller færre feil,
+- raskere responstid for brukere eller kunder.
+
+**Suksesskriterier:** En kollega som ikke kjenner prosjektet ditt skal kunne lese
+beskrivelsen og forstå både problemet, dagens arbeidsflyt og hva du vil teste.

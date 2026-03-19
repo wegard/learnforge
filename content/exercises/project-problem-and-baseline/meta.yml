@@ -1,0 +1,38 @@
+id: project-problem-and-baseline
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: "Prosjektskisse: problem, nåsituasjon og mål"
+courses:
+  - bik2551
+topics:
+  - ai-strategy
+  - prompt-engineering
+tags:
+  - exercise
+  - project
+  - baseline
+  - problem-definition
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - custom-ai-assistants
+  - automation-levels
+  - ai-strategy-implementation
+solution_storage: separate-file
+solution_visibility: teacher

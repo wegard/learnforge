@@ -1,0 +1,59 @@
+id: ki-assistenter-arbeidslivet-guide
+kind: resource
+resource_kind: website
+status: approved
+visibility: student
+languages:
+  - en
+  - nb
+title:
+  en: AI assistants in the workplace - a practical guide
+  nb: KI-assistenter i arbeidslivet - en praktisk guide
+authors:
+  - Digitaliserings- og forvaltningsdepartementet
+published_on: 2025-06-16
+url: https://www.regjeringen.no/no/dokumenter/ki-assistenter-i-arbeidslivet-en-praktisk-guide/id3109040/
+courses:
+  - bik2551
+topics:
+  - ai-ethics
+  - ai-strategy
+  - prompt-engineering
+tags:
+  - governance
+  - assistants
+  - policy
+  - norge
+outputs:
+  - html
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+  nb: approved
+ai:
+  generated_fields: []
+difficulty: introductory
+estimated_time_minutes: 20
+summary:
+  en: Norwegian guide to introducing AI assistants with practical advice on scoping, risk, legal constraints, and organizational readiness.
+  nb: Norsk veileder for innføring av KI-assistenter med råd om behovsavklaring, risiko, juridiske rammer og organisering.
+why_selected:
+  en: Gives participants a practical Norwegian framework for moving from individual testing to responsible organizational adoption.
+  nb: Gir deltakerne et praktisk norsk rammeverk for å gå fra individuell testing til ansvarlig innføring i virksomheten.
+instructor_note:
+  en: Most useful in the between-session project period and on day 4 when projects are tied back to governance, data, and organization.
+  nb: Særlig relevant i mellomperioden og på dag 4 når prosjektene skal kobles til governance, data og organisering.
+freshness: time-sensitive
+review_after: 2026-06-16
+approved_by: vegard
+approved_on: 2026-03-19
+approval_history:
+  - action: reviewed
+    by: vegard
+    acted_on: 2026-03-19
+  - action: approved
+    by: vegard
+    acted_on: 2026-03-19
+stale_flag: false

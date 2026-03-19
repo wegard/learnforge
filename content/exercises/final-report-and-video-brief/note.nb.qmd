@@ -1,0 +1,43 @@
+## Strukturer leveransen rundt beslutninger, effekt og refleksjon
+
+Avslutningen i `BIK 2551` består av en sluttrapport og en kort
+videopresentasjon. Målet er å dokumentere hva du gjorde, hva du lærte, og om
+KI faktisk ga verdi i arbeidsprosessen.
+
+### Del 1: Sluttrapport
+
+Rapporten bør dekke disse delene:
+
+1. **Problem og kontekst**  
+   Hva ville du forbedre, og hvorfor var dette relevant?
+2. **Nåsituasjon og valgt løsning**  
+   Hvordan jobbet du før, og hva testet du med KI?
+3. **Måleplan og resultater**  
+   Hva målte du, og hva fant du?
+4. **Risiko og ansvarlig bruk**  
+   Hvordan håndterte du personvern, kvalitetssikring og begrensninger?
+5. **Videre plan**  
+   Hva ville du gjort videre i egen enhet eller organisasjon?
+
+### Del 2: Videopresentasjon
+
+Bruk fem minutter på å svare på tre spørsmål:
+
+- Hva var problemet?
+- Hva prøvde du?
+- Hva lærte du?
+
+Hold presentasjonen enkel og beslutningsrelevant. Tenk at målgruppen er en
+leder eller kollega som vil vite om løsningen bør videreføres.
+
+### Del 3: Egen refleksjon
+
+Legg inn en kort refleksjon om:
+
+- hva KI forbedret,
+- hva som fortsatt krevde menneskelig skjønn,
+- hva du ville vært forsiktig med å skalere videre.
+
+**Suksesskriterier:** Leveransen er tydelig nok til at en utenforstående forstår
+prosjektets verdi, begrensninger og neste steg uten å måtte se hele prosessen
+fra innsiden.

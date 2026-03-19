@@ -1,0 +1,11 @@
+## Hvorfor denne ressursen står på listen
+
+Denne veilederen er nyttig fordi den oversetter mye av kursinnholdet til en
+norsk organisasjonskontekst: behovsavklaring, roller, data, jus, kvalitet og
+drift. Den fungerer godt som bro mellom praktisk kursbruk og videre arbeid i
+egen virksomhet.
+
+::: {.teacher-only}
+Be deltakerne lese kapitlene om avgrensning, kompetanse og juridiske
+rammebetingelser før de ferdigstiller prosjektplanen sin.
+:::

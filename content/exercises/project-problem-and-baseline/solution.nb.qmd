@@ -1,0 +1,15 @@
+## Lærerveiledning
+
+Et godt prosjektutkast har som regel disse kjennetegnene:
+
+- Problemet er konkret og knyttet til en virkelig arbeidsprosess.
+- Nåsituasjonen er beskrevet med tydelige steg, ikke bare generelle påstander.
+- KI brukes til å forbedre én avgrenset del av arbeidsflyten, ikke «alt».
+- Målene kan observeres eller måles i praksis.
+
+### Tegn på at prosjektet bør avgrenses mer
+
+- Problemet er formulert som «forbedre hele teamets produktivitet».
+- Det er uklart hvilke data, dokumenter eller verktøy som inngår.
+- Prosjektet krever store systemendringer eller lange godkjenningsløp.
+- Deltakeren har ikke definert hva som skal sammenlignes før og etter bruk av KI.

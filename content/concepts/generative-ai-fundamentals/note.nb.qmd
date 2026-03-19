@@ -1,6 +1,6 @@
-## Spraakmodeller genererer tekst gjennom prediksjon, ikke forståelse
+## Språkmodeller genererer tekst gjennom prediksjon, ikke forståelse
 
-Store spraakmodeller (LLM-er) produserer tekst ved å forutsi neste ord basert på
+Store språkmodeller (LLM-er) produserer tekst ved å forutsi neste ord basert på
 sannsynlighet. De forstår ikke innholdet slik et menneske gjør. Denne forskjellen
 er grunnleggende for å bruke verktøyene riktig i `BIK 2551`: det som ser ut som
 forståelse er statistisk mønstergjenkjenning trent på enorme tekstmengder.
@@ -8,7 +8,7 @@ forståelse er statistisk mønstergjenkjenning trent på enorme tekstmengder.
 Det betyr at modellene kan være imponerende presise på mange oppgaver, men også
 ta selvsikkert feil uten å vite det selv.
 
-## Slik trenes en spraakmodell
+## Slik trenes en språkmodell
 
 En LLM utvikles i flere steg:
 
@@ -52,7 +52,7 @@ Hvordan ville en kollega uten fagkunnskap reagert?
 
 ## Hvor dette emnet passer i `BIK 2551`
 
-Generativ KI og store spraakmodeller er utgangspunktet for hele kurset. Uten en
+Generativ KI og store språkmodeller er utgangspunktet for hele kurset. Uten en
 grunnleggende forståelse av hvordan modellene fungerer, er det vanskelig å bruke
 dem effektivt eller vurdere begrensningene deres.
 
@@ -61,7 +61,7 @@ jus, og de mer avanserte emnene som KI-agenter og automatisering senere i kurset
 
 ## Praktiske poeng å ta med videre
 
-- Spraakmodeller forutsier tekst, de forstår ikke innholdet.
+- Språkmodeller forutsier tekst, de forstår ikke innholdet.
 - Velg plattform og modell ut fra oppgaven — ingen modell er best på alt.
 - Hallusinasjoner er normalt, ikke et tegn på feil bruk. Sjekk alltid viktige påstander.
 - Kontekstvinduet er ditt viktigste verktøy for å få bedre svar.

@@ -1,0 +1,46 @@
+## Lag en enkel før/etter-plan som faktisk kan gjennomføres
+
+Prosjektet i `BIK 2551` skal ikke bare beskrive en idé. Det skal også teste om
+KI gir en reell forbedring. I denne øvelsen designer du et mini-eksperiment med
+en enkel loggbok.
+
+### Steg 1: Velg hva du skal sammenligne
+
+Beskriv én oppgave som skal utføres:
+
+- uten KI-støtte i en periode,
+- med KI-støtte i en tilsvarende periode.
+
+Hold oppgaven så lik som mulig i begge perioder.
+
+### Steg 2: Velg målepunkter
+
+Definer 2-4 målepunkter som er realistiske å følge, for eksempel:
+
+- tidsbruk,
+- antall feil eller omarbeidinger,
+- opplevd kvalitet,
+- ventetid for kunde eller kollega.
+
+### Steg 3: Sett opp loggboken
+
+Bestem hvilke felter du skal registrere hver gang:
+
+1. dato,
+2. oppgave,
+3. hvilket KI-verktøy som ble brukt,
+4. kort beskrivelse av prompt eller arbeidsmåte,
+5. tid brukt,
+6. observasjoner om kvalitet og risiko.
+
+### Steg 4: Planlegg kvalitetssikring
+
+Skriv kort hvordan du skal håndtere:
+
+- sensitive data,
+- hallusinasjoner eller feil svar,
+- situasjoner der KI ikke bør brukes.
+
+**Suksesskriterier:** Måleplanen er så enkel at du faktisk kan gjennomføre den i
+mellomperioden, men tydelig nok til at du kan sammenligne før og etter på en
+troverdig måte.

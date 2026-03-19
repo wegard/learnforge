@@ -38,12 +38,13 @@ annen sensitiv informasjon i en KI-tjeneste.
 
 Forskjellen mellom forbruker- og bedriftsversjoner av KI-verktøy er vesentlig:
 
-- **Forbrukertjenester** (gratis ChatGPT, Gemini) kan bruke innholdet ditt til
-  å trene modellen videre. Data lagres ofte på servere utenfor Europa.
-- **Bedriftsavtaler** (Enterprise-utgaver, API-tilgang) gir typisk garantier om
-  at data ikke brukes til trening og at lagring skjer i henhold til avtale.
+- **Forbrukertjenester** har ofte andre vilkår for lagring, innsyn og
+  eventuell viderebruk av data enn virksomheter forventer.
+- **Bedriftsavtaler** gir som regel tydeligere styring av databruk,
+  tilgangskontroll og avtalefestede garantier.
 
-Før du laster opp interne dokumenter, sjekk hvilken avtale virksomheten din har.
+Før du laster opp interne dokumenter, sjekk alltid hvilke vilkår og avtaler som
+gjelder for plattformen virksomheten din bruker.
 
 ## Bias i modeller: treningsdata og filtrering
 

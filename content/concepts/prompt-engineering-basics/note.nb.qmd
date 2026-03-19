@@ -67,7 +67,7 @@ i plenum. Poenget er at forskjellen i output ofte er dramatisk.
 ## Hvor dette emnet passer i `BIK 2551`
 
 Prompt engineering er den første praktiske ferdigheten i kurset. Den bygger
-direkte på forståelsen av hvordan spraakmodeller fungerer og gir deltakerne
+direkte på forståelsen av hvordan språkmodeller fungerer og gir deltakerne
 verktøy de kan bruke umiddelbart i egen jobb.
 
 Senere i kurset bygger avansert prompting, tilpassede KI-assistenter og

@@ -1,0 +1,39 @@
+id: final-report-and-video-brief
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Sluttrapport og videopresentasjon
+courses:
+  - bik2551
+topics:
+  - ai-strategy
+  - ai-ethics
+  - prompt-engineering
+tags:
+  - exercise
+  - project
+  - report
+  - presentation
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - ai-strategy-implementation
+  - ai-ethics-law-security
+  - ai-future-of-work
+solution_storage: separate-file
+solution_visibility: teacher
