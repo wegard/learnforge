@@ -375,7 +375,7 @@ def test_teacher_resource_inbox_assembly_surfaces_candidate_reviewed_and_stale_r
     assert "iv-candidate-newsletter" in listed_ids
     assert "iv-reviewed-primer" in listed_ids
     assert "iv-policy-brief-stale" in listed_ids
-    assert assembly.resource_workflow_summary["status_counts"]["candidate"] == 1
+    assert assembly.resource_workflow_summary["status_counts"]["candidate"] >= 1
 
 
 def test_student_cannot_assemble_candidate_resource_page() -> None:

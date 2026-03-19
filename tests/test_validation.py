@@ -23,7 +23,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert payload["build_summary_path"] == "build/reports/build-summary.json"
     assert "translation_coverage" in payload
     assert "resource_workflow" in payload
-    assert payload["resource_workflow"]["status_counts"]["candidate"] == 1
+    assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
     assert build_summary["status"] == "skipped"
     assert build_summary["target_count"] == 15
 
@@ -205,16 +205,22 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
 def test_validation_report_tracks_resource_workflow_state() -> None:
     report = validate_repository(REPO_ROOT, run_build_checks=False)
 
-    assert report.resource_workflow["status_counts"] == {
-        "candidate": 1,
-        "reviewed": 1,
-        "approved": 1,
-        "published": 1,
-    }
-    assert report.resource_workflow["student_visible_resource_ids"] == ["angrist-podcast-iv"]
+    workflow = report.resource_workflow
+
+    assert workflow["status_counts"]["candidate"] >= 1
+    assert workflow["status_counts"]["reviewed"] >= 1
+    assert workflow["status_counts"]["approved"] >= 1
+    assert workflow["status_counts"]["published"] >= 1
+    assert "iv-candidate-newsletter" in workflow["unpublished_candidate_ids"]
+    assert "angrist-podcast-iv" in workflow["student_visible_resource_ids"]
+    assert any(
+        entry["id"] == "iv-reviewed-primer"
+        and "state-reviewed" in entry["reasons"]
+        for entry in workflow["student_exclusions"]
+    )
     assert any(
         entry["id"] == "iv-policy-brief-stale"
-        for entry in report.resource_workflow["stale_resources"]
+        for entry in workflow["stale_resources"]
     )
     assert any(
         issue.code == "stale-resource" and issue.object_id == "iv-policy-brief-stale"

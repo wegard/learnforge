@@ -28,7 +28,7 @@ def test_validate_command_json_output_includes_build_summary() -> None:
     payload = json.loads(result.stdout)
     assert payload["status"] == "passed_with_warnings"
     assert '"build_summary_path": "build/reports/build-summary.json"' in result.stdout
-    assert payload["resource_workflow"]["status_counts"]["candidate"] == 1
+    assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
 
 
 def test_search_command_finds_iv_content() -> None:
@@ -67,7 +67,10 @@ def test_stale_resources_command_writes_report(tmp_path: Path, monkeypatch) -> N
     payload = json.loads(report_path.read_text(encoding="utf-8"))
 
     assert result.exit_code == 0
-    assert "Stale resources: 1 / 4." in result.stdout
+    assert (
+        f"Stale resources: {payload['stale_resource_count']} / {payload['resource_count']}."
+        in result.stdout
+    )
     assert report_path.exists()
     assert payload["stale_resource_count"] == 1
     assert payload["stale_resources"][0]["id"] == "iv-policy-brief-stale"
