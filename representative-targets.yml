@@ -39,6 +39,11 @@ targets:
     audience: student
     language: en
     format: html
+  - label: GRA4164 course page
+    id: gra4164
+    audience: student
+    language: en
+    format: html
   - label: Teacher lecture slides
     id: lecture-04
     audience: teacher

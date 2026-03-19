@@ -1,6 +1,6 @@
 id: topic-modeling-lsa-lda
 kind: concept
-status: draft
+status: approved
 visibility: student
 languages:
   - en
@@ -23,6 +23,7 @@ level: intermediate
 prerequisites:
   - bag-of-words-tfidf-cosine
 related:
+  - bag-of-words-tfidf-cosine
   - boolean-dictionary-methods-nlp
   - text-regression-classification
 outputs:
@@ -35,6 +36,6 @@ owners:
   - leif
 updated: 2026-03-19
 translation_status:
-  en: draft
+  en: approved
 ai:
   generated_fields: []

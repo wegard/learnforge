@@ -165,9 +165,9 @@ Content objects should list relevant concepts from other courses in `related:`:
 
 ## Next Migration Actions
 
-1. Reconcile remaining draft objects surfaced by `gra4164`, especially
-   `topic-modeling-lsa-lda`, if they should appear as fully approved course
-   concepts.
-2. Decide whether the final presentation session should be represented as a
+1. Decide whether the final presentation session should be represented as a
    canonical collection or remain syllabus-only course structure.
+2. Add a representative `gra4164` target to `representative-targets.yml` so the
+   course is protected by repo-level representative builds as well as its dedicated
+   test file.
 3. Leave all remaining legacy files in the inbox until explicitly promoted.

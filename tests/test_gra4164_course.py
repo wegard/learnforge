@@ -135,6 +135,57 @@ def test_ngram_language_models_concept_links_gra4164_sequence() -> None:
     assert "gra4164" in related_ids
 
 
+def test_topic_modeling_lsa_lda_concept_links_gra4164_sequence() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "topic-modeling-lsa-lda",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## Discovering latent themes without labels" in assembly.markdown
+    assert "## LSA: dimension reduction via SVD" in assembly.markdown
+    assert "## LDA: a probabilistic alternative" in assembly.markdown
+    assert "## When to use which" in assembly.markdown
+    assert "bag-of-words-tfidf-cosine" in related_ids
+    assert "boolean-dictionary-methods-nlp" in related_ids
+    assert "text-regression-classification" in related_ids
+    assert "gra4164-lecture-03" in related_ids
+    assert "gra4164" in related_ids
+
+
+def test_gra4164_lecture_03_assembly_expands_bow_based_methods_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "gra4164-lecture-03",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "boolean-dictionary-methods-nlp",
+        "text-regression-classification",
+        "topic-modeling-lsa-lda",
+    ]
+    assert "## The simplest supervised text methods" in assembly.markdown
+    assert "## Why standard regression fails with text" in assembly.markdown
+    assert "## Discovering latent themes without labels" in assembly.markdown
+    assert "## An n-gram is a short-memory model" not in assembly.markdown
+
+
 def test_gra4164_lecture_04_assembly_expands_ngram_block() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -616,6 +667,7 @@ def test_gra4164_assignment_01_html_assembly_links_course_and_concepts() -> None
     assert "gra4164" in related_ids
     assert "boolean-dictionary-methods-nlp" in related_ids
     assert "text-regression-classification" in related_ids
+    assert "topic-modeling-lsa-lda" in related_ids
 
 
 def test_gra4164_assignment_03_html_assembly_links_course_and_concepts() -> None:
