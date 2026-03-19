@@ -1,0 +1,98 @@
+# Introduksjon til Python og Jupyter Notebooks
+
+## Hvorfor Python?
+
+Python er et generelt programmeringsspråk som er mye brukt innen dataanalyse,
+maskinlæring og AI. Det er basisspråk i selskaper som Google, Facebook, Amazon,
+Spotify og Netflix.
+
+**Fordeler for finans:**
+
+- Enkelt og leselig syntaks
+- Stort økosystem av biblioteker for maskinlæring og dyp læring
+- Rask prototyping og automatisering
+- Sterk støtte for dataanalyse og visualisering
+
+## Jupyter Notebooks
+
+Jupyter Notebooks er et interaktivt verktøy for å skrive og kjøre kode i
+nettleseren. Det brukes mye i dataanalyse og maskinlæring fordi det kombinerer
+kode, tekst og bilder i samme dokument.
+
+## Grunnleggende Python
+
+### Variabler og datatyper
+
+Python har fire grunnleggende datatyper:
+
+- `int` — heltall (f.eks. `42`)
+- `float` — desimaltall (f.eks. `3.14`)
+- `str` — tekst (f.eks. `"Hei"`)
+- `bool` — sannhetsverdi (`True` / `False`)
+
+### Datastrukturer
+
+- **Lister** (`list`) — ordnede samlinger: `[1, 2, 3]`
+- **Ordbøker** (`dict`) — nøkkel-verdi-par: `{"AAPL": 150.0, "GOOG": 2800.0}`
+
+### Eksempel: Renteberegning
+
+```python
+hovedstol = 100000
+rente = 0.05
+antall_år = 10
+sluttverdi = hovedstol * (1 + rente) ** antall_år
+print(f"Sluttverdi: {sluttverdi:,.0f} kr")
+```
+
+## Viktige biblioteker
+
+### NumPy
+
+Grunnleggende bibliotek for numeriske beregninger med effektive array-operasjoner.
+
+```python
+import numpy as np
+avkastning = np.array([0.05, -0.02, 0.08, 0.01])
+print(f"Gjennomsnittlig avkastning: {avkastning.mean():.2%}")
+```
+
+### Pandas
+
+Datahåndtering og analyse med DataFrame-strukturen.
+
+```python
+import pandas as pd
+df = pd.read_csv("aksjedata.csv")
+df.describe()
+```
+
+### Matplotlib
+
+Visualisering av data med grafer og figurer.
+
+```python
+import matplotlib.pyplot as plt
+plt.plot(df["Dato"], df["Pris"])
+plt.title("Aksjekurs over tid")
+plt.show()
+```
+
+### Scikit-learn
+
+Maskinlæring — klassifisering, regresjon, klyngeanalyse og modellvalg.
+
+### PyTorch
+
+Dyp læring — nevrale nettverk, trening og optimering.
+
+## Eksempel: Laste inn aksjedata
+
+```python
+import pandas as pd
+
+df = pd.read_csv("aksjekurser.csv", parse_dates=["Date"], index_col="Date")
+print(df.head())
+print(f"\nAntall observasjoner: {len(df)}")
+print(f"Kolonner: {list(df.columns)}")
+```

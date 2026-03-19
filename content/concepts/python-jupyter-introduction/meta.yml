@@ -1,0 +1,35 @@
+id: python-jupyter-introduction
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Introduksjon til Python og Jupyter Notebooks
+courses:
+  - bik2550
+topics:
+  - tools
+  - python
+tags:
+  - python
+  - jupyter
+  - pandas
+  - numpy
+  - matplotlib
+level: introductory
+prerequisites: []
+related:
+  - data-analysis-with-jupyter
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
