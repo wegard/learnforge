@@ -1,0 +1,69 @@
+# Kursoversikt
+
+`BIK 2550 AI i finansnæringen` er et executive-kurs ved BI som gir en introduksjon
+i de grunnleggende aspektene ved AI-teknologi, med et dykk i hvordan disse
+innovasjonene kan brukes til å forandre og videreutvikle finansnæringen.
+
+Kurset er organisert i tre moduler med tre dager hver (9 sesjoner totalt).
+
+## Kunnskapsmål
+
+- Forstå de grunnleggende prinsippene og konseptene bak kunstig intelligens (AI)
+  og maskinlæring (ML), inkludert innsikt i nevrale nettverk og dyp læring.
+- Identifisere og diskutere etiske utfordringer knyttet til AI, inkludert
+  personvern, fordommer og ansvarlighet, samt forstå de juridiske rammeverkene
+  og regelverkene som styrer AI med søkelys på konsekvensene for finansnæringen.
+- Forstå avanserte ML-konsepter som veiledet og uveiledet læring, multimodalitet,
+  og hva som ligger til grunn for store språkmodeller.
+- Ha kunnskap om naturlig språkprosessering (NLP) og forstå dens relevans og
+  bruk i finanssektoren.
+
+## Ferdighetsmål
+
+- Bruke AI-teknologier i praktiske scenarier gjennom demonstrasjoner og
+  case-studier, med fokus på anvendelse i finanssektoren. Konseptualisere og
+  tilpasse AI-løsninger til reelle problemstillinger i bransjen.
+- Analysere etiske dilemmaer knyttet til AI i finansnæringen, begrunne
+  standpunkter, og koble generelle regelverk til konkrete hverdagseksempler.
+- Anvende maskinlæring (ML) og naturlig språkprosessering (NLP) for å forbedre
+  beslutningstaking, risikoanalyse og investeringsstrategier i finanssektoren.
+  Kombinere informasjon fra tekstdata med andre datakilder for nye innsikter.
+
+## Generell kompetanse
+
+Etter fullført kurs vil deltakerne ha oppnådd en omfattende generell kompetanse
+innen kunstig intelligens og maskinlæring, med spesifikk innsikt i hvordan disse
+teknologiene kan anvendes i finanssektoren. De vil kunne forstå AI-løsninger,
+identifisere og navigere komplekse etiske og juridiske utfordringer, og anvende
+avanserte ML-konsepter for å forbedre beslutningsprosesser og utvikle nye
+strategier basert på kombinasjoner av ulike datakilder.
+
+## Kursets innhold
+
+### Modul 1: Grunnleggende teknologiforståelse
+
+- Introduksjon til AI og maskinlæring i praksis
+- Dataforståelse, datakvalitet og preprosessering
+- Veiledet og uveiledet læring: klassifisering, regresjon, klyngeanalyse
+- Modellering og evaluering av maskinlæringsmodeller
+- Nevrale nettverk og dyp læring
+- Praktiske eksempler med Python og Jupyter Notebooks
+
+### Modul 2: Etikk og reguleringer i AI
+
+- Etikkens verktøy og etiske utfordringer med AI
+- Regulering av KI: EU AI Act, GDPR, menneskerettigheter
+- Hvordan samtale om AI, etikk og reguleringer
+
+### Modul 3: Maskinlæring, naturlig språkbehandling og anvendelser
+
+- Naturlig språkbehandling (NLP) og tekstanalyse
+- Store språkmodeller (LLMs)
+- Multimodalitet i finans
+- Case-studier og anvendelser i finanssektoren
+
+## Undervisningsform
+
+Undervisningen kombinerer forelesninger med interaktive arbeidssesjoner,
+demonstrasjoner i Jupyter Notebooks, diskusjoner i breakout rooms, og
+case-studier fra finanssektoren.

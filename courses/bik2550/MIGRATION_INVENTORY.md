@@ -1,0 +1,90 @@
+# BIK2550 Migration Inventory
+
+This file tracks the migration of legacy material from
+`course-inbox/BIK2550/` into LearnForge's canonical course/object structure.
+
+## Locked Decisions
+
+- Canonical course id: `bik2550`
+- Course language at migration start: `nb` only
+- Content creates **separate introductory-level concepts** rather than reusing
+  tem0052 concepts (different audience, depth, and language)
+- Lecture naming convention: `bik2550-m1d1` (module/day structure)
+- Legacy notebooks are instructor demonstrations → convert to concept objects
+  with exposition in `.qmd`; only graded student output notebooks become exercises
+- Module 2 is deferred entirely — no structured source material exists
+- Exam project is deferred to a later wave
+- No promotion of editor files, checkpoint folders, compiled LaTeX artifacts,
+  branding assets, or the nested legacy git repository
+
+## Migration Buckets
+
+### Promote First (Module 1 — all 3 days)
+
+| Legacy source | Target kind | Proposed target id | Status |
+| --- | --- | --- | --- |
+| `modul_1/dag1/Hva_er_AI.tex` (AI section) | concept | `what-is-ai-overview` | pending |
+| `modul_1/dag1/AI_utvikling.tex` | concept | `ai-history-timeline` | pending |
+| `modul_1/dag1/Hva_er_AI.tex` (finance frames) | concept | `ai-in-finance-landscape` | pending |
+| `modul_1/dag1/Hva_er_AI.tex` (GenAI section) | concept | `generative-ai-introduction` | pending |
+| `modul_1/ressurser/Introduksjon_til_Python_og_Jupyter_notebooks.ipynb` | concept | `python-jupyter-introduction` | pending |
+| `modul_1/ressurser/Dataanalyse_med_jupyter_notebooks.ipynb` | concept | `data-analysis-with-jupyter` | pending |
+| `modul_1/dag2/Hva_er_maskinlæring.tex` (supervised) | concept | `ml-supervised-learning-overview` | pending |
+| `modul_1/dag2/Hva_er_maskinlæring.tex` (unsupervised) | concept | `ml-unsupervised-learning-overview` | pending |
+| `modul_1/dag2/Hva_er_maskinlæring.tex` (evaluation) | concept | `ml-model-evaluation-overview` | pending |
+| `modul_1/ressurser/Maskinlæring_for_finans.ipynb` | concept | `ml-finance-demo` | pending |
+| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (NN basics) | concept | `neural-networks-introduction` | pending |
+| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (architectures) | concept | `deep-learning-architectures-overview` | pending |
+| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (LLM section) | concept | `llms-and-next-token-prediction` | pending |
+| `modul_1/ressurser/Predikere_mislighold_kredittkort_NN.ipynb` | exercise | `credit-default-prediction-nn` | pending |
+| `modul_1/ressurser/svindeloppdagelse.ipynb` | exercise | `fraud-detection-exercise` | pending |
+
+### Promote Second (Module 3)
+
+| Legacy source | Target kind | Proposed target id | Status |
+| --- | --- | --- | --- |
+| `modul_3/dag1/Store_språkmodeller_og_NLP.tex` | concept | `nlp-text-data-finance` | pending |
+| `modul_3/dag1/llms.tex` | concept | `llms-deep-dive` | pending |
+| `modul_3/dag2/Multimodalitet_i_Finans.tex` | concept | `multimodality-in-finance` | pending |
+| `modul_3/dag3/Oppsumering_AI_finans.tex` + `Anvendelser.tex` | concept | `ai-applications-finance-summary` | pending |
+| `modul_3/ressurser/Predict_the_next_token_part1.ipynb` | exercise | `next-token-prediction-exercise` | pending |
+
+### Rewrite Fresh (later waves)
+
+| Topic | Reason | Planned target kind |
+| --- | --- | --- |
+| Module 2 ethics concepts | No structured source material in inbox | concept |
+| Module 2 regulation concepts (EU AI Act, GDPR) | No structured source material in inbox | concept |
+| Exam project brief + case studies | Needs fresh authoring as assignment collection | assignment |
+
+### Defer
+
+| Legacy source | Reason for deferral |
+| --- | --- |
+| `modul_1/ressurser/gjenkjenning_av_siffer.ipynb` | Digit recognition demo, not core content |
+| `modul_1/ressurser/create_figures.ipynb` | Figure generation utility, not teaching content |
+| `modul_3/ressurser/Predict_the_next_token_part2_nn.ipynb` | Advanced next-token part, defer to later wave |
+| `modul_3/ressurser/Predict_the_next_token_part3_mpl.ipynb` | Advanced next-token part, defer to later wave |
+| `modul_3/ressurser/Predikere_neste_bokstav.ipynb` | Older version of next-token notebook |
+| `modul_3/ressurser/Predikere_neste_bokstav_ver2.ipynb` | Older version of next-token notebook |
+| `modul_3/ressurser/bigram_nb_no.ipynb` | Bigram notebook, superseded by Predict_the_next_token |
+| `modul_1/ressurser/micrograd/` | Micrograd module, not core content |
+| `Course_plan/` older versions | Historical reference only |
+| `exam/` | Exam project deferred to later wave |
+
+### Drop or Archive
+
+| Legacy source | Reason |
+| --- | --- |
+| `*.nav`, `*.snm`, `*.log`, `*.synctex.gz`, compiled PDFs | Build artifacts |
+| `beamerthemebi/`, `beamerthemebi.sty`, `beamerthemeexample.sty` | BI Beamer theme files |
+| `logo.png`, `title_page_background.jpg` (in theme dirs) | Branding assets |
+| `modul_1/dag1/archive/` | Archived older slide versions |
+| `modul_1/ressurser/archive/` | Archived older notebooks |
+| `.virtual_documents/` | Editor artifacts |
+| `.docx` files | Word documents (guest lecture materials) |
+| `.git/` (if nested) | Tooling noise |
+
+## Promoted in the Current Checkpoint
+
+(None yet — Module 1 promotion is the first target.)
