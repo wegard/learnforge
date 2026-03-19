@@ -21,6 +21,7 @@ level: intermediate
 prerequisites: []
 related:
   - knn-supervised-learning
+  - decision-tree-learning
   - linear-regression-prediction
   - penalized-linear-models
   - logistic-regression-classification

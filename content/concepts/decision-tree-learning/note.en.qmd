@@ -1,0 +1,77 @@
+## Decision trees turn prediction into a sequence of splits
+
+Decision trees are one of the clearest ways to explain supervised learning in
+`TEM 0052`. The model keeps asking structured yes-or-no questions about the
+features until it reaches a terminal node and produces a prediction.
+
+That makes trees appealing for teaching because the prediction rule can be read as a
+path rather than hidden inside one long equation. The same simplicity is also the
+reason trees can become too eager to fit noise.
+
+## How a tree grows
+
+A tree starts with the full training sample at the root. It then searches for a
+feature and threshold that improve the split according to a purity rule.
+
+For classification, the usual split criteria are based on impurity, such as the Gini
+index
+
+$$
+\mathrm{Gini}(S) = 1 - \sum_{c=1}^{C} p_c^2
+$$
+
+or entropy
+
+$$
+\mathrm{Entropy}(S) = -\sum_{c=1}^{C} p_c \log_2 p_c.
+$$
+
+For regression trees, the same logic uses reduction in squared error instead. The
+important point for this course is not the exact algebra. It is that every split is
+trying to create child nodes that are more homogeneous than the parent node.
+
+## Why trees overfit so easily
+
+A deep tree can keep splitting until it nearly memorizes the training sample. That
+often looks impressive in-sample and unreliable out-of-sample.
+
+This makes decision trees a strong illustration of the bias-variance trade-off:
+
+- shallow trees usually have higher bias but lower variance,
+- deep trees can capture local structure but may react strongly to noise,
+- and pruning or depth limits are regularization choices, not cosmetic cleanup.
+
+In practice, students should treat tree complexity as a tuning problem. `max_depth`,
+`min_samples_split`, `min_samples_leaf`, and cost-complexity pruning all belong in
+the same model-selection workflow as other hyperparameters.
+
+::: {.teacher-only}
+Ask students why an almost perfect training score from a large tree is usually a
+warning sign rather than a success metric.
+:::
+
+## Where trees fit in `TEM 0052`
+
+Decision trees sit between the early baseline models and the later ensemble methods.
+They are more flexible than logistic regression, less geometry-driven than kNN, and
+often easier to explain to a non-technical audience.
+
+They also prepare students for two later ideas:
+
+- cross-validation should choose the tree size, not classroom intuition,
+- and single trees are often improved by bagging, random forests, or boosting.
+
+That is why the model-assessment lab compares tree-based classification with logistic
+regression and kNN under one shared evaluation rule.
+
+## What to report
+
+When students present a decision-tree workflow in `TEM 0052`, they should usually
+report:
+
+- the target definition and any preprocessing choices,
+- the split criterion and the tuned complexity controls,
+- the train/test or cross-validation protocol,
+- whether the final tree is interpretable enough to inspect directly,
+- and how the chosen tree compares with simpler baselines such as logistic regression
+  or kNN.

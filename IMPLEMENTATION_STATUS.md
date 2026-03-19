@@ -14,6 +14,7 @@
 - Phase 11 complete checkpoint: `tem0052` sixth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` lecture 2 assembly slice
 - Phase 11 complete checkpoint: `tem0052` lecture 3 assembly slice
+- Phase 11 complete checkpoint: `tem0052` seventh concept promotion slice
 
 ## Non-Goals For This Run
 
@@ -178,6 +179,8 @@
   - `content/concepts/logistic-regression-classification/`
 - Promoted the sixth canonical `tem0052` concept:
   - `content/concepts/knn-supervised-learning/`
+- Promoted the seventh canonical `tem0052` concept:
+  - `content/concepts/decision-tree-learning/`
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
@@ -211,6 +214,12 @@
   - `bias-variance-tradeoff`
   - `model-selection-cross-validation`
   - `logistic-regression-classification`
+  - `model-assessment-lab`
+- Linked the promoted decision-tree concept into the current `tem0052` concept/exercise graph:
+  - `bias-variance-tradeoff`
+  - `knn-supervised-learning`
+  - `logistic-regression-classification`
+  - `model-selection-cross-validation`
   - `model-assessment-lab`
 - Wired the first lecture into `courses/tem0052/plan.yml`
 - Wired the current promoted lecture sequence into `courses/tem0052/plan.yml`:
@@ -249,7 +258,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - six first-wave `tem0052` concepts, two exercises, and three lectures are promoted so far
+  - seven first-wave `tem0052` concepts, two exercises, and three lectures are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -282,6 +291,8 @@
 - `app/validator.py`
 - `content/concepts/model-selection-cross-validation/meta.yml`
 - `content/concepts/model-selection-cross-validation/note.en.qmd`
+- `content/concepts/decision-tree-learning/meta.yml`
+- `content/concepts/decision-tree-learning/note.en.qmd`
 - `content/concepts/linear-regression-prediction/meta.yml`
 - `content/concepts/linear-regression-prediction/note.en.qmd`
 - `content/concepts/penalized-linear-models/meta.yml`
@@ -460,11 +471,24 @@
   - `./.venv/bin/teach build tem0052-lecture-03 --audience teacher --lang en --format revealjs`
   - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
   - `./.venv/bin/teach validate`
+- `tem0052` seventh concept promotion:
+  - `sed -n '1,220p' courses/tem0052/MIGRATION_INVENTORY.md`
+  - `sed -n '1,220p' content/concepts/logistic-regression-classification/meta.yml`
+  - `sed -n '1,220p' content/concepts/knn-supervised-learning/meta.yml`
+  - `sed -n '1,260p' content/concepts/knn-supervised-learning/note.en.qmd`
+  - `rg -n "Decision tree|tree" course-inbox/predictive-modelling-with-machine-learning/tex2026 course-inbox/predictive-modelling-with-machine-learning/notebooks/07_Decision_trees.ipynb`
+  - `python - <<'PY' ... summarize notebooks/07_Decision_trees.ipynb markdown cells ... PY`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach build decision-tree-learning --audience student --lang en --format html`
+  - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 21 objects and 2 courses. Errors: 0. Warnings: 10.`
+  - `Validated 22 objects and 2 courses. Errors: 0. Warnings: 11.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
@@ -472,6 +496,7 @@
       - `stale-resource`
     - the English-only migration-stage `tem0052` concepts/exercises:
       - `missing-approved-translation` for `bias-variance-tradeoff`
+      - `missing-approved-translation` for `decision-tree-learning`
       - `missing-approved-translation` for `knn-supervised-learning`
       - `missing-approved-translation` for `linear-regression-prediction`
       - `missing-approved-translation` for `logistic-regression-classification`
@@ -482,7 +507,7 @@
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `74 passed in 224.49s (0:03:44)`
+  - `74 passed in 228.08s (0:03:48)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
@@ -503,6 +528,11 @@
   - `status_counts: candidate=1, reviewed=1, approved=1, published=1`
   - `student_visible_resource_ids: ['angrist-podcast-iv']`
   - `student_exclusion_count: 3`
+- New `tem0052` concept artifact paths:
+  - `build/exports/student/en/html/concept/decision-tree-learning/decision-tree-learning.html`
+  - `build/reports/builds/student/en/html/concept/decision-tree-learning/build-manifest.json`
+  - `build/reports/builds/student/en/html/concept/decision-tree-learning/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/concept/decision-tree-learning/teacher-leakage-report.json`
 - New `tem0052` concept artifact paths:
   - `build/exports/student/en/html/concept/penalized-linear-models/penalized-linear-models.html`
   - `build/reports/builds/student/en/html/concept/penalized-linear-models/build-manifest.json`
@@ -610,11 +640,11 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote the next `tem0052` supporting concept from the regression block:
-  - `penalized-linear-models`
+- Promote the next `tem0052` tree-based supporting concept from the same block:
+  - `random-forests`
 - The course can stay intentionally English-only for the next checkpoint; the resulting
   translation warnings are currently expected and non-blocking
 - Keep the next migration slice narrow:
   - one additional concept
   - optionally one small supporting figure from the same block
-  - add a new lecture collection only if the promoted regression material is strong enough to stand on its own
+  - add a new lecture collection only if the promoted tree/classification material is strong enough to stand on its own

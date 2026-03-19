@@ -23,6 +23,7 @@ prerequisites:
   - linear-regression-prediction
 related:
   - knn-supervised-learning
+  - decision-tree-learning
   - linear-regression-prediction
   - model-selection-cross-validation
   - bias-variance-tradeoff

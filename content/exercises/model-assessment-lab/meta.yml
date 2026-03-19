@@ -34,6 +34,7 @@ estimated_time_minutes: 45
 concepts:
   - bias-variance-tradeoff
   - knn-supervised-learning
+  - decision-tree-learning
   - model-selection-cross-validation
   - logistic-regression-classification
 solution_storage: separate-file

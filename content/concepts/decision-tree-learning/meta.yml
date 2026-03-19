@@ -1,28 +1,28 @@
-id: knn-supervised-learning
+id: decision-tree-learning
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: k-nearest neighbors for supervised learning
+  en: Decision tree learning
 courses:
   - tem0052
 topics:
   - predictive-modelling
   - classification
-  - supervised-learning
+  - tree-based-methods
   - model-selection
 tags:
-  - knn
+  - decision-trees
   - classification
-  - distance-based-learning
-  - nonparametric
+  - interpretability
+  - pruning
 level: intermediate
 prerequisites: []
 related:
+  - knn-supervised-learning
   - logistic-regression-classification
-  - decision-tree-learning
   - model-selection-cross-validation
   - bias-variance-tradeoff
   - model-assessment-lab
