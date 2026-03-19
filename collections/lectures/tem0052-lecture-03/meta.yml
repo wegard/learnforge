@@ -1,0 +1,36 @@
+id: tem0052-lecture-03
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 3 - Classification methods
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - supervised-learning
+  - model-selection
+tags:
+  - lecture
+  - classification
+  - supervised-learning
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - knn-supervised-learning
+  - logistic-regression-classification
+  - model-assessment-lab

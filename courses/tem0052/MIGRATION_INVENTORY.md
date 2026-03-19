@@ -98,6 +98,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Exercise: `model-assessment-lab`
 - Exercise: `house-prices-regression`
 - Lecture collection: `tem0052-lecture-02`
+- Lecture collection: `tem0052-lecture-03`
 - Lecture collection: `tem0052-lecture-05`
 
 ### First concept candidates

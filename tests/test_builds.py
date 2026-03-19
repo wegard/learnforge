@@ -92,10 +92,12 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "Browse by Course" not in html
     assert "Course Overview" in html
     assert "../../collection/tem0052-lecture-02/tem0052-lecture-02.html" in html
+    assert "../../collection/tem0052-lecture-03/tem0052-lecture-03.html" in html
     assert "../../collection/tem0052-lecture-05/tem0052-lecture-05.html" in html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in html
     assert "../../exercise/house-prices-regression/house-prices-regression.html" in html
     assert "Lecture 2 - Linear prediction and regularization" in html
+    assert "Lecture 3 - Classification methods" in html
     assert "Lecture 5 - Model selection, evaluation, and assessment" in html
     assert "Model assessment lab" in html
     assert "House-price prediction" in html
@@ -347,6 +349,46 @@ def test_tem0052_lecture_02_build_contains_regression_block() -> None:
         "linear-regression-prediction",
         "penalized-linear-models",
         "house-prices-regression",
+    ]
+
+
+def test_tem0052_lecture_03_build_contains_classification_block() -> None:
+    student_artifact = build_target(
+        "tem0052-lecture-03",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    teacher_artifact = build_target(
+        "tem0052-lecture-03",
+        audience="teacher",
+        language="en",
+        output_format="revealjs",
+        root=REPO_ROOT,
+    )
+
+    student_html = student_artifact.output_path.read_text(encoding="utf-8")
+    teacher_html = teacher_artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        student_artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Course context" in student_html
+    assert "This lecture includes" in student_html
+    assert "k-nearest neighbors for supervised learning" in student_html
+    assert "Logistic regression for classification" in student_html
+    assert "Model assessment lab" in student_html
+    assert "House-price prediction" not in student_html
+    assert "Lecture 3 - Classification methods" in teacher_html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "knn-supervised-learning",
+        "logistic-regression-classification",
+        "model-assessment-lab",
     ]
 
 

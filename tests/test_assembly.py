@@ -125,6 +125,32 @@ def test_tem0052_lecture_02_assembly_expands_regression_block() -> None:
     assert "model-assessment-lab" not in assembly.markdown
 
 
+def test_tem0052_lecture_03_assembly_expands_classification_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-03",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "knn-supervised-learning",
+        "logistic-regression-classification",
+        "model-assessment-lab",
+    ]
+    assert "## Why k-nearest neighbors belongs early in the course" in assembly.markdown
+    assert "## Logistic regression is a classifier, not a ranking trick" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "house-prices-regression" not in assembly.markdown
+
+
 def test_assignment_assembly_compiles_multiple_exercises_without_student_solutions() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
