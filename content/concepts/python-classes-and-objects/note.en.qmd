@@ -1,0 +1,146 @@
+## Classes bundle related data and behavior
+
+By this point in `EDI 3400`, students have already learned three ways to organize
+code:
+
+- variables and containers store data,
+- functions package reusable logic,
+- modules group reusable tools.
+
+A class is the next step when a program needs to keep data and the operations on that
+data together.
+
+That is the key beginner idea behind object-oriented programming in this course. A
+class is not an advanced magic trick. It is a structured way to model one kind of
+thing in code.
+
+## A class is a blueprint and an object is one instance
+
+A class defines the structure. An object is one concrete instance created from that
+definition:
+
+```python
+class User:
+    pass
+
+vegard = User()
+anne = User()
+```
+
+There is one class definition here, but two separate objects. That distinction
+matters because later each object can store different attribute values.
+
+## `__init__` sets the starting state
+
+The `__init__` method runs when an object is created:
+
+```python
+class User:
+    def __init__(self, name):
+        self.user_name = name
+```
+
+When the script calls `User("Vegard")`, Python creates a new object and then uses
+`__init__` to assign its starting attribute values.
+
+This is the first class habit students need to understand: object creation usually
+means "make a new instance, then initialize its state."
+
+## Attributes belong to each object
+
+An attribute is a variable stored on the object itself:
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+```
+
+Here, `owner` and `balance` are attributes. They belong to each account object, not
+to the whole class in the abstract.
+
+That means two objects can share the same class definition while keeping different
+data:
+
+```python
+account_a = BankAccount("Alice", 100)
+account_b = BankAccount("Bob", 40)
+```
+
+`account_a.balance` and `account_b.balance` can now change independently.
+
+## Methods are functions attached to the class
+
+A method is just a function defined inside the class:
+
+```python
+class BankAccount:
+    def deposit(self, amount):
+        self.balance += amount
+        return self.balance
+```
+
+The difference from earlier functions is not the core Python logic. The difference is
+that the method works with one object's state through `self`.
+
+This is why methods are useful: the behavior stays attached to the data it changes.
+
+## `self` refers to the current object
+
+When students call:
+
+```python
+account.deposit(50)
+```
+
+Python automatically passes `account` into the method as the first argument. That is
+why the method signature starts with `self`.
+
+Beginner classes stay much clearer once students internalize this rule:
+
+- `self.owner` means "this object's owner",
+- `self.balance` means "this object's balance",
+- `self.deposit(...)` means "use this object's method."
+
+## Small classes should model one concrete idea
+
+The first useful classes in this course should be narrow and concrete:
+
+- a user,
+- a bank account,
+- a record for one observation,
+- or another object with a small number of attributes and methods.
+
+That is a better starting point than trying to introduce inheritance, large class
+hierarchies, or abstract design patterns immediately.
+
+For this checkpoint, the goal is simply to model one real thing cleanly and let the
+object keep track of its own state over time.
+
+## Classes are useful when state changes across method calls
+
+This is what separates a simple class example from a plain function exercise.
+
+A function usually takes inputs and returns a result for that one call. An object can
+remember its state between calls:
+
+```python
+account = BankAccount("Alice", 100)
+account.deposit(50)
+account.withdraw(20)
+```
+
+After those calls, the object still "knows" its current balance. That persistent
+state is one of the main reasons to introduce classes at all.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- explain the difference between a class and an object,
+- define a class with `class`,
+- use `__init__` to create starting attributes,
+- describe what `self` refers to,
+- write one or two small methods that update object state,
+- explain why separate objects can keep different attribute values.

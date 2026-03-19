@@ -1,0 +1,60 @@
+The strongest teacher solution keeps the imports explicit and the tasks separate. The
+goal is not to survey every possible module. The goal is to show that a small number
+of well-chosen imports can solve common problems cleanly.
+
+## Suggested approach
+
+1. Keep one import block near the top so module dependencies are obvious.
+2. Use fixed example values in the reference solution so the workflow is easy to
+   compare across students.
+3. Seed the random example before shuffling so the demonstration stays reproducible.
+4. Treat the `re` task as optional stretch work, not the core of the checkpoint.
+
+## Minimal reference implementation
+
+```python
+import math
+import random
+from datetime import date
+import statistics
+import re
+
+today = date.today()
+print(today.strftime("%Y-%m-%d"))
+
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+random.seed(42)
+random.shuffle(numbers)
+print(numbers)
+print(random.choice(numbers))
+
+number = 25
+if number > 0:
+    print(round(math.log(number), 2))
+    print(round(math.log10(number), 2))
+else:
+    print("Please enter a positive number.")
+
+values = [10, 20, 30, 40, 50]
+print(statistics.mean(values))
+print(statistics.median(values))
+print(round(statistics.stdev(values), 2))
+
+text = "In 2024 we had 18 students and 3 project groups."
+print(re.findall(r"\\d+", text))
+```
+
+## What students should notice
+
+- imports state dependencies at the top of the script,
+- different modules solve different problem types,
+- the function call pattern is similar across modules even when the domains differ,
+- standard-library utilities save time, but students still need to read the code
+  around them carefully,
+- reproducibility matters when using random workflows in teaching material.
+
+## Teaching emphasis
+
+Do not let this checkpoint become a full tour of the whole standard library. Keep it
+centered on importing a few common modules and using them intentionally. The
+remaining classes/OOP material from lecture 5 should stay a separate decision.

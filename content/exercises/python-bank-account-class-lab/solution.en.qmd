@@ -1,0 +1,63 @@
+The strongest teacher solution keeps the class small and concrete. This checkpoint is
+about attributes, methods, and object state, not about introducing the full OOP
+toolbox at once.
+
+## Suggested approach
+
+1. Start with `__init__` so students see where object state comes from.
+2. Return status strings from the methods so the effect of each call is easy to
+   inspect.
+3. Use two account objects in the demo so object-specific state becomes visible.
+4. Do not introduce inheritance, properties, or advanced magic methods here.
+
+## Minimal reference implementation
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        return f"Deposited ${amount}. New balance: ${self.balance}"
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            return "Funds unavailable"
+
+        self.balance -= amount
+        if self.balance <= 10:
+            return (
+                f"Withdrew ${amount}. Warning: Low balance. "
+                f"Current balance: ${self.balance}"
+            )
+
+        return f"Withdrew ${amount}. New balance: ${self.balance}"
+
+    def display(self):
+        return f"Owner: {self.owner}\\nBalance: ${self.balance}"
+
+
+account = BankAccount("John Doe", 100)
+backup = BankAccount("Ana", 25)
+
+print(account.deposit(50))
+print(account.withdraw(140))
+print(account.display())
+print(backup.display())
+```
+
+## What students should notice
+
+- each object has its own `owner` and `balance`,
+- method calls update one object's state rather than all objects at once,
+- `self` makes it explicit which object's data is being updated,
+- the class keeps related data and behavior together in one place,
+- the same class definition can produce multiple independent objects.
+
+## Teaching emphasis
+
+Treat this as an introductory modeling exercise, not an invitation to cover all of
+object-oriented programming in one session. The important result is that students can
+define one small class and reason about how its state changes.

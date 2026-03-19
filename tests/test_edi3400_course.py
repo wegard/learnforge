@@ -20,6 +20,8 @@ def test_edi3400_course_is_indexed_with_current_canonical_slices() -> None:
         "edi3400-lecture-04",
         "edi3400-lecture-04b",
         "edi3400-lecture-05a",
+        "edi3400-lecture-05b",
+        "edi3400-lecture-05c",
         "edi3400-lecture-11",
         "edi3400-lecture-12",
         "edi3400-lecture-13",
@@ -42,19 +44,23 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
 
     assert assembly.target.kind == "course"
     assert assembly.target.identifier == "edi3400"
-    assert listing_ids[:7] == [
+    assert listing_ids[:8] == [
         "edi3400-lecture-02",
         "edi3400-lecture-04",
         "edi3400-lecture-04b",
         "edi3400-lecture-05a",
+        "edi3400-lecture-05b",
+        "edi3400-lecture-05c",
         "edi3400-lecture-11",
         "edi3400-lecture-12",
-        "edi3400-lecture-13",
     ]
+    assert listing_ids[8] == "edi3400-lecture-13"
     assert "python-basics-problem-set" in listing_ids
     assert "python-control-flow-problem-set" in listing_ids
     assert "python-file-handling-lab" in listing_ids
     assert "python-functions-problem-set" in listing_ids
+    assert "python-standard-library-problem-set" in listing_ids
+    assert "python-bank-account-class-lab" in listing_ids
     assert "sql-python-problem-set" in listing_ids
     assert "topic-data-management" in listing_ids
     assert "topic-databases" in listing_ids
@@ -66,6 +72,8 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Lecture 4 - Control flow and loops" in assembly.markdown
     assert "Lecture 4B - File handling and local data" in assembly.markdown
     assert "Lecture 5A - Functions and reusable code" in assembly.markdown
+    assert "Lecture 5B - Standard-library utilities" in assembly.markdown
+    assert "Lecture 5C - Classes and objects" in assembly.markdown
     assert "Lecture 11 - Introduction to relational databases" in assembly.markdown
     assert "Lecture 12 - SQL basics" in assembly.markdown
     assert "Lecture 13 - Python and SQL" in assembly.markdown
@@ -73,6 +81,8 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Python control flow problem set" in assembly.markdown
     assert "Python file handling lab" in assembly.markdown
     assert "Python functions problem set" in assembly.markdown
+    assert "Python standard-library utilities problem set" in assembly.markdown
+    assert "Python bank-account class lab" in assembly.markdown
     assert "SQL and Python problem set" in assembly.markdown
     assert "Programming" in assembly.markdown
     assert "Python" in assembly.markdown
@@ -183,8 +193,63 @@ def test_python_functions_concept_links_edi3400_foundations() -> None:
     assert "## Functions often wrap control flow" in assembly.markdown
     assert "python-control-flow" in related_ids
     assert "python-file-handling" in related_ids
+    assert "python-classes-and-objects" in related_ids
+    assert "python-standard-library-utilities" in related_ids
     assert "python-functions-problem-set" in related_ids
     assert "edi3400-lecture-05a" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_python_standard_library_utilities_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "python-standard-library-utilities",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## Modules package reusable tools beyond the built-ins" in assembly.markdown
+    assert "## `import` makes library code available" in assembly.markdown
+    assert "## `math` covers common numerical functions" in assembly.markdown
+    assert "## `random` supports sampling and shuffling" in assembly.markdown
+    assert "## `statistics` summarizes small numeric samples" in assembly.markdown
+    assert "python-functions" in related_ids
+    assert "python-file-handling" in related_ids
+    assert "python-classes-and-objects" in related_ids
+    assert "python-standard-library-problem-set" in related_ids
+    assert "edi3400-lecture-05b" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_python_classes_and_objects_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "python-classes-and-objects",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## Classes bundle related data and behavior" in assembly.markdown
+    assert "## A class is a blueprint and an object is one instance" in assembly.markdown
+    assert "## `__init__` sets the starting state" in assembly.markdown
+    assert "## Attributes belong to each object" in assembly.markdown
+    assert "## `self` refers to the current object" in assembly.markdown
+    assert "python-functions" in related_ids
+    assert "python-standard-library-utilities" in related_ids
+    assert "python-bank-account-class-lab" in related_ids
+    assert "edi3400-lecture-05c" in related_ids
     assert "edi3400" in related_ids
 
 
@@ -269,6 +334,54 @@ def test_edi3400_lecture_05a_assembly_expands_functions_block() -> None:
     assert edge_targets == ["python-functions", "python-functions-problem-set"]
     assert "## `def` creates a named unit of work" in assembly.markdown
     assert "## Problem set brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_05b_assembly_expands_standard_library_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-05b",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "python-standard-library-utilities",
+        "python-standard-library-problem-set",
+    ]
+    assert "## `import` makes library code available" in assembly.markdown
+    assert "## Problem set brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_05c_assembly_expands_classes_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-05c",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "python-classes-and-objects",
+        "python-bank-account-class-lab",
+    ]
+    assert "## `__init__` sets the starting state" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
     assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
 
 
@@ -365,6 +478,56 @@ def test_python_functions_problem_set_links_foundations_and_course() -> None:
     assert "python-control-flow" in related_ids
     assert "python-functions" in related_ids
     assert "edi3400-lecture-05a" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_python_standard_library_problem_set_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "python-standard-library-problem-set",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Problem set brief" in assembly.markdown
+    assert "import math" in assembly.markdown
+    assert "re.findall(...)" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "python-functions" in related_ids
+    assert "python-standard-library-utilities" in related_ids
+    assert "edi3400-lecture-05b" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_python_bank_account_class_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "python-bank-account-class-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab brief" in assembly.markdown
+    assert "class BankAccount:" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "python-control-flow" in related_ids
+    assert "python-functions" in related_ids
+    assert "python-classes-and-objects" in related_ids
+    assert "edi3400-lecture-05c" in related_ids
     assert "edi3400" in related_ids
 
 
@@ -835,6 +998,50 @@ def test_python_functions_student_page_builds_cleanly() -> None:
     assert leakage_report["status"] == "clean"
 
 
+def test_python_standard_library_utilities_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "python-standard-library-utilities",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Python standard-library utilities" in html
+    assert "Modules package reusable tools beyond the built-ins" in html
+    assert "statistics.mean(numbers)" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "python-standard-library-utilities"
+    assert leakage_report["status"] == "clean"
+
+
+def test_python_classes_and_objects_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "python-classes-and-objects",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Python classes and objects" in html
+    assert "Classes bundle related data and behavior" in html
+    assert "Attributes belong to each object" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "python-classes-and-objects"
+    assert leakage_report["status"] == "clean"
+
+
 def test_python_functions_problem_set_student_page_builds_cleanly() -> None:
     artifact = build_target(
         "python-functions-problem-set",
@@ -853,6 +1060,52 @@ def test_python_functions_problem_set_student_page_builds_cleanly() -> None:
     assert "## Solution" not in html
     assert "The strongest teacher solution keeps each function small" not in html
     assert build_manifest["target"]["identifier"] == "python-functions-problem-set"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_python_bank_account_class_lab_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "python-bank-account-class-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Python bank-account class lab" in html
+    assert "Funds unavailable" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the class small" not in html
+    assert build_manifest["target"]["identifier"] == "python-bank-account-class-lab"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_python_standard_library_problem_set_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "python-standard-library-problem-set",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Python standard-library utilities problem set" in html
+    assert "math.log(...)" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the imports explicit" not in html
+    assert build_manifest["target"]["identifier"] == "python-standard-library-problem-set"
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 1
     assert leakage_report["solution_files_included"] == 0
@@ -881,6 +1134,52 @@ def test_python_functions_problem_set_teacher_page_builds_with_solution() -> Non
     assert leakage_report["solution_files_included"] == 1
 
 
+def test_python_standard_library_problem_set_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "python-standard-library-problem-set",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Python standard-library utilities problem set" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the imports explicit" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "python-standard-library-problem-set"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
+def test_python_bank_account_class_lab_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "python-bank-account-class-lab",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Python bank-account class lab" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the class small" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "python-bank-account-class-lab"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
 def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     artifact = build_target(
         "edi3400",
@@ -899,6 +1198,8 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "../../collection/edi3400-lecture-04/edi3400-lecture-04.html" in html
     assert "../../collection/edi3400-lecture-04b/edi3400-lecture-04b.html" in html
     assert "../../collection/edi3400-lecture-05a/edi3400-lecture-05a.html" in html
+    assert "../../collection/edi3400-lecture-05b/edi3400-lecture-05b.html" in html
+    assert "../../collection/edi3400-lecture-05c/edi3400-lecture-05c.html" in html
     assert "../../collection/edi3400-lecture-11/edi3400-lecture-11.html" in html
     assert "../../collection/edi3400-lecture-12/edi3400-lecture-12.html" in html
     assert "../../collection/edi3400-lecture-13/edi3400-lecture-13.html" in html
@@ -906,6 +1207,8 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "Python control flow problem set" in html
     assert "Python file handling lab" in html
     assert "Python functions problem set" in html
+    assert "Python standard-library utilities problem set" in html
+    assert "Python bank-account class lab" in html
     assert "Assessment Status" in html
     assert "Search LearnForge" in html
     assert "Breadcrumbs:" in html
@@ -1013,6 +1316,64 @@ def test_edi3400_lecture_05a_student_page_builds_cleanly() -> None:
         for edge in dependency_manifest["dependency_edges"]
         if edge["relationship"] == "item"
     ] == ["python-functions", "python-functions-problem-set"]
+
+
+def test_edi3400_lecture_05b_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-05b",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 5B - Standard-library utilities" in html
+    assert "This lecture includes" in html
+    assert "Python standard-library utilities" in html
+    assert "Python standard-library utilities problem set" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "python-standard-library-utilities",
+        "python-standard-library-problem-set",
+    ]
+
+
+def test_edi3400_lecture_05c_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-05c",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 5C - Classes and objects" in html
+    assert "This lecture includes" in html
+    assert "Python classes and objects" in html
+    assert "Python bank-account class lab" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "python-classes-and-objects",
+        "python-bank-account-class-lab",
+    ]
 
 
 def test_edi3400_lecture_11_student_page_builds_cleanly() -> None:

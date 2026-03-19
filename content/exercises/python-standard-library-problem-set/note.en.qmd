@@ -1,0 +1,49 @@
+## Problem set brief
+
+Use this exercise to practice a new programming habit: import a small standard-library
+module when the job is already solved well, instead of rebuilding every utility from
+scratch.
+
+Keep each task explicit. The point is to make the imported module visible in the
+script, not to hide the workflow behind larger abstractions.
+
+## Tasks
+
+1. Use `datetime` to print today's date:
+   - import the date tool you need,
+   - get today's date,
+   - print it in the format `YYYY-MM-DD`.
+2. Use `random` on a list of numbers:
+   - start with `numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`,
+   - shuffle the list in place,
+   - print the shuffled list,
+   - print one random element from the shuffled list.
+3. Use `math` to compute logarithms:
+   - set `number = 25`,
+   - check that the number is greater than `0`,
+   - compute the natural logarithm with `math.log(...)`,
+   - compute the base-10 logarithm with `math.log10(...)`,
+   - round both values to two decimal places before printing.
+4. Use `statistics` to summarize a short sample:
+   - use `values = [10, 20, 30, 40, 50]`,
+   - print the mean,
+   - print the median,
+   - print the standard deviation.
+5. Stretch task: use `re.findall(...)` to extract all numbers from the string
+   `"In 2024 we had 18 students and 3 project groups."`
+6. Write a short reflection covering:
+   - one case where importing a module was clearer than writing the utility yourself,
+   - one difference between `import module` and `from module import name`,
+   - one reason the standard-library workflow will matter later in the course.
+
+## Starter outline
+
+```python
+import math
+import random
+from datetime import date
+import statistics
+```
+
+Add `import re` only if you attempt the stretch task. Keep the script readable enough
+that another student can see which module each task depends on.

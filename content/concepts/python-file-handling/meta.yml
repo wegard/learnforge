@@ -26,6 +26,7 @@ related:
   - python-control-flow
   - python-file-handling-lab
   - python-functions
+  - python-standard-library-utilities
   - python-sql-integration
 outputs:
   - html

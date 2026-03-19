@@ -1,0 +1,47 @@
+## Lab brief
+
+Use this exercise to build one small class that models a real thing with state that
+changes over time.
+
+The goal is not to cover all of object-oriented programming. The goal is to practice
+the first class workflow clearly:
+
+- define attributes in `__init__`,
+- write methods that use `self`,
+- create objects,
+- inspect how one object's state changes after method calls.
+
+## Tasks
+
+1. Create a class `BankAccount`:
+   - add an `__init__(self, owner, balance=0)` method,
+   - store the values in `self.owner` and `self.balance`.
+2. Add a `deposit(self, amount)` method:
+   - increase the balance,
+   - return a short message showing the new balance.
+3. Add a `withdraw(self, amount)` method:
+   - if `amount` is larger than the current balance, return `"Funds unavailable"`,
+   - otherwise subtract the amount and return a short status message.
+4. Extend `withdraw(self, amount)` with low-balance handling:
+   - if the remaining balance is `10` or less, include a warning message.
+5. Add a `display(self)` method:
+   - return the owner and balance in a readable two-line string.
+6. Create at least two account objects and test them:
+   - one account should start with a positive balance,
+   - perform at least one deposit and one withdrawal,
+   - show that one object's balance changes without changing the other object's state.
+7. Write a short reflection covering:
+   - one reason this problem is easier to express as a class than as separate loose variables,
+   - what `self` refers to in your methods,
+   - one way classes differ from the earlier functions-only slice.
+
+## Starter outline
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        ...
+```
+
+Add the methods below the initializer, then create a few short test calls at the end
+of the script so the changing object state is visible.

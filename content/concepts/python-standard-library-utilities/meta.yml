@@ -1,11 +1,11 @@
-id: python-functions
+id: python-standard-library-utilities
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Python functions
+  en: Python standard-library utilities
 courses:
   - edi3400
 topics:
@@ -14,20 +14,20 @@ topics:
   - programming
 tags:
   - python
-  - functions
-  - parameters
-  - return-values
-  - reusable-code
+  - modules
+  - standard-library
+  - imports
+  - statistics
 level: introductory
 prerequisites:
-  - python-basics-and-containers
-  - python-control-flow
+  - python-functions
+  - python-file-handling
 related:
-  - python-control-flow
+  - python-functions
   - python-file-handling
   - python-classes-and-objects
-  - python-standard-library-utilities
-  - python-functions-problem-set
+  - python-standard-library-problem-set
+  - python-sql-integration
 outputs:
   - html
   - pdf

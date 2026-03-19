@@ -1,11 +1,11 @@
-id: python-functions
+id: python-classes-and-objects
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Python functions
+  en: Python classes and objects
 courses:
   - edi3400
 topics:
@@ -14,20 +14,17 @@ topics:
   - programming
 tags:
   - python
-  - functions
-  - parameters
-  - return-values
-  - reusable-code
+  - classes
+  - objects
+  - methods
+  - attributes
 level: introductory
 prerequisites:
-  - python-basics-and-containers
-  - python-control-flow
+  - python-functions
 related:
-  - python-control-flow
-  - python-file-handling
-  - python-classes-and-objects
+  - python-functions
   - python-standard-library-utilities
-  - python-functions-problem-set
+  - python-bank-account-class-lab
 outputs:
   - html
   - pdf

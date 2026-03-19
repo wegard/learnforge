@@ -1,0 +1,141 @@
+## Modules package reusable tools beyond the built-ins
+
+By this point in `EDI 3400`, students have already used Python built-ins, control
+flow, file handling, and their own functions. The next step is to see that Python
+also ships with many reusable modules that solve common tasks without extra
+installation.
+
+That is what the standard library is for. It gives a program access to tools for:
+
+- numerical calculations,
+- random sampling,
+- dates and times,
+- summary statistics,
+- and many other recurring tasks.
+
+This matters because students should not keep rewriting basic utility code when a
+well-tested module already exists.
+
+## `import` makes library code available
+
+Standard-library code is not available automatically. A script has to import the
+module or name it wants to use:
+
+```python
+import math
+from datetime import date
+```
+
+These two patterns make different names available in the current script:
+
+- `import math` means later calls look like `math.log(...)`,
+- `from datetime import date` means later calls can use `date(...)` directly.
+
+The important beginner habit is not memorizing every module. It is recognizing that
+Python organizes reusable tools into named modules, and the import statement makes
+that dependency explicit.
+
+## `math` covers common numerical functions
+
+The `math` module is the clearest first example because it solves familiar numerical
+tasks:
+
+```python
+import math
+
+print(math.cos(3 * math.pi))
+print(math.log(25))
+print(math.log10(25))
+```
+
+Without `math`, students would quickly hit limits in the built-in operators alone.
+The module gives access to constants and functions that would otherwise be awkward or
+error-prone to recreate by hand.
+
+## `random` supports sampling and shuffling
+
+The `random` module is useful when a program needs variation:
+
+```python
+import random
+
+cities = ["Oslo", "Bergen", "Trondheim", "Tromso"]
+random.shuffle(cities)
+print(random.choice(cities))
+```
+
+Two beginner patterns matter most:
+
+- `random.choice(...)` selects one item,
+- `random.shuffle(...)` reorders a list in place.
+
+This is enough for simple games, simulations, and quick sampling exercises. It also
+shows students that a module often exposes several related tools instead of one giant
+function.
+
+## `datetime` keeps dates explicit and structured
+
+Dates should not be treated as ad-hoc strings when Python already has structured date
+objects:
+
+```python
+from datetime import date
+
+today = date.today()
+print(today.strftime("%Y-%m-%d"))
+```
+
+The `datetime` module helps in two ways:
+
+- it represents dates explicitly,
+- it formats them deliberately for output.
+
+That reduces the risk of mixing up year, month, and day conventions in later data
+workflows.
+
+## `statistics` summarizes small numeric samples
+
+The `statistics` module provides readable names for common summaries:
+
+```python
+import statistics
+
+numbers = [10, 20, 30, 40, 50]
+print(statistics.mean(numbers))
+print(statistics.median(numbers))
+print(statistics.stdev(numbers))
+```
+
+For introductory programming, this is often clearer than making students implement
+every descriptive statistic from scratch immediately. They can still learn the
+underlying ideas while using stable library functions for the mechanical part.
+
+## The standard library complements your own functions
+
+Standard-library modules do not replace the functions students learned in the
+previous slice. They work together.
+
+A student-written function might:
+
+- call `statistics.mean(...)` inside a summary workflow,
+- use `datetime` to stamp a generated file,
+- call `random.choice(...)` to simulate repeated events.
+
+That is the broader programming habit this slice should reinforce: write your own
+logic where it adds value, but import existing utilities when the problem is already
+well solved.
+
+Later course material will use the same pattern with modules such as `csv` and
+`sqlite3`. This checkpoint just makes that import-based workflow explicit before the
+course moves further into data tooling.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- explain what a module is,
+- use `import` and `from ... import ...` in simple cases,
+- use `math` for logarithms and constants,
+- use `random` for sampling and shuffling,
+- format today's date with `datetime`,
+- compute mean, median, and standard deviation with `statistics`.
