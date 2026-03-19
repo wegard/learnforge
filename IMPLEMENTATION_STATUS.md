@@ -15,6 +15,7 @@
 - Phase 11 complete checkpoint: `tem0052` lecture 2 assembly slice
 - Phase 11 complete checkpoint: `tem0052` lecture 3 assembly slice
 - Phase 11 complete checkpoint: `tem0052` seventh concept promotion slice
+- Phase 11 complete checkpoint: `tem0052` eighth concept promotion slice
 
 ## Non-Goals For This Run
 
@@ -181,6 +182,8 @@
   - `content/concepts/knn-supervised-learning/`
 - Promoted the seventh canonical `tem0052` concept:
   - `content/concepts/decision-tree-learning/`
+- Promoted the eighth canonical `tem0052` concept:
+  - `content/concepts/random-forests/`
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
@@ -221,6 +224,10 @@
   - `logistic-regression-classification`
   - `model-selection-cross-validation`
   - `model-assessment-lab`
+- Linked the promoted random-forests concept into the current `tem0052` concept graph:
+  - `decision-tree-learning`
+  - `bias-variance-tradeoff`
+  - `model-selection-cross-validation`
 - Wired the first lecture into `courses/tem0052/plan.yml`
 - Wired the current promoted lecture sequence into `courses/tem0052/plan.yml`:
   - `tem0052-lecture-02`
@@ -258,7 +265,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - seven first-wave `tem0052` concepts, two exercises, and three lectures are promoted so far
+  - eight first-wave `tem0052` concepts, two exercises, and three lectures are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -293,6 +300,8 @@
 - `content/concepts/model-selection-cross-validation/note.en.qmd`
 - `content/concepts/decision-tree-learning/meta.yml`
 - `content/concepts/decision-tree-learning/note.en.qmd`
+- `content/concepts/random-forests/meta.yml`
+- `content/concepts/random-forests/note.en.qmd`
 - `content/concepts/linear-regression-prediction/meta.yml`
 - `content/concepts/linear-regression-prediction/note.en.qmd`
 - `content/concepts/penalized-linear-models/meta.yml`
@@ -484,11 +493,21 @@
   - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
   - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
   - `./.venv/bin/teach validate`
+- `tem0052` eighth concept promotion:
+  - `sed -n '1,220p' content/concepts/decision-tree-learning/meta.yml`
+  - `sed -n '1,260p' content/concepts/decision-tree-learning/note.en.qmd`
+  - `rg -n "Random Forest|forest|bagging|ensemble" course-inbox/predictive-modelling-with-machine-learning/notebooks/12_Introducing_ensemble_methods.ipynb course-inbox/predictive-modelling-with-machine-learning/notebooks/13_Random_forests.ipynb course-inbox/predictive-modelling-with-machine-learning/tex2026`
+  - `python - <<'PY' ... summarize notebooks/12_Introducing_ensemble_methods.ipynb and 13_Random_forests.ipynb markdown cells ... PY`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach build random-forests --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 22 objects and 2 courses. Errors: 0. Warnings: 11.`
+  - `Validated 23 objects and 2 courses. Errors: 0. Warnings: 12.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
@@ -502,12 +521,13 @@
       - `missing-approved-translation` for `logistic-regression-classification`
       - `missing-approved-translation` for `model-selection-cross-validation`
       - `missing-approved-translation` for `penalized-linear-models`
+      - `missing-approved-translation` for `random-forests`
       - `missing-approved-translation` for `house-prices-regression`
       - `missing-approved-translation` for `model-assessment-lab`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `74 passed in 228.08s (0:03:48)`
+  - `74 passed in 234.75s (0:03:54)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
@@ -528,6 +548,11 @@
   - `status_counts: candidate=1, reviewed=1, approved=1, published=1`
   - `student_visible_resource_ids: ['angrist-podcast-iv']`
   - `student_exclusion_count: 3`
+- New `tem0052` concept artifact paths:
+  - `build/exports/student/en/html/concept/random-forests/random-forests.html`
+  - `build/reports/builds/student/en/html/concept/random-forests/build-manifest.json`
+  - `build/reports/builds/student/en/html/concept/random-forests/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/concept/random-forests/teacher-leakage-report.json`
 - New `tem0052` concept artifact paths:
   - `build/exports/student/en/html/concept/decision-tree-learning/decision-tree-learning.html`
   - `build/reports/builds/student/en/html/concept/decision-tree-learning/build-manifest.json`
@@ -640,8 +665,8 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote the next `tem0052` tree-based supporting concept from the same block:
-  - `random-forests`
+- Promote the next `tem0052` ensemble-supporting concept from the same block:
+  - `ensemble-methods-introduction`
 - The course can stay intentionally English-only for the next checkpoint; the resulting
   translation warnings are currently expected and non-blocking
 - Keep the next migration slice narrow:

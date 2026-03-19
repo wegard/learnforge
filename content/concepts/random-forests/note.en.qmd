@@ -1,0 +1,73 @@
+## Random forests make trees less fragile
+
+A single decision tree is easy to explain and easy to overfit. Random forests keep
+the tree logic but reduce that fragility by averaging many trees instead of trusting
+one unstable partition of the data.
+
+That is why random forests matter in `TEM 0052`: they are often the first genuinely
+strong tabular-data benchmark that outperforms a single tree without requiring the
+full complexity of boosting.
+
+## Two sources of randomness
+
+Random forests combine two ideas:
+
+1. bootstrap aggregation, where each tree is fit on a resampled version of the
+   training data,
+2. random feature selection, where each split only considers a subset of the
+   available predictors.
+
+The first step makes the individual trees see slightly different data. The second
+step reduces the chance that every tree keeps choosing the same dominant predictors.
+
+The result is a collection of de-correlated trees whose predictions are aggregated by
+majority vote in classification or averaging in regression.
+
+## Why forests usually beat a single tree
+
+The core gain from a random forest is variance reduction.
+
+- a single deep tree can react strongly to noise,
+- averaging many trees smooths out those unstable local decisions,
+- and feature randomness makes the ensemble less dependent on one lucky split path.
+
+This does not make the model bias-free. It does make the workflow more robust than a
+single unpruned tree in many practical prediction settings.
+
+::: {.teacher-only}
+Ask students why averaging many overfit trees can still improve test performance if
+the trees are not too strongly correlated.
+:::
+
+## Out-of-bag error is useful, but not an excuse to skip validation
+
+Because each tree is fit on a bootstrap sample, some observations are left out of
+that tree's training set. Those left-out observations can be used to form an
+out-of-bag estimate of predictive performance.
+
+That is convenient, but in this course it should still be treated as part of a wider
+model-assessment workflow. Students should compare out-of-bag diagnostics with
+cross-validation or a held-out test rule when the modelling decision matters.
+
+## Where random forests fit in `TEM 0052`
+
+Random forests extend the decision-tree block into ensemble methods. They help
+students see a recurring pattern in machine learning:
+
+- start with an interpretable baseline,
+- identify the source of instability,
+- and use resampling plus controlled randomness to improve prediction.
+
+They are also a useful bridge to later topics such as gradient boosting, where the
+ensemble idea remains but the optimization logic changes.
+
+## What to report
+
+When students present a random-forest workflow in `TEM 0052`, they should usually
+report:
+
+- the prediction task and the evaluation rule,
+- the key tuning controls such as `n_estimators`, `max_depth`, or `max_features`,
+- whether out-of-bag error was used and how it compared with cross-validation,
+- whether the forest improved meaningfully on a single-tree or logistic baseline,
+- and one short explanation of the cost of that gain in interpretability and runtime.

@@ -22,6 +22,7 @@ prerequisites: []
 related:
   - knn-supervised-learning
   - decision-tree-learning
+  - random-forests
   - linear-regression-prediction
   - penalized-linear-models
   - logistic-regression-classification

@@ -1,32 +1,31 @@
-id: decision-tree-learning
+id: random-forests
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Decision tree learning
+  en: Random forests
 courses:
   - tem0052
 topics:
   - predictive-modelling
   - classification
   - tree-based-methods
-  - model-selection
+  - ensemble-methods
 tags:
-  - decision-trees
-  - classification
-  - interpretability
-  - pruning
+  - random-forest
+  - bagging
+  - ensemble
+  - oob
 level: intermediate
-prerequisites: []
+prerequisites:
+  - decision-tree-learning
 related:
-  - knn-supervised-learning
-  - random-forests
-  - logistic-regression-classification
+  - decision-tree-learning
   - model-selection-cross-validation
   - bias-variance-tradeoff
-  - model-assessment-lab
+  - logistic-regression-classification
 outputs:
   - html
   - pdf
