@@ -1,0 +1,93 @@
+# Kursoversikt
+
+`BIK 2551 Kunstig intelligens for økt produktivitet` er et executive-kurs ved
+Handelshøyskolen BI (7,5 studiepoeng, vår 2026). Kurset retter seg mot ledere og
+kunnskapsarbeidere som ønsker å ta i bruk generativ kunstig intelligens på en
+strukturert, sikker og målbar måte i egen arbeidshverdag.
+
+Kurset migreres til LearnForge fra legacy-materiale i
+`course-inbox/ai-produktivitet/`.
+
+## Kunnskapsmål
+
+- Forstå hvordan generative språkmodeller fungerer, inkludert treningsprosess,
+  tokens, sannsynlighetsbasert tekstgenerering og forskjellen på søk og
+  generering.
+- Kjenne til sentrale begreper som kontekstvindu, RAG, hallusinasjoner, agenter
+  og automatisering.
+- Forstå etiske, juridiske og sikkerhetsmessige rammer for bruk av KI i
+  organisasjoner, inkludert EU AI Act, GDPR og opphavsrett.
+- Vurdere modenhets- og risikonivåer for KI-implementering i egen virksomhet.
+
+## Ferdighetsmål
+
+- Formulere effektive instruksjoner (prompts) ved hjelp av strukturerte
+  rammeverk som Rolle, Kontekst, Oppgave og Format.
+- Sette opp personlige KI-assistenter med tilpassede instruksjoner og
+  kunnskapsbaser.
+- Designe og gjennomføre et mini-eksperiment med før/etter-måling av
+  produktivitet og kvalitet.
+- Identifisere og kartlegge automatiseringsmuligheter på ulike nivåer, fra
+  enkel chatbruk til agentbaserte arbeidsflyter.
+
+## Generell kompetanse
+
+- Reflektere kritisk over muligheter, begrensninger og risiko ved bruk av
+  generativ KI i profesjonell praksis.
+- Utvikle og formidle en KI-strategi tilpasset eget team eller organisasjon.
+- Kommunisere resultater og erfaringer gjennom skriftlig rapport og
+  videopresentasjon.
+
+## Planlagt innhold
+
+Kurset er organisert rundt fire fysiske kursdager fordelt på to samlinger:
+
+### Samling 1: Utforsking og grunnleggende ferdigheter
+
+- **Dag 1 — Introduksjon og språkmodeller:** Hva er generativ KI, prompt
+  engineering, etikk og jus, kreative KI-verktøy, prosjektoppstart.
+- **Dag 2 — Verktøykasse og prosjektstart:** Kontekstvindu og RAG,
+  kildebaserte KI-systemer, custom instructions, prosjektverksted med
+  presentasjon av prosjektskisser.
+
+### Mellomperiode (ca. 10 uker)
+
+Eget arbeid med prosjektoppgaven. Implementering og mini-eksperiment med
+KI-loggbok. Digital veiledning via Canvas.
+
+### Samling 2: Implementering, strategi og fremtid
+
+- **Dag 3 — KI-agenter:** Erfaringsdeling, KI-agenter i teori og praksis,
+  automatiseringsnivåer, workshop om automatisering.
+- **Dag 4 — Strategi, ledelse og fremtid:** KI-strategi og implementering i
+  organisasjoner, fremtidens arbeidsliv, presentasjon av prosjekter.
+
+## Undervisningsformat
+
+Kurset består av to fysiske samlinger à to dager med veiledet prosjektarbeid i
+mellomperioden. Undervisningen kombinerer faglige innlegg, praktiske
+demonstrasjoner, workshops og prosjektverksteder.
+
+Deltakerne arbeider gjennom hele kurset med en konkret arbeidsprosess fra egen
+jobb og utvikler trinnvis en KI-basert løsning eller arbeidsflyt som testes og
+evalueres i praksis.
+
+## Verktøy
+
+- KI-plattformer: ChatGPT, Claude, Gemini (BI-lisensiert).
+- Kreative verktøy: bildegenerering, presentasjonsverktøy, multimodale
+  modeller.
+- Automatisering: No-code-plattformer (Zapier, Make), agentrammeverk.
+- Ingen krav til programmering eller Python.
+
+## Vurdering
+
+Individuell prosjektoppgave med to leveranser:
+
+1. **Sluttrapport** (inntil 10 sider, PDF): Problemdefinisjon,
+   nåsituasjonsanalyse, plan for måling av effekt, beskrivelse av løsning,
+   måleresultater, gevinster, begrensninger og videre plan.
+2. **Videopresentasjon** (5 minutter): Presentasjon av prosjektet og
+   resultatene.
+
+Innleveringsfrist: 29. mai 2026 kl. 12:00.
