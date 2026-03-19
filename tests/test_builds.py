@@ -138,6 +138,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    sixth_concept_artifact = build_target(
+        "knn-supervised-learning",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     exercise_artifact = build_target(
         "model-assessment-lab",
         audience="student",
@@ -158,11 +165,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     third_concept_html = third_concept_artifact.output_path.read_text(encoding="utf-8")
     fourth_concept_html = fourth_concept_artifact.output_path.read_text(encoding="utf-8")
     fifth_concept_html = fifth_concept_artifact.output_path.read_text(encoding="utf-8")
+    sixth_concept_html = sixth_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
 
     assert "Bias-variance trade-off" in concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
+    assert "../knn-supervised-learning/knn-supervised-learning.html" in concept_html
     assert "../linear-regression-prediction/linear-regression-prediction.html" in concept_html
     assert "../penalized-linear-models/penalized-linear-models.html" in concept_html
     assert (
@@ -174,6 +183,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
 
     assert "Model selection and cross-validation" in second_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in second_concept_html
+    assert "../knn-supervised-learning/knn-supervised-learning.html" in second_concept_html
     assert (
         "../linear-regression-prediction/linear-regression-prediction.html"
         in second_concept_html
@@ -223,6 +233,9 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         in fifth_concept_html
     )
     assert (
+        "../knn-supervised-learning/knn-supervised-learning.html" in fifth_concept_html
+    )
+    assert (
         "../linear-regression-prediction/linear-regression-prediction.html"
         in fifth_concept_html
     )
@@ -233,8 +246,22 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in fifth_concept_html
     assert "teacher-only" not in fifth_concept_html
 
+    assert "k-nearest neighbors for supervised learning" in sixth_concept_html
+    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in sixth_concept_html
+    assert (
+        "../logistic-regression-classification/logistic-regression-classification.html"
+        in sixth_concept_html
+    )
+    assert (
+        "../model-selection-cross-validation/model-selection-cross-validation.html"
+        in sixth_concept_html
+    )
+    assert "../../course/tem0052/tem0052.html" in sixth_concept_html
+    assert "teacher-only" not in sixth_concept_html
+
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html
+    assert "k-nearest neighbors for supervised learning" in exercise_html
     assert "Model selection and cross-validation" in exercise_html
     assert "Logistic regression for classification" in exercise_html
     assert "The point of the lab is not the exact winning score." not in exercise_html

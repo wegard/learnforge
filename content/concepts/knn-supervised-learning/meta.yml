@@ -1,32 +1,30 @@
-id: bias-variance-tradeoff
+id: knn-supervised-learning
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Bias-variance trade-off
+  en: k-nearest neighbors for supervised learning
 courses:
   - tem0052
 topics:
   - predictive-modelling
+  - classification
+  - supervised-learning
   - model-selection
-  - cross-validation
-  - bias-variance
 tags:
-  - model-selection
-  - validation
-  - generalization
+  - knn
+  - classification
+  - distance-based-learning
+  - nonparametric
 level: intermediate
 prerequisites: []
 related:
-  - knn-supervised-learning
-  - linear-regression-prediction
-  - penalized-linear-models
   - logistic-regression-classification
   - model-selection-cross-validation
+  - bias-variance-tradeoff
   - model-assessment-lab
-  - house-prices-regression
 outputs:
   - html
   - pdf
@@ -34,7 +32,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-18
+updated: 2026-03-19
 translation_status:
   en: approved
 ai:

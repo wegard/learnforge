@@ -22,6 +22,7 @@ level: intermediate
 prerequisites: []
 related:
   - bias-variance-tradeoff
+  - knn-supervised-learning
   - linear-regression-prediction
   - penalized-linear-models
   - logistic-regression-classification

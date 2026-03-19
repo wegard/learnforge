@@ -1,0 +1,70 @@
+## Why k-nearest neighbors belongs early in the course
+
+`k`-nearest neighbors gives students one of the clearest pictures of supervised
+learning: keep the training data, measure similarity, and let nearby examples vote.
+There is almost no hidden machinery.
+
+That simplicity makes kNN useful in `TEM 0052`. It is easy to explain, easy to test,
+and sensitive to workflow choices in exactly the way we want students to notice.
+
+## The prediction rule
+
+For a new point `x`, the algorithm finds the `k` closest training observations under
+a distance rule such as Euclidean distance and uses those neighbors to make the
+prediction.
+
+In classification, the usual rule is majority vote among the neighbors. In
+regression, the same basic logic averages nearby outcomes instead.
+
+The model is therefore nonparametric in a practical sense: it does not summarize the
+training data with one compact equation the way linear or logistic regression does.
+
+## What really matters in practice
+
+kNN looks simple, but the performance depends heavily on a few design choices:
+
+- the value of `k`,
+- the feature scaling rule,
+- the distance metric,
+- and whether irrelevant features are allowed to dominate the geometry.
+
+That is why a casual kNN fit can be misleading. If one variable is measured on a much
+larger scale than the others, the neighborhood calculation can be distorted before the
+model has even started to classify anything.
+
+## kNN is a bias-variance lesson in one model
+
+Small `k` usually means a very flexible model. It can track local detail, but it can
+also react strongly to noise. Large `k` smooths the decision rule and reduces
+variance, but it can blur real class boundaries.
+
+That trade-off is exactly why kNN is a good teaching model for:
+
+- bias versus variance,
+- cross-validation,
+- and the difference between a nice training fit and a reliable out-of-sample result.
+
+::: {.teacher-only}
+Ask students why `k = 1` is often attractive on the training set and why that is
+usually the wrong reason to keep it.
+:::
+
+## Where kNN fits in `TEM 0052`
+
+kNN is one of the first classification baselines in the course. It helps students see
+that prediction quality can depend as much on preprocessing and tuning as on the
+choice between algorithm families.
+
+It also pairs naturally with the model-assessment lab, where students compare kNN,
+logistic regression, and tree-based alternatives under the same resampling rule.
+
+## What to report
+
+When students present a kNN workflow in `TEM 0052`, they should usually report:
+
+- how features were scaled,
+- which grid of `k` values was considered,
+- which resampling rule selected the final `k`,
+- how the chosen model compared with logistic regression or other baselines,
+- and one short explanation of whether the final choice looks robust or overly
+  sensitive to preprocessing and noise.
