@@ -1,0 +1,36 @@
+id: prompt-improvement-workshop
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Workshop for forbedring av prompts
+courses:
+  - bik2551
+topics:
+  - prompt-engineering
+tags:
+  - exercise
+  - prompting
+  - structured-prompts
+  - workshop
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 30
+concepts:
+  - generative-ai-fundamentals
+  - prompt-engineering-basics
+solution_storage: separate-file
+solution_visibility: teacher

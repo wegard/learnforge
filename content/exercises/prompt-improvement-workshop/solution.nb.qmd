@@ -1,0 +1,45 @@
+## Eksempelløsninger
+
+### Prompt 1 — forbedret
+
+> **Rolle:** Du er en prosjektleder som skriver oppdateringer til ledelsen.
+> **Kontekst:** Prosjektet handler om å innføre KI-verktøy i kundeservice.
+> Vi er halvveis i pilotfasen og ligger to uker foran plan.
+> **Oppgave:** Skriv en kort statusoppdatering på e-post.
+> **Format:** Maks fem setninger. Bruk kulepunkter for nøkkeltall.
+
+Forbedringen gir modellen et klart perspektiv, konkret innhold å jobbe med,
+og et avgrenset format. Resultatet er en e-post ledelsen faktisk kan bruke.
+
+### Prompt 2 — forbedret
+
+> **Rolle:** Du er en kommunikasjonsrådgiver.
+> **Kontekst:** Jeg skal presentere resultater fra et KI-eksperiment for
+> avdelingslederne. De har begrenset teknisk bakgrunn.
+> **Oppgave:** Lag en disposisjon med fem slides.
+> **Format:** Én overskrift og tre kulepunkter per slide.
+
+Kontekst om målgruppen og formatkravet gjør at modellen tilpasser nivå og
+omfang i stedet for å produsere et generisk utkast.
+
+### Prompt 3 — forbedret
+
+> **Rolle:** Du er en analytiker som leser rapporter for beslutningstakere.
+> **Kontekst:** Rapporten er en kvartalsrapport på 40 sider om salgsutvikling
+> i Norden.
+> **Oppgave:** Oppsummer de viktigste funnene og eventuelle røde flagg.
+> **Format:** Fem kulepunkter, maks to setninger per punkt.
+
+Oppgaven skifter fra «oppsummer alt» til «trekk ut det som er viktig for
+beslutninger», som er langt mer nyttig.
+
+### Prompt 4 — forbedret
+
+> **Rolle:** Du er en erfaren skribent som gir konstruktiv tilbakemelding.
+> **Kontekst:** Teksten er et internt notat om ny personalpolicy. Målgruppen
+> er alle ansatte, inkludert de uten HR-bakgrunn.
+> **Oppgave:** Gi tilbakemelding på klarhet, tone og struktur.
+> **Format:** Tre styrker og tre konkrete forbedringsforslag.
+
+Format og oppgave sikrer at tilbakemeldingen er balansert og handlingsrettet
+i stedet for vag ros eller generell kritikk.

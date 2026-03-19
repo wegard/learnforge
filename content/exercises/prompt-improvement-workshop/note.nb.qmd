@@ -1,0 +1,26 @@
+## Forbedre vage prompts med struktur
+
+Nedenfor finner du fire prompts som er bevisst vage. Din oppgave er å forbedre
+hver av dem ved å legge til **Rolle**, **Kontekst**, **Oppgave** og **Format**.
+
+Test den forbedrede versjonen i et KI-verktøy og vurder forskjellen i output.
+
+### Prompt 1
+
+> Skriv en e-post om prosjektet.
+
+### Prompt 2
+
+> Hjelp meg å lage en presentasjon.
+
+### Prompt 3
+
+> Oppsummer denne rapporten.
+
+### Prompt 4
+
+> Gi meg tilbakemelding på teksten min.
+
+**Suksesskriterier:** Hver forbedret prompt inneholder alle fire byggesteinene.
+Svaret fra modellen er merkbart mer relevant og nyttig enn svaret på den
+opprinnelige prompten.
