@@ -1,0 +1,37 @@
+id: ai-applications-finance-summary
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: AI-anvendelser i finanssektoren — case-studier
+courses:
+  - bik2550
+topics:
+  - ai-in-finance
+  - generative-ai
+tags:
+  - case-studies
+  - ai-agents
+  - compliance
+  - credit-risk
+  - regtech
+  - finance
+level: introductory
+prerequisites:
+  - llms-deep-dive
+  - multimodality-in-finance
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []

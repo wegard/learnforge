@@ -1,0 +1,112 @@
+# AI-anvendelser i finanssektoren — case-studier
+
+## Oversikt
+
+Dette konseptet oppsummerer kursets temaer gjennom fem case-studier som viser
+hvordan AI-agenter, LLMs og multimodalitet kan anvendes i finanssektoren.
+
+## Case 1: Kredittrisiko AI-agent
+
+### Hva er en AI-agent?
+
+Et autonomt program drevet av en eller flere LLMs med tilkoblede verktøy
+(Python, søkemotor, API-tilgang). Kjernefunksjoner:
+
+- **Persepsjon:** Tolker inn-data (tekst, tall, logger)
+- **Planlegging:** Bryter ned oppgaven (chain-of-thought)
+- **Handling:** Utfører operasjoner via verktøy
+- **Minne:** Husker kontekst og historikk
+
+### Arbeidsflyt
+
+1. **Trigger:** Agenten aktiveres ved kvartalsslutt eller store
+   markedsbevegelser
+2. **Datainnsamling:** Henter automatisk årsrapport (PDF), nyhetsartikler (web)
+   og transaksjonsdata (SQL)
+3. **Analyse:** Beregner nøkkeltall med Python og utfører sentimentanalyse
+4. **Beslutning:** Lav risiko → arkiver notat; høy risiko → varsle
+   kredittkomité (human-in-the-loop)
+
+### Diskusjonspunkter
+
+- Datatilgang: Hvilke interne/eksterne kilder skal agenten stole på?
+- Sikkerhet: Hvordan hindre "prompt injection" fra eksterne data?
+- Ansvar: Hvem er ansvarlig hvis agenten overser en konkursrisiko?
+- Guardrails: Hvordan stoppe agenten fra å hallusinere tall?
+
+## Case 2: Multimodal kundeinteraksjonsanalyse
+
+**Hypotese:** Kombinasjon av *hva* kunden sier (tekst), *hvordan* de sier det
+(lyd), og *hvem* de er (data) gir bedre prediksjoner.
+
+- **Audio (prosodi):** Stressnivå, pauser og tonefall
+- **Tekst (semantikk):** Transkribering + LLM for intensjonsforståelse
+- **Tabulær (kontekst):** CRM-data (alder, produkter, churn-risiko)
+- **Fusjon:** En multimodal modell vekter signalene sammen
+- **Output:** "Next Best Action" for rådgiver
+
+### Diskusjonspunkter
+
+- GDPR: Opptak av stemme (biometri) krever strengt samtykke
+- Bias: Vil modellen feiltolke dialekter som "sinte" eller "risikable"?
+- Forklarbarhet: Hvordan vise rådgiveren *hvorfor* systemet anbefaler et tiltak?
+
+## Case 3: LLM som prediktiv modell
+
+**Problemstilling:** Predikere neste dags avkastning ved bruk av finansielle
+språkmodeller (FinBERT, BloombergGPT).
+
+- **Input:** Nyhetsoverskrifter + kvartalsrapporter (via RAG)
+- **Prompting:** Chain-of-thought for å vurdere fundamental påvirkning
+- **Fine-tuning:** Tilpasse modellen på historiske børsmeldinger vs. kursutslag
+- **Backtesting:** Simulere en long-short portefølje basert på modellens
+  sentiment
+
+### Diskusjonspunkter
+
+- Signal vs. støy: Er informasjonen allerede priset inn?
+- Kausalitet: Kan modellen finne årsakssammenhenger som ikke finnes?
+- Hastighet: Inferenstid vs. high-frequency trading
+- Kost/nytte: API-kostnader vs. potensiell meravkastning
+
+## Case 4: Automatisert compliance (RegTech)
+
+**Utfordring:** Finanssektoren oversvømmes av nye reguleringer (DORA, AI Act,
+MiCA).
+
+**Løsning: RAG-basert compliance-bot**
+
+- **Kunnskapsbase:** Vektordatabase med lovtekster, retningslinjer og rundskriv
+- **Oppgave:** Sjekke markedsføring eller kontrakter mot lovverk
+- **Output:** Gap-analyse: "Mangler henvisning til angrerettloven §8"
+
+### Diskusjonspunkter
+
+- Nøyaktighet: I juss er "nesten riktig" ofte "helt feil"
+- Oppdatering: Sikre at databasen alltid har siste lovversjon
+- Audit trail: Bevise hvilket lovverk som lå til grunn
+- Rolle: Erstatte jurister eller gjøre dem mer effektive?
+
+## Case 5: Hyper-personalisert formuesforvaltning
+
+**Scenario:** Tradisjonelle robo-advisors bruker generiske risikoprofiler.
+Generativ AI muliggjør 1-til-1 personalisering.
+
+- **Input:** Transaksjonshistorikk, sparemål, personlig risikotoleranse
+- **Generativ analyse:** Forklarer markedsbevegelser relatert til kundens
+  portefølje, genererer personaliserte oppsummeringer
+- **Proaktivitet:** Foreslår rebalansering basert på livshendelser
+
+### Diskusjonspunkter
+
+- Tillit: Vil kunder stole på maskin-genererte finansielle råd?
+- Regulering (MiFID II): Kan AI garantere at rådene er i kundens beste interesse?
+- Hybrid-modell: Når bør AI-en sende kunden videre til et menneske?
+
+## Oppsummering
+
+- **AI-agenter** endrer automatisering fra regelstyrt til målstyrt
+- **Multimodalitet** gir dypere innsikt (tekst + tall + lyd)
+- **LLM-prediksjon** kan finne signaler i tekst, men krever streng validering
+- **RegTech** har stort potensial for compliance-automatisering
+- **Personalisering** tar robo-rådgivning til neste nivå
