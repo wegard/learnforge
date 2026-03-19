@@ -1,0 +1,35 @@
+id: ml-finance-demo
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Maskinlæring i finans — demonstrasjoner
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - ai-in-finance
+tags:
+  - scikit-learn
+  - regression
+  - classification
+  - decision-trees
+  - finance
+level: introductory
+prerequisites:
+  - ml-supervised-learning-overview
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
