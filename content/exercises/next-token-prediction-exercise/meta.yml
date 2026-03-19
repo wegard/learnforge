@@ -1,0 +1,37 @@
+id: next-token-prediction-exercise
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Predikere neste token med en bigram-modell
+courses:
+  - bik2550
+topics:
+  - deep-learning
+  - language-models
+tags:
+  - exercise
+  - pytorch
+  - language-models
+  - bigram
+  - next-token-prediction
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 30
+concepts:
+  - llms-and-next-token-prediction
+solution_storage: separate-file
+solution_visibility: teacher

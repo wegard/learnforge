@@ -1,0 +1,55 @@
+Løsningsforslaget fokuserer på å demonstrere neste-token-prediksjon som
+grunnprinsipp, ikke på å bygge en god navnegenerator.
+
+## Foreslått tilnærming
+
+1. Last inn navnefilen og kartlegg unike tegn til indekser. Inkluder spesielle
+   tokens for start (`<S>`, indeks 0) og slutt (`<E>`, indeks 1).
+
+2. Iterer gjennom alle navn og tell bigrammer:
+
+   ```python
+   N = torch.zeros((num_chars, num_chars), dtype=torch.int32)
+   for name in names:
+       chars = ["<S>"] + list(name) + ["<E>"]
+       for ch1, ch2 in zip(chars, chars[1:]):
+           N[char_to_idx[ch1], char_to_idx[ch2]] += 1
+   ```
+
+3. Normaliser til sannsynligheter med smoothing:
+
+   ```python
+   P = (N + 1).float()  # Legg til 1 for smoothing
+   P = P / P.sum(dim=1, keepdim=True)
+   ```
+
+4. Generer navn:
+
+   ```python
+   idx = char_to_idx["<S>"]
+   name = []
+   while True:
+       probs = P[idx]
+       idx = torch.multinomial(probs, num_samples=1).item()
+       if idx == char_to_idx["<E>"]:
+           break
+       name.append(idx_to_char[idx])
+   print("".join(name))
+   ```
+
+5. Beregn loss over hele datasettet.
+
+## Hva studentene vanligvis finner
+
+- Bigram-modellen genererer navn som "høres ut som" ekte navn, men ofte
+  er meningsløse — den fanger opp lokale tegnmønstre men ikke langtidsstruktur.
+- Loss for bigram-modellen er vesentlig lavere enn for uniform tilfeldig
+  sampling, noe som viser at selv en enkel modell fanger opp reell struktur.
+- Smoothing er nødvendig for å unngå log(0) ved uobserverte bigrammer.
+
+## Undervisningsfokus
+
+Hovedpoenget er at neste-token-prediksjon — det samme prinsippet som driver
+GPT-modeller — kan forstås gjennom en enkel tellebasert modell. Forskjellen
+mellom en bigram-modell og en LLM er dybden og kompleksiteten i konteksten
+modellen bruker, ikke selve grunnprinsippet.

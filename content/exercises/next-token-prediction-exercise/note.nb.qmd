@@ -1,0 +1,49 @@
+## Oppgavebeskrivelse
+
+Bygg en enkel bigram-språkmodell som predikerer neste tegn i en sekvens. Målet
+er å forstå det grunnleggende prinsippet bak store språkmodeller —
+neste-token-prediksjon — gjennom en minimal implementasjon.
+
+Datasettet er en enkel tekstfil med navn (ett navn per linje).
+
+## Oppgaver
+
+1. Last inn navnefilen og utforsk dataene:
+   - Hvor mange unike tegn finnes?
+   - Hva er gjennomsnittlig navnelengde?
+
+2. Bygg en tellebasert bigram-modell:
+   - Opprett spesielle tokens `<S>` (start) og `<E>` (slutt)
+   - Tell alle tegnpar (bigrammer) fra datasettet
+   - Lagre tellene i en matrise $N$ (størrelse: antall tegn × antall tegn)
+
+3. Konverter tellematrisen til en sannsynlighetsmatrise $P$ ved å normalisere
+   hver rad slik at radsummene blir 1.
+
+4. Generer nye navn ved å starte med `<S>`, samle neste tegn fra
+   sannsynlighetsfordelingen, og gjenta til `<E>` trekkes.
+
+5. Evaluer modellen med gjennomsnittlig negativ log-sannsynlighet (loss):
+   $$\text{Loss} = -\frac{1}{n}\sum_{i=1}^{n}\log P(c_{i+1} \mid c_i)$$
+
+6. Sammenlign med en naiv modell som velger neste tegn uniformt tilfeldig.
+   Hvor mye bedre er bigram-modellen?
+
+## Startkode
+
+```python
+import torch
+
+# Last inn data
+with open("names.txt", "r") as f:
+    names = f.read().splitlines()
+
+print(f"Antall navn: {len(names)}")
+print(f"Eksempler: {names[:5]}")
+```
+
+## Tips
+
+- Bruk `torch.zeros()` for å opprette tellematrisen
+- Bruk `torch.multinomial()` for å samle fra sannsynlighetsfordelingen
+- Legg til en liten verdi (smoothing) til tellene for å unngå null-sannsynligheter
