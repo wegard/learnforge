@@ -1,0 +1,97 @@
+# Tekstdata og NLP i finans
+
+## Hva er tekstdata?
+
+Tekstdata er data som består av naturlig språk — innholdet i dokumenter,
+artikler eller meldinger. I motsetning til tall i en tabell er tekst
+ustrukturert og tradisjonelt vanskeligere for datamaskiner å analysere direkte.
+Likevel inneholder tekst rik informasjon (kontekst, beskrivelser, følelser) som
+ofte ikke finnes i strukturert data.
+
+## Kilder til tekstdata i finans
+
+- Nyhetsartikler (finansnyheter i aviser, nettmedier)
+- Selskapsrapporter (årsrapporter, kvartalsrapporter, presentasjoner)
+- Børsmeldinger og pressemeldinger fra selskaper
+- Regulatoriske dokumenter (lover, tilsynsrapporter, offentlige utredninger)
+- Policy-dokumenter (f.eks. pengepolitisk rapport fra Norges Bank)
+- Sosiale medier og forum (Twitter/X, diskusjonsforum om aksjer)
+
+## Grunnleggende prinsipper i NLP
+
+### Tokenisering
+
+Dele tekst opp i mindre enheter (tokens), typisk ord og skilletegn.
+
+*Eksempel:* "Kjøp aksjen nå!" → ["Kjøp", "aksjen", "nå", "!"]
+
+En token trenger ikke være et helt ord — den kan også være en ordstamme eller
+en del av et ord.
+
+### Stemming og lemmatisering
+
+- **Stemming:** Redusere et ord til sin ordstamme ved å kutte bøyningsendinger
+  (f.eks. *kjører* → *kjør*)
+- **Lemmatisering:** Finne ordets grunnform slik det står i ordboken
+  (f.eks. *kjører* → *kjøre*)
+
+| Ord | Stamme | Lemma | Tokens (GPT-4o) |
+|---|---|---|---|
+| kjører | kjør | kjøre | kj·ører |
+| aksjene | aksj | aksje | aks·jene |
+| investeringer | invest | investering | invest·ering·er |
+
+## Representasjon av tekstdata
+
+### Bag-of-Words (BoW)
+
+Representerer et dokument ved hjelp av ordfrekvenser. Man teller hvor mange
+ganger hvert ord forekommer.
+
+### TF-IDF
+
+Utvider BoW ved å vekte ord basert på hvor unike de er. Ord som er vanlige i
+alle dokumenter får lav vekt, mens ord spesifikke for ett dokument får høy vekt.
+
+### Word Embeddings (ordvektorer)
+
+En mer avansert representasjon der hvert ord tilsvarer en flerdimensjonal
+numerisk vektor. Ord som brukes i lignende sammenhenger får lignende vektorer.
+
+*Eksempel:* Synonymer som *oppgang* og *stigning* vil ligge nær hverandre i
+vektorrommet.
+
+## NLP-teknikker i finans
+
+### Sentimentanalyse
+
+Finne ut om en tekst uttrykker positivt, negativt eller nøytralt sentiment.
+Brukes på nyhetsartikler, rapporter og sosiale medier for å måle
+markedsstemningen.
+
+### Klassifisering av selskapsrapporter
+
+Automatisk inndeling av tekster i forhåndsdefinerte kategorier — for eksempel
+klassifisere rapporter etter tema (økonomi, bærekraft) eller tone (positiv,
+negativ).
+
+### Topic modeling
+
+Automatisk oppdage hovedtemaer i en samling dokumenter. Algoritmen finner
+grupper av ord som ofte opptrer sammen. Nyttig for å få oversikt over trender
+uten å lese alt.
+
+### Overvåking av risikofaktorer
+
+NLP-systemer som automatisk flagger nyhetsartikler der relevante nøkkelord
+(f.eks. *tap*, *svindel*, *krise*) forekommer.
+
+## Begrensninger og utfordringer
+
+- **Støy i data:** Skrivefeil, slang, forkortelser
+- **Tvetydighet:** Ord med flere betydninger (f.eks. *pris* = kostnad eller
+  utmerkelse)
+- **Språknyanser:** Ironi, sarkasme, idiomer (f.eks. "bear-marked" har
+  ingenting med bjørner å gjøre)
+- **Domeneavhengighet:** Modeller trent på generelle tekster forstår ikke
+  nødvendigvis finansspråk
