@@ -19,6 +19,7 @@
 - Phase 11 complete checkpoint: `tem0052` ninth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` lecture 7 assembly slice
 - Phase 11 complete checkpoint: `tem0052` third exercise promotion slice
+- Phase 11 complete checkpoint: `tem0052` tenth concept promotion + lecture 3 refresh
 
 ## Non-Goals For This Run
 
@@ -28,7 +29,7 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No broad `tem0052` migration beyond one additional exercise and narrow metadata/navigation integration
+- No broad `tem0052` migration beyond one additional supporting concept and one lecture refresh
 - Keep `tem0052` intentionally English-only in this slice
 - No Textual TUI
 - No broad redesign of existing student navigation beyond what resource workflow required
@@ -163,6 +164,8 @@
   content block rather than forcing lecture-number order
 - `tem0052` remains intentionally English-only during the current migration stage; missing
   `nb` variants are accepted as validation warnings rather than blockers
+- Generated Quarto source staging now stays under `build/generated/` with target-scoped
+  cleanup instead of whole-tree resets so repeated sequential renders remain stable
 - Hardened the Quarto/build path so `course-inbox/` is excluded from project rendering
 - Fixed single-file Quarto build handling to:
   - keep project rendering compatible with the inbox exclusion
@@ -189,6 +192,8 @@
   - `content/concepts/random-forests/`
 - Promoted the ninth canonical `tem0052` concept:
   - `content/concepts/ensemble-methods-introduction/`
+- Promoted the tenth canonical `tem0052` concept:
+  - `content/concepts/naive-bayes-classification/`
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
@@ -206,6 +211,11 @@
   - `collections/lectures/tem0052-lecture-03/meta.yml`
 - Assembled the fourth canonical `tem0052` lecture collection using only promoted objects:
   - `collections/lectures/tem0052-lecture-07/meta.yml`
+- Refreshed `tem0052-lecture-03` into a tighter classification block:
+  - `knn-supervised-learning`
+  - `logistic-regression-classification`
+  - `naive-bayes-classification`
+  - `spam-filtering-naive-bayes`
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
@@ -214,6 +224,12 @@
   - `knn-supervised-learning`
   - `logistic-regression-classification`
   - `model-selection-cross-validation`
+- Linked the promoted naive-Bayes concept into the current `tem0052` classification graph:
+  - `bias-variance-tradeoff`
+  - `knn-supervised-learning`
+  - `logistic-regression-classification`
+  - `model-selection-cross-validation`
+  - `spam-filtering-naive-bayes`
 - Linked the promoted linear-regression concept into the current `tem0052` concept/exercise graph:
   - `bias-variance-tradeoff`
   - `model-selection-cross-validation`
@@ -281,9 +297,9 @@
   - `translation_status: draft` is accepted for in-progress content
   - draft/review content is skipped by strict validation gates until it is ready for
     publication checks
-- Moved transient Quarto render inputs to `.learnforge-generated/` instead of
-  `build/generated/` and rewrote the generated source before each render attempt to
-  reduce staging-related flakiness during iterative authoring
+- Replaced whole-tree generated-staging resets with target-scoped cleanup under
+  `build/generated/` after Quarto revealed that hidden generated paths and full-tree
+  resets were unstable in repeated sequential renders
 
 ## Remaining Tasks
 
@@ -295,7 +311,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - nine first-wave `tem0052` concepts, three exercises, and four lectures are promoted so far
+  - ten first-wave `tem0052` concepts, three exercises, and four lectures are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -329,6 +345,7 @@
 - `app/assembly.py`
 - `app/build.py`
 - `app/cli.py`
+- `app/config.py`
 - `app/indexer.py`
 - `app/models.py`
 - `app/resource_workflow.py`
@@ -350,6 +367,8 @@
 - `content/concepts/logistic-regression-classification/note.en.qmd`
 - `content/concepts/knn-supervised-learning/meta.yml`
 - `content/concepts/knn-supervised-learning/note.en.qmd`
+- `content/concepts/naive-bayes-classification/meta.yml`
+- `content/concepts/naive-bayes-classification/note.en.qmd`
 - `content/resources/angrist-podcast-iv/meta.yml`
 - `content/resources/iv-candidate-newsletter/meta.yml`
 - `content/resources/iv-candidate-newsletter/note.en.qmd`
@@ -578,9 +597,34 @@
   - `./.venv/bin/teach build spam-filtering-naive-bayes --audience student --lang en --format html`
   - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
   - `./.venv/bin/teach validate`
+- `tem0052` supporting naive-Bayes concept promotion + lecture 3 refresh:
+  - `git status --short`
+  - `rg -n "spam-filtering-naive-bayes|naive-bayes|tem0052-lecture-03" content collections courses/tem0052 tests IMPLEMENTATION_STATUS.md`
+  - `sed -n '1,240p' courses/tem0052/MIGRATION_INVENTORY.md`
+  - `sed -n '1,260p' IMPLEMENTATION_STATUS.md`
+  - `sed -n '1,220p' content/concepts/logistic-regression-classification/meta.yml`
+  - `sed -n '1,260p' content/concepts/logistic-regression-classification/note.en.qmd`
+  - `sed -n '1,220p' content/concepts/knn-supervised-learning/meta.yml`
+  - `sed -n '1,220p' collections/lectures/tem0052-lecture-03/meta.yml`
+  - `sed -n '1,220p' content/exercises/spam-filtering-naive-bayes/meta.yml`
+  - `python3 - <<'PY' ... inspect legacy spam-filtering notebook markdown ... PY`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q tests/test_assembly.py::test_tem0052_lecture_03_assembly_expands_classification_block tests/test_assembly.py::test_naive_bayes_concept_links_tem0052_classification_content tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly tests/test_builds.py::test_tem0052_lecture_03_build_contains_classification_block`
+  - `./.venv/bin/teach build naive-bayes-classification --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052-lecture-03 --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052-lecture-03 --audience teacher --lang en --format revealjs`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
+- Latest validation pass on the current working tree:
+  - `Validated 66 objects and 7 courses. Errors: 0. Warnings: 29.`
+  - `Representative targets: 13/13 passed`
+  - current warnings are expected from:
+    - the sample stale approved resource
+    - intentionally English-only student-visible `tem0052` objects
+    - additional in-progress local authoring content outside this migration slice
 - Validation passed with warnings on the current working tree:
   - `Validated 41 objects and 5 courses. Errors: 0. Warnings: 15.`
   - `Representative targets: 13/13 passed`
@@ -590,6 +634,13 @@
     - new local draft-authoring content outside this migration slice
 - Lint passed:
   - `All checks passed!`
+- Focused `tem0052` concept/lecture tests passed after the lecture refresh:
+  - `5 passed in 52.58s` for
+    - `tests/test_assembly.py::test_tem0052_lecture_03_assembly_expands_classification_block`
+    - `tests/test_assembly.py::test_naive_bayes_concept_links_tem0052_classification_content`
+    - `tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts`
+    - `tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly`
+    - `tests/test_builds.py::test_tem0052_lecture_03_build_contains_classification_block`
 - Focused tests passed for the edited area:
   - `26 passed in 134.32s (0:02:14)` for
     - `tests/test_cli.py`
@@ -621,6 +672,22 @@
   - `status_counts: candidate=1, reviewed=1, approved=1, published=1`
   - `student_visible_resource_ids: ['angrist-podcast-iv']`
   - `student_exclusion_count: 3`
+- New `tem0052` concept artifact paths:
+  - `build/exports/student/en/html/concept/naive-bayes-classification/naive-bayes-classification.html`
+  - `build/reports/builds/student/en/html/concept/naive-bayes-classification/build-manifest.json`
+  - `build/reports/builds/student/en/html/concept/naive-bayes-classification/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/concept/naive-bayes-classification/teacher-leakage-report.json`
+- Refreshed `tem0052` lecture artifact paths:
+  - `build/exports/student/en/html/collection/tem0052-lecture-03/tem0052-lecture-03.html`
+  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-03/tem0052-lecture-03.html`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/build-manifest.json`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/teacher-leakage-report.json`
+- Updated `tem0052` course artifact paths:
+  - `build/exports/student/en/html/course/tem0052/tem0052.html`
+  - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
+  - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/course/tem0052/teacher-leakage-report.json`
 - New `tem0052` concept artifact paths:
   - `build/exports/student/en/html/concept/ensemble-methods-introduction/ensemble-methods-introduction.html`
   - `build/reports/builds/student/en/html/concept/ensemble-methods-introduction/build-manifest.json`
@@ -754,11 +821,9 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote one supporting concept for the new classification exercise:
-  - `naive-bayes-classification` as a fresh authored concept, or
-  - `ml-preprocessing-pipelines` if you want the exercise to point more strongly into
-    text feature engineering
-- After that, decide whether `spam-filtering-naive-bayes` should be folded into
-  `tem0052-lecture-03` or left as a standalone course exercise
+- Promote `ml-preprocessing-pipelines` so the current `tem0052` labs point into a
+  stronger shared preprocessing workflow, especially for text/vectorization work
+- After that, decide whether to assemble `tem0052-lecture-01` from promoted
+  foundations + preprocessing material or continue filling the classification block
 - Keep `tem0052` intentionally English-only until the migration slice is broader;
   the resulting translation warnings remain expected and non-blocking

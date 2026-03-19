@@ -1,34 +1,30 @@
-id: logistic-regression-classification
+id: naive-bayes-classification
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Logistic regression for classification
+  en: Naive Bayes for classification
 courses:
   - tem0052
 topics:
   - predictive-modelling
   - classification
-  - linear-models
+  - text-classification
   - model-selection
 tags:
-  - logistic-regression
+  - naive-bayes
   - classification
-  - probabilities
-  - decision-threshold
+  - probabilistic-models
+  - conditional-independence
 level: intermediate
-prerequisites:
-  - linear-regression-prediction
+prerequisites: []
 related:
   - knn-supervised-learning
-  - naive-bayes-classification
-  - decision-tree-learning
-  - linear-regression-prediction
+  - logistic-regression-classification
   - model-selection-cross-validation
   - bias-variance-tradeoff
-  - model-assessment-lab
   - spam-filtering-naive-bayes
 outputs:
   - html

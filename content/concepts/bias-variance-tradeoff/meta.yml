@@ -22,6 +22,7 @@ prerequisites: []
 related:
   - ensemble-methods-introduction
   - knn-supervised-learning
+  - naive-bayes-classification
   - decision-tree-learning
   - random-forests
   - linear-regression-prediction

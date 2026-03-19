@@ -1,0 +1,89 @@
+## Naive Bayes is a useful simplification, not a claim about reality
+
+Naive Bayes is one of the cleanest probabilistic classifiers in `TEM 0052`. It
+turns Bayes' rule into a practical prediction method by making one strong modeling
+choice: conditional independence between features within each class.
+
+That assumption is almost never literally true in real data. It is still useful
+because it gives students a fast, interpretable baseline and a good way to think
+about class probabilities, likelihoods, and decision rules.
+
+## From Bayes' rule to a classifier
+
+For a class label `c` and feature vector `x`, the model compares
+
+$$
+P(c \mid x) \propto P(c) P(x \mid c).
+$$
+
+The "naive" step is to replace the full joint feature distribution with a product of
+class-conditional terms:
+
+$$
+P(x \mid c) = \prod_{j=1}^p P(x_j \mid c).
+$$
+
+That makes estimation much easier. Instead of modeling every interaction directly,
+the workflow estimates one probability model per feature, per class, and combines the
+results into a class score.
+
+## Why it works well for text data
+
+Text classification is a natural use case because bag-of-words features are already a
+large collection of token counts or indicators. In that setting, naive Bayes can
+perform surprisingly well even when the independence assumption is clearly false.
+
+For `TEM 0052`, the important lesson is not that the assumption becomes true. The
+important lesson is that a deliberately simple model can still produce a strong
+baseline when:
+
+- the feature representation is sensible,
+- the class prior is estimated honestly,
+- and evaluation is done on held-out data.
+
+## Smoothing and log scores matter
+
+In practice, a classifier like multinomial naive Bayes needs additive smoothing. A
+zero probability for one unseen token should not force the entire class score to
+collapse to zero.
+
+For the same reason, implementations usually work with log scores rather than raw
+probability products. The logs are numerically safer and still preserve the same
+ranking of classes.
+
+## What students should notice
+
+Naive Bayes is a good teaching model because it reveals several decisions that are
+easy to hide in more complex workflows:
+
+- how the class prior affects the prediction,
+- how preprocessing changes the feature space,
+- why a model can look strong on accuracy while still making costly false positives,
+- and how a simple baseline helps us judge whether a more flexible model is actually better.
+
+::: {.teacher-only}
+Ask students why naive Bayes can work well for spam filtering even though words in a
+message are obviously not independent.
+:::
+
+## Where it fits in `TEM 0052`
+
+Naive Bayes belongs in the classification block alongside kNN and logistic
+regression. It gives the course one explicitly probabilistic classifier before the
+tree and ensemble material.
+
+It also pairs naturally with the spam-filtering exercise, where students see how text
+vectorization, smoothing, and class imbalance shape the final predictions.
+
+## What to report
+
+When students present a naive-Bayes workflow in `TEM 0052`, they should usually
+report:
+
+- the feature representation, such as count vectors or tf-idf features,
+- the training/test or cross-validation split,
+- the smoothing rule,
+- the baseline class balance,
+- the confusion matrix together with precision and recall,
+- and one short comment on whether the model is useful because it is fast,
+  interpretable, or a strong baseline for text classification.

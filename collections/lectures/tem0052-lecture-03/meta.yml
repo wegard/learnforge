@@ -33,4 +33,5 @@ ai:
 items:
   - knn-supervised-learning
   - logistic-regression-classification
-  - model-assessment-lab
+  - naive-bayes-classification
+  - spam-filtering-naive-bayes

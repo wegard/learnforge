@@ -143,10 +143,14 @@ def test_tem0052_lecture_03_assembly_expands_classification_block() -> None:
     assert edge_targets == [
         "knn-supervised-learning",
         "logistic-regression-classification",
-        "model-assessment-lab",
+        "naive-bayes-classification",
+        "spam-filtering-naive-bayes",
     ]
     assert "## Why k-nearest neighbors belongs early in the course" in assembly.markdown
     assert "## Logistic regression is a classifier, not a ranking trick" in assembly.markdown
+    assert "## Naive Bayes is a useful simplification, not a claim about reality" in (
+        assembly.markdown
+    )
     assert "## Lab brief" in assembly.markdown
     assert "house-prices-regression" not in assembly.markdown
 
@@ -367,6 +371,7 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
     assert "knn-supervised-learning" in related_ids
+    assert "naive-bayes-classification" in related_ids
     assert "linear-regression-prediction" in related_ids
     assert "penalized-linear-models" in related_ids
     assert "logistic-regression-classification" in related_ids
@@ -392,6 +397,7 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
 
     assert "bias-variance-tradeoff" in related_ids
     assert "knn-supervised-learning" in related_ids
+    assert "naive-bayes-classification" in related_ids
     assert "linear-regression-prediction" in related_ids
     assert "penalized-linear-models" in related_ids
     assert "logistic-regression-classification" in related_ids
@@ -458,6 +464,7 @@ def test_logistic_regression_concept_links_tem0052_classification_content() -> N
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
     assert "knn-supervised-learning" in related_ids
+    assert "naive-bayes-classification" in related_ids
     assert "linear-regression-prediction" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "bias-variance-tradeoff" in related_ids
@@ -481,6 +488,7 @@ def test_knn_concept_links_tem0052_classification_content() -> None:
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
     assert "logistic-regression-classification" in related_ids
+    assert "naive-bayes-classification" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "bias-variance-tradeoff" in related_ids
     assert "model-assessment-lab" in related_ids
@@ -546,8 +554,31 @@ def test_spam_filtering_exercise_links_tem0052_classification_concepts() -> None
 
     assert "bias-variance-tradeoff" in related_ids
     assert "knn-supervised-learning" in related_ids
+    assert "naive-bayes-classification" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "logistic-regression-classification" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
+def test_naive_bayes_concept_links_tem0052_classification_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "naive-bayes-classification",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "knn-supervised-learning" in related_ids
+    assert "logistic-regression-classification" in related_ids
+    assert "model-selection-cross-validation" in related_ids
+    assert "bias-variance-tradeoff" in related_ids
+    assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 

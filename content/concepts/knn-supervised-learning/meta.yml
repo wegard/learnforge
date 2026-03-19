@@ -21,6 +21,7 @@ tags:
 level: intermediate
 prerequisites: []
 related:
+  - naive-bayes-classification
   - logistic-regression-classification
   - decision-tree-learning
   - model-selection-cross-validation

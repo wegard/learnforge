@@ -67,7 +67,7 @@ def build_target(
     result: subprocess.CompletedProcess[str] | None = None
     max_attempts = 4
     for attempt in range(max_attempts):
-        reset_generated_staging(root)
+        ensure_generated_staging(root)
         index, errors = load_repository(root, collect_errors=False)
         if errors:
             raise BuildError("repository contains load errors")
@@ -88,8 +88,7 @@ def build_target(
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = assembly.planned_output_path
         output_name = output_path.name
-        cleanup_generated_support_dirs(root)
-        assembly.generated_path.parent.mkdir(parents=True, exist_ok=True)
+        prepare_generated_target_dir(assembly.generated_path)
         assembly.generated_path.write_text(assembly.markdown, encoding="utf-8")
         command = [
             "quarto",
@@ -189,28 +188,17 @@ def build_env(root: Path) -> dict[str, str]:
     return env
 
 
-def reset_generated_staging(root: Path) -> None:
+def ensure_generated_staging(root: Path) -> None:
     generated_root = generated_dir(root)
-    if generated_root.exists():
-        shutil.rmtree(generated_root, ignore_errors=True)
     generated_root.mkdir(parents=True, exist_ok=True)
     (generated_root / ".gitkeep").write_text("", encoding="utf-8")
 
 
-def cleanup_generated_support_dirs(root: Path) -> None:
-    generated_root = generated_dir(root)
-    if not generated_root.exists():
-        return
-    candidates = sorted(
-        generated_root.rglob("*_files"),
-        key=lambda path: len(path.parts),
-        reverse=True,
-    )
-    for path in candidates:
-        if path.is_symlink() or path.is_file():
-            path.unlink(missing_ok=True)
-        elif path.is_dir():
-            shutil.rmtree(path, ignore_errors=True)
+def prepare_generated_target_dir(generated_path: Path) -> None:
+    target_dir = generated_path.parent
+    if target_dir.exists():
+        shutil.rmtree(target_dir, ignore_errors=True)
+    target_dir.mkdir(parents=True, exist_ok=True)
 
 
 def sync_site_libs(root: Path, output_dir: Path) -> None:

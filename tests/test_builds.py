@@ -154,20 +154,27 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         root=REPO_ROOT,
     )
     seventh_concept_artifact = build_target(
-        "decision-tree-learning",
+        "naive-bayes-classification",
         audience="student",
         language="en",
         output_format="html",
         root=REPO_ROOT,
     )
     eighth_concept_artifact = build_target(
-        "random-forests",
+        "decision-tree-learning",
         audience="student",
         language="en",
         output_format="html",
         root=REPO_ROOT,
     )
     ninth_concept_artifact = build_target(
+        "random-forests",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    tenth_concept_artifact = build_target(
         "ensemble-methods-introduction",
         audience="student",
         language="en",
@@ -205,6 +212,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     seventh_concept_html = seventh_concept_artifact.output_path.read_text(encoding="utf-8")
     eighth_concept_html = eighth_concept_artifact.output_path.read_text(encoding="utf-8")
     ninth_concept_html = ninth_concept_artifact.output_path.read_text(encoding="utf-8")
+    tenth_concept_html = tenth_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
     third_exercise_html = third_exercise_artifact.output_path.read_text(encoding="utf-8")
@@ -285,6 +293,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         in fifth_concept_html
     )
     assert (
+        "../naive-bayes-classification/naive-bayes-classification.html"
+        in fifth_concept_html
+    )
+    assert (
         "../knn-supervised-learning/knn-supervised-learning.html" in fifth_concept_html
     )
     assert (
@@ -304,6 +316,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
         in sixth_concept_html
     )
+    assert (
+        "../naive-bayes-classification/naive-bayes-classification.html"
+        in sixth_concept_html
+    )
     assert "../decision-tree-learning/decision-tree-learning.html" in sixth_concept_html
     assert (
         "../logistic-regression-classification/logistic-regression-classification.html"
@@ -316,14 +332,14 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in sixth_concept_html
     assert "teacher-only" not in sixth_concept_html
 
-    assert "Decision tree learning" in seventh_concept_html
-    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in seventh_concept_html
-    assert "../knn-supervised-learning/knn-supervised-learning.html" in seventh_concept_html
+    assert "Naive Bayes for classification" in seventh_concept_html
     assert (
-        "../ensemble-methods-introduction/ensemble-methods-introduction.html"
+        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
         in seventh_concept_html
     )
-    assert "../random-forests/random-forests.html" in seventh_concept_html
+    assert (
+        "../knn-supervised-learning/knn-supervised-learning.html" in seventh_concept_html
+    )
     assert (
         "../logistic-regression-classification/logistic-regression-classification.html"
         in seventh_concept_html
@@ -335,34 +351,53 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in seventh_concept_html
     assert "teacher-only" not in seventh_concept_html
 
-    assert "Random forests" in eighth_concept_html
+    assert "Decision tree learning" in eighth_concept_html
+    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in eighth_concept_html
+    assert "../knn-supervised-learning/knn-supervised-learning.html" in eighth_concept_html
     assert (
         "../ensemble-methods-introduction/ensemble-methods-introduction.html"
         in eighth_concept_html
     )
-    assert "../decision-tree-learning/decision-tree-learning.html" in eighth_concept_html
-    assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in eighth_concept_html
+    assert "../random-forests/random-forests.html" in eighth_concept_html
     assert (
-        "../model-selection-cross-validation/model-selection-cross-validation.html"
+        "../logistic-regression-classification/logistic-regression-classification.html"
         in eighth_concept_html
     )
     assert (
-        "../logistic-regression-classification/logistic-regression-classification.html"
+        "../model-selection-cross-validation/model-selection-cross-validation.html"
         in eighth_concept_html
     )
     assert "../../course/tem0052/tem0052.html" in eighth_concept_html
     assert "teacher-only" not in eighth_concept_html
 
-    assert "Introduction to ensemble methods" in ninth_concept_html
-    assert "../random-forests/random-forests.html" in ninth_concept_html
+    assert "Random forests" in ninth_concept_html
+    assert (
+        "../ensemble-methods-introduction/ensemble-methods-introduction.html"
+        in ninth_concept_html
+    )
     assert "../decision-tree-learning/decision-tree-learning.html" in ninth_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in ninth_concept_html
     assert (
         "../model-selection-cross-validation/model-selection-cross-validation.html"
         in ninth_concept_html
     )
+    assert (
+        "../logistic-regression-classification/logistic-regression-classification.html"
+        in ninth_concept_html
+    )
     assert "../../course/tem0052/tem0052.html" in ninth_concept_html
     assert "teacher-only" not in ninth_concept_html
+
+    assert "Introduction to ensemble methods" in tenth_concept_html
+    assert "../random-forests/random-forests.html" in tenth_concept_html
+    assert "../decision-tree-learning/decision-tree-learning.html" in tenth_concept_html
+    assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in tenth_concept_html
+    assert (
+        "../model-selection-cross-validation/model-selection-cross-validation.html"
+        in tenth_concept_html
+    )
+    assert "../../course/tem0052/tem0052.html" in tenth_concept_html
+    assert "teacher-only" not in tenth_concept_html
 
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html
@@ -384,6 +419,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "Spam filtering with naive Bayes" in third_exercise_html
     assert "Bias-variance trade-off" in third_exercise_html
     assert "k-nearest neighbors for supervised learning" in third_exercise_html
+    assert "Naive Bayes for classification" in third_exercise_html
     assert "Model selection and cross-validation" in third_exercise_html
     assert "Logistic regression for classification" in third_exercise_html
     assert "The safest teacher solution" not in third_exercise_html
@@ -488,7 +524,9 @@ def test_tem0052_lecture_03_build_contains_classification_block() -> None:
     assert "This lecture includes" in student_html
     assert "k-nearest neighbors for supervised learning" in student_html
     assert "Logistic regression for classification" in student_html
-    assert "Model assessment lab" in student_html
+    assert "Naive Bayes for classification" in student_html
+    assert "Spam filtering with naive Bayes" in student_html
+    assert "Model assessment lab" not in student_html
     assert "House-price prediction" not in student_html
     assert "Lecture 3 - Classification methods" in teacher_html
     assert [
@@ -498,7 +536,8 @@ def test_tem0052_lecture_03_build_contains_classification_block() -> None:
     ] == [
         "knn-supervised-learning",
         "logistic-regression-classification",
-        "model-assessment-lab",
+        "naive-bayes-classification",
+        "spam-filtering-naive-bayes",
     ]
 
 
