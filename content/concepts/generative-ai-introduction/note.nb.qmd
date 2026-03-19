@@ -1,0 +1,65 @@
+# Introduksjon til generativ AI
+
+## Hva er generativ AI?
+
+Generativ AI er teknikker som kan produsere nytt innhold — tekst, bilder, lyd,
+video — basert på mønstre modellen har lært. I motsetning til tradisjonell
+maskinlæring som klassifiserer eller forutsier, kan generativ AI *skape* nytt
+innhold.
+
+## Hvorfor er dette viktig nå?
+
+- Større datamengder er tilgjengelig
+- Mer avanserte modeller og regnekraft
+- Fremskritt i algoritmer og metoder
+- Kommersiell verdi og nye bruksområder
+
+## Generativ AI i finans
+
+### Effektivitet og kostnadsbesparelser
+
+Automatisering av oppgaver som i dag krever manuell innsats.
+
+### Akselerere innovasjon
+
+Rask prototyping og utforsking av nye produkter og tjenester.
+
+### Personalisering
+
+Skreddersydde løsninger for kunder basert på deres unike behov.
+
+## Bruksområder i finanssektoren
+
+### Automatisert finansiell rapportering
+
+- **Fra tall til tekst:** Generere forståelige oppsummeringer av
+  kvartalsrapporter, regnskapstall og markedsanalyser.
+- **Reduserer manuell innsats:** Analytikere kan bruke mer tid på tolking i
+  stedet for å skrive rapporter.
+- **Bedre beslutningsstøtte:** Raskere og mer nøyaktige analyser til ledelse og
+  investorer.
+
+### Simulering og stresstesting
+
+- **Generer komplekse scenarier:** Modeller alternative økonomiske scenarier,
+  markedsforstyrrelser og risiko.
+- **Datautvidelse:** Skap syntetiske datasett for å teste strategier under
+  sjeldne hendelser.
+- **Bedre risikostyring:** Forbered virksomheten på uforutsette
+  markedsendringer.
+
+### Personalisert kundeinteraksjon
+
+- **Chatbots og digitale rådgivere:** Menneskelignende samtaler for kundeservice
+  og investeringsveiledning.
+- **Skreddersydde finansielle råd:** Tilpass anbefalinger til den enkelte kundes
+  risikoprofil og økonomiske mål.
+- **Forbedret kundeopplevelse:** Mer relevant og engasjerende kommunikasjon.
+
+## Generativ AI i dagens finanslandskap
+
+- Modeller kan generere naturlig språk for rapporter, analyser og rådgivning
+- Nye datakilder og komplekse modeller gir bedre innsikt i risiko, trendanalyse
+  og porteføljestyring
+- Fjerner barrierer for intern kunnskapsflyt ved å generere sammendrag og utdrag
+  av kompliserte dokumenter

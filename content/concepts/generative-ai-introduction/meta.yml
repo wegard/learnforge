@@ -1,0 +1,34 @@
+id: generative-ai-introduction
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Introduksjon til generativ AI
+courses:
+  - bik2550
+topics:
+  - ai-fundamentals
+  - generative-ai
+tags:
+  - generative-ai
+  - llm
+  - finance
+level: introductory
+prerequisites:
+  - what-is-ai-overview
+related:
+  - llms-and-next-token-prediction
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
