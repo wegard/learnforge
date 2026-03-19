@@ -1,0 +1,81 @@
+# Hva er kunstig intelligens?
+
+## Definisjon
+
+Kunstig intelligens (AI) omfatter systemer som kan utføre oppgaver som vanligvis
+krever menneskelig intelligens, slik som læring, problemløsning og
+beslutningstaking. AI dekker et bredt spekter — fra enkle regelbaserte systemer
+til komplekse, dype nevrale nettverk.
+
+## AI-metoder: fra enkle regler til AGI
+
+Vi kan plassere AI-metoder langs en kompleksitetsskala:
+
+1. **Enkle regelbaserte systemer** — "hvis X, så Y"-regler
+2. **Statistiske metoder** — klassiske statistiske modeller
+3. **Ekspertsystemer (symbolsk AI)** — logikkbaserte kunnskapsbaser
+4. **Maskinlæring** — regresjon, klassifisering, klyngeanalyse, trær
+5. **Dype nevrale nettverk** — mange lag av nevroner
+6. **Komplekse arkitekturer** — Transformers, CNN, RNN
+7. **Store språkmodeller og generative metoder** — GPT, Claude, Gemini
+8. **AGI / ASI** — hypotetisk generell eller superintelligens
+
+## Regelbasert AI
+
+Regelbaserte systemer benytter en samling "hvis-X-så-Y"-regler for å ta
+beslutninger. De sammenligner innkommende data med forhåndsdefinerte regler for
+å generere et resultat.
+
+**Eksempler i finans:**
+
+- Kredittvurdering basert på faste terskelverdier
+- Enkle systemer for automatisert kundeservice med forhåndsdefinerte svar
+
+**Begrensninger:**
+
+- Mangler evnen til å lære fra nye data
+- Krever kontinuerlig manuell oppdatering av regelsettet
+
+## Symbolsk AI
+
+Systemer basert på logikk, regler og eksplisitte representasjoner (f.eks.
+ekspertsystemer brukt i medisinsk diagnostikk).
+
+**Fordeler:** Forklarbarhet og forutsigbarhet — beslutninger er transparente.
+
+**Ulemper:** Rigiditet og vedlikeholdsbyrde — store regelsett er tidkrevende å
+utvikle og vedlikeholde.
+
+## Fra regler til data: maskinlæring
+
+Maskinlæring (ML) oppdager mønstre i data uten eksplisitte regler og reduserer
+behovet for manuelle regelsett. ML er spesielt viktig i finans:
+
+- **Kredittvurdering** — prediksjon av mislighold
+- **Risikostyring** — modellering av markeds- og kredittrisiko
+- **Algoritmisk trading** — automatiserte handelsstrategier
+
+## Typer maskinlæring
+
+- **Supervised learning (overvåket læring):** Oppgavedrevet, trenes med merkede
+  data. Eksempler: klassifisering og regresjon.
+- **Unsupervised learning (uovervåket læring):** Datadrevet, finner skjulte
+  mønstre. Eksempler: klyngeanalyse og dimensjonsreduksjon.
+- **Reinforcement learning (forsterkende læring):** Lærer ved belønning og
+  straff. Eksempler: algoritmisk trading og spill.
+
+## Nevrale nettverk
+
+Nevrale nettverk er inspirert av den biologiske hjernen og består av lag med
+noder (nevroner). De er i utgangspunktet enkle strukturer med mange parametre
+som lærer komplekse mønstre fra data gjennom trening. Anvendelser inkluderer
+klassifisering, regresjon og mønstergjenkjenning.
+
+Dype nevrale nettverk har flere skjulte lag, noe som gjør det mulig å lære
+hierarkiske representasjoner fra data.
+
+## Komplekse arkitekturer
+
+- **Transformers:** Bruker selvoppmerksomhet, ideell for NLP og sekvensdata
+- **CNN:** Optimal for bildebehandling og lokal mønstergjenkjenning
+- **RNN:** Egnet for tidsserier og sekvensanalyse med minnehåndtering

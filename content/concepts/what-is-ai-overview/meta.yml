@@ -1,0 +1,35 @@
+id: what-is-ai-overview
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Hva er kunstig intelligens?
+courses:
+  - bik2550
+topics:
+  - ai-fundamentals
+tags:
+  - ai
+  - introduction
+  - rule-based-ai
+  - symbolic-ai
+  - machine-learning
+level: introductory
+prerequisites: []
+related:
+  - ai-history-timeline
+  - ai-in-finance-landscape
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
