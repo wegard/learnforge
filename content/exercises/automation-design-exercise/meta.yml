@@ -1,0 +1,36 @@
+id: automation-design-exercise
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Workshop for design av automatisering
+courses:
+  - bik2551
+topics:
+  - ai-automation
+tags:
+  - exercise
+  - automation
+  - process-design
+  - workshop
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 30
+concepts:
+  - automation-levels
+  - ai-agents-introduction
+solution_storage: separate-file
+solution_visibility: teacher

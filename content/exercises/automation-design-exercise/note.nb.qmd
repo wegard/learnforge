@@ -1,0 +1,31 @@
+## Design en automatisering for din arbeidshverdag
+
+Velg en repeterende oppgave fra din jobb og design en automatiseringsløsning.
+Du trenger ikke bygge løsningen — målet er å lage en plan som kan vurderes.
+
+### Steg 1: Velg oppgave og automatiseringsnivå
+
+Beskriv oppgaven kort og velg nivå (1, 2 eller 3):
+
+- **Nivå 1:** Dataanalyse i chat — engangsbehov.
+- **Nivå 2:** No-code arbeidsflyt — repeterende oppgave mellom systemer.
+- **Nivå 3:** API-basert løsning — skreddersydd behov.
+
+### Steg 2: Tegn prosessdiagram
+
+Tegn en enkel flyt fra trigger til sluttresultat:
+
+- Hva utløser prosessen?
+- Hvilke steg utfører KI-en?
+- Hva er sluttresultatet?
+
+### Steg 3: Skriv en runbook
+
+Svar på tre spørsmål:
+
+1. Hva gjør vi hvis automatiseringen feiler?
+2. Hvem eier løsningen og overvåker den?
+3. Når bør løsningen skrus av?
+
+**Suksesskriterier:** Prosessdiagrammet er tydelig nok til at en kollega
+forstår flyten. Runbooken adresserer feilhåndtering og eierskap.

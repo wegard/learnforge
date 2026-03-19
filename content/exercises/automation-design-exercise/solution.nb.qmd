@@ -1,0 +1,35 @@
+## Eksempel: Automatisert klassifisering av innkommende henvendelser
+
+### Oppgave og nivå
+
+**Oppgave:** Kundeservice mottar 50 e-poster daglig. Hver e-post må
+klassifiseres som hastesak, normal sak eller informasjon, og videresend til
+riktig team.
+
+**Valgt nivå:** Nivå 2 — no-code arbeidsflyt i Make/Zapier.
+
+### Prosessdiagram
+
+1. **Trigger:** Ny e-post i innboksen.
+2. **KI-klassifisering:** Send e-postens emne og brødtekst til en KI-modell
+   med prompten: «Klassifiser denne henvendelsen som hastesak, normal sak
+   eller informasjon. Svar med kun kategorien.»
+3. **Ruting:** Basert på klassifiseringen, videresend til riktig team-kanal.
+4. **Logging:** Logg tidspunkt, avsender, kategori og mottakerteam i et
+   regneark.
+
+### Runbook
+
+1. **Feilhåndtering:** Hvis KI-klassifiseringen feiler (timeout eller ukjent
+   svar), sendes e-posten til en fallback-kø som sjekkes manuelt to ganger
+   daglig.
+2. **Eierskap:** Leder for kundeservice eier løsningen. Automatisk varsling
+   ved feilrate over 10 prosent.
+3. **Avslåing:** Løsningen skrus av under systemoppdateringer og ved
+   endringer i e-poststruktur som krever ny prompt.
+
+### Hva gjør designet godt
+
+Prosessdiagrammet har en tydelig trigger, ett KI-steg og en enkel
+beslutningslogikk. Runbooken adresserer de tre vanligste feilscenariene:
+teknisk feil, ansvarsfordeling og planlagt nedetid.
