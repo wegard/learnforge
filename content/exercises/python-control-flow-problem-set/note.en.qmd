@@ -1,0 +1,53 @@
+## Problem set brief
+
+Use this exercise to practice the next `EDI 3400` programming habits: make decisions
+with conditionals, repeat work with loops, and handle small runtime errors
+explicitly.
+
+Keep the workflow reproducible. Use the fixed inputs below instead of building an
+interactive notebook or input-heavy script.
+
+## Tasks
+
+1. Work with conditions:
+   - loop over `numbers = [3, 8, 11, 14]`,
+   - print whether each number is odd or even,
+   - add one extra message for numbers greater than `10`.
+2. Work with `for`, `range()`, and `enumerate()`:
+   - create a `for` loop that prints the numbers from `1` to `5`,
+   - use `enumerate()` on `scores = [72, 88, 91]` and print both position and score,
+   - compute the running total of those scores inside a loop.
+3. Use a list comprehension to create a list of all numbers from `1` to `50` that are
+   divisible by `3`.
+4. Work with a `while` loop:
+   - use `secret_number = 7`,
+   - use `guess_sequence = [3, 9, 7]`,
+   - process guesses one by one until the secret number is found,
+   - print whether each guess is too low, too high, or correct,
+   - count how many attempts were needed.
+5. Handle exceptions explicitly using:
+   - `raw_pairs = [("12", "3"), ("9", "0"), ("hello", "5")]`.
+   For each pair:
+   - try to convert both values to integers,
+   - try to divide the first by the second,
+   - handle `ValueError` and `ZeroDivisionError`,
+   - print a short message explaining what happened.
+6. Write a short reflection covering:
+   - when a `for` loop was more natural than a `while` loop,
+   - one case where `try` / `except` improved the script,
+   - whether the list comprehension felt clearer or less clear than an ordinary loop.
+
+## Starter outline
+
+```python
+numbers = [3, 8, 11, 14]
+scores = [72, 88, 91]
+
+secret_number = 7
+guess_sequence = [3, 9, 7]
+
+raw_pairs = [("12", "3"), ("9", "0"), ("hello", "5")]
+```
+
+Keep the code plain and readable. The point is not compactness. The point is to make
+the control-flow decisions easy to follow.

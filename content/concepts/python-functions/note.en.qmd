@@ -1,0 +1,154 @@
+## Functions package logic so it can be reused
+
+By the time students reach this point in `EDI 3400`, they can already write
+conditionals, loops, and file workflows. The next step is to stop copying that logic
+every time a similar task appears.
+
+That is what a function does. It gives a repeated task:
+
+- a name,
+- explicit inputs,
+- a defined output,
+- one place to maintain the logic.
+
+This is the first real move from "a script that works once" to "code that can be
+reused deliberately."
+
+## `def` creates a named unit of work
+
+A Python function is defined with the `def` keyword:
+
+```python
+def fahrenheit_to_celsius(temp_f):
+    return (temp_f - 32) * 5 / 9
+```
+
+The name should describe what the function does, not where it was first used.
+
+That matters because the function name becomes part of how other people read the
+script. A good function name should make the call site almost self-explanatory.
+
+## Parameters are the inputs to the function
+
+Parameters make the function flexible:
+
+```python
+def circle_area(radius):
+    return 3.1415 * radius ** 2
+```
+
+`radius` is not a fixed value hard-coded into the function body. It is an input that
+changes from call to call.
+
+This is the key idea students should internalize:
+
+- the function definition describes the rule,
+- the arguments supplied at the call site provide the actual values.
+
+Without parameters, students often write the same logic multiple times for slightly
+different inputs. Parameters remove that duplication.
+
+## `return` sends the result back to the caller
+
+Functions are most useful when they return a value that later code can reuse:
+
+```python
+def average(values):
+    return sum(values) / len(values)
+```
+
+That returned value can be printed, stored, compared, or passed into another
+function.
+
+Students should distinguish clearly between:
+
+- printing a result for inspection,
+- returning a result for later use.
+
+A function can do both, but returning is what makes it composable.
+
+## Local variables stay inside the function body
+
+Variables created inside a function belong to that function's local scope:
+
+```python
+def full_name(first_name, last_name):
+    combined = first_name + " " + last_name
+    return combined
+```
+
+Here, `combined` is useful inside the function, but it should not be expected to
+exist elsewhere in the script.
+
+That separation is helpful. It means functions can manage their own internal steps
+without cluttering the outer script with temporary names.
+
+## Functions often wrap control flow
+
+Functions are not separate from earlier Python topics. They usually contain them.
+
+For example:
+
+```python
+def is_prime(n):
+    if n < 2:
+        return False
+
+    for divisor in range(2, n):
+        if n % divisor == 0:
+            return False
+
+    return True
+```
+
+This example combines:
+
+- parameters,
+- conditionals,
+- loops,
+- return values.
+
+That is why functions matter so much. They package multiple programming ideas into a
+single reusable rule.
+
+## Functions should do one clear job
+
+An introductory function should usually answer one question or perform one small task.
+
+Good examples:
+
+- convert one unit into another,
+- count vowels in a string,
+- compute the average of a list,
+- test whether a number is prime.
+
+Less good examples at this stage:
+
+- one giant function that reads files, transforms data, plots results, and writes
+  output all at once.
+
+Small, specific functions are easier to test, explain, and reuse in later course
+workflows.
+
+## Functions make later file and data workflows easier to structure
+
+Once students know how to define functions, they can stop repeating file-processing
+or analysis steps manually.
+
+For example, a later script might use one function to load a CSV file, another to
+compute a summary statistic, and a third to print a clean report. The important shift
+is organizational: the script becomes easier to read because the tasks have names.
+
+This is one reason functions should be learned before the course expands further into
+larger modules and more advanced data workflows.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- define a function with `def`,
+- choose descriptive function names,
+- use parameters to generalize repeated logic,
+- return values instead of only printing them,
+- explain the difference between local variables and outer-scope variables,
+- combine loops and conditionals inside small reusable functions.

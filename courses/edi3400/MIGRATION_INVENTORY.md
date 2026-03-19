@@ -26,6 +26,15 @@ course/object structure.
   promote only the specific assets that a canonical object actually needs
 - No promotion of the nested legacy git repository, editor files, or build/tooling
   noise from the inbox
+- For the first early-Python checkpoint, combine lecture 2 and lecture 3 material
+  into one canonical foundations slice before deciding whether to split those topics
+  more finely later
+- Keep `Lecture_notebooks/04b_Opening_and_writing_to_files.ipynb` as its own
+  canonical `edi3400-lecture-04b` slice rather than folding it into the broader
+  lecture-5 material
+- Split `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb`
+  by promoting functions first as `edi3400-lecture-05a`, then deciding separately
+  how standard-library utilities and classes should be authored later
 - For the first canonical database slice, keep only
   `auto_dealership_database.db` as a canonical object-local asset
 - Leave `example_database.db`, `example_queries.sql`, and `isqlite3.py` in the
@@ -48,6 +57,10 @@ moderate rewriting.
 | `Lecture_notebooks/11_Introduction_to_relational_databases.ipynb` | Rewrite into reusable exposition on tables, keys, and relations | concept | `relational-database-fundamentals` |
 | `Lecture_notebooks/12_SQL_Basics.ipynb` | Rewrite around the core SQL query workflow | concept | `sql-query-basics` |
 | `Lecture_notebooks/13_SQL_with_Python.ipynb` | Rewrite around database access from Python | concept | `python-sql-integration` |
+| `Lecture_notebooks/02_Variables_expressions_and_statements.ipynb`, `Lecture_notebooks/03_Built_in_functions_and_containers.ipynb`, and `Homework_notebooks/Problem_set2_solution.ipynb` | Rewrite into the first canonical Python foundations checkpoint on values, built-in functions, and containers | concept + exercise + lecture collection | `python-basics-and-containers`, `python-basics-problem-set`, `edi3400-lecture-02` |
+| `Lecture_notebooks/04a_Conditional_execution_and_loops.ipynb` and Topic 1 from `Homework_notebooks/Problem_set3_solution.ipynb` | Rewrite into a control-flow checkpoint on conditionals, loops, and basic exception handling | concept + exercise + lecture collection | `python-control-flow`, `python-control-flow-problem-set`, `edi3400-lecture-04` |
+| `Lecture_notebooks/04b_Opening_and_writing_to_files.ipynb` | Rewrite into a file-handling checkpoint on paths, `with open(...)`, writing text files, and reading small CSV data | concept + exercise + lecture collection | `python-file-handling`, `python-file-handling-lab`, `edi3400-lecture-04b` |
+| Functions section of `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` and Topic 4 from `Homework_notebooks/Problem_set3_solution.ipynb` | Rewrite into the first lecture-5 checkpoint on defining and reusing functions | concept + exercise + lecture collection | `python-functions`, `python-functions-problem-set`, `edi3400-lecture-05a` |
 | `Homework_notebooks/Problem_set5_solution.ipynb` | Convert to student coding exercise + teacher solution | exercise | `sql-python-problem-set` |
 | `Lecture_notebooks/example_database.db`, `Lecture_notebooks/auto_dealership_database.db`, `Lecture_notebooks/example_queries.sql`, `Lecture_notebooks/isqlite3.py` | Keep only if promoted objects need them as local assets | object-local assets | under promoted database concepts/exercise |
 
@@ -70,16 +83,11 @@ pattern for the course.
 
 | Legacy source | Reason for deferral |
 | --- | --- |
-| `Lecture_notebooks/02_Variables_expressions_and_statements.ipynb` | Strong candidate later, but the basic-Python block still needs a decision on concept granularity versus exercise-first migration |
-| `Lecture_notebooks/03_Built_in_functions_and_containers.ipynb` | Same reason; likely part of a larger foundational Python slice |
-| `Lecture_notebooks/04a_Conditional_execution_and_loops.ipynb` | Better promoted together with related coding exercises |
-| `Lecture_notebooks/04b_Opening_and_writing_to_files.ipynb` | Useful later, but not part of the first database-focused checkpoint |
-| `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` | Broad notebook that will likely need splitting during promotion |
+| Standard-library section of `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` | Useful, but should be promoted as a smaller utilities slice instead of a broad survey |
 | `Lecture_notebooks/06_Linear_algebra_with_Numpy.ipynb` | Good later third-party-library content, but not needed for the first canonical slice |
 | `Lecture_notebooks/07_Data_analysis_with_Pandas.ipynb` | Depends on how the data-analysis block is ultimately scoped |
 | `Lecture_notebooks/08_Data_vizualization_with_Matplotlib.ipynb` | Better promoted after the Pandas block exists |
-| `Homework_notebooks/Problem_set2_solution.ipynb` | Keep as reference until the early Python block is promoted |
-| `Homework_notebooks/Problem_set3_solution.ipynb` | Keep as reference until the control-flow/files/functions block is promoted |
+| Topic 5 from `Homework_notebooks/Problem_set3_solution.ipynb` and the classes/OOP section of `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` | Keep as reference until a dedicated introductory classes slice is designed |
 | `Homework_notebooks/Problem_set4_solution.ipynb` | Keep as reference until the NumPy/Pandas/Matplotlib block is promoted |
 
 ### Drop Or Archive
@@ -93,40 +101,78 @@ pattern for the course.
 
 ## Proposed First Canonical Slice
 
-Build the first LearnForge checkpoint for `edi3400` around the database block.
+Build the current LearnForge checkpoint for `edi3400` around a growing early-Python
+foundations spine plus the database block.
 
 ### First concept candidates
 
+- `python-basics-and-containers`
+- `python-control-flow`
+- `python-file-handling`
+- `python-functions`
 - `relational-database-fundamentals`
 - `sql-query-basics`
 - `python-sql-integration`
 
 ### First exercise candidates
 
+- `python-basics-problem-set`
+- `python-control-flow-problem-set`
+- `python-file-handling-lab`
+- `python-functions-problem-set`
 - `sql-python-problem-set`
 
 ### First lecture candidates
 
+- `edi3400-lecture-02` Python basics and containers
+- `edi3400-lecture-04` control flow and loops
+- `edi3400-lecture-04b` file handling and local data
+- `edi3400-lecture-05a` functions and reusable code
 - `edi3400-lecture-11` relational databases
 - `edi3400-lecture-12` SQL basics
 - `edi3400-lecture-13` Python and SQL
 
 ## Current Canonical Checkpoint
 
-The first database lecture slice is now scaffolded in canonical LearnForge form.
+The first early-Python foundations spine and the first database lecture slice are now
+scaffolded in canonical LearnForge form.
 
 ### Implemented objects
 
+- concept: `python-basics-and-containers`
+- concept: `python-control-flow`
+- concept: `python-file-handling`
+- concept: `python-functions`
 - concept: `relational-database-fundamentals`
 - concept: `sql-query-basics`
 - concept: `python-sql-integration`
+- exercise: `python-basics-problem-set`
+- exercise: `python-control-flow-problem-set`
+- exercise: `python-file-handling-lab`
+- exercise: `python-functions-problem-set`
 - exercise: `sql-python-problem-set`
+- lecture collection: `edi3400-lecture-02`
+- lecture collection: `edi3400-lecture-04`
+- lecture collection: `edi3400-lecture-04b`
+- lecture collection: `edi3400-lecture-05a`
 - lecture collection: `edi3400-lecture-11`
 - lecture collection: `edi3400-lecture-12`
 - lecture collection: `edi3400-lecture-13`
 
 ### Course plan status
 
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-02`
+- `edi3400-lecture-02` combines variables, built-in functions, and core container
+  workflows into the first canonical Python foundations checkpoint
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-04`
+- `edi3400-lecture-04` adds conditionals, loops, and introductory exception handling
+  as the next canonical Python foundations checkpoint
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-04b`
+- `edi3400-lecture-04b` adds file paths, safe read/write patterns, and a small CSV
+  workflow as a distinct file-handling checkpoint
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-05a`
+- `edi3400-lecture-05a` promotes the functions part of lecture 5 without claiming
+  the remaining standard-library or classes material is canonical yet
 - `courses/edi3400/plan.yml` now includes `edi3400-lecture-11`
 - `courses/edi3400/plan.yml` now includes `edi3400-lecture-12`
 - `edi3400-lecture-12` is scoped to canonical SQL querying material only
@@ -143,11 +189,9 @@ The first database lecture slice is now scaffolded in canonical LearnForge form.
 
 ## Next Migration Actions
 
-1. Decide whether the next canonical slice after the database block should start with
-   the early Python foundations or the later data-analysis block.
-2. Decide the object granularity for the early Python lectures before promoting
-   `Lecture_notebooks/02_...` through `05_...`.
-3. Reframe Lecture 9 IDE / generative-AI material only after the foundational Python
+1. Decide whether the remaining lecture-5 material should split next into a
+   standard-library utilities slice, a classes slice, or both.
+2. Reframe Lecture 9 IDE / generative-AI material only after the foundational Python
    workflow is stable enough to support a clean concept-plus-exercise slice.
-4. Keep assessment structure and formal assignments draft-level until more of the
-   course scope is canonical.
+3. Keep the later data-analysis block and formal assessment structure draft-level
+   until more of the early Python course spine is canonical.

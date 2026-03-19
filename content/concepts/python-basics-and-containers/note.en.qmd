@@ -1,0 +1,141 @@
+## Names let Python reuse values
+
+In the early part of `EDI 3400`, students need one stable mental model before they
+touch databases, files, or third-party libraries: Python programs are built from
+names, values, and operations.
+
+When we write:
+
+```python
+study_hours = 6
+course_name = "EDI 3400"
+```
+
+we are binding names to values. That lets later statements reuse those values instead
+of repeating them manually. Expressions then combine those values:
+
+```python
+study_hours + 2
+course_name.upper()
+```
+
+This is the first programming habit the course should reinforce: write values once,
+name them clearly, and build later steps from those names.
+
+## Types determine what operations make sense
+
+Python does not treat every value the same way. A number, a string, and a boolean can
+all participate in expressions, but they support different operations.
+
+The core beginner-friendly types for this course are:
+
+- integers such as `5`,
+- floats such as `3.14`,
+- strings such as `"Oslo"`,
+- booleans such as `True` and `False`.
+
+That matters because the same symbol can behave differently depending on the type:
+
+```python
+2 + 3
+"data" + "base"
+```
+
+Both use `+`, but one performs arithmetic while the other concatenates text.
+
+Students do not need the full type system at this stage. They do need the habit of
+asking: what kind of value am I working with, and what does that imply about the
+valid operations?
+
+## Built-in functions give quick feedback
+
+Python already includes several functions that are useful in almost every beginner
+workflow:
+
+- `print()` shows what a program is doing,
+- `type()` reveals the current type of a value,
+- `len()` counts items in a container,
+- `round()` simplifies numeric display,
+- `int()`, `float()`, and `str()` convert values between common types.
+
+For example:
+
+```python
+city = "Tromso"
+temperatures = [3.4, 4.1, 2.8]
+
+print(type(city))
+print(len(temperatures))
+print(round(sum(temperatures) / len(temperatures), 1))
+```
+
+These functions matter because they reduce guesswork. They help students inspect
+their data, check assumptions, and debug small scripts without needing advanced
+tooling.
+
+## Lists, tuples, and strings are ordered containers
+
+Much of introductory programming is really about storing and retrieving collections of
+values.
+
+Three ordered containers matter immediately:
+
+- lists are ordered and mutable,
+- tuples are ordered and immutable,
+- strings are ordered sequences of characters.
+
+Lists are the main workhorse:
+
+```python
+scores = [82, 91, 88]
+scores.append(95)
+```
+
+They support indexing, slicing, and in-place modification. Tuples are useful when the
+values should stay fixed, and strings behave like text-focused sequences with helpful
+methods such as `.upper()`, `.lower()`, and `.split()`.
+
+The practical distinction is simple:
+
+- use a list when the collection will change,
+- use a tuple when the grouped values should stay fixed,
+- use a string when the data is text.
+
+## Dictionaries and sets solve different lookup problems
+
+Not every collection is best handled by position.
+
+A dictionary maps keys to values:
+
+```python
+student = {"name": "Ada", "grade": "A", "credits": 10}
+student["grade"]
+```
+
+This is the right mental model when students know the label they want to use for
+lookup.
+
+A set stores unique elements:
+
+```python
+tags = {"python", "sql", "python", "data"}
+```
+
+The duplicate `"python"` disappears automatically. That makes sets useful for
+membership checks and distinct-value logic.
+
+So the question is not "which container is best in general?" The question is "which
+container fits the task?"
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- assign values to well-named variables,
+- explain the difference between numbers, strings, booleans, and containers,
+- inspect values with built-in functions such as `print()`, `type()`, and `len()`,
+- choose between lists, tuples, strings, dictionaries, and sets for a small task,
+- read short Python expressions without treating them as black-box syntax.
+
+The next foundations slice should extend this into control flow: conditionals, loops,
+and basic debugging habits.

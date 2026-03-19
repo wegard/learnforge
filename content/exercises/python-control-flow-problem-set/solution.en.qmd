@@ -1,0 +1,81 @@
+The strongest teacher solution keeps the logic visible. Students should be able to
+trace each branch and loop without guessing where the output came from.
+
+## Suggested approach
+
+1. Keep the tasks separate instead of building one oversized script with shared state.
+2. Use simple print statements so the path through each branch is obvious.
+3. Make the `while` loop termination rule explicit.
+4. Treat exception handling as part of the core solution, not as optional polish.
+
+## Minimal reference implementation
+
+```python
+numbers = [3, 8, 11, 14]
+for number in numbers:
+    if number % 2 == 0:
+        print(number, "is even")
+    else:
+        print(number, "is odd")
+
+    if number > 10:
+        print(number, "is greater than 10")
+
+for value in range(1, 6):
+    print(value)
+
+scores = [72, 88, 91]
+running_total = 0
+for idx, score in enumerate(scores, start=1):
+    running_total += score
+    print(idx, score, running_total)
+
+divisible_by_three = [n for n in range(1, 51) if n % 3 == 0]
+print(divisible_by_three)
+
+secret_number = 7
+guess_sequence = [3, 9, 7]
+guess_index = 0
+attempts = 0
+
+while guess_index < len(guess_sequence):
+    guess = guess_sequence[guess_index]
+    attempts += 1
+
+    if guess < secret_number:
+        print("too low")
+    elif guess > secret_number:
+        print("too high")
+    else:
+        print("correct")
+        break
+
+    guess_index += 1
+
+print("attempts:", attempts)
+
+raw_pairs = [("12", "3"), ("9", "0"), ("hello", "5")]
+for left_raw, right_raw in raw_pairs:
+    try:
+        left = int(left_raw)
+        right = int(right_raw)
+        print(left / right)
+    except ValueError:
+        print("invalid integer input:", left_raw, right_raw)
+    except ZeroDivisionError:
+        print("cannot divide by zero:", left_raw, right_raw)
+```
+
+## What students should notice
+
+- conditionals make the branch logic readable when each condition has a clear role,
+- `for` loops fit known sequences cleanly,
+- `while` loops require an explicit stopping rule,
+- list comprehensions are compact, but they still represent loop logic,
+- exception handling makes failure cases visible instead of accidental.
+
+## Teaching emphasis
+
+Do not let this exercise drift into file handling, standard-library exploration, or
+custom function design yet. The point of this checkpoint is to make branching,
+iteration, and simple error handling stable before the next Python slice.

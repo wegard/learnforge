@@ -1,0 +1,40 @@
+id: python-functions
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Python functions
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - python
+  - functions
+  - parameters
+  - return-values
+  - reusable-code
+level: introductory
+prerequisites:
+  - python-basics-and-containers
+  - python-control-flow
+related:
+  - python-control-flow
+  - python-file-handling
+  - python-functions-problem-set
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

@@ -1,0 +1,39 @@
+id: python-functions-problem-set
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Python functions problem set
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - exercise
+  - python
+  - functions
+  - parameters
+  - return-values
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 75
+concepts:
+  - python-control-flow
+  - python-functions
+solution_storage: separate-file
+solution_visibility: teacher

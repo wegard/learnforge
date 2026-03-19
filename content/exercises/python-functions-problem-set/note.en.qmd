@@ -1,0 +1,54 @@
+## Problem set brief
+
+Use this exercise to practice the next `EDI 3400` step: package logic into reusable
+functions instead of rewriting the same code block every time.
+
+Keep each function small and focused. A clear name, explicit parameters, and a clean
+return value matter more than clever shortcuts.
+
+## Tasks
+
+1. Write `reverse_string(text)`:
+   - input: one string,
+   - output: the reversed string.
+   Test it on `"Python"` and `"Data management"`.
+2. Write `average(values)`:
+   - input: a list of numbers,
+   - output: the arithmetic mean.
+   Test it on `[4, 7, 9, 10]`.
+3. Write `circle_area(radius)`:
+   - use `3.1415` for `pi`,
+   - return the area,
+   - test it on `radius = 3`.
+4. Write `count_vowels(text)`:
+   - count both upper- and lowercase vowels,
+   - return the number of vowels in the string.
+   Test it on `"Programming and Data Management"`.
+5. Write `is_prime(n)`:
+   - return `True` when `n` is prime,
+   - return `False` otherwise.
+   Test it on `2`, `9`, and `17`.
+6. Stretch task: write `factorial(n)` using a loop rather than recursion.
+   Test it on `5`.
+7. Write a short reflection covering:
+   - which function was easiest to express,
+   - which function needed the most control flow,
+   - one reason returning a value is more useful than printing inside every function.
+
+## Starter outline
+
+```python
+def reverse_string(text):
+    ...
+
+
+def average(values):
+    ...
+
+
+def circle_area(radius):
+    ...
+```
+
+Add the remaining functions below the starter outline. Use short test calls under each
+function so you can inspect the returned values.

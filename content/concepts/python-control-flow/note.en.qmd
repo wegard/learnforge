@@ -1,0 +1,177 @@
+## Control flow changes what a program does next
+
+Variables and containers tell Python what values exist. Control flow tells Python
+what to do with those values and in which order.
+
+That is the step where a script stops being a fixed sequence of statements and starts
+reacting to conditions, repeated work, and recoverable errors.
+
+In `EDI 3400`, that means students should learn to answer questions like:
+
+- should this block run or not,
+- should this task repeat,
+- when should the loop stop,
+- what should happen if the input is invalid.
+
+## `if`, `elif`, and `else` choose one branch
+
+Conditional statements let a program choose between alternatives.
+
+```python
+temperature = 3
+
+if temperature < 0:
+    print("freezing")
+elif temperature < 10:
+    print("cold")
+else:
+    print("mild")
+```
+
+The important idea is not just syntax. The important idea is that Python evaluates a
+boolean condition and then follows exactly one branch of the available options.
+
+This is why clear conditions matter. A good conditional should read like a decision
+rule, not like a puzzle.
+
+## `for` loops work best when the data source is known
+
+Use a `for` loop when the program should iterate through an existing sequence or a
+defined range of values.
+
+```python
+scores = [72, 88, 91]
+
+for score in scores:
+    print(score)
+```
+
+This is the standard pattern for:
+
+- processing every element in a list or tuple,
+- stepping through characters in a string,
+- iterating over a known numerical range.
+
+The point is not repetition for its own sake. The point is to apply the same logic
+systematically without rewriting the same code block by hand.
+
+## `range()` and `enumerate()` add structure to loops
+
+Two beginner-friendly tools make `for` loops more useful.
+
+`range()` creates a predictable numeric sequence:
+
+```python
+for n in range(1, 6):
+    print(n)
+```
+
+`enumerate()` keeps both position and value visible:
+
+```python
+topics = ["variables", "loops", "sql"]
+
+for idx, topic in enumerate(topics, start=1):
+    print(idx, topic)
+```
+
+Students should not memorize these as isolated tricks. They should recognize the
+question each one answers:
+
+- `range()` when I need a numeric progression,
+- `enumerate()` when position matters as much as value.
+
+## `while` loops need a clear exit condition
+
+A `while` loop is useful when the number of repetitions is not known in advance.
+
+```python
+attempts = 0
+
+while attempts < 3:
+    print("try again")
+    attempts += 1
+```
+
+This is powerful, but it also creates the risk of an infinite loop if the condition
+never becomes false.
+
+That is why every beginner should ask two questions before writing a `while` loop:
+
+1. what condition keeps the loop running,
+2. what statement will eventually change that condition.
+
+If the second answer is missing, the loop design is probably wrong.
+
+## `break` and `continue` change loop behavior deliberately
+
+Sometimes a loop should not simply run from top to bottom every time.
+
+- `break` stops the loop entirely,
+- `continue` skips the rest of the current iteration and jumps to the next one.
+
+For example:
+
+```python
+for number in range(1, 8):
+    if number == 4:
+        continue
+    if number == 7:
+        break
+    print(number)
+```
+
+These statements are useful when they make the loop rule clearer. They are less
+useful when they are piled into a loop that already has confusing logic.
+
+## `try` and `except` turn crashes into handled cases
+
+Not every error should terminate a beginner program immediately.
+
+```python
+raw_value = "abc"
+
+try:
+    number = int(raw_value)
+    print(number ** 2)
+except ValueError:
+    print("Please provide a valid integer.")
+```
+
+This is the first step toward controlled debugging. Instead of pretending errors will
+never happen, the program names the risky operation and states what should happen if
+that operation fails.
+
+For this course, the most useful introductory examples are:
+
+- `ValueError` when conversion fails,
+- `ZeroDivisionError` when dividing by zero,
+- `IndexError` when a list index is out of range.
+
+## List comprehensions are compact loop patterns
+
+A list comprehension is still a loop, but written in a compact expression form:
+
+```python
+divisible_by_three = [n for n in range(1, 51) if n % 3 == 0]
+```
+
+This is useful when the task is straightforward: filter or transform values into a
+new list.
+
+Students should first be able to explain the underlying loop logic in plain language.
+The short syntax is helpful only after the loop itself makes sense.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- write readable `if` / `elif` / `else` blocks,
+- choose between `for` and `while` based on the task structure,
+- use `range()` and `enumerate()` appropriately,
+- explain what `break` and `continue` change inside a loop,
+- handle simple runtime problems with `try` and `except`,
+- translate a small repeated task into either a loop or a list comprehension.
+
+The next foundations slice extends these habits into file handling, where paths,
+external data, and missing-file cases make careful control flow even more important.

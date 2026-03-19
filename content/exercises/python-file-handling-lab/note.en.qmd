@@ -1,0 +1,51 @@
+## Lab brief
+
+Use this exercise to practice safe file handling with small local assets. The goal is
+to move from "I can open a file" to "I can read, summarize, and write structured
+output intentionally."
+
+Use the two local assets in this exercise folder:
+
+- `assets/study_log.txt`
+- `assets/media_consumption_sample.csv`
+
+## Tasks
+
+1. Read the text file:
+   - open `assets/study_log.txt` with `with open(...)`,
+   - load the lines into a list,
+   - print the number of lines,
+   - print the first line without its trailing newline.
+2. Write a short summary file named `study_log_summary.txt` that contains:
+   - a title line,
+   - the number of lines in the log,
+   - the last line from the original text file.
+3. Add a missing-file check:
+   - try to open `assets/does_not_exist.txt`,
+   - catch `FileNotFoundError`,
+   - print a short message explaining what happened.
+4. Read the CSV file with Python's `csv` module:
+   - use `delimiter=";"`,
+   - separate the header row from the data rows,
+   - convert the numeric values to integers,
+   - store the rows in a structure you can inspect later.
+5. Use the CSV rows to answer three questions:
+   - what is the mean internet-consumption percentage across the sample years,
+   - in which years is internet consumption larger than TV consumption,
+   - what is the combined radio-plus-TV percentage for each year.
+6. Write a short reflection covering:
+   - why `with open(...)` is safer than manual open/close handling,
+   - one place where exception handling improved the script,
+   - one reason CSV files are easier to analyze than unstructured text files.
+
+## Starter outline
+
+```python
+import csv
+
+text_path = "assets/study_log.txt"
+csv_path = "assets/media_consumption_sample.csv"
+```
+
+Keep the workflow plain and reproducible. The point is to make the file-handling
+steps visible, not to hide them inside advanced abstractions.

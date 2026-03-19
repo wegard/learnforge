@@ -1,0 +1,4 @@
+Monday: cleaned the attendance spreadsheet and checked missing values.
+Tuesday: compared radio and TV percentages across the sample years.
+Wednesday: wrote a short summary note from the text file.
+Thursday: prepared the CSV rows for later analysis.

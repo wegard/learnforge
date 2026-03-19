@@ -1,0 +1,37 @@
+id: python-basics-problem-set
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Python basics problem set
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - exercise
+  - python
+  - containers
+  - built-in-functions
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: easy
+estimated_time_minutes: 60
+concepts:
+  - python-basics-and-containers
+solution_storage: separate-file
+solution_visibility: teacher

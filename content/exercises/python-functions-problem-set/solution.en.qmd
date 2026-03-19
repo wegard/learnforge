@@ -1,0 +1,77 @@
+The strongest teacher solution keeps each function small, single-purpose, and easy to
+test from the call site. The goal is to help students see how parameters, control
+flow, and return values fit together.
+
+## Suggested approach
+
+1. Define one function at a time and test it immediately with a short call.
+2. Return values from every function instead of printing from inside the function body
+   unless printing is explicitly the point.
+3. Keep the prime-number and factorial tasks iterative so the control-flow logic stays
+   visible.
+4. Prefer readable names and simple loops over compact but harder-to-read one-liners.
+
+## Minimal reference implementation
+
+```python
+def reverse_string(text):
+    return text[::-1]
+
+
+def average(values):
+    return sum(values) / len(values)
+
+
+def circle_area(radius):
+    return 3.1415 * radius ** 2
+
+
+def count_vowels(text):
+    vowels = "aeiouyAEIOUY"
+    total = 0
+    for char in text:
+        if char in vowels:
+            total += 1
+    return total
+
+
+def is_prime(n):
+    if n < 2:
+        return False
+
+    for divisor in range(2, n):
+        if n % divisor == 0:
+            return False
+
+    return True
+
+
+def factorial(n):
+    result = 1
+    for value in range(2, n + 1):
+        result *= value
+    return result
+
+
+print(reverse_string("Python"))
+print(average([4, 7, 9, 10]))
+print(circle_area(3))
+print(count_vowels("Programming and Data Management"))
+print(is_prime(2), is_prime(9), is_prime(17))
+print(factorial(5))
+```
+
+## What students should notice
+
+- a function definition is just the rule; nothing happens until the function is
+  called,
+- the same function can be reused with different arguments,
+- control flow often lives inside the function body rather than outside it,
+- return values make the functions reusable in larger scripts,
+- testing with short calls helps isolate mistakes quickly.
+
+## Teaching emphasis
+
+Do not treat this as an excuse to introduce everything else from the lecture-5
+notebook at once. The point of this checkpoint is reusable functions, not a full
+standard-library tour or an early jump into classes.

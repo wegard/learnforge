@@ -1,0 +1,38 @@
+id: python-basics-and-containers
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Python basics and containers
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - python
+  - variables
+  - built-in-functions
+  - containers
+  - dictionaries
+level: introductory
+prerequisites: []
+related:
+  - python-basics-problem-set
+  - python-control-flow
+  - python-sql-integration
+updated: 2026-03-19
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

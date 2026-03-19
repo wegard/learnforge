@@ -1,0 +1,35 @@
+id: edi3400-lecture-02
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 2 - Python basics and containers
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - lecture
+  - python
+  - basics
+  - containers
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - python-basics-and-containers
+  - python-basics-problem-set

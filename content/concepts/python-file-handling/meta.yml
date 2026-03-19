@@ -1,0 +1,41 @@
+id: python-file-handling
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Python file handling
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - python
+  - files
+  - file-paths
+  - context-managers
+  - csv
+level: introductory
+prerequisites:
+  - python-basics-and-containers
+  - python-control-flow
+related:
+  - python-control-flow
+  - python-file-handling-lab
+  - python-functions
+  - python-sql-integration
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

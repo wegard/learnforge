@@ -1,0 +1,83 @@
+The strongest teacher solution keeps the file workflow explicit: open the asset,
+convert the content into plain Python structures, then write or summarize results in
+a way that students can audit line by line.
+
+## Suggested approach
+
+1. Use `with open(...)` for every normal file operation.
+2. Keep text-file and CSV-file processing separate so the transformation steps stay
+   readable.
+3. Catch `FileNotFoundError` in a small dedicated example instead of wrapping the
+   whole script in one large `try` block.
+4. Convert CSV numbers early so later computations use integers instead of strings.
+
+## Minimal reference implementation
+
+```python
+import csv
+
+text_path = "assets/study_log.txt"
+csv_path = "assets/media_consumption_sample.csv"
+
+with open(text_path, encoding="utf-8") as reader:
+    lines = reader.readlines()
+
+print("line count:", len(lines))
+print("first line:", lines[0].strip())
+
+summary_lines = [
+    "Study log summary\n",
+    f"Number of lines: {len(lines)}\n",
+    f"Last line: {lines[-1].strip()}\n",
+]
+
+with open("study_log_summary.txt", mode="wt", encoding="utf-8") as writer:
+    writer.writelines(summary_lines)
+
+try:
+    with open("assets/does_not_exist.txt", encoding="utf-8") as missing_reader:
+        missing_reader.read()
+except FileNotFoundError:
+    print("The file assets/does_not_exist.txt was not found.")
+
+with open(csv_path, newline="", encoding="utf-8") as csvfile:
+    raw_rows = list(csv.reader(csvfile, delimiter=";"))
+
+header = raw_rows[0]
+data_rows = []
+for year, radio, tv, internet in raw_rows[1:]:
+    data_rows.append(
+        {
+            "year": int(year),
+            "radio": int(radio),
+            "tv": int(tv),
+            "internet": int(internet),
+        }
+    )
+
+mean_internet = sum(row["internet"] for row in data_rows) / len(data_rows)
+internet_gt_tv = [row["year"] for row in data_rows if row["internet"] > row["tv"]]
+radio_plus_tv = {
+    row["year"]: row["radio"] + row["tv"] for row in data_rows
+}
+
+print(header)
+print(mean_internet)
+print(internet_gt_tv)
+print(radio_plus_tv)
+```
+
+## What students should notice
+
+- reading a text file produces strings that can be handled with normal list and
+  string methods,
+- writing a file is easier to review when the output lines are defined explicitly,
+- `FileNotFoundError` is a normal, expected case when working with paths,
+- CSV handling becomes simpler once rows are converted from strings to numeric values,
+- file handling is already a data-management workflow, even before Pandas or SQL.
+
+## Teaching emphasis
+
+Do not let this slice turn into a general standard-library survey. The purpose here is
+to make local file paths, safe open/close patterns, and small structured-file
+workflows stable before the course expands into broader modules and libraries.

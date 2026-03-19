@@ -1,0 +1,62 @@
+## Problem set brief
+
+Use this exercise to practice the first `EDI 3400` Python habits: store values in
+variables, inspect them with built-in functions, and choose sensible containers for
+small tasks.
+
+Keep the solutions simple and readable. A plain `.py` file or a few notebook cells is
+enough.
+
+## Tasks
+
+1. Create three variables:
+   - `student_name` as a string,
+   - `study_hours` as an integer,
+   - `completion_rate` as a float between `0` and `1`.
+   Print the three values and use `type()` to show the type of each one.
+2. Write a short calculation block using:
+   - `a = 5`,
+   - `b = 2`.
+   Print `a + b`, `a - b`, `a * b`, and `a / b`. Then explain in one sentence why
+   `a / b` does not return an integer.
+3. Create a list of at least five numbers. Use built-in functions to print:
+   - the length of the list,
+   - the smallest value,
+   - the largest value,
+   - the total sum,
+   - a sorted version of the list.
+4. Work with text and ordered containers:
+   - start from the string `"Programming with Python"`,
+   - create a list of its words,
+   - create a tuple with three course topics,
+   - use `list(enumerate(...))` to show the position and value for each topic.
+5. Use paired data and key-based lookup:
+   - combine `names = ["Anna", "Bob", "Charlie"]` and `scores = [85, 92, 87]` with
+     `zip()`,
+   - turn the paired result into a dictionary,
+   - look up Bob's score,
+   - print the set of distinct score values.
+6. Write a short reflection covering:
+   - one case where a list was the right container,
+   - one case where a dictionary was the right container,
+   - one built-in function that helped you inspect or debug your work.
+
+## Starter outline
+
+```python
+student_name = "Ada"
+study_hours = 6
+completion_rate = 0.75
+
+a = 5
+b = 2
+
+numbers = [12, 4, 18, 7, 9]
+phrase = "Programming with Python"
+topics = ("variables", "containers", "functions")
+
+names = ["Anna", "Bob", "Charlie"]
+scores = [85, 92, 87]
+```
+
+You may add small helper variables if they make the script easier to read.

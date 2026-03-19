@@ -1,0 +1,73 @@
+The strongest teacher solution keeps the exercise close to the first-principles goals
+of the course: naming values clearly, checking types deliberately, and using the
+right container for the task.
+
+## Suggested approach
+
+1. Keep the script linear and readable instead of introducing functions too early.
+2. Use `print()` and `type()` often enough that students can see what each variable
+   currently holds.
+3. Prefer plain built-in functions and container methods over clever shortcuts.
+4. Treat the reflection prompts as part of the solution, not as optional filler.
+
+## Minimal reference implementation
+
+```python
+student_name = "Ada"
+study_hours = 6
+completion_rate = 0.75
+
+print(student_name, type(student_name))
+print(study_hours, type(study_hours))
+print(completion_rate, type(completion_rate))
+
+a = 5
+b = 2
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+
+numbers = [12, 4, 18, 7, 9]
+print(len(numbers))
+print(min(numbers))
+print(max(numbers))
+print(sum(numbers))
+print(sorted(numbers))
+
+phrase = "Programming with Python"
+words = phrase.split()
+print(words)
+
+topics = ("variables", "containers", "functions")
+print(list(enumerate(topics, start=1)))
+
+names = ["Anna", "Bob", "Charlie"]
+scores = [85, 92, 87]
+pairs = list(zip(names, scores))
+score_lookup = dict(pairs)
+distinct_scores = set(scores)
+
+print(pairs)
+print(score_lookup["Bob"])
+print(distinct_scores)
+```
+
+## What students should notice
+
+- strings, integers, and floats are distinct types even when they are all printed to
+  the screen,
+- list functions such as `len()`, `min()`, `max()`, `sum()`, and `sorted()` answer
+  different questions about the same data,
+- `split()` is a quick bridge from raw text to a list of words,
+- `enumerate()` can add positions to ordered data without changing the underlying
+  tuple,
+- `zip()` is useful for pairing related sequences,
+- dictionaries support lookup by key, while sets are useful when duplicates should be
+  ignored.
+
+## Teaching emphasis
+
+Do not overcomplicate this exercise with classes, custom functions, or advanced
+control flow. The point is to make the first container choices legible and
+intentional before students move on to loops, file handling, and database workflows.

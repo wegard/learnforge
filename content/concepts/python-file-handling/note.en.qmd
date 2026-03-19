@@ -1,0 +1,168 @@
+## Files are one of Python's simplest external data sources
+
+Until this point, most `EDI 3400` examples have used values written directly inside
+the script. File handling changes that. Now the program has to reach outside itself,
+find a file, read or write content, and close the resource safely.
+
+That is an important step because later course workflows also depend on external data:
+
+- text files,
+- CSV files,
+- notebooks and scripts,
+- database files.
+
+So file handling is not just a utility topic. It is the first clean example of
+Python interacting with data stored outside the program itself.
+
+## A file path tells Python where to look
+
+Python cannot open a file unless we tell it where that file lives.
+
+In practice, a file path has three parts:
+
+- the folder location,
+- the file name,
+- the extension such as `.txt`, `.csv`, `.py`, or `.db`.
+
+For example:
+
+```python
+path = "assets/media_consumption_sample.csv"
+```
+
+The point is not to memorize operating-system details. The point is to understand
+that file handling fails quickly when the path is wrong, even if the Python syntax is
+otherwise correct.
+
+That is why the canonical LearnForge exercises prefer explicit object-local paths such
+as `assets/...` instead of notebook-specific working-directory tricks.
+
+## `open()` creates a file object
+
+The built-in `open()` function gives Python a live connection to a file:
+
+```python
+reader = open("assets/study_log.txt", mode="rt", encoding="utf-8")
+```
+
+At that point, `reader` is not the text itself. It is the file object that allows the
+program to read from the file.
+
+Common modes for introductory work are:
+
+- `"r"` or `"rt"` for reading text,
+- `"w"` or `"wt"` for writing text and overwriting existing content,
+- `"a"` for appending new text to the end of a file.
+
+Students should learn one simple rule early: opening a file gives access to the file,
+not to a fully processed result.
+
+## `with open(...)` is the safest default pattern
+
+The best beginner pattern is:
+
+```python
+with open("assets/study_log.txt", mode="rt", encoding="utf-8") as reader:
+    lines = reader.readlines()
+```
+
+The `with` statement matters because it closes the file automatically when the block
+ends, even if something goes wrong during processing.
+
+That makes code shorter, safer, and easier to review than manually opening and
+closing the file in separate places.
+
+For this course, `with open(...)` should be the default, not an advanced extra.
+
+## Reading text files gives strings and lines
+
+Once a file is open, the main beginner patterns are:
+
+- `read()` to load the full content as one string,
+- `readlines()` to load a list of lines,
+- iterating over the file object line by line.
+
+For example:
+
+```python
+with open("assets/study_log.txt", encoding="utf-8") as reader:
+    lines = reader.readlines()
+```
+
+After that, the file content becomes normal Python data. Students can count lines,
+strip whitespace, inspect the first line, or search for keywords using the same
+string and list skills they already know.
+
+## Writing files should make the output explicit
+
+Writing is the reverse direction:
+
+```python
+summary_lines = [
+    "Study log summary\n",
+    "Total entries: 4\n",
+]
+
+with open("study_log_summary.txt", mode="wt", encoding="utf-8") as writer:
+    writer.writelines(summary_lines)
+```
+
+This should feel deliberate. The script chooses:
+
+- what content to write,
+- which file should receive it,
+- whether the old content should be overwritten.
+
+That is why write mode deserves care. `"w"` is useful, but it replaces the previous
+content of the target file.
+
+## File handling and exceptions belong together
+
+Working with external files increases the chance of runtime problems:
+
+- the file may not exist,
+- the path may be wrong,
+- the content may not have the structure we expected.
+
+That is why file handling connects naturally to the earlier control-flow slice:
+
+```python
+try:
+    with open("missing.txt", encoding="utf-8") as reader:
+        text = reader.read()
+except FileNotFoundError:
+    print("The file could not be found.")
+```
+
+Students do not need to catch every possible error immediately. They do need to see
+that file workflows are safer when failure cases are named explicitly.
+
+## CSV is still just a file, but with structure
+
+A CSV file is not magic. It is a text file with a repeated row structure.
+
+Python's `csv` module is a simple bridge:
+
+```python
+import csv
+
+with open("assets/media_consumption_sample.csv", newline="", encoding="utf-8") as csvfile:
+    rows = list(csv.reader(csvfile, delimiter=";"))
+```
+
+This is still file handling. The only difference is that the text is parsed into row
+structures instead of being treated as plain prose.
+
+That makes CSV a good intermediate step before the course moves on to Pandas and
+database workflows.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- explain what a file path does,
+- use `with open(...)` to read text safely,
+- distinguish between reading and writing modes,
+- write a small output file intentionally,
+- handle a missing-file case with `try` / `except`,
+- read a small CSV file into rows with the `csv` module.
