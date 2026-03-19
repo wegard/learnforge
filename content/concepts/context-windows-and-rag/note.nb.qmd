@@ -1,0 +1,72 @@
+## Forskjellen på å spørre og å gi modellen noe å jobbe med
+
+En spraakmodell som svarer uten tilleggsinformasjon bruker bare det den lærte
+under trening. Det er som å stille et spørsmål til en kollega som ikke har lest
+sakspapirene. I `BIK 2551` lærer vi to måter å gi modellen relevant kunnskap:
+kontekstvinduet og RAG-systemer.
+
+## Kontekstvinduet som arbeidshukommelse
+
+Kontekstvinduet er alt modellen kan se i en enkelt samtale — prompten din,
+tidligere meldinger, og eventuelle dokumenter du har lagt ved. Tenk på det som
+modellens korttidsminne.
+
+Moderne modeller har kontekstvinduer på hundretusener til over en million
+tokens. Det betyr at du i mange tilfeller kan lime inn et helt dokument og be
+modellen jobbe direkte med innholdet.
+
+Praktiske konsekvenser:
+
+- Jo mer relevant kontekst du gir, desto bedre svar får du.
+- Irrelevant informasjon kan forvirre modellen — vær selektiv.
+- Når samtalen blir lang, kan modellen miste oversikten over tidlige meldinger.
+
+## RAG: Henting av kunnskap fra eksterne kilder
+
+RAG (Retrieval-Augmented Generation) er en teknikk der modellen automatisk
+henter relevant informasjon fra en kunnskapsbase før den genererer svar. I
+stedet for å stole på hva modellen husker, søker systemet i dokumentene dine
+og gir modellen de mest relevante utdragene.
+
+Fordeler med RAG:
+
+- Svarene kan baseres på oppdatert eller spesialisert informasjon.
+- Modellen kan oppgi kilder, noe som gjør det lettere å verifisere svarene.
+- Kunnskapsbasen kan oppdateres uten å trene modellen på nytt.
+
+Ulemper:
+
+- Kvaliteten avhenger av at søket finner riktige dokumenter.
+- Oppsettet krever mer teknisk infrastruktur enn ren prompting.
+
+## Når holder kontekstvinduet, og når trengs RAG?
+
+For mange oppgaver i hverdagen er kontekstvinduet tilstrekkelig. Lim inn
+dokumentet, still spørsmålet, få svaret. Verktøy som NotebookLM viser hvordan
+dette fungerer i praksis — du laster opp kilder og modellen jobber presist
+med innholdet.
+
+RAG blir nyttig når:
+
+- Kunnskapsbasen er for stor til å passe i kontekstvinduet.
+- Informasjonen endres ofte og må holdes oppdatert.
+- Du trenger automatisk kildehenvisning i svarene.
+
+::: {.teacher-only}
+Demonstrer NotebookLM med et kort dokument. La deltakerne se forskjellen mellom
+å spørre modellen uten kontekst og med dokumentet tilgjengelig. Diskuter: Når
+er det nok å lime inn tekst, og når ville en RAG-løsning vært bedre?
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Kontekstvindu og RAG bygger videre på grunnforståelsen av spraakmodeller fra
+Dag 1. Kunnskapen er direkte anvendbar i workshopen der deltakerne setter opp
+egne KI-assistenter med tilpasset kunnskapsbase.
+
+## Praktiske poeng å ta med videre
+
+- Gi modellen relevant kontekst — ikke stol på at den vet nok fra trening.
+- Start med kontekstvinduet; vurder RAG først når dokumentmengden blir for stor.
+- Sjekk alltid kildehenvisninger — RAG reduserer hallusinering, men fjerner
+  den ikke helt.

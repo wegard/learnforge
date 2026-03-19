@@ -1,0 +1,33 @@
+id: context-windows-and-rag
+kind: concept
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Kontekstvindu og RAG-systemer
+courses:
+  - bik2551
+topics:
+  - ai-literacy
+tags:
+  - context-window
+  - rag
+  - retrieval-augmented-generation
+  - knowledge-base
+  - notebooklm
+level: introductory
+prerequisites: []
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
