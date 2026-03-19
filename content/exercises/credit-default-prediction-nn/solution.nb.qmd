@@ -1,0 +1,50 @@
+Løsningsforslaget er en enkel, reproduserbar arbeidsflyt — ikke en
+konkurranse-pipeline.
+
+## Foreslått tilnærming
+
+1. Last inn data med `pd.read_excel()` og bekreft at misligholdsvariabelen
+   (`default.payment.next.month`) har ca. 22 % positive tilfeller.
+
+2. Velg de 6 spesifiserte variablene og del data 80/20 med `random_state=42`.
+
+3. Standardiser med `StandardScaler` og konverter til PyTorch-tensorer via
+   `TensorDataset` og `DataLoader`.
+
+4. Definer et grunt nettverk:
+
+   ```python
+   class ShallowNet(nn.Module):
+       def __init__(self):
+           super().__init__()
+           self.model = nn.Sequential(
+               nn.Linear(6, 10),
+               nn.ReLU(),
+               nn.Linear(10, 1),
+               nn.Sigmoid()
+           )
+
+       def forward(self, x):
+           return self.model(x)
+   ```
+
+5. Tren med `nn.BCELoss()` og `torch.optim.Adam(lr=0.001)` i 50 epoker.
+
+6. Evaluer: Begge modeller (grunt og dypt) skal typisk oppnå ~80–82 %
+   test-accuracy.
+
+## Hva studentene vanligvis finner
+
+- Det grunne nettverket gir allerede rimelig god accuracy (~82 %).
+- Det dype nettverket gir marginalt bedre eller tilsvarende resultater.
+- Confusion matrix avslører at modellen er bedre til å predikere
+  ikke-mislighold enn mislighold (konsekvens av ubalansen i datasettet).
+- Precision og recall for misligholdklassen er lavere enn for
+  ikke-misligholdklassen.
+
+## Undervisningsfokus
+
+Det viktigste er at studentene forstår hele arbeidsflyten: dataforberedelse,
+nettverksarkitektur, treningsloop, og evaluering med relevante mål.
+Diskuter hvorfor accuracy alene kan være misvisende for ubalanserte datasett
+og pek på alternativer som F1-score og AUC-ROC.

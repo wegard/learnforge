@@ -1,0 +1,38 @@
+id: credit-default-prediction-nn
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Predikere mislighold av kredittkort med nevrale nettverk
+courses:
+  - bik2550
+topics:
+  - deep-learning
+  - neural-networks
+  - ai-in-finance
+tags:
+  - exercise
+  - pytorch
+  - classification
+  - credit-risk
+  - neural-networks
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - neural-networks-introduction
+solution_storage: separate-file
+solution_visibility: teacher

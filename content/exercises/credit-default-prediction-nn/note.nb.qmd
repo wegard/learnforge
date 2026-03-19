@@ -1,0 +1,53 @@
+## Oppgavebeskrivelse
+
+Bruk et nevralt nettverk i PyTorch til å predikere om en kredittkortholder vil
+misligholde betalingen neste måned. Datasettet kommer fra Taiwan (UCI) og
+inneholder 30 000 poster med en misligholdrate på ca. 22 %.
+
+Målet er ikke å oppnå høyest mulig nøyaktighet, men å forstå arbeidsflyten for
+å bygge, trene og evaluere et nevralt nettverk på et reelt finansielt
+klassifiseringsproblem.
+
+## Oppgaver
+
+1. Last inn datasettet (`default_of_credit_card_clients.xls`) og utforsk
+   fordelingen av misligholdsvariabelen. Kommenter på ubalansen i datasettet.
+
+2. Velg et sett av inngangsvariabler. Start med 6 variabler:
+   - `LIMIT_BAL` (kredittgrense)
+   - `AGE`
+   - `PAY_0` (betalingsstatus forrige måned)
+   - `BILL_AMT1` (fakturabeløp)
+   - `PAY_AMT1` (betalingsbeløp)
+   - `PAY_AMT2` (betalingsbeløp forrige måned)
+
+3. Del data i trenings- og testsett (80/20) og standardiser
+   inngangsvariablene med `StandardScaler`.
+
+4. Bygg et enkelt (grunt) nevralt nettverk i PyTorch:
+   - Input-lag: 6 variabler
+   - Skjult lag: 10 nevroner med ReLU-aktivering
+   - Output-lag: 1 nevron med sigmoid-aktivering
+
+5. Tren nettverket med binary cross-entropy (BCELoss) og Adam-optimerer i
+   50 epoker. Bruk `DataLoader` med batch-størrelse 64.
+
+6. Evaluer modellen på testsettet med accuracy, confusion matrix og
+   classification report.
+
+7. **Utvidelse:** Bygg et dypere nettverk (f.eks. 16 → 8 → 4 nevroner) og
+   sammenlign resultatene med det grunne nettverket.
+
+## Startkode
+
+```python
+import pandas as pd
+import torch
+import torch.nn as nn
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from torch.utils.data import DataLoader, TensorDataset
+```
+
+Hold arbeidsflyten deterministisk: bruk faste `random_state` og `torch.manual_seed`.
