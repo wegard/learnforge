@@ -62,52 +62,63 @@ def build_target(
     output_format: RenderableFormat,
     root: Path = REPO_ROOT,
 ) -> BuildArtifact:
-    reset_generated_staging(root)
-    index, errors = load_repository(root, collect_errors=False)
-    if errors:
-        raise BuildError("repository contains load errors")
+    assembly: AssemblyDocument | None = None
+    command: list[str] = []
+    result: subprocess.CompletedProcess[str] | None = None
+    for attempt in range(2):
+        reset_generated_staging(root)
+        index, errors = load_repository(root, collect_errors=False)
+        if errors:
+            raise BuildError("repository contains load errors")
 
-    try:
-        assembly = assemble_target(
-            target_id,
-            index=index,
-            audience=audience,
-            language=language,
-            output_format=output_format,
-            root=root,
+        try:
+            assembly = assemble_target(
+                target_id,
+                index=index,
+                audience=audience,
+                language=language,
+                output_format=output_format,
+                root=root,
+            )
+        except AssemblyError as exc:
+            raise BuildError(str(exc)) from exc
+
+        output_dir = assembly.planned_output_path.parent
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = assembly.planned_output_path
+        output_name = output_path.name
+        cleanup_generated_support_dirs(root)
+        command = [
+            "quarto",
+            "render",
+            str(assembly.generated_path.relative_to(root)),
+            "--profile",
+            f"{audience},{language}",
+            "--to",
+            FORMAT_TO_QUARTO[output_format],
+            "--output",
+            output_name,
+        ]
+        if FORMAT_TO_QUARTO[output_format] == "pdf":
+            command.extend(["-M", "pdf-engine:pdflatex"])
+
+        result = subprocess.run(
+            command,
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+            env=build_env(root),
         )
-    except AssemblyError as exc:
-        raise BuildError(str(exc)) from exc
+        if result.returncode == 0:
+            break
+        error_message = result.stderr.strip() or result.stdout.strip() or "quarto render failed"
+        if attempt == 0 and should_retry_quarto_render(error_message):
+            continue
+        raise BuildError(error_message)
 
-    output_dir = assembly.planned_output_path.parent
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = assembly.planned_output_path
-    output_name = output_path.name
-    cleanup_generated_support_dirs(root)
-    command = [
-        "quarto",
-        "render",
-        str(assembly.generated_path.relative_to(root)),
-        "--profile",
-        f"{audience},{language}",
-        "--to",
-        FORMAT_TO_QUARTO[output_format],
-        "--output",
-        output_name,
-    ]
-    if FORMAT_TO_QUARTO[output_format] == "pdf":
-        command.extend(["-M", "pdf-engine:pdflatex"])
-
-    result = subprocess.run(
-        command,
-        cwd=root,
-        capture_output=True,
-        text=True,
-        check=False,
-        env=build_env(root),
-    )
-    if result.returncode != 0:
-        raise BuildError(result.stderr.strip() or result.stdout.strip() or "quarto render failed")
+    if assembly is None:
+        raise BuildError("assembly generation failed")
 
     rendered_candidates = [
         assembly.generated_path.parent / output_name,
@@ -266,12 +277,19 @@ def write_build_reports(
     return build_manifest_path, dependency_manifest_path, leakage_report_path
 
 
+def should_retry_quarto_render(error_message: str) -> bool:
+    return (
+        "build/generated" in error_message
+        or "No valid input files passed to render" in error_message
+    )
+
+
 def build_leakage_report(
     assembly: AssemblyDocument,
     output_path: Path,
     root: Path,
 ) -> dict[str, object]:
-    generated_source_text = assembly.generated_path.read_text(encoding="utf-8")
+    generated_source_text = assembly.markdown
     output_text = output_path.read_text(encoding="utf-8", errors="ignore")
     teacher_blocks_found = sum(item.teacher_blocks_found for item in assembly.leakage_observations)
     teacher_blocks_removed = sum(

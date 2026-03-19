@@ -285,6 +285,7 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
 
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
+    assert "linear-regression-prediction" in related_ids
     assert "model-assessment-lab" in related_ids
     assert "house-prices-regression" in related_ids
     assert "tem0052" in [entry.identifier for entry in assembly.related_entries]
@@ -305,8 +306,29 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
     assert "bias-variance-tradeoff" in related_ids
+    assert "linear-regression-prediction" in related_ids
     assert "model-assessment-lab" in related_ids
     assert "house-prices-regression" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
+def test_linear_regression_concept_links_house_prices_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "linear-regression-prediction",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "house-prices-regression" in related_ids
+    assert "model-selection-cross-validation" in related_ids
+    assert "bias-variance-tradeoff" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 
@@ -324,6 +346,7 @@ def test_house_prices_exercise_links_tem0052_concepts_and_course() -> None:
 
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
+    assert "linear-regression-prediction" in related_ids
     assert "bias-variance-tradeoff" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "tem0052" in related_ids

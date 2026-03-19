@@ -117,6 +117,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    third_concept_artifact = build_target(
+        "linear-regression-prediction",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     exercise_artifact = build_target(
         "model-assessment-lab",
         audience="student",
@@ -134,18 +141,36 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
 
     concept_html = concept_artifact.output_path.read_text(encoding="utf-8")
     second_concept_html = second_concept_artifact.output_path.read_text(encoding="utf-8")
+    third_concept_html = third_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
 
     assert "Bias-variance trade-off" in concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
+    assert "../linear-regression-prediction/linear-regression-prediction.html" in concept_html
     assert "../../course/tem0052/tem0052.html" in concept_html
     assert "teacher-only" not in concept_html
 
     assert "Model selection and cross-validation" in second_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in second_concept_html
+    assert (
+        "../linear-regression-prediction/linear-regression-prediction.html"
+        in second_concept_html
+    )
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in second_concept_html
     assert "teacher-only" not in second_concept_html
+
+    assert "Linear regression for prediction" in third_concept_html
+    assert (
+        "../../exercise/house-prices-regression/house-prices-regression.html"
+        in third_concept_html
+    )
+    assert (
+        "../model-selection-cross-validation/model-selection-cross-validation.html"
+        in third_concept_html
+    )
+    assert "../../course/tem0052/tem0052.html" in third_concept_html
+    assert "teacher-only" not in third_concept_html
 
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html
@@ -154,6 +179,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "lf-solution-block" not in exercise_html
 
     assert "House-price prediction" in second_exercise_html
+    assert "Linear regression for prediction" in second_exercise_html
     assert "Bias-variance trade-off" in second_exercise_html
     assert "Model selection and cross-validation" in second_exercise_html
     assert "the exact ranking depends on the preprocessing rule" not in second_exercise_html

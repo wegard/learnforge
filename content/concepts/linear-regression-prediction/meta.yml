@@ -1,30 +1,28 @@
-id: model-selection-cross-validation
+id: linear-regression-prediction
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Model selection and cross-validation
+  en: Linear regression for prediction
 courses:
   - tem0052
 topics:
   - predictive-modelling
-  - model-selection
-  - cross-validation
+  - regression
+  - linear-models
   - regularization
 tags:
-  - model-selection
-  - cross-validation
-  - aic
-  - bic
+  - linear-regression
+  - prediction
+  - baseline-model
 level: intermediate
 prerequisites: []
 related:
-  - bias-variance-tradeoff
-  - linear-regression-prediction
-  - model-assessment-lab
   - house-prices-regression
+  - model-selection-cross-validation
+  - bias-variance-tradeoff
 outputs:
   - html
   - pdf
@@ -32,7 +30,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-18
+updated: 2026-03-19
 translation_status:
   en: approved
 ai:

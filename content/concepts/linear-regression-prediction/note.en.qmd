@@ -1,0 +1,61 @@
+## Linear regression is the first serious baseline
+
+In `TEM 0052`, linear regression is not just a statistics recap. It is the first
+predictive workflow that students can fully inspect end to end: define features, fit
+coefficients, generate predictions, and evaluate the result on held-out data.
+
+That matters because a transparent baseline gives us something defensible to beat. If
+a more complex method cannot improve on a well-specified linear model, the extra
+complexity is usually hard to justify.
+
+## What OLS is optimizing
+
+Ordinary least squares chooses coefficients that minimize the sum of squared residuals:
+
+$$
+\hat{\beta} = \arg\min_{\beta} \sum_{i=1}^{n}(y_i - x_i^\top \beta)^2
+$$
+
+This objective makes large prediction errors especially costly, which is why OLS is a
+natural starting point for continuous-outcome prediction problems.
+
+For this course, the important point is practical rather than algebraic: OLS gives a
+clear rule for turning features into predictions.
+
+## The workflow matters more than the formula
+
+The closed-form solution is useful to know, but students should focus on the modelling
+workflow around it.
+
+1. Define the target and the feature set.
+2. Split the data before making modelling choices.
+3. Fit the baseline linear model.
+4. Evaluate in-sample and out-of-sample performance separately.
+5. Inspect residuals and coefficient magnitudes before moving to a more flexible model.
+
+::: {.teacher-only}
+Ask students what would count as evidence that a linear baseline is already “good
+enough” before they reach for ridge, lasso, trees, or boosting.
+:::
+
+## Why this concept belongs next to regularization
+
+Linear regression is the reference point for the later regression tools in the course.
+Ridge and lasso are not different worlds. They are modifications of the same baseline
+workflow when we worry about instability, correlated predictors, or too many weak
+features.
+
+That is also why the house-prices lab starts with an ordinary linear model before it
+asks students to compare penalized alternatives.
+
+## What to report
+
+When students present a linear regression workflow in this course, they should usually
+report:
+
+- the target and feature set,
+- the train/test or resampling rule,
+- at least one scale-dependent loss such as `MSE`,
+- at least one fit measure such as `R^2`,
+- and one short interpretation of whether the linear baseline looks stable,
+  interpretable, and worth extending.

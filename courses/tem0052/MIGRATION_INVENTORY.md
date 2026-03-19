@@ -91,6 +91,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 - Concept: `bias-variance-tradeoff`
 - Concept: `model-selection-cross-validation`
+- Concept: `linear-regression-prediction`
 - Exercise: `model-assessment-lab`
 - Exercise: `house-prices-regression`
 - Lecture collection: `tem0052-lecture-05`

@@ -8,6 +8,7 @@
 - Phase 11 complete checkpoint: `tem0052` first canonical promotion slice
 - Phase 11 complete checkpoint: `tem0052` second concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` second exercise promotion slice
+- Phase 11 complete checkpoint: `tem0052` third concept promotion slice
 
 ## Non-Goals For This Run
 
@@ -17,7 +18,7 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No broad `tem0052` migration beyond one additional exercise and narrow metadata/navigation integration
+- No broad `tem0052` migration beyond one additional concept and narrow metadata/navigation integration
 - Keep `tem0052` intentionally English-only in this slice
 - No Textual TUI
 - No broad redesign of existing student navigation beyond what resource workflow required
@@ -164,6 +165,8 @@
   - `content/concepts/bias-variance-tradeoff/`
 - Promoted the second canonical `tem0052` concept:
   - `content/concepts/model-selection-cross-validation/`
+- Promoted the third canonical `tem0052` concept:
+  - `content/concepts/linear-regression-prediction/`
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
@@ -175,6 +178,10 @@
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
+- Linked the promoted linear-regression concept into the current `tem0052` concept/exercise graph:
+  - `bias-variance-tradeoff`
+  - `model-selection-cross-validation`
+  - `house-prices-regression`
 - Wired the first lecture into `courses/tem0052/plan.yml`
 - Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
 - Added regression coverage for:
@@ -186,9 +193,17 @@
   - student course-page surfacing of `house-prices-regression`
   - concept-page related links to the new exercise
   - the new student exercise page with teacher solution exclusion
+- Expanded `tem0052` regression coverage to include:
+  - the new `linear-regression-prediction` concept page
+  - concept-page related links to the regression baseline concept
+  - the house-prices exercise page linking back to the new concept
 - Hardened Quarto project/build hygiene for repeated renders by:
   - excluding `build/generated/**` and other build trees from project render discovery
   - clearing stale `build/generated/**/*_files` scratch directories before each render
+- Hardened generated-document assembly/build staging further by:
+  - ensuring `build/generated/...` parent directories are created before writing generated `.qmd` files
+  - using in-memory assembled markdown for leakage reports instead of re-reading transient generated files from disk
+  - retrying Quarto renders once when they fail on transient missing-generated-input errors
 
 ## Remaining Tasks
 
@@ -200,7 +215,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - two first-wave `tem0052` concepts and two exercises/one lecture are promoted so far
+  - three first-wave `tem0052` concepts and two exercises/one lecture are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -233,6 +248,8 @@
 - `app/validator.py`
 - `content/concepts/model-selection-cross-validation/meta.yml`
 - `content/concepts/model-selection-cross-validation/note.en.qmd`
+- `content/concepts/linear-regression-prediction/meta.yml`
+- `content/concepts/linear-regression-prediction/note.en.qmd`
 - `content/resources/angrist-podcast-iv/meta.yml`
 - `content/resources/iv-candidate-newsletter/meta.yml`
 - `content/resources/iv-candidate-newsletter/note.en.qmd`
@@ -354,11 +371,18 @@
   - `./.venv/bin/ruff check app tests`
   - `./.venv/bin/python -m pytest -q`
   - `./.venv/bin/teach validate`
+- `tem0052` third concept promotion:
+  - `sed -n '1,240p' courses/tem0052/MIGRATION_INVENTORY.md`
+  - `sed -n '1,260p' course-inbox/predictive-modelling-with-machine-learning/notebooks/02_OLS.ipynb`
+  - `python3 - <<'PY' ... summarize notebook markdown cells ... PY`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 15 objects and 2 courses. Errors: 0. Warnings: 6.`
+  - `Validated 16 objects and 2 courses. Errors: 0. Warnings: 7.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
@@ -366,17 +390,18 @@
       - `stale-resource`
     - the English-only migration-stage `tem0052` concepts/exercises:
       - `missing-approved-translation` for `bias-variance-tradeoff`
+      - `missing-approved-translation` for `linear-regression-prediction`
       - `missing-approved-translation` for `model-selection-cross-validation`
       - `missing-approved-translation` for `house-prices-regression`
       - `missing-approved-translation` for `model-assessment-lab`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `65 passed in 191.09s (0:03:11)`
+  - `66 passed in 188.27s (0:03:08)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
-  - `teach validate` still passed with `Errors: 0. Warnings: 6. Representative targets: 13/13 passed`
+  - `teach validate` still passed with `Errors: 0. Warnings: 7. Representative targets: 13/13 passed`
 - `tem0052` migration kickoff checks passed:
   - `30 passed in 48.25s` for `tests/test_schema.py tests/test_builds.py`
   - `teach build tem0052 --audience student --lang en --format html` succeeded
@@ -427,6 +452,11 @@
     - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/dependency-manifest.json`
     - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/teacher-leakage-report.json`
   - Student concept page:
+    - `build/exports/student/en/html/concept/linear-regression-prediction/linear-regression-prediction.html`
+    - `build/reports/builds/student/en/html/concept/linear-regression-prediction/build-manifest.json`
+    - `build/reports/builds/student/en/html/concept/linear-regression-prediction/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/concept/linear-regression-prediction/teacher-leakage-report.json`
+  - Student concept page:
     - `build/exports/student/en/html/concept/bias-variance-tradeoff/bias-variance-tradeoff.html`
     - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/build-manifest.json`
     - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/dependency-manifest.json`
@@ -465,7 +495,7 @@
 
 ## Next Recommended Step
 - Promote the next `tem0052` supporting concept from the regression block:
-  - either `linear-regression-prediction` or `penalized-linear-models`
+  - `penalized-linear-models`
 - The course can stay intentionally English-only for the next checkpoint; the resulting
   translation warnings are currently expected and non-blocking
 - Keep the next migration slice narrow:
