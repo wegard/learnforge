@@ -1,0 +1,87 @@
+# 75 år med AI-utvikling
+
+## Historisk tidslinje
+
+Vi ser på noen av de viktigste hendelsene i AI-utviklingen fra 1950-tallet og
+frem til i dag. Mange av disse hendelsene har hatt stor innvirkning på hvordan
+AI brukes i dag.
+
+## Turing-testen (1950)
+
+Foreslått av Alan Turing i artikkelen *"Computing Machinery and Intelligence"*
+(1950). Formålet var å avgjøre om en maskin kan etterligne et menneske i en
+samtale. Et sentralt konsept for å forstå AI-ambisjoner, men har blitt
+kritisert og supplert av alternative mål for AI.
+
+## Dartmouth-konferansen (1956)
+
+Regnet som fødested for AI som fagfelt.
+
+## AI-vintre (1970-tallet)
+
+Perioder med redusert finansiering og interesse etter urealistiske forventninger.
+
+## Ekspertsystemer (1980-tallet)
+
+Symbolsk AI basert på håndlagde regler og kunnskapsbaser.
+
+## IBM Deep Blue slår Kasparov (1997)
+
+Store fremskritt innen beregningskraft og søkealgoritmer. Symbol på
+datamaskiners økende evne til å mestre komplekse oppgaver.
+
+## Deep learning-gjennombrudd: ImageNet (2012)
+
+Krizhevsky et al. (2012) viste med AlexNet at dype nevrale nettverk dramatisk
+kunne redusere feilrater i bildegjenkjenning. Dette markerte paradigmeskiftet
+fra symbolsk AI til datadrevne nevrale metoder.
+
+Nøkkelfaktorer: store datasett (ImageNet), GPU-teknologi og parallellprosessering,
+og effektive algoritmer (backpropagation).
+
+## AlphaGo slår Lee Sedol (2016)
+
+DeepMinds AlphaGo var første AI som slo regjerende verdensmester i Go.
+Kombinasjon av dyp læring og Monte Carlo-tresøk. AlphaZero generaliserte
+tilnærmingen til flere spill.
+
+## Transformer-arkitekturen (2017)
+
+Vaswani et al. introduserte selvoppmerksomhet, som eliminerte behovet for
+sekvensielle RNN/LSTM-strukturer. Har banet vei for BERT, GPT-familien, T5 og
+alle moderne store språkmodeller.
+
+## NLP-gjennombrudd: Word Embeddings (2013)
+
+Word2Vec (2013) og GloVe gav distribuerte ordrepresentasjoner som fanger opp
+semantiske relasjoner i et flerdimensjonalt vektorrom (f.eks.
+*king* − *man* + *woman* ≈ *queen*). Grunnlag for maskinoversettelse,
+sentimentanalyse og mye mer.
+
+## Diffusjonsmodeller (fra tidlig 2010-tall)
+
+Generative modeller (DALL-E, Stable Diffusion) som starter med ren støy og
+gradvis fjerner den for å frembringe sammenhengende bilder. Teknologien benyttes
+nå også til video, lyd og andre multimodale uttrykk.
+
+## Protein Folding: AlphaFold (2020)
+
+Løste et 50 år gammelt problem ved å forutsi tredimensjonale proteinstrukturer.
+Demis Hassabis og John Jumper fra DeepMind fikk Nobelprisen i kjemi 2024.
+
+## ChatGPT (2022)
+
+Introdusert av OpenAI i november 2022, basert på GPT-3.5 med finjustering
+gjennom RLHF. Raskt adoptert globalt, med stor debatt rundt etikk og
+bruksområder.
+
+## Resoneringsmodeller (2024 og fremover)
+
+Neste generasjons modeller som markerer et viktig steg videre: o1/o3 og GPT-5
+(OpenAI), r1 (DeepSeek), Gemini 2.5/3 (Google). Bruker chain-of-thought
+(steg-for-steg resonering) for forbedret problemløsning.
+
+## AI-agenter
+
+Systemer der AI kobles til verktøy og kan handle autonomt — et raskt voksende
+felt med store investeringer.

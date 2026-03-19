@@ -1,0 +1,35 @@
+id: ai-history-timeline
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: 75 år med AI-utvikling
+courses:
+  - bik2550
+topics:
+  - ai-fundamentals
+tags:
+  - ai
+  - history
+  - deep-learning
+  - transformers
+  - language-models
+level: introductory
+prerequisites:
+  - what-is-ai-overview
+related:
+  - generative-ai-introduction
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
