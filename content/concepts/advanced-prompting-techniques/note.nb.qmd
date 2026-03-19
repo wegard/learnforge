@@ -1,0 +1,71 @@
+## Komplekse oppgaver krever at modellen tenker steg for steg
+
+Enkel prompting fungerer godt for enkle oppgaver. Men når oppgaven krever
+resonnering — å sammenligne alternativer, lage en flertrinnsplan, eller løse
+et problem med flere avhengigheter — trenger modellen hjelp til å strukturere
+tankegangen. I `BIK 2551` lærer vi teknikker som får modellen til å jobbe mer
+systematisk.
+
+## Chain of Thought: La modellen vise resonnementet
+
+Chain of Thought (CoT) betyr å be modellen tenke trinnvis i stedet for å hoppe
+rett til svaret. En enkel formulering som «la oss løse dette steg for steg»
+kan gi merkbart bedre resultater på oppgaver som krever logikk eller avveining.
+
+Eksempler på CoT-instruksjoner:
+
+- «List først alle mulige løsninger, velg deretter de to beste og begrunn.»
+- «Foreslå en plan, be om bekreftelse, gjennomfør deretter.»
+- «Analyser fordeler og ulemper før du gir en anbefaling.»
+
+Poenget er ikke at modellen faktisk tenker — den forutsier fortsatt tekst. Men
+ved å tvinge den til å generere mellomsteg, reduserer du sannsynligheten for
+at den hopper over viktige resonnementer.
+
+## Few-shot prompting: Gi eksempler i stedet for regler
+
+Noen ganger er det lettere å vise modellen hva du vil enn å forklare det.
+Few-shot prompting betyr at du gir to til tre eksempler på ønsket input og
+output før den faktiske oppgaven.
+
+Dette er spesielt nyttig når:
+
+- Du vil ha et bestemt format som er vanskelig å beskrive presist.
+- Oppgaven krever en spesifikk vurderingsstil eller tone.
+- Du vil at modellen skal følge en bestemt beslutningslogikk.
+
+## Raske modeller vs. resonneringsmodeller
+
+Ikke alle oppgaver trenger trinnvis resonnering. Det finnes et praktisk skille
+mellom raske modeller og resonneringsmodeller:
+
+- **Raske modeller** fungerer godt for oversettelse, oppsummering, omskriving
+  og andre oppgaver der mønstergjenkjenning er nok.
+- **Resonneringsmodeller** gir bedre resultater på oppgaver som krever logikk,
+  planlegging, sammenligning av alternativer og flertrinnsproblemer.
+
+Velg modell etter oppgavens kompleksitet. Å bruke en resonneringsmodell på en
+enkel oppsummering er unødvendig tregt og dyrt.
+
+::: {.teacher-only}
+Demonstrer forskjellen mellom en rask modell og en resonneringsmodell på samme
+oppgave — for eksempel en logisk gåte eller en planleggingsoppgave. La
+deltakerne gjette hvilken modell som vil klare seg best før du viser resultatet.
+Referer gjerne til Apple-artikkelen «The Illusion of Thinking» for å nyansere.
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Avansert prompting bygger direkte på de grunnleggende prompteteknikkene fra
+Dag 1. Sammen med kontekstvindu og RAG gir det deltakerne et komplett verktøysett
+for å håndtere både enkle og sammensatte oppgaver med KI.
+
+Teknikkene brukes aktivt i workshopen der deltakerne setter opp tilpassede
+KI-assistenter.
+
+## Praktiske poeng å ta med videre
+
+- Bruk Chain of Thought når oppgaven krever resonnering eller avveining.
+- Gi eksempler (few-shot) når formatet er viktigere enn instruksjonen.
+- Velg modelltype etter oppgavens kompleksitet — ikke bruk en slegge på en spiker.
+- Kombiner teknikkene: CoT + few-shot + kontekst gir ofte det beste resultatet.
