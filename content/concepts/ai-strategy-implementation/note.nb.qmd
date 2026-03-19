@@ -1,0 +1,70 @@
+## Fra eksperiment til organisatorisk praksis
+
+De fleste organisasjoner som tar i bruk KI starter med individuelle
+eksperimenter. Utfordringen er å gå fra enkeltpersoners utprøving til en
+koordinert praksis som skaper varig verdi. I `BIK 2551` gir vi deltakerne
+et rammeverk for å forstå hvor organisasjonen deres befinner seg — og hva
+neste steg bør være.
+
+## En enkel modenhetsmodell
+
+Organisasjoners KI-modenhet kan beskrives i fire nivåer:
+
+- **Ad hoc** — Enkeltpersoner eksperimenterer på eget initiativ. Ingen felles
+  retningslinjer eller verktøyvalg.
+- **Pilot** — Organisasjonen har startet ett eller flere avgrensede prosjekter.
+  Erfaringene dokumenteres, men deles ikke systematisk.
+- **Portefølje** — Flere KI-initiativer koordineres. Det finnes felles
+  retningslinjer, plattformvalg og kompetanseutvikling.
+- **Skalert drift** — KI er integrert i kjernevirksomheten med styring,
+  måling og kontinuerlig forbedring.
+
+De fleste norske virksomheter befinner seg mellom ad hoc og pilot. Å erkjenne
+dette er nyttig fordi det styrer hva som bør prioriteres nå.
+
+## Hvorfor KI-prosjekter feiler
+
+Forskning og praksis peker på de samme årsakene:
+
+- **Ingen forankring** — Ledelsen har ikke tatt eierskap. Prosjektet dør når
+  ildsjelen bytter jobb.
+- **Uklare gevinster** — Ingen har definert hva suksess betyr i målbare
+  termer.
+- **Svakt datagrunnlag** — Verktøyet fungerer, men organisasjonen mangler
+  tilgang til data av tilstrekkelig kvalitet.
+- **Manglende eierskap** — Ingen har ansvar for å vedlikeholde og videreutvikle
+  løsningen etter pilot.
+
+Fellesnevneren er at feilene sjelden er teknologiske — de er organisatoriske.
+
+## Byggesteiner i en KI-strategi
+
+En minimumsversjon av en KI-strategi inneholder:
+
+1. **Plattform- og verktøyvalg** — Hvilke KI-verktøy skal organisasjonen
+   bruke, og hvilke avtaler er på plass?
+2. **Kompetanseutvikling** — Hvem trenger opplæring, og på hvilket nivå?
+3. **Governance** — Retningslinjer for bruk, roller, ansvar og risikostyring.
+4. **Måling av gevinster** — Hvordan vet vi at KI skaper verdi?
+
+::: {.teacher-only}
+La deltakerne bruke ti minutter på å skissere en «minimums-policy» for KI-bruk
+i egen enhet. Den skal dekke: hva er tillatt, hva krever godkjenning, og hvem
+har ansvar. Diskuter to-tre eksempler i plenum og pek på hva som mangler.
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+KI-strategi er bindeleddet mellom de praktiske ferdighetene fra Dag 1–3 og
+organisatorisk endring. Etter å ha lært å bruke verktøyene, prompte effektivt
+og designe automatiseringer, handler denne modulen om hvordan alt dette kan
+forankres i organisasjonen.
+
+## Praktiske poeng å ta med videre
+
+- Finn ut hvor organisasjonen er på modenhetsmodellen — neste steg avhenger
+  av utgangspunktet.
+- KI-prosjekter feiler oftest på grunn av organisatoriske svakheter, ikke
+  teknologi.
+- En minimumsversjon av en KI-strategi er bedre enn ingen strategi.
+- Start med governance og måling — verktøyvalg kan justeres underveis.

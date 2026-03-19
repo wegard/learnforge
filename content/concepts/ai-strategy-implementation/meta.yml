@@ -1,0 +1,33 @@
+id: ai-strategy-implementation
+kind: concept
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: KI-strategi og implementering i organisasjonen
+courses:
+  - bik2551
+topics:
+  - ai-strategy
+tags:
+  - strategy
+  - maturity-model
+  - governance
+  - pilot-to-production
+  - change-management
+level: introductory
+prerequisites: []
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
