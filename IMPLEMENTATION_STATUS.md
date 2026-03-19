@@ -20,6 +20,7 @@
 - Phase 11 complete checkpoint: `tem0052` lecture 7 assembly slice
 - Phase 11 complete checkpoint: `tem0052` third exercise promotion slice
 - Phase 11 complete checkpoint: `tem0052` tenth concept promotion + lecture 3 refresh
+- Phase 11 parallel checkpoint: `edi3400` database concept block formalized through `python-sql-integration`
 
 ## Non-Goals For This Run
 
@@ -29,10 +30,11 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No broad `tem0052` migration beyond one additional supporting concept and one lecture refresh
-- Keep `tem0052` intentionally English-only in this slice
+- No `edi3400` lecture assembly yet
+- No `edi3400` exercise promotion yet
+- Keep `edi3400` intentionally English-only in this slice
+- Leave unrelated local draft courses/concepts untouched
 - No Textual TUI
-- No broad redesign of existing student navigation beyond what resource workflow required
 
 ## Decisions Locked
 
@@ -164,6 +166,10 @@
   content block rather than forcing lecture-number order
 - `tem0052` remains intentionally English-only during the current migration stage; missing
   `nb` variants are accepted as validation warnings rather than blockers
+- `edi3400` starts from the self-contained database block rather than the earlier
+  Python-introduction lectures
+- `edi3400` remains intentionally English-only during the current migration stage
+- `courses/edi3400/plan.yml` stays empty until the first lecture collection exists
 - Generated Quarto source staging now stays under `build/generated/` with target-scoped
   cleanup instead of whole-tree resets so repeated sequential renders remain stable
 - Hardened the Quarto/build path so `course-inbox/` is excluded from project rendering
@@ -216,6 +222,20 @@
   - `logistic-regression-classification`
   - `naive-bayes-classification`
   - `spam-filtering-naive-bayes`
+- Formalized the draft `edi3400` course shell and migration inventory for the first
+  database-focused migration slice:
+  - `courses/edi3400/course.yml`
+  - `courses/edi3400/plan.yml`
+  - `courses/edi3400/syllabus.en.qmd`
+  - `courses/edi3400/MIGRATION_INVENTORY.md`
+- Formalized the first canonical `edi3400` database concept block:
+  - `content/concepts/relational-database-fundamentals/`
+  - `content/concepts/sql-query-basics/`
+  - `content/concepts/python-sql-integration/`
+- Added regression coverage for the `edi3400` draft course shell and database concept
+  builds:
+  - assembly tests for course + three concepts
+  - student HTML build tests for `edi3400` and `python-sql-integration`
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
@@ -312,6 +332,9 @@
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
   - ten first-wave `tem0052` concepts, three exercises, and four lectures are promoted so far
+  - `edi3400` has a draft canonical shell plus three promoted database concepts
+  - no `edi3400` exercises promoted yet
+  - no `edi3400` lectures assembled yet
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -333,6 +356,8 @@
   draft courses/concepts are being added in parallel to this workspace
 - Quarto still expects sequential builds because of shared `site_libs` staging and
   transient render scratch space
+- Unrelated local draft files remain present in the worktree and should stay out of
+  any narrow checkpoint commit unless they are explicitly part of the active slice
 
 ## Files Changed
 
@@ -369,6 +394,12 @@
 - `content/concepts/knn-supervised-learning/note.en.qmd`
 - `content/concepts/naive-bayes-classification/meta.yml`
 - `content/concepts/naive-bayes-classification/note.en.qmd`
+- `content/concepts/relational-database-fundamentals/meta.yml`
+- `content/concepts/relational-database-fundamentals/note.en.qmd`
+- `content/concepts/sql-query-basics/meta.yml`
+- `content/concepts/sql-query-basics/note.en.qmd`
+- `content/concepts/python-sql-integration/meta.yml`
+- `content/concepts/python-sql-integration/note.en.qmd`
 - `content/resources/angrist-podcast-iv/meta.yml`
 - `content/resources/iv-candidate-newsletter/meta.yml`
 - `content/resources/iv-candidate-newsletter/note.en.qmd`
@@ -383,6 +414,10 @@
 - `courses/tem0052/plan.yml`
 - `courses/tem0052/syllabus.en.qmd`
 - `courses/tem0052/MIGRATION_INVENTORY.md`
+- `courses/edi3400/course.yml`
+- `courses/edi3400/plan.yml`
+- `courses/edi3400/syllabus.en.qmd`
+- `courses/edi3400/MIGRATION_INVENTORY.md`
 - `collections/lectures/tem0052-lecture-02/meta.yml`
 - `collections/lectures/tem0052-lecture-03/meta.yml`
 - `collections/lectures/tem0052-lecture-05/meta.yml`
@@ -404,6 +439,7 @@
 - `tests/test_assembly.py`
 - `tests/test_builds.py`
 - `tests/test_cli.py`
+- `tests/test_edi3400_course.py`
 - `tests/test_schema.py`
 - `tests/test_validation.py`
 
@@ -465,6 +501,22 @@
 - `./.venv/bin/ruff check app tests`
 - `./.venv/bin/python -m pytest -q`
 - `./.venv/bin/teach validate`
+- `edi3400` database concept formalization:
+  - `sed -n '1,260p' courses/edi3400/MIGRATION_INVENTORY.md`
+  - `sed -n '1,220p' courses/edi3400/course.yml`
+  - `sed -n '1,220p' courses/edi3400/plan.yml`
+  - `sed -n '1,220p' courses/edi3400/syllabus.en.qmd`
+  - `sed -n '1,220p' content/concepts/relational-database-fundamentals/meta.yml`
+  - `sed -n '1,220p' content/concepts/relational-database-fundamentals/note.en.qmd`
+  - `sed -n '1,220p' content/concepts/sql-query-basics/meta.yml`
+  - `sed -n '1,220p' content/concepts/sql-query-basics/note.en.qmd`
+  - `sed -n '1,220p' content/concepts/python-sql-integration/meta.yml`
+  - `sed -n '1,260p' content/concepts/python-sql-integration/note.en.qmd`
+  - `./.venv/bin/ruff check tests/test_edi3400_course.py`
+  - `./.venv/bin/python -m pytest -q tests/test_edi3400_course.py`
+  - `./.venv/bin/teach build python-sql-integration --audience student --lang en --format html`
+  - `./.venv/bin/teach build edi3400 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 - `tem0052` first canonical promotion:
   - `mkdir -p content/concepts/bias-variance-tradeoff content/exercises/model-assessment-lab collections/lectures/tem0052-lecture-05`
   - `./.venv/bin/teach build bias-variance-tradeoff --audience student --lang en --format html`
@@ -619,11 +671,11 @@
 ## Test / Build Results
 
 - Latest validation pass on the current working tree:
-  - `Validated 66 objects and 7 courses. Errors: 0. Warnings: 29.`
+  - `Validated 85 objects and 7 courses. Errors: 0. Warnings: 41.`
   - `Representative targets: 13/13 passed`
   - current warnings are expected from:
     - the sample stale approved resource
-    - intentionally English-only student-visible `tem0052` objects
+    - intentionally English-only student-visible `tem0052` and `edi3400` objects
     - additional in-progress local authoring content outside this migration slice
 - Validation passed with warnings on the current working tree:
   - `Validated 41 objects and 5 courses. Errors: 0. Warnings: 15.`
@@ -634,6 +686,11 @@
     - new local draft-authoring content outside this migration slice
 - Lint passed:
   - `All checks passed!`
+- Focused `edi3400` database-slice tests passed:
+  - `8 passed in 7.78s` for `tests/test_edi3400_course.py`
+- Isolated `edi3400` builds passed:
+  - `teach build python-sql-integration --audience student --lang en --format html`
+  - `teach build edi3400 --audience student --lang en --format html`
 - Focused `tem0052` concept/lecture tests passed after the lecture refresh:
   - `5 passed in 52.58s` for
     - `tests/test_assembly.py::test_tem0052_lecture_03_assembly_expands_classification_block`
@@ -688,6 +745,18 @@
   - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
   - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
   - `build/reports/builds/student/en/html/course/tem0052/teacher-leakage-report.json`
+- `edi3400` database concept artifact paths:
+  - `build/exports/student/en/html/concept/python-sql-integration/python-sql-integration.html`
+  - `build/reports/builds/student/en/html/concept/python-sql-integration/build-manifest.json`
+  - `build/reports/builds/student/en/html/concept/python-sql-integration/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/concept/python-sql-integration/teacher-leakage-report.json`
+- `edi3400` course artifact paths:
+  - `build/exports/student/en/html/course/edi3400/edi3400.html`
+  - `build/reports/builds/student/en/html/course/edi3400/build-manifest.json`
+  - `build/reports/builds/student/en/html/course/edi3400/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/course/edi3400/teacher-leakage-report.json`
+- `edi3400` tracked migration inventory:
+  - `courses/edi3400/MIGRATION_INVENTORY.md`
 - New `tem0052` concept artifact paths:
   - `build/exports/student/en/html/concept/ensemble-methods-introduction/ensemble-methods-introduction.html`
   - `build/reports/builds/student/en/html/concept/ensemble-methods-introduction/build-manifest.json`
@@ -821,9 +890,9 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote `ml-preprocessing-pipelines` so the current `tem0052` labs point into a
-  stronger shared preprocessing workflow, especially for text/vectorization work
-- After that, decide whether to assemble `tem0052-lecture-01` from promoted
-  foundations + preprocessing material or continue filling the classification block
-- Keep `tem0052` intentionally English-only until the migration slice is broader;
+- Promote `sql-python-problem-set` so the `edi3400` database block has one canonical
+  exercise with separate teacher solution material
+- After that, decide which local `.db`, `.sql`, and helper `.py` files genuinely
+  belong as object-local canonical assets before assembling `edi3400-lecture-13`
+- Keep `edi3400` intentionally English-only until the database block is broader;
   the resulting translation warnings remain expected and non-blocking

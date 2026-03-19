@@ -1,0 +1,99 @@
+# Course Overview
+
+`EDI 3400 Programming and Data Management` is currently represented in LearnForge as
+a draft course shell based on the preliminary course sketch in
+`course-inbox/Programming-and-data-management/`.
+
+The course is intended to give students a foundation in Python programming together
+with a practical introduction to data management. The current sketch is broad rather
+than final, so the canonical LearnForge plan will grow incrementally as individual
+lecture blocks are promoted from the inbox into reusable concepts, exercises, and
+lecture collections.
+
+## Knowledge Goals
+
+- Explain the core building blocks of Python programming, including variables,
+  expressions, statements, control flow, functions, classes, and the standard
+  library.
+- Understand how third-party Python libraries support numerical computing, data
+  analysis, and visualization workflows.
+- Describe how relational databases organize structured data and how SQL supports
+  filtering, aggregation, and joins.
+- Understand how Python can be used to load, inspect, query, and analyze external
+  data sources, including web data and databases.
+
+## Skills Goals
+
+- Write small to medium Python programs that use functions, loops, containers, file
+  handling, and reusable modules.
+- Use NumPy, Pandas, and Matplotlib in basic data-analysis workflows.
+- Write and debug SQL queries against simple relational datasets.
+- Connect Python to SQLite-style databases and turn query results into analyzable
+  data structures.
+- Use development tools, documentation, and AI assistants as workflow support
+  without outsourcing core understanding.
+
+## General Competence
+
+- Translate practical data tasks into clear programming and data-management
+  workflows.
+- Evaluate when plain Python, third-party libraries, or SQL are the appropriate
+  tool for a given task.
+- Communicate reproducible computational work in a structured and defensible way.
+
+## Planned Content Areas
+
+### Part 1: Programming with basic Python
+
+- Lecture 1: Introduction
+- Lecture 2: Variables, expressions, and statements
+- Lecture 3: Built-in functions and containers
+- Lecture 4: Conditional execution and loops
+- Lecture 5: The standard library, functions, and classes
+
+### Part 2: Third-party libraries
+
+- Lecture 6: Linear algebra with NumPy
+- Lecture 7: Data analysis with Pandas
+- Lecture 8: Data visualization with Matplotlib
+
+### Part 3: Advanced topics
+
+- Lecture 9: IDEs and generative AI for programming
+- Lecture 10: Analyzing data, probability, and statistics
+
+### Part 4: Databases with SQL and Python
+
+- Lecture 11: Introduction to relational databases
+- Lecture 12: SQL basics
+- Lecture 13: Python and SQL
+- Lecture 14: Summing up and Q&A
+
+## Teaching Format
+
+The current sketch is lecture-led and notebook-backed. As the course is migrated into
+LearnForge, the canonical format should shift toward reusable concept notes, coding
+exercises with separate teacher solutions, and lecture collections assembled from
+promoted objects only.
+
+The current migration plan starts with the database block because it is the most
+self-contained slice in the inbox material and can be promoted without first locking
+the granularity of the earlier Python-introduction lectures.
+
+## Tools And Workflow
+
+- Python is the core programming language.
+- Jupyter notebooks in `course-inbox/Programming-and-data-management/` are reference
+  material, not canonical source.
+- Reusable code should move into plain `.py` files when promotion requires shared
+  starter code or local helper utilities.
+- Database examples may use SQLite-style local files when they are needed as
+  object-local assets for promoted concepts or exercises.
+
+## Assessment Status
+
+The assessment model is still draft-level in the current course sketch.
+
+Canonical assignment collections, submission rules, and grading guidance should be
+authored later, once the course scope is stable enough to treat those decisions as
+source of truth.

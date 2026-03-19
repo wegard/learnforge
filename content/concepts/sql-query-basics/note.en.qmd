@@ -1,0 +1,166 @@
+## SQL is the language for asking structured questions
+
+Once a relational database has a sensible table design, SQL gives us a compact way to
+ask precise questions about the data. In `EDI 3400`, the important shift is from
+"what is in this table?" to "what do I want to retrieve, filter, sort, combine, or
+summarize?"
+
+That is why SQL is not just syntax memorization. A query is a structured statement of
+intent.
+
+## `SELECT` and `FROM` define the starting point
+
+Most introductory queries begin with two ideas:
+
+- `SELECT` chooses the columns we want to see,
+- `FROM` chooses the table we want to read from.
+
+For example:
+
+```sql
+SELECT id, name, salary
+FROM Employees
+```
+
+This is already better than `SELECT *` for most teaching purposes. It tells the
+reader exactly which variables matter for the task at hand.
+
+In an introductory database workflow, students should learn to ask:
+
+1. which columns do I need,
+2. which table is the natural source,
+3. whether the result is meant for inspection, filtering, or aggregation.
+
+## `WHERE` filters rows
+
+`WHERE` restricts the rows that appear in the result.
+
+```sql
+SELECT id, price
+FROM Sales
+WHERE price > 10000
+```
+
+This is the first step from browsing to analysis. Instead of reading every row, we
+state a condition that the returned rows must satisfy.
+
+Typical introductory filters include:
+
+- numeric comparisons such as `>`, `<`, `>=`,
+- equality checks,
+- date conditions,
+- combining conditions with `AND` and `OR`.
+
+The important idea is that filtering happens at the row level before we think about
+group summaries.
+
+## `ORDER BY` makes results readable
+
+Many correct queries are still awkward to interpret until the results are sorted.
+
+```sql
+SELECT id, name, salary
+FROM Employees
+ORDER BY salary DESC
+```
+
+`ORDER BY` does not change which rows are returned. It changes how the result is
+presented. That matters when we want to inspect the highest salaries, the earliest
+sales, or the largest transactions first.
+
+This is also a useful reminder that a query often has two goals:
+
+- get the right rows,
+- present them in a useful order.
+
+## Joins reconnect tables through keys
+
+A relational database spreads information across multiple tables. Joins are how we
+bring that information back together.
+
+```sql
+SELECT Customers.first_name, Customers.last_name, Sales.date, Sales.price
+FROM Customers
+JOIN Sales ON Customers.id = Sales.customer_id
+WHERE Sales.price > 90000
+```
+
+This works because the tables were designed with keys and relationships in mind. SQL
+does not invent the relationship. It uses the relationship already encoded in the
+schema.
+
+That is why `relational-database-fundamentals` comes first: if students do not know
+which key connects which table, joins feel like magic instead of logic.
+
+::: {.teacher-only}
+Have students say the join in plain language before they run it: "match each sale to
+the customer whose `id` equals `Sales.customer_id`."
+:::
+
+## Aggregate functions summarize data
+
+Sometimes we do not want individual rows. We want a summary:
+
+- `COUNT(*)`
+- `MIN(price)`
+- `MAX(price)`
+- `AVG(salary)`
+- `SUM(...)`
+
+These functions collapse many rows into one answer unless we also tell SQL to create
+groups.
+
+For example:
+
+```sql
+SELECT MIN(price) AS min_sale_price
+FROM Sales
+```
+
+This does not list all sale prices. It asks for one summary value over the table.
+
+## `GROUP BY` changes the level of the question
+
+`GROUP BY` is where many students first feel the difference between row-level and
+group-level thinking.
+
+```sql
+SELECT employee_id, COUNT(*) AS number_of_sales
+FROM Sales
+GROUP BY employee_id
+```
+
+Without `GROUP BY`, `COUNT(*)` would return one count for the whole table. With
+`GROUP BY`, SQL returns one count for each employee.
+
+That is a change in analytical grain. We are no longer asking about individual sales.
+We are asking about sales per employee.
+
+## How to read a query before you run it
+
+Students should practice reading SQL queries in plain language:
+
+1. What table or tables does the query start from?
+2. Which columns does it return?
+3. Which rows are filtered out?
+4. Are the results sorted?
+5. Is the query summarizing or grouping?
+
+If they can answer those questions, they usually understand the query well enough to
+debug it or adapt it.
+
+## What belongs later in the course
+
+This concept covers the core querying workflow:
+
+- `SELECT`
+- `FROM`
+- `WHERE`
+- `ORDER BY`
+- `JOIN`
+- aggregate functions
+- `GROUP BY`
+
+The next step in `EDI 3400` is not more syntax for its own sake. The next step is
+using those ideas from Python in a reproducible workflow, which belongs in
+`python-sql-integration`.

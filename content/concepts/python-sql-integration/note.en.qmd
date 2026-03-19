@@ -1,0 +1,173 @@
+## Python turns SQL work into a reproducible workflow
+
+Once students can read a relational schema and write basic SQL, the next step in
+`EDI 3400` is to run that database workflow from Python. That changes the task from
+"run a query once" to "build a script that connects, queries, transforms, and closes
+cleanly."
+
+This is where database work becomes part of a broader programming workflow.
+
+## `sqlite3` is the simplest bridge
+
+For this course, `sqlite3` is the right starting point because it is lightweight,
+local, and already part of the Python standard library.
+
+The basic pattern is:
+
+```python
+import sqlite3
+
+con = sqlite3.connect("example_database.db")
+cur = con.cursor()
+```
+
+At that point:
+
+- the connection represents the live link to the database,
+- the cursor is the object that sends SQL statements for execution.
+
+This is deliberately simple. Students do not need client-server database setup to
+understand the basic idea of Python-driven database interaction.
+
+## Executing a query returns rows, not a finished analysis
+
+After creating a connection and cursor, Python can execute a query and fetch results:
+
+```python
+cur.execute("SELECT id, name, salary FROM Employees")
+rows = cur.fetchall()
+```
+
+That usually returns tuples or row-like records. The result is useful, but it is not
+yet the final form most students want for analysis or reporting.
+
+This is the first conceptual bridge:
+
+- SQL expresses the data request,
+- Python decides what to do with the returned result.
+
+## Pandas is often the cleanest next step
+
+For introductory data workflows, it is often easier to move query results directly
+into a DataFrame:
+
+```python
+import pandas as pd
+
+employees = pd.read_sql("SELECT * FROM Employees", con)
+```
+
+That gives students a familiar analysis object for:
+
+- column naming,
+- filtering,
+- summary statistics,
+- plotting,
+- export.
+
+The important point is not that Pandas replaces SQL. The important point is that SQL
+and Pandas solve different parts of the workflow:
+
+- SQL is good for selecting, joining, and aggregating inside the database,
+- Pandas is good for downstream inspection and analysis in Python.
+
+## Keep SQL readable inside Python
+
+A common beginner mistake is to make SQL harder to read once it is embedded in a
+Python string. Students should still write queries so the structure is visible:
+
+```python
+query = """
+SELECT customer_id, COUNT(*) AS number_of_sales
+FROM Sales
+GROUP BY customer_id
+"""
+
+result = pd.read_sql(query, con)
+```
+
+Readable SQL strings make debugging easier and keep the query logic separate from the
+rest of the Python script.
+
+## Parameterized queries are safer than string assembly
+
+When Python values need to affect a query, students should avoid manually stitching
+SQL together with string concatenation. Parameterized execution is safer and clearer:
+
+```python
+threshold = 10000
+cur.execute(
+    "SELECT id, price FROM Sales WHERE price > ?",
+    (threshold,),
+)
+```
+
+This matters for both correctness and security. Even in a small teaching example,
+students should learn that SQL input should be passed as data, not pasted into the
+query text.
+
+::: {.teacher-only}
+Frame this as a workflow habit, not only as a security lecture. Parameterized queries
+also reduce quoting mistakes and make code easier to reuse.
+:::
+
+## Python can create and populate a database too
+
+The integration story also runs in the other direction. Python is not limited to
+reading from a database. It can create tables and insert rows:
+
+```python
+cur.execute(
+    """
+    CREATE TABLE Employees(
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        salary REAL
+    )
+    """
+)
+```
+
+and later:
+
+```python
+cur.executemany(
+    "INSERT INTO Employees VALUES(?, ?, ?)",
+    employee_rows,
+)
+con.commit()
+```
+
+That is useful in introductory teaching because students see that a database is not a
+black box. Python can define the schema, populate example data, and then query the
+result.
+
+## Closing the workflow matters
+
+Database work should end cleanly:
+
+```python
+con.close()
+```
+
+If the script changed the database, students should also understand why `commit()`
+matters before closing. This is part of the broader programming habit the course is
+trying to teach: resources should be opened, used intentionally, and closed
+deliberately.
+
+## What students should be able to do after this concept
+
+Students should be able to:
+
+- connect to a local SQLite database from Python,
+- execute a query with `sqlite3`,
+- load query results into a Pandas DataFrame,
+- explain when SQL should happen inside the database versus in Python,
+- create a simple table and insert rows from Python,
+- use parameterized queries instead of manual string assembly.
+
+## What comes next
+
+This concept is the bridge into the first database exercise. The exercise should ask
+students to work with a small local database, write SQL queries from Python, inspect
+the returned results, and justify the workflow they chose.

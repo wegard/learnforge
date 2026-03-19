@@ -1,0 +1,37 @@
+id: relational-database-fundamentals
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Relational database fundamentals
+courses:
+  - edi3400
+topics:
+  - data-management
+  - databases
+  - sql
+tags:
+  - relational-databases
+  - primary-keys
+  - foreign-keys
+  - tables
+level: introductory
+prerequisites: []
+related:
+  - sql-query-basics
+  - python-sql-integration
+  - sql-python-problem-set
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

@@ -1,0 +1,40 @@
+id: python-sql-integration
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Python and SQL integration
+courses:
+  - edi3400
+topics:
+  - data-management
+  - databases
+  - sql
+tags:
+  - python
+  - sqlite3
+  - pandas
+  - db-api
+  - read-sql
+level: introductory
+prerequisites:
+  - relational-database-fundamentals
+  - sql-query-basics
+related:
+  - relational-database-fundamentals
+  - sql-query-basics
+  - sql-python-problem-set
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

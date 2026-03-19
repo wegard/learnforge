@@ -1,0 +1,12 @@
+id: edi3400
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: EDI 3400 - Programming and Data Management
+summary:
+  en: A draft LearnForge course shell for the future Programming and Data Management migration.
+owners:
+  - vegard
+updated: 2026-03-19

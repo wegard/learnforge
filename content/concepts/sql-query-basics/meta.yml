@@ -1,0 +1,39 @@
+id: sql-query-basics
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: SQL query basics
+courses:
+  - edi3400
+topics:
+  - data-management
+  - databases
+  - sql
+tags:
+  - select
+  - where
+  - join
+  - group-by
+  - aggregates
+level: introductory
+prerequisites:
+  - relational-database-fundamentals
+related:
+  - relational-database-fundamentals
+  - python-sql-integration
+  - sql-python-problem-set
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
