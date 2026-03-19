@@ -1,0 +1,34 @@
+id: ai-ethics-law-security
+kind: concept
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Etikk, jus og sikkerhet ved bruk av KI
+courses:
+  - bik2551
+topics:
+  - ai-ethics
+tags:
+  - eu-ai-act
+  - gdpr
+  - copyright
+  - bias
+  - data-security
+  - consumer-vs-enterprise
+level: introductory
+prerequisites: []
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []

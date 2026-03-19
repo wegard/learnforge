@@ -1,0 +1,83 @@
+## Ansvarlig KI-bruk krever bevissthet om juridiske og etiske rammer
+
+Generativ KI gir kunnskapsarbeidere nye muligheter, men også nye risikoer.
+I `BIK 2551` ser vi på de viktigste juridiske og etiske rammene som påvirker
+hvordan KI kan brukes i norske virksomheter. Målet er ikke å gjøre deltakerne
+til jurister, men å gi dem nok kunnskap til å ta informerte valg i hverdagen.
+
+## EU AI Act: en risikobasert tilnærming
+
+EUs KI-forordning (AI Act) klassifiserer KI-systemer i risikokategorier:
+
+- **Uakseptabel risiko** — Forbudt bruk, som sosial scoring og manipulasjon.
+- **Høy risiko** — Strenge krav til dokumentasjon og tilsyn. Gjelder blant
+  annet rekruttering, kredittvurdering og kritisk infrastruktur.
+- **Begrenset risiko** — Krav om åpenhet, for eksempel at brukere informeres
+  om at de kommuniserer med en KI.
+- **Minimal risiko** — De fleste KI-verktøy for produktivitet. Ingen spesielle
+  krav, men god praksis anbefales.
+
+For deltakerne i dette kurset vil de fleste bruksområder falle i kategorien
+minimal eller begrenset risiko, men det er viktig å kjenne grensene.
+
+## GDPR og datahåndtering ved bruk av KI-verktøy
+
+Personopplysninger er regulert av GDPR uavhengig av om de behandles av et
+menneske eller en KI-modell. Sentrale prinsipper:
+
+- **Dataminimering** — Ikke del mer persondata enn nødvendig med KI-verktøy.
+- **Formålsbegrensning** — Data som er samlet inn for ett formål kan ikke
+  automatisk brukes til et annet.
+- **Transparens** — Den registrerte har rett til å vite at KI brukes i
+  beslutninger som angår dem.
+
+I praksis betyr dette: tenk deg om før du limer inn kundedata, ansattdata eller
+annen sensitiv informasjon i en KI-tjeneste.
+
+## Forbrukertjenester vs. bedriftsavtaler
+
+Forskjellen mellom forbruker- og bedriftsversjoner av KI-verktøy er vesentlig:
+
+- **Forbrukertjenester** (gratis ChatGPT, Gemini) kan bruke innholdet ditt til
+  å trene modellen videre. Data lagres ofte på servere utenfor Europa.
+- **Bedriftsavtaler** (Enterprise-utgaver, API-tilgang) gir typisk garantier om
+  at data ikke brukes til trening og at lagring skjer i henhold til avtale.
+
+Før du laster opp interne dokumenter, sjekk hvilken avtale virksomheten din har.
+
+## Bias i modeller: treningsdata og filtrering
+
+KI-modeller arver skjevheter fra treningsdataene sine. Dette kan gi:
+
+- Systematisk favorisering av visse grupper i rekruttering eller vurdering.
+- Kulturelle og språklige skjevheter som reflekterer dominerende perspektiver
+  i treningsdataene.
+- Ulik filtrering på tvers av plattformer — modeller fra ulike leverandører
+  håndterer kontroversielle temaer forskjellig.
+
+Bevissthet om bias er et førstestegsansvar for alle som bruker KI i
+profesjonelle sammenhenger.
+
+::: {.teacher-only}
+Vis et konkret eksempel der to ulike modeller gir svært forskjellige svar på
+et politisk eller kontroversielt tema. Diskuter: Hvem bestemmer hva modellen
+filtrerer? Hva betyr det for brukerne?
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Etikk, jus og sikkerhet er rammen rundt all praktisk KI-bruk i kurset. Etter
+denne modulen skal deltakerne kunne vurdere om et bruksområde er trygt å
+eksperimentere med, og hvilke forholdsregler som trengs.
+
+Temaet kommer tilbake i senere moduler når vi diskuterer automatisering,
+KI-agenter og organisatorisk implementering.
+
+## Praktiske poeng å ta med videre
+
+- Sjekk om virksomheten din har en bedriftsavtale før du deler sensitive data.
+- De fleste produktivitetsverktøy faller i kategorien minimal risiko under AI Act.
+- Personopplysninger krever samme forsiktighet enten de behandles av mennesker
+  eller KI.
+- Vær bevisst på at modeller har innebygde skjevheter — verifiser viktige
+  vurderinger.
