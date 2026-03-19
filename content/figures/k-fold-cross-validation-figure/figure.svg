@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" role="img">
+  <rect width="820" height="520" fill="#ffffff"/>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#0f172a">
+    <text x="410" y="48" text-anchor="middle" font-size="28" font-weight="700">
+      K-fold Cross-Validation
+    </text>
+    <text x="410" y="76" text-anchor="middle" font-size="14" fill="#475569">
+      Each row repeats the split with a different held-out validation fold.
+    </text>
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">
+    <rect x="180" y="96" width="20" height="20" rx="4" fill="#cbd5e1" stroke="#64748b"/>
+    <text x="210" y="111">Training folds</text>
+    <rect x="360" y="96" width="20" height="20" rx="4" fill="#f59e0b" stroke="#b45309"/>
+    <text x="390" y="111">Validation fold</text>
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#334155">
+    <text x="228" y="148" text-anchor="middle">Fold 1</text>
+    <text x="335" y="148" text-anchor="middle">Fold 2</text>
+    <text x="442" y="148" text-anchor="middle">Fold 3</text>
+    <text x="549" y="148" text-anchor="middle">Fold 4</text>
+    <text x="656" y="148" text-anchor="middle">Fold 5</text>
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#334155">
+    <text x="95" y="190">Split 1</text>
+    <text x="95" y="256">Split 2</text>
+    <text x="95" y="322">Split 3</text>
+    <text x="95" y="388">Split 4</text>
+    <text x="95" y="454">Split 5</text>
+  </g>
+
+  <g stroke-width="2">
+    <rect x="180" y="164" width="96" height="44" rx="8" fill="#f59e0b" stroke="#b45309"/>
+    <rect x="287" y="164" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="394" y="164" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="501" y="164" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="608" y="164" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+
+    <rect x="180" y="230" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="287" y="230" width="96" height="44" rx="8" fill="#f59e0b" stroke="#b45309"/>
+    <rect x="394" y="230" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="501" y="230" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="608" y="230" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+
+    <rect x="180" y="296" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="287" y="296" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="394" y="296" width="96" height="44" rx="8" fill="#f59e0b" stroke="#b45309"/>
+    <rect x="501" y="296" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="608" y="296" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+
+    <rect x="180" y="362" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="287" y="362" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="394" y="362" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="501" y="362" width="96" height="44" rx="8" fill="#f59e0b" stroke="#b45309"/>
+    <rect x="608" y="362" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+
+    <rect x="180" y="428" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="287" y="428" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="394" y="428" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="501" y="428" width="96" height="44" rx="8" fill="#cbd5e1" stroke="#64748b"/>
+    <rect x="608" y="428" width="96" height="44" rx="8" fill="#f59e0b" stroke="#b45309"/>
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#0f172a">
+    <text x="228" y="191" text-anchor="middle">Validate</text>
+    <text x="335" y="191" text-anchor="middle">Train</text>
+    <text x="442" y="191" text-anchor="middle">Train</text>
+    <text x="549" y="191" text-anchor="middle">Train</text>
+    <text x="656" y="191" text-anchor="middle">Train</text>
+
+    <text x="228" y="257" text-anchor="middle">Train</text>
+    <text x="335" y="257" text-anchor="middle">Validate</text>
+    <text x="442" y="257" text-anchor="middle">Train</text>
+    <text x="549" y="257" text-anchor="middle">Train</text>
+    <text x="656" y="257" text-anchor="middle">Train</text>
+
+    <text x="228" y="323" text-anchor="middle">Train</text>
+    <text x="335" y="323" text-anchor="middle">Train</text>
+    <text x="442" y="323" text-anchor="middle">Validate</text>
+    <text x="549" y="323" text-anchor="middle">Train</text>
+    <text x="656" y="323" text-anchor="middle">Train</text>
+
+    <text x="228" y="389" text-anchor="middle">Train</text>
+    <text x="335" y="389" text-anchor="middle">Train</text>
+    <text x="442" y="389" text-anchor="middle">Train</text>
+    <text x="549" y="389" text-anchor="middle">Validate</text>
+    <text x="656" y="389" text-anchor="middle">Train</text>
+
+    <text x="228" y="455" text-anchor="middle">Train</text>
+    <text x="335" y="455" text-anchor="middle">Train</text>
+    <text x="442" y="455" text-anchor="middle">Train</text>
+    <text x="549" y="455" text-anchor="middle">Train</text>
+    <text x="656" y="455" text-anchor="middle">Validate</text>
+  </g>
+</svg>

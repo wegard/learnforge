@@ -39,6 +39,7 @@ reusable concepts, figures, and exercises with moderate rewriting.
 | `notebooks/11_K_means.ipynb` | Rewrite | concept | `k-means-clustering` |
 | `notebooks/12_Introducing_ensemble_methods.ipynb` | Rewrite | concept | `ensemble-methods-introduction` |
 | `notebooks/13_Random_forests.ipynb` | Rewrite | concept | `random-forests` |
+| `tex2026/figures/kFold_validation.png` | Promote as a reusable resampling figure | figure | `k-fold-cross-validation-figure` |
 | `exercises/to_students/01_Data_preprocessing_titanic.ipynb` | Convert into a reproducible preprocessing and baseline-model lab | exercise | `titanic-data-preprocessing` |
 | `exercises/to_students/02_Spam_filtering_with_naive_bayes.ipynb` | Convert to student exercise + teacher solution | exercise | `spam-filtering-naive-bayes` |
 | `exercises/to_students/03_Predicting_house_prices.ipynb` | Convert to student exercise + teacher solution | exercise | `house-prices-regression` |
@@ -104,6 +105,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Concept: `logistic-regression-classification`
 - Concept: `principal-component-analysis`
 - Concept: `k-means-clustering`
+- Figure: `k-fold-cross-validation-figure`
 - Exercise: `model-assessment-lab`
 - Exercise: `titanic-data-preprocessing`
 - Exercise: `house-prices-regression`
@@ -149,7 +151,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 ## Next Migration Actions
 
-1. Extract 1-2 reusable figures from the remaining legacy notebooks or slide decks,
+1. Extract 1 more reusable figure from the remaining legacy notebooks or slide decks,
    especially if the unsupervised block needs a better visual explanation.
 2. Draft the first fresh-authored concept from the redesign-only queue, likely
    support vector machines, gradient boosting, or hierarchical clustering.

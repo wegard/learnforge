@@ -1,0 +1,3 @@
+The figure makes the resampling logic explicit: every fold is held out once for
+validation and used in training the rest of the time. That is why k-fold
+cross-validation gives a broader performance check than one lucky train/test split.

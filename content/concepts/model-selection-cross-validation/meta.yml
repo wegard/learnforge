@@ -22,6 +22,7 @@ level: intermediate
 prerequisites: []
 related:
   - bias-variance-tradeoff
+  - k-fold-cross-validation-figure
   - ensemble-methods-introduction
   - knn-supervised-learning
   - naive-bayes-classification
@@ -40,7 +41,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-18
+updated: 2026-03-19
 translation_status:
   en: approved
 ai:

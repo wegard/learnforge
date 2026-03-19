@@ -281,6 +281,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     )
 
     assert "Model selection and cross-validation" in second_concept_html
+    assert 'data-figure-id="k-fold-cross-validation-figure"' in second_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in second_concept_html
     assert "../knn-supervised-learning/knn-supervised-learning.html" in second_concept_html
     assert (
@@ -980,6 +981,29 @@ def test_student_figure_page_build_has_interactive_markup_and_manifest() -> None
     assert leakage_report["status"] == "clean"
 
 
+def test_student_tem0052_figure_page_build_has_static_markup_and_manifest() -> None:
+    artifact = build_target(
+        "k-fold-cross-validation-figure",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figure details" in html
+    assert 'data-figure-id="k-fold-cross-validation-figure"' in html
+    assert "K-fold cross-validation" in html
+    assert "Highlight relevance" not in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "clean"
+
+
 def test_teacher_figure_pdf_build_uses_pdf_fallback() -> None:
     artifact = build_target(
         "iv-dag-figure",
@@ -993,6 +1017,24 @@ def test_teacher_figure_pdf_build_uses_pdf_fallback() -> None:
 
     assert artifact.output_path.exists()
     assert artifact.output_path.name == "iv-dag-figure.pdf"
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.pdf")
+
+
+def test_teacher_tem0052_figure_pdf_build_uses_pdf_fallback() -> None:
+    artifact = build_target(
+        "k-fold-cross-validation-figure",
+        audience="teacher",
+        language="en",
+        output_format="pdf",
+        root=REPO_ROOT,
+    )
+
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert artifact.output_path.exists()
+    assert artifact.output_path.name == "k-fold-cross-validation-figure.pdf"
     assert build_manifest["figure_observation_count"] == 1
     assert build_manifest["figure_uses"][0]["interactive_included"] is False
     assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.pdf")

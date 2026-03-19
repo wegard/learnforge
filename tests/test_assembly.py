@@ -446,6 +446,7 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
     assert "bias-variance-tradeoff" in related_ids
+    assert "k-fold-cross-validation-figure" in related_ids
     assert "knn-supervised-learning" in related_ids
     assert "naive-bayes-classification" in related_ids
     assert "linear-regression-prediction" in related_ids
@@ -456,6 +457,28 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
     assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
+
+
+def test_model_selection_concept_embeds_cross_validation_figure() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "model-selection-cross-validation",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## Figures" in assembly.markdown
+    assert "### K-fold cross-validation" in assembly.markdown
+    assert 'data-figure-id="k-fold-cross-validation-figure"' in assembly.markdown
+    assert any(
+        item.figure_id == "k-fold-cross-validation-figure"
+        and item.context_target_id == "model-selection-cross-validation"
+        and not item.interactive_included
+        for item in assembly.figure_observations
+    )
 
 
 def test_linear_regression_concept_links_house_prices_and_course() -> None:

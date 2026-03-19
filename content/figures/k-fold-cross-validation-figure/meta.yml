@@ -1,0 +1,37 @@
+id: k-fold-cross-validation-figure
+kind: figure
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: K-fold cross-validation
+concepts:
+  - model-selection-cross-validation
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - model-selection
+  - cross-validation
+tags:
+  - cross-validation
+  - k-fold
+  - resampling
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+caption:
+  en: In k-fold cross-validation, each fold takes one turn as validation while the remaining folds stay in training.
+alt_text:
+  en: A five-row schematic where each row highlights a different validation fold and leaves the remaining folds as training data.
+svg_path: figure.svg
+pdf_path: figure.pdf
