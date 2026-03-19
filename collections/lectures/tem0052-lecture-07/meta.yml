@@ -1,0 +1,36 @@
+id: tem0052-lecture-07
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 7 - Ensemble methods and random forests
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - ensemble-methods
+  - tree-based-methods
+  - model-selection
+tags:
+  - lecture
+  - ensemble-methods
+  - tree-based-methods
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - decision-tree-learning
+  - ensemble-methods-introduction
+  - random-forests

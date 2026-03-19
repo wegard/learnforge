@@ -17,6 +17,7 @@
 - Phase 11 complete checkpoint: `tem0052` seventh concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` eighth concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` ninth concept promotion slice
+- Phase 11 complete checkpoint: `tem0052` lecture 7 assembly slice
 
 ## Non-Goals For This Run
 
@@ -199,6 +200,8 @@
   - `collections/lectures/tem0052-lecture-02/meta.yml`
 - Assembled the third canonical `tem0052` lecture collection using only promoted objects:
   - `collections/lectures/tem0052-lecture-03/meta.yml`
+- Assembled the fourth canonical `tem0052` lecture collection using only promoted objects:
+  - `collections/lectures/tem0052-lecture-07/meta.yml`
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
@@ -241,6 +244,7 @@
   - `tem0052-lecture-02`
   - `tem0052-lecture-03`
   - `tem0052-lecture-05`
+  - `tem0052-lecture-07`
 - Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
 - Added regression coverage for:
   - `tem0052` course page lecture/exercise surfacing
@@ -273,7 +277,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - nine first-wave `tem0052` concepts, two exercises, and three lectures are promoted so far
+  - nine first-wave `tem0052` concepts, two exercises, and four lectures are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -337,6 +341,7 @@
 - `collections/lectures/tem0052-lecture-02/meta.yml`
 - `collections/lectures/tem0052-lecture-03/meta.yml`
 - `collections/lectures/tem0052-lecture-05/meta.yml`
+- `collections/lectures/tem0052-lecture-07/meta.yml`
 - `content/concepts/bias-variance-tradeoff/meta.yml`
 - `content/concepts/bias-variance-tradeoff/note.en.qmd`
 - `content/exercises/model-assessment-lab/meta.yml`
@@ -522,11 +527,22 @@
   - `./.venv/bin/teach build ensemble-methods-introduction --audience student --lang en --format html`
   - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
   - `./.venv/bin/teach validate`
+- `tem0052` lecture 7 assembly:
+  - `sed -n '1,220p' collections/lectures/tem0052-lecture-02/meta.yml`
+  - `sed -n '1,220p' collections/lectures/tem0052-lecture-03/meta.yml`
+  - `sed -n '1,220p' collections/lectures/tem0052-lecture-05/meta.yml`
+  - `sed -n '1,220p' courses/tem0052/plan.yml`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach build tem0052-lecture-07 --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052-lecture-07 --audience teacher --lang en --format revealjs`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 24 objects and 2 courses. Errors: 0. Warnings: 13.`
+  - `Validated 25 objects and 2 courses. Errors: 0. Warnings: 13.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
@@ -547,7 +563,7 @@
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `74 passed in 237.76s (0:03:57)`
+  - `76 passed in 245.03s (0:04:05)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
@@ -598,6 +614,12 @@
   - `build/reports/builds/student/en/html/concept/knn-supervised-learning/build-manifest.json`
   - `build/reports/builds/student/en/html/concept/knn-supervised-learning/dependency-manifest.json`
   - `build/reports/builds/student/en/html/concept/knn-supervised-learning/teacher-leakage-report.json`
+- New `tem0052` lecture artifact paths:
+  - `build/exports/student/en/html/collection/tem0052-lecture-07/tem0052-lecture-07.html`
+  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-07/tem0052-lecture-07.html`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-07/build-manifest.json`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-07/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/collection/tem0052-lecture-07/teacher-leakage-report.json`
 - New `tem0052` lecture artifact paths:
   - `build/exports/student/en/html/collection/tem0052-lecture-02/tem0052-lecture-02.html`
   - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-02/tem0052-lecture-02.html`
@@ -690,11 +712,11 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Assemble the first `tem0052` tree-and-ensemble lecture from promoted objects:
-  - `tem0052-lecture-07`
+- Promote the next `tem0052` classification exercise from the legacy notebook set:
+  - `spam-filtering-naive-bayes`
 - The course can stay intentionally English-only for the next checkpoint; the resulting
   translation warnings are currently expected and non-blocking
 - Keep the next migration slice narrow:
-  - one lecture collection assembled only from promoted objects
+  - one additional exercise
   - optionally one small supporting figure from the same block
   - add a new lecture collection only if the promoted tree/classification material is strong enough to stand on its own

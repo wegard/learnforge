@@ -103,6 +103,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Lecture collection: `tem0052-lecture-02`
 - Lecture collection: `tem0052-lecture-03`
 - Lecture collection: `tem0052-lecture-05`
+- Lecture collection: `tem0052-lecture-07`
 
 ### First concept candidates
 
@@ -127,6 +128,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - `tem0052-lecture-02` linear prediction + regularisation
 - `tem0052-lecture-03` classification methods
 - `tem0052-lecture-04` model assessment + bias-variance
+- `tem0052-lecture-07` ensemble methods + random forests
 
 ## Next Migration Actions
 

@@ -151,6 +151,35 @@ def test_tem0052_lecture_03_assembly_expands_classification_block() -> None:
     assert "house-prices-regression" not in assembly.markdown
 
 
+def test_tem0052_lecture_07_assembly_expands_tree_ensemble_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-07",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "decision-tree-learning",
+        "ensemble-methods-introduction",
+        "random-forests",
+    ]
+    assert "## Decision trees turn prediction into a sequence of splits" in assembly.markdown
+    assert (
+        "## Ensemble methods combine weak or unstable models into a stronger workflow"
+        in assembly.markdown
+    )
+    assert "## Random forests make trees less fragile" in assembly.markdown
+    assert "model-assessment-lab" not in assembly.markdown
+
+
 def test_assignment_assembly_compiles_multiple_exercises_without_student_solutions() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(

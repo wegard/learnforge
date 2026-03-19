@@ -15,7 +15,7 @@ def test_sample_repository_validates_cleanly() -> None:
     report = validate_repository(REPO_ROOT, run_build_checks=False)
     assert report.ok
     assert report.warning_count == 13
-    assert report.object_count == 24
+    assert report.object_count == 25
     assert report.course_count == 2
     assert report.search_index_path == "build/index/content-index.json"
 
@@ -248,7 +248,7 @@ def test_validator_ignores_course_inbox_material(tmp_path) -> None:
 
     report = validate_repository(tmp_path, run_build_checks=False)
 
-    assert report.object_count == 24
+    assert report.object_count == 25
     assert all(not issue.path.startswith("course-inbox/") for issue in report.issues)
 
 
