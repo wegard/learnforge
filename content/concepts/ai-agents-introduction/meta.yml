@@ -1,0 +1,33 @@
+id: ai-agents-introduction
+kind: concept
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: KI-agenter og verktøybruk
+courses:
+  - bik2551
+topics:
+  - ai-agents
+tags:
+  - agents
+  - tool-use
+  - agent-loop
+  - zero-shot
+  - code-agents
+level: introductory
+prerequisites: []
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []

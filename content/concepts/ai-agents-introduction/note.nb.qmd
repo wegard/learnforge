@@ -1,0 +1,78 @@
+## Fra samtale til handling: Hva er en KI-agent?
+
+I de første modulene av `BIK 2551` har vi brukt KI som samtalepartner — vi
+stiller spørsmål og får tekst tilbake. En KI-agent går et steg videre: den kan
+planlegge, bruke verktøy og utføre handlinger i den virkelige verden.
+
+Forskjellen er viktig. En vanlig chatbot gir deg et svar. En agent kan søke
+på nettet, kjøre kode, oppdatere et regneark eller sende en e-post — alt som
+del av en sammenhengende oppgave.
+
+## Zero-shot dialog vs. agenter med verktøytilgang
+
+I en vanlig KI-samtale (zero-shot) har modellen bare tilgang til det du
+skriver og det den lærte under trening. Den kan ikke sjekke fakta, hente
+oppdatert informasjon eller gjøre noe utenfor samtalevinduet.
+
+En agent har tilgang til verktøy:
+
+- **Nettleser** — Søke etter oppdatert informasjon.
+- **Kodekjøring** — Analysere data, lage beregninger, generere filer.
+- **API-er** — Kommunisere med andre systemer.
+- **Filtilgang** — Lese og skrive dokumenter.
+
+Dette gjør agenten langt mer nyttig for reelle arbeidsoppgaver, men også mer
+risikabel.
+
+## Agent-loopen: Plan, verktøy, handling, observasjon
+
+En KI-agent jobber i en løkke:
+
+1. **Plan** — Agenten analyserer oppgaven og bestemmer neste steg.
+2. **Verktøy** — Den velger et verktøy som kan hjelpe (søk, kode, API).
+3. **Handling** — Verktøyet utføres og produserer et resultat.
+4. **Observasjon** — Agenten vurderer resultatet og bestemmer om oppgaven er
+   løst eller om den trenger flere steg.
+
+Denne løkken gjentas til oppgaven er ferdig. Det betyr at agenten kan håndtere
+oppgaver med flere steg og tilpasse seg underveis.
+
+## Muligheter og utfordringer
+
+KI-agenter åpner for mye, men har også tydelige begrensninger:
+
+**Muligheter:**
+
+- Automatisere sammensatte oppgaver som krever flere systemer.
+- Analysere data og produsere rapporter uten manuelt arbeid.
+- Redusere tiden fra idé til handling.
+
+**Utfordringer:**
+
+- **Kostnad** — Agenter bruker mange API-kall og kan bli dyre.
+- **Uendelige løkker** — Agenten kan sitte fast i gjentatte forsøk uten å
+  komme videre.
+- **Feil handlinger** — En agent som sender e-post eller endrer filer kan
+  gjøre skade hvis den misforstår oppgaven.
+- **Sikkerhet** — Verktøytilgang krever tilgangskontroll og overvåking.
+
+::: {.teacher-only}
+Vis en demo av en kodeagent som løser en flerstegsoppgave — for eksempel å
+analysere et datasett og produsere en rapport. Pek på hvordan agent-loopen
+fungerer i praksis: planlegging, verktøyvalg, handling, observasjon. Diskuter
+i plenum: Hva skjer hvis agenten gjør feil i steg 2 av 5?
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+KI-agenter representerer neste nivå etter grunnleggende prompting og tilpassede
+assistenter. I denne modulen forstår deltakerne hva agenter kan gjøre og
+hvilke risikoer de medfører — kunnskap som er nødvendig for å vurdere
+automatiseringsmuligheter i neste modul.
+
+## Praktiske poeng å ta med videre
+
+- En agent kan gjøre ting, ikke bare skrive ting.
+- Agent-loopen (plan, verktøy, handling, observasjon) er grunnmekanismen.
+- Verktøytilgang gir kraft, men krever kontroll og overvåking.
+- Start med enkle agentoppgaver og øk kompleksiteten gradvis.
