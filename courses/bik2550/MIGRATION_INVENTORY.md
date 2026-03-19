@@ -101,8 +101,23 @@ Tasks that require instructor judgement and cannot be automated.
       — verify datasets, expected outputs, and time estimates are realistic
 - [ ] Decide lecture item ordering within each lecture collection
       — current order follows the original slide deck sequence
-- [ ] Select key figures from `course-inbox/BIK2550/images/` to promote
-      — ~40 files in the folder; identify which are essential for teaching
+- [ ] Recreate key figures as SVG for promotion to figure objects
+      — the raster images in `course-inbox/BIK2550/images/` cannot be imported
+      directly (figure objects require SVG + PDF). Candidates worth recreating:
+
+      | Image | Concept it supports |
+      |---|---|
+      | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` |
+      | `confusion_matrix.png` | `ml-model-evaluation-overview` |
+      | `training_and_test_error.png` | `ml-model-evaluation-overview` |
+      | `my_activation_functions.png` | `neural-networks-introduction` |
+      | `gradient_descent.png` | `ml-model-evaluation-overview` |
+      | `regression_example.png` | `ml-supervised-learning-overview` |
+      | `sigmoid.png` | `ml-supervised-learning-overview` |
+      | `dt_kreditt.png` | `ml-supervised-learning-overview` |
+
+      Most other images are external diagrams with attribution, screenshots,
+      or decorative stock images — not suitable for figure objects.
 - [ ] Design the exam/assignment object from `exam/` folder
       — three semesters of project briefs exist; decide on canonical format
 - [ ] Promote reviewed content from `status: draft` to `status: review`

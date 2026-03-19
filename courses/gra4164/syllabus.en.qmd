@@ -1,0 +1,79 @@
+# Course Overview
+
+`GRA 4164 Text as Data` is being rebuilt in LearnForge as an English-first course
+with reusable concepts, exercises, and lecture collections.
+
+The course explores how textual data can be used in quantitative analysis — Natural
+Language Processing (NLP) for business. With the rapid growth of data from social
+media, news articles, corporate filings, and reports, extracting actionable insights
+from text is increasingly essential for finance, business intelligence, and
+data-driven decision-making.
+
+## Knowledge Goals
+
+- Understand how NLP can be strategically integrated into business processes to
+  improve efficiencies and gain competitive advantages.
+- Discuss and differentiate between NLP methodologies, identifying their strengths
+  and weaknesses in relation to different business cases.
+- Know the basic steps and techniques for preparing text-based data for analysis,
+  including tokenization, stemming, lemmatization, and feature selection.
+- Know how to represent text numerically using bag-of-words, TF-IDF, PMI, and
+  word embeddings.
+- Understand at an intuitive level how n-gram and character-level language models
+  work and how they relate to Large Language Models.
+- Know the attention mechanism, the Transformer architecture, and why they are
+  central to modern LLMs.
+
+## Skills Goals
+
+- Select and apply relevant NLP tools and algorithms in Python.
+- Create empirical models using text as data and apply them to business problems.
+- Build workflows using bag-of-words methods, topic modelling, and text
+  classification.
+- Work with word embeddings and understand their practical applications.
+- Use prompt engineering techniques to efficiently interact with pre-trained LLMs.
+
+## General Competence
+
+- Apply text-as-data methods strategically to drive business growth, foster
+  innovation, and gain competitive advantage.
+- Plan and execute a substantial group project with methodological rigour and
+  pragmatic data-science practice.
+- Provide informed commentary in projects involving the use or fine-tuning of LLMs
+  for different business purposes.
+
+## Planned Content Areas
+
+- Text processing fundamentals: tokenization, stemming, stop-words, regular
+  expressions
+- Text representation: bag-of-words, TF-IDF, cosine similarity, PMI
+- Boolean/dictionary approaches, text regressions, classification, and topic
+  modelling
+- N-gram language models and learning from prediction
+- Word embeddings and Word2Vec
+- Introduction to Large Language Models and tokenization
+- Attention mechanisms and the Transformer architecture
+- LLM input/output, training, and fine-tuning
+- Prompt engineering and model alignment
+
+## Teaching Format
+
+Teaching combines lectures with practical working sessions. The course runs over
+twelve sessions, including two practical days and a final presentation session.
+
+Students work in groups of up to three to solve four assignments that form a written
+report. The report is presented and discussed before final submission.
+
+## Assessment
+
+- Individual school exam: 70%
+- Group submission (four assignments compiled into a report): 30%
+
+## Tools and Workflow
+
+- Python is the primary programming language.
+- Course materials are delivered through Jupyter notebooks.
+- The primary textbook is Jurafsky and Martin, *Speech and Language Processing*
+  (3rd edition, available online).
+- Course assets are being migrated from legacy notebook and slide material into
+  LearnForge's object model.

@@ -1,0 +1,31 @@
+id: gra4164-lecture-02
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 2 - Bag-of-words, TF-IDF, and cosine similarity
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-representation
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - text-preprocessing-nlp
+  - bag-of-words-tfidf-cosine

@@ -1,0 +1,53 @@
+## Why text as data matters for business
+
+In `GRA 4164`, text is not a side dish. Social media posts, corporate filings,
+earnings calls, news articles, and customer reviews all contain structured
+information that standard tabular methods cannot reach. The course teaches students
+to convert that unstructured language into numerical representations suitable for
+quantitative analysis.
+
+That matters because business decisions increasingly depend on information locked
+inside text. Predicting stock movements from news sentiment, tracking policy
+uncertainty through government documents, and classifying customer feedback at scale
+are all examples where text-as-data methods create a measurable edge.
+
+## The NLP workflow
+
+Every text analysis task in this course follows the same five-step pipeline:
+
+1. **Collection** — scraping, APIs, or databases.
+2. **Preprocessing** — cleaning, tokenization, stemming, stop-word removal.
+3. **Representation** — bag-of-words, TF-IDF, word embeddings.
+4. **Modelling** — classification, topic modelling, regression, or LLM inference.
+5. **Interpretation** — evaluating results and communicating findings.
+
+Students should recognise where each step fits before diving into any single
+technique. The pipeline is the constant; the methods at each stage are the variables.
+
+## Key challenges
+
+Four recurring obstacles shape the way we work with text:
+
+- **Volume** — text corpora can contain millions of documents, requiring efficient
+  storage and processing strategies.
+- **Noise** — typos, slang, abbreviations, and inconsistent formatting must be
+  handled before analysis.
+- **Ambiguity** — the same word can carry different meanings depending on context,
+  and sarcasm or irony can invert sentiment.
+- **Ethics** — models trained on biased language data can reproduce or amplify those
+  biases, raising privacy and fairness concerns.
+
+::: {.teacher-only}
+Ask students where they encounter text data in their own business domain — the
+examples are more engaging when they come from the room rather than the slides.
+:::
+
+## What to report
+
+When students describe a text-as-data project in this course, they should identify:
+
+- the source and scope of the text corpus,
+- the preprocessing choices made and their justification,
+- the representation used and why it suits the task,
+- the model or method applied, and
+- one honest assessment of what the analysis can and cannot tell us.

@@ -1,0 +1,35 @@
+id: text-as-data-introduction
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Introduction to text as data
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+tags:
+  - text-data
+  - nlp-workflow
+  - text-preprocessing
+level: introductory
+prerequisites: []
+related:
+  - text-preprocessing-nlp
+  - bag-of-words-tfidf-cosine
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

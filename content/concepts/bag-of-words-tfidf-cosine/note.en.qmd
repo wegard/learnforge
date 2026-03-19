@@ -1,0 +1,72 @@
+## From raw counts to meaningful weights
+
+The document-term matrix starts with raw word counts, but raw counts are a blunt
+instrument. A long document will have higher counts for every term simply because it
+contains more words, not because those terms are more important. In `GRA 4164`, we
+move from raw counts to smarter weightings that let us compare documents fairly.
+
+Common alternatives to raw counts include:
+
+- **Term frequency (TF)** — normalise by document length: $x_{ij} = c_{ij} / m_i$
+  where $m_i = \sum_j c_{ij}$.
+- **Binary** — record only presence or absence: $x_{ij} = \mathbf{1}_{c_{ij} > 0}$.
+- **TF-IDF** — the most widely used weighting in classical NLP.
+
+## Term frequency--inverse document frequency
+
+TF-IDF combines two signals. The term frequency $\text{tf}_{ij} = c_{ij}$ captures
+how often term $j$ appears in document $i$. The inverse document frequency measures
+how rare that term is across the whole corpus:
+
+$$
+\text{idf}_j = \log\!\left(\frac{n}{d_j}\right)
+$$
+
+where $n$ is the total number of documents and $d_j$ is the number of documents that
+contain term $j$. The TF-IDF score is the product:
+
+$$
+\text{tf-idf}_{ij} = \text{tf}_{ij} \times \text{idf}_j
+$$
+
+The intuition is straightforward. A term that appears frequently in one document but
+rarely across the corpus gets a high score — it is distinctive. A term that appears
+everywhere (like "the" or "is") gets a near-zero IDF, dragging its score down
+regardless of how often it appears locally.
+
+## Why cosine similarity beats Euclidean distance
+
+Once documents are represented as vectors, we need a way to measure how similar two
+documents are. Euclidean distance is the obvious first choice, but it has a serious
+flaw: it is sensitive to vector magnitude. Two documents that discuss the same topics
+in the same proportions will appear distant if one is simply longer than the other.
+
+Cosine similarity avoids this by measuring the angle between two vectors rather than
+the distance between their endpoints:
+
+$$
+\cos\theta_{12} = \frac{\vec{d}_1 \cdot \vec{d}_2}{\|\vec{d}_1\| \, \|\vec{d}_2\|}
+$$
+
+The result is bounded between $-1$ and $1$. A value of $1$ means the documents use
+terms in identical proportions; $0$ means they share no terms at all. This
+length-invariance makes cosine similarity the default choice for comparing documents
+in bag-of-words representations.
+
+::: {.teacher-only}
+Ask students to predict which terms in a corpus of news articles would have the
+highest TF-IDF scores and why. Then ask what would happen if stop-words were not
+removed before computing TF-IDF — does IDF already handle this, or is explicit
+removal still valuable?
+:::
+
+## What to report
+
+When students present a bag-of-words or TF-IDF analysis in this course, they should
+report:
+
+- which weighting scheme was used and why,
+- the vocabulary size after preprocessing,
+- the similarity measure chosen and its justification, and
+- at least one concrete finding — such as the most similar document pair or the
+  highest-scoring TF-IDF terms — with an interpretation of what it means.

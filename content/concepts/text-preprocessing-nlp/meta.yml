@@ -1,0 +1,39 @@
+id: text-preprocessing-nlp
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Text preprocessing for NLP
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-preprocessing
+tags:
+  - tokenization
+  - stemming
+  - lemmatization
+  - stopwords
+  - document-term-matrix
+level: introductory
+prerequisites:
+  - text-as-data-introduction
+related:
+  - bag-of-words-tfidf-cosine
+  - text-as-data-introduction
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

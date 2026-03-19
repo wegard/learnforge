@@ -1,0 +1,66 @@
+## Why preprocessing matters
+
+Computers cannot operate on raw text directly. Before any quantitative analysis,
+unstructured documents must be converted into a structured numerical form. In
+`GRA 4164`, preprocessing is the bridge between a pile of documents and the
+document-term matrix that downstream methods consume.
+
+Skipping or misconfiguring preprocessing steps changes the analysis in ways that are
+easy to miss. A corpus where stop-words are kept will produce a very different
+document-term matrix than one where they are removed, and the results of any
+subsequent model will reflect that choice.
+
+## What is a document?
+
+A document is whatever unit of text you choose to analyse. It could be a single
+sentence, a paragraph, a news article, or an entire day's worth of social media
+posts. The definition depends on the research question. In this course, we denote
+the full corpus as $D$ and an individual document as $D_i$ for $i = 1, \ldots, n$.
+
+The choice of document granularity directly affects the document-term matrix. Finer
+units (sentences) produce more rows but sparser vectors; coarser units (full
+articles) produce denser rows but fewer of them.
+
+## The document-term matrix
+
+The document-term matrix $\boldsymbol{C}$ is an $n \times p$ array where $n$ is the
+number of documents and $p$ is the size of the vocabulary. Each entry $c_{ij}$
+records how often term $j$ appears in document $i$.
+
+This matrix is typically:
+
+- **Sparse** — most entries are zero because any single document uses only a small
+  fraction of the full vocabulary.
+- **Large** — real corpora can contain millions of documents and hundreds of
+  thousands of unique terms.
+
+## Cleaning steps
+
+The standard preprocessing pipeline reduces noise and vocabulary size:
+
+1. **Tokenization** — splitting text into individual words or sub-word units.
+2. **Case normalisation** — converting everything to lower case so "Bank" and "bank"
+   map to the same token.
+3. **Stop-word removal** — dropping very common words (the, is, and) that carry
+   little discriminative information.
+4. **Stemming or lemmatisation** — reducing words to a root form so that "running",
+   "runs", and "ran" collapse into a single token.
+
+Each step is a choice with consequences. Aggressive stop-word removal can delete
+words that matter for certain tasks; stemming can merge words that should stay
+distinct. Students should be able to justify the preprocessing decisions they make.
+
+::: {.teacher-only}
+Ask students what would happen if preprocessing were skipped entirely — how would the
+document-term matrix differ, and what would that mean for a downstream model like
+topic modelling?
+:::
+
+## What to report
+
+When describing preprocessing in this course, students should state:
+
+- what defines a document in their corpus,
+- which cleaning steps were applied and in what order,
+- what the vocabulary size is before and after preprocessing, and
+- any terms that were deliberately kept or removed against the defaults.
