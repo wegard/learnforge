@@ -49,11 +49,13 @@ strategier basert på kombinasjoner av ulike datakilder.
 - Nevrale nettverk og dyp læring
 - Praktiske eksempler med Python og Jupyter Notebooks
 
-### Modul 2: Etikk og reguleringer i AI
+### Modul 2: Etikk og reguleringer i AI (gjesteforelesere)
 
 - Etikkens verktøy og etiske utfordringer med AI
 - Regulering av KI: EU AI Act, GDPR, menneskerettigheter
 - Hvordan samtale om AI, etikk og reguleringer
+
+*Modul 2 leveres av gjesteforelesere og forvaltes ikke i LearnForge.*
 
 ### Modul 3: Maskinlæring, naturlig språkbehandling og anvendelser
 

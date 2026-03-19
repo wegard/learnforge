@@ -53,9 +53,14 @@ This file tracks the migration of legacy material from
 
 | Topic | Reason | Planned target kind |
 | --- | --- | --- |
-| Module 2 ethics concepts | No structured source material in inbox | concept |
-| Module 2 regulation concepts (EU AI Act, GDPR) | No structured source material in inbox | concept |
 | Exam project brief + case studies | Needs fresh authoring as assignment collection | assignment |
+
+### Out of Scope
+
+| Topic | Reason |
+| --- | --- |
+| Module 2 ethics concepts | Delivered by guest lecturers; not owned by this course maintainer |
+| Module 2 regulation concepts (EU AI Act, GDPR) | Delivered by guest lecturers; not owned by this course maintainer |
 
 ### Defer
 
