@@ -1,0 +1,32 @@
+id: bik2550-m3d3
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Modul 3, Dag 3 — Oppsummering og case-studier
+courses:
+  - bik2550
+topics:
+  - ai-in-finance
+tags:
+  - lecture
+  - case-studies
+  - ai-agents
+  - compliance
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+items:
+  - ai-applications-finance-summary
