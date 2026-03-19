@@ -19,7 +19,9 @@ tags:
   - rag
 level: introductory
 prerequisites: []
-related: []
+related:
+  - prompt-engineering-basics
+  - ai-ethics-law-security
 outputs:
   - html
   - pdf

@@ -18,7 +18,9 @@ tags:
   - iterative-prompting
 level: introductory
 prerequisites: []
-related: []
+related:
+  - generative-ai-fundamentals
+  - ai-ethics-law-security
 outputs:
   - html
   - pdf

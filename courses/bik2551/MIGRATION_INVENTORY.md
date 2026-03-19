@@ -91,10 +91,22 @@ Build the first LearnForge checkpoint for `bik2551` around Day 1 content.
 
 - `bik2551-day-01` — introduction to generative AI, prompt engineering, ethics
 
+## Promoted in the Current Checkpoint
+
+Day 1 content — 5 objects promoted:
+
+| Object id | Kind | Status |
+| --- | --- | --- |
+| `generative-ai-fundamentals` | concept | approved |
+| `prompt-engineering-basics` | concept | approved |
+| `ai-ethics-law-security` | concept | approved |
+| `prompt-improvement-workshop` | exercise | approved |
+| `bik2551-day-01` | collection (lecture) | approved |
+
 ## Next Migration Actions
 
-1. Scaffold the first concept objects for `bik2551` (Day 1 topics).
-2. Create the first conceptual exercise (`prompt-improvement-workshop`).
-3. Create the `bik2551-day-01` lecture collection assembled from promoted objects.
-4. Repeat for Days 2–4.
+1. Scaffold Day 2 concept objects (`context-windows-and-rag`, `advanced-prompting-techniques`, `custom-ai-assistants`).
+2. Create the Day 2 exercise (`custom-assistant-setup`).
+3. Create the `bik2551-day-02` lecture collection.
+4. Repeat for Days 3–4.
 5. Leave all remaining legacy files in the inbox until they are explicitly promoted.

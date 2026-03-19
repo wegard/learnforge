@@ -19,7 +19,9 @@ tags:
   - consumer-vs-enterprise
 level: introductory
 prerequisites: []
-related: []
+related:
+  - generative-ai-fundamentals
+  - prompt-engineering-basics
 outputs:
   - html
   - pdf

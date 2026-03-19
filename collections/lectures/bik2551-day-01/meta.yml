@@ -1,0 +1,35 @@
+id: bik2551-day-01
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Dag 1 - Introduksjon til generativ KI og prompt engineering
+courses:
+  - bik2551
+topics:
+  - ai-literacy
+  - prompt-engineering
+  - ai-ethics
+tags:
+  - lecture
+  - day-1
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+items:
+  - generative-ai-fundamentals
+  - prompt-engineering-basics
+  - ai-ethics-law-security
+  - prompt-improvement-workshop
