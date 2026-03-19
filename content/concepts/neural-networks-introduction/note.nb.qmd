@@ -1,0 +1,103 @@
+# Introduksjon til nevrale nettverk
+
+## Hva er et nevralt nettverk?
+
+Nevrale nettverk er beregningsmodeller inspirert av den biologiske hjernen.
+De består av lag med nevroner (noder) som prosesserer informasjon.
+
+## Perceptronen
+
+Perceptronen ble introdusert av Frank Rosenblatt i 1958 som en probabilistisk
+modell for informasjonslagring. Den etterligner funksjonen til et biologisk
+nevron: tar inn flere input, vekter dem, og produserer en output.
+
+Et nevron beregner:
+
+$$\text{output} = \sigma(w_1 x_1 + w_2 x_2 + w_3 x_3 + b)$$
+
+der $w_i$ er vekter, $x_i$ er input, $b$ er bias, og $\sigma$ er en
+aktiveringsfunksjon.
+
+## Multilayer Perceptron (MLP)
+
+Et nettverk med flere lag av perceptroner:
+
+- **Input-lag:** Mottar rå data
+- **Skjulte lag:** Prosesserer data gjennom vekter og aktiveringsfunksjoner
+- **Output-lag:** Gir endelige prediksjoner
+
+"Fully connected" betyr at hver nevron i et lag er koblet til alle nevroner i
+neste lag. MLP kan lære komplekse sammenhenger og mønstre.
+
+**Eksempler fra finans:**
+
+- **Kredittvurdering:** Analyserer lånesøkeres historikk og finansielle data
+- **Risikovurdering:** Beregner sannsynlighet og konsekvens av tap
+- **Svindeldeteksjon:** Gjenkjenner uvanlige transaksjonsmønstre
+
+## Aktiveringsfunksjoner
+
+Aktiveringsfunksjoner bestemmer "styrken" på signalene i nettverket. De
+introduserer ikke-linearitet slik at nettverket kan lære komplekse mønstre.
+Uten aktiveringsfunksjoner ville nettverket kun utføre lineære transformasjoner.
+
+### Vanlige aktiveringsfunksjoner
+
+- **Sigmoid:** Utgang i $(0, 1)$. Vanlig i binære klassifiseringsoppgaver.
+- **Tanh:** Utgang i $(-1, 1)$. Sentralisert rundt 0.
+- **ReLU (Rectified Linear Unit):** Returnerer 0 for negative input, ellers
+  uendret. Enkel og effektiv.
+- **Softmax:** Konverterer en vektor til en sannsynlighetsfordeling der alle
+  verdier summerer til 1. Brukes i flerkategori-klassifisering.
+
+## Bias
+
+Bias er en konstant verdi som legges til summen av input, slik at nevroner kan
+aktiveres selv når input er null. Dette gjør nettverket mer fleksibelt.
+
+## Tapsfunksjoner
+
+Tapsfunksjonen måler hvor feil nettverkets prediksjoner er:
+
+- **MSE** for regresjon: $\text{MSE} = \frac{1}{n}\sum(y_i - \hat{y}_i)^2$
+- **Kryssentropi** for klassifikasjon:
+  $-\frac{1}{n}\sum[y_i\log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)]$
+
+## Gradient descent
+
+Metode for å finne optimale parametere:
+
+1. Gjør en prediksjon med nåværende parametere
+2. Beregn hvor feil prediksjonen er (tap)
+3. Oppdater parametrene basert på gradienten
+
+Gradienten viser retning og styrke på "nedoverbakken" — stor gradient betyr
+bratt bakke og store endringer, liten gradient betyr flat bakke.
+
+## Backpropagation
+
+Effektiv algoritme for å beregne gradienter i nevrale nettverk. Den "sender"
+feilinformasjon bakover gjennom nettverket:
+
+1. Nettverket gjør en prediksjon (forward pass)
+2. Beregner feilen
+3. Feilen sendes bakover (backward pass)
+4. Gradientene brukes til å oppdatere vektene
+
+Geoff Hinton fikk Nobelprisen i fysikk 2024 der backpropagation var blant
+bidragene.
+
+## Fordeler og ulemper
+
+**Fordeler:**
+
+- Fleksible — kan tilpasses mange ulike problemer
+- Finner komplekse, ikke-lineære sammenhenger
+- Ofte svært god prediksjonsevne med tilstrekkelig data
+
+**Ulemper:**
+
+- Vanskelig å tolke ("black box")
+- Krever store datamengder
+- Tids- og ressurskrevende trening
+- Risiko for overtilpasning (overfitting)
