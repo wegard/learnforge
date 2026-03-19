@@ -90,6 +90,24 @@ This file tracks the migration of legacy material from
 | `.docx` files | Word documents (guest lecture materials) |
 | `.git/` (if nested) | Tooling noise |
 
+## Instructor Review Checklist
+
+Tasks that require instructor judgement and cannot be automated.
+
+- [ ] Review all `.qmd` concept notes for accuracy and tone (17 concepts)
+      — content was rewritten from LaTeX slides, check that finance examples
+      and level match what you actually teach
+- [ ] Review exercise briefs and solutions (3 exercises)
+      — verify datasets, expected outputs, and time estimates are realistic
+- [ ] Decide lecture item ordering within each lecture collection
+      — current order follows the original slide deck sequence
+- [ ] Select key figures from `course-inbox/BIK2550/images/` to promote
+      — ~40 files in the folder; identify which are essential for teaching
+- [ ] Design the exam/assignment object from `exam/` folder
+      — three semesters of project briefs exist; decide on canonical format
+- [ ] Promote reviewed content from `status: draft` to `status: review`
+      then `status: approved` (Claude can apply the YAML changes)
+
 ## Promoted in the Current Checkpoint
 
 - Concept: `what-is-ai-overview`
