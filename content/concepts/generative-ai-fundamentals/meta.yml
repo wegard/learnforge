@@ -3,8 +3,10 @@ kind: concept
 status: approved
 visibility: student
 languages:
+  - en
   - nb
 title:
+  en: Generative AI and Large Language Models
   nb: Generativ KI og store språkmodeller
 courses:
   - bik2551
@@ -31,6 +33,7 @@ owners:
   - vegard
 updated: 2026-03-19
 translation_status:
+  en: approved
   nb: approved
 ai:
   generated_fields: []

@@ -1,0 +1,73 @@
+## Language models generate text through prediction, not understanding
+
+Large language models (LLMs) produce text by predicting the next word based on
+probability. They do not understand the content the way a human does. This
+difference is fundamental to using the tools correctly in `BIK 2551`: what
+looks like understanding is statistical pattern recognition trained on very
+large amounts of text.
+
+That means the models can be impressively precise on many tasks, but they can
+also be confidently wrong without knowing it themselves.
+
+## How a language model is trained
+
+An LLM is developed in several stages:
+
+- **Pre-training** uses large amounts of internet text to learn language
+  patterns. The model learns to predict the next word in a sentence.
+- **Fine-tuning** adapts the model to follow instructions and respond like a
+  useful assistant, often with human feedback.
+- **RAG (Retrieval-Augmented Generation)** connects the model to external
+  knowledge sources so it can retrieve updated or specialized information
+  instead of relying only on what it remembers from training.
+
+These stages explain why different platforms give different answers: they use
+different models that have been trained and adapted in different ways.
+
+## Context windows and the difference between models and platforms
+
+The context window is the model's working memory: everything it can see and use
+in a single conversation. The more relevant context you provide, the better the
+answers you get.
+
+It is important to distinguish between **models** (GPT-4, Claude, Gemini) and
+**platforms** (ChatGPT, claude.ai, Google AI Studio). A platform can offer
+several models, and the same model can be available across different
+platforms.
+
+## Why models hallucinate
+
+Hallucination happens when the model generates text that sounds plausible but
+is wrong. This is a natural consequence of the model always producing the most
+likely next word, regardless of whether the result is true.
+
+Practical ways to detect hallucinations:
+
+- Ask the model to provide sources and verify them manually.
+- Compare answers from several models or platforms.
+- Be especially skeptical when the model responds with high confidence on niche
+  topics.
+
+::: {.teacher-only}
+Ask participants to test a model with a question from their own field where
+they already know the correct answer. Discuss in plenary: Did the model get it
+wrong? Was it easy to detect? How would a colleague without domain knowledge
+react?
+:::
+
+## Where this topic fits in `BIK 2551`
+
+Generative AI and large language models are the starting point for the whole
+course. Without a basic understanding of how the models work, it is difficult
+to use them effectively or assess their limitations.
+
+This module lays the foundation for prompt engineering, ethics and law, and the
+more advanced topics later in the course such as AI agents and automation.
+
+## Practical points to keep
+
+- Language models predict text; they do not understand content.
+- Choose platform and model based on the task. No model is best at everything.
+- Hallucinations are normal, not a sign of misuse. Always verify important
+  claims.
+- The context window is your most important tool for getting better answers.

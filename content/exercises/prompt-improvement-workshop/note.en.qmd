@@ -1,0 +1,26 @@
+## Improve vague prompts with structure
+
+Below are four prompts that are intentionally vague. Your task is to improve
+each one by adding **Role**, **Context**, **Task**, and **Format**.
+
+Test the improved version in an AI tool and assess the difference in output.
+
+### Prompt 1
+
+> Write an email about the project.
+
+### Prompt 2
+
+> Help me create a presentation.
+
+### Prompt 3
+
+> Summarize this report.
+
+### Prompt 4
+
+> Give me feedback on my text.
+
+**Success criteria:** Each improved prompt contains all four building blocks.
+The model's answer is noticeably more relevant and useful than the answer to
+the original prompt.

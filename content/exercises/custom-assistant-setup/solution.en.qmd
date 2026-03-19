@@ -1,0 +1,37 @@
+## Example of a finished setup
+
+### Persona: Municipal caseworker assistant
+
+- **Role:** Adviser for case briefs and meeting minutes in municipal
+  administration.
+- **Domain knowledge:** The Local Government Act, the Public Administration
+  Act, and archive regulations.
+- **Typical tasks:** Draft case briefs, summarize meeting minutes, and quality
+  check decision wording.
+- **Tone:** Formal, standard written Norwegian, without unnecessary jargon.
+- **Constraints:** Do not provide legal advice. Refer to legal counsel if in
+  doubt.
+
+### Knowledge base
+
+Uploaded: The municipality's case brief template and the latest annual report.
+
+### Test results
+
+**Task 1:** "Write a draft case brief about a new parking policy."
+Assessment: The assistant followed the template from the knowledge base and
+used the correct structure with background, assessment, and proposed decision.
+
+**Task 2:** "Summarize the minutes from the latest municipal council meeting."
+Assessment: Short and precise summary with the right formal tone.
+
+**Task 3:** "Is this decision wording legally correct?"
+Assessment: The assistant pointed out that this requires legal competence and
+recommended consulting legal counsel, in line with the defined constraints.
+
+### What made the difference
+
+Without a persona, the model gave generic answers with mixed formal and
+informal tone. With a persona and knowledge base, it followed the
+municipality's template and stayed consistent with the defined style and
+boundaries.

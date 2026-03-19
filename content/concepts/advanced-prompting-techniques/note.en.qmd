@@ -1,0 +1,75 @@
+## Complex tasks require the model to work step by step
+
+Simple prompting works well for simple tasks. But when a task requires
+reasoning, such as comparing alternatives, creating a multi-step plan, or
+solving a problem with several dependencies, the model needs help structuring
+its process. In `BIK 2551`, we use techniques that make the model work more
+systematically.
+
+## Chain of Thought: let the model expose the reasoning
+
+Chain of Thought (CoT) means asking the model to work in steps instead of
+jumping straight to the answer. A simple instruction such as "let's solve this
+step by step" can noticeably improve results on tasks that require logic or
+trade-offs.
+
+Examples of CoT instructions:
+
+- "List all possible solutions first, then choose the two best and explain
+  why."
+- "Propose a plan, ask for confirmation, then execute."
+- "Analyze pros and cons before making a recommendation."
+
+The point is not that the model literally thinks. It still predicts text. But
+forcing it to generate intermediate steps reduces the chance that it skips
+important reasoning.
+
+## Few-shot prompting: show examples instead of rules
+
+Sometimes it is easier to show the model what you want than to explain it.
+Few-shot prompting means giving two or three examples of the desired input and
+output before the real task.
+
+This is especially useful when:
+
+- you want a specific format that is hard to describe precisely,
+- the task requires a specific assessment style or tone,
+- you want the model to follow a particular decision logic.
+
+## Fast models versus reasoning models
+
+Not every task needs step-by-step reasoning. There is a practical distinction
+between fast models and reasoning models:
+
+- **Fast models** work well for translation, summarization, rewriting, and
+  other tasks where pattern recognition is enough.
+- **Reasoning models** perform better on tasks that require logic, planning,
+  comparing alternatives, and multi-step problems.
+
+Choose the model based on the complexity of the task. Using a reasoning model
+for a simple summary is unnecessarily slow and expensive.
+
+::: {.teacher-only}
+Demonstrate the difference between a fast model and a reasoning model on the
+same task, for example a logic puzzle or a planning problem. Let participants
+guess which model will do better before you show the result. You can refer to
+Apple's "The Illusion of Thinking" to add nuance.
+:::
+
+## Where this topic fits in `BIK 2551`
+
+Advanced prompting builds directly on the basic prompting techniques from Day 1.
+Together with context windows and RAG, it gives participants a more complete
+toolkit for handling both simple and more complex AI tasks.
+
+These techniques are used actively in the workshop where participants set up
+custom AI assistants.
+
+## Practical points to keep
+
+- Use Chain of Thought when the task requires reasoning or trade-offs.
+- Use examples when the format matters more than the instruction itself.
+- Choose model type based on task complexity. Do not use a sledgehammer on a
+  nail.
+- Combine techniques. CoT plus few-shot examples plus context often gives the
+  best result.

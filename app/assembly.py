@@ -372,13 +372,13 @@ class AssemblyBuilder:
             if self.language == "en"
             else "LearnForge organiserer undervisningsmateriale som gjenbrukbare objekter. "
             "Start med et kurs for en forelesningssti, eller start med et tema for begreper, "
-            "ovinger, figurer og ressurser pa tvers av kurs."
+            "øvinger, figurer og ressurser på tvers av kurs."
         )
         how_to_use = (
             "Use course pages for lecture order, exercises, and readings. Use topic pages for "
             "concept-centric navigation and related material."
             if self.language == "en"
-            else "Bruk kurssidene for forelesningsrekkefolge, ovinger og lesestoff. Bruk "
+            else "Bruk kurssidene for forelesningsrekkefølge, øvinger og lesestoff. Bruk "
             "temasidene for begrepsstyrt navigasjon og relatert materiale."
         )
 
@@ -733,7 +733,7 @@ class AssemblyBuilder:
             title = (
                 f"{title} - Teacher Solution Sheet"
                 if self.language == "en"
-                else f"{title} - Losningsark for laerer"
+                else f"{title} - Løsningsark for lærer"
             )
         target = BuildTargetRef(
             identifier=record.model.id,
@@ -971,7 +971,7 @@ class AssemblyBuilder:
                 entries=lecture_entries,
             ),
             self._render_listing_section(
-                title="Exercises" if self.language == "en" else "Ovinger",
+                title="Exercises" if self.language == "en" else "Øvinger",
                 entries=exercise_entries,
             ),
             self._render_listing_section(
@@ -1091,7 +1091,10 @@ class AssemblyBuilder:
                     target_id=record.model.id,
                 ),
             )
-            for record in sorted(matches, key=topic_listing_sort_key)
+            for record in sorted(
+                matches,
+                key=lambda item: topic_listing_sort_key(item, language=self.language),
+            )
         ]
         related_courses = self._related_course_entries_for_topic(topic)
         body = self._render_listing_page(
@@ -1295,7 +1298,7 @@ class AssemblyBuilder:
             (
                 f"- Stale resources: {workflow_summary['stale_resource_count']}"
                 if self.language == "en"
-                else f"- Utlopende ressurser: {workflow_summary['stale_resource_count']}"
+                else f"- Utløpende ressurser: {workflow_summary['stale_resource_count']}"
             ),
             "",
             self._render_listing_section(
@@ -1315,7 +1318,7 @@ class AssemblyBuilder:
             self._render_listing_section(
                 title="Stale resources"
                 if self.language == "en"
-                else "Utlopende ressurser",
+                else "Utløpende ressurser",
                 entries=stale_entries,
             ),
         ]
@@ -1354,7 +1357,7 @@ class AssemblyBuilder:
         body = markdown_body.rstrip()
         if self.audience == "student" and self.output_format == "html":
             body = self._render_student_site_document(target=target, markdown_body=body)
-        if self.output_format in {"html", "revealjs"} and self.figure_observations:
+        if self.output_format in {"html", "revealjs", "slides-pdf"} and self.figure_observations:
             body = "\n\n".join(
                 [
                     "<style>",
@@ -1420,10 +1423,10 @@ class AssemblyBuilder:
         search_placeholder = (
             "Search concepts, lectures, exercises, or resources"
             if self.language == "en"
-            else "Sok i begreper, forelesninger, ovinger eller ressurser"
+            else "Søk i begreper, forelesninger, øvinger eller ressurser"
         )
-        search_label = "Search LearnForge" if self.language == "en" else "Sok i LearnForge"
-        search_button = "Search" if self.language == "en" else "Sok"
+        search_label = "Search LearnForge" if self.language == "en" else "Søk i LearnForge"
+        search_button = "Search" if self.language == "en" else "Søk"
         nav_label = "Student site navigation" if self.language == "en" else "Studentnavigasjon"
 
         sections = [
@@ -1475,7 +1478,7 @@ class AssemblyBuilder:
             "Browse by course for lecture order and assignments, "
             "or by topic for concept-first study."
             if self.language == "en"
-            else "Bla etter kurs for forelesningsrekkefolge og oppgaver, "
+            else "Bla etter kurs for forelesningsrekkefølge og oppgaver, "
             "eller etter tema for begrepsbasert lesing."
         )
         course_label = "course index" if self.language == "en" else "kursoversikt"
@@ -1493,7 +1496,7 @@ class AssemblyBuilder:
 
     def _render_breadcrumbs(self, *, target: BuildTargetRef, current_output: Path) -> str:
         parts = self._breadcrumbs(target=target, current_output=current_output)
-        label = "Breadcrumbs" if self.language == "en" else "Brodsmuler"
+        label = "Breadcrumbs" if self.language == "en" else "Brødsmuler"
         return f'<p class="lf-breadcrumbs"><strong>{label}:</strong> {" / ".join(parts)}</p>'
 
     def _breadcrumbs(self, *, target: BuildTargetRef, current_output: Path) -> list[str]:
@@ -1568,10 +1571,10 @@ class AssemblyBuilder:
         return [f'<a href="{course_href}">{course_record.model.title[self.language]}</a>']
 
     def _render_language_switch(self, *, target: BuildTargetRef, current_output: Path) -> str:
-        label = "Language" if self.language == "en" else "Sprak"
+        label = "Language" if self.language == "en" else "Språk"
         options: list[str] = []
         for language in ("en", "nb"):
-            language_label = "English" if language == "en" else "Norsk"
+            language_label = localized_language_name(language, self.language)
             if language == self.language:
                 options.append(f"<strong>{language_label}</strong>")
                 continue
@@ -1587,8 +1590,8 @@ class AssemblyBuilder:
                     current_output=current_output,
                     language=language,
                 )
-                suffix = " home" if self.language == "en" else " hjem"
-                options.append(f'<a href="{fallback}">{language_label}{suffix}</a>')
+                fallback_suffix = "(home)" if self.language == "en" else "(hjem)"
+                options.append(f'<a href="{fallback}">{language_label} {fallback_suffix}</a>')
         return f'<p class="lf-language-switch"><strong>{label}:</strong> {" | ".join(options)}</p>'
 
     def _counterpart_href(
@@ -1710,18 +1713,22 @@ class AssemblyBuilder:
         labels = {
             "pdf": "PDF",
             "revealjs": "Slides" if self.language == "en" else "Lysbilder",
+            "slides-pdf": "Slide PDF" if self.language == "en" else "Lysbilder PDF",
             "handout": "Handout" if self.language == "en" else "Handout",
             "exercise-sheet": (
-                "Solution sheet"
+                    "Solution sheet"
                 if self.audience == "teacher" and self.language == "en"
                 else (
-                    "Losningsark"
+                    "Løsningsark"
                     if self.audience == "teacher"
-                    else ("Exercise sheet" if self.language == "en" else "Ovingsark")
+                    else ("Exercise sheet" if self.language == "en" else "Øvingsark")
                 )
             ),
         }
-        for export_format in ("pdf", "revealjs", "handout", "exercise-sheet"):
+        if "revealjs" in outputs:
+            outputs.add("slides-pdf")
+
+        for export_format in ("pdf", "revealjs", "slides-pdf", "handout", "exercise-sheet"):
             if export_format not in outputs:
                 continue
             export_path = planned_target_output_path(
@@ -1747,8 +1754,9 @@ class AssemblyBuilder:
             "html": "HTML",
             "pdf": "PDF",
             "revealjs": "Slides" if self.language == "en" else "Lysbilder",
+            "slides-pdf": "Slide PDF" if self.language == "en" else "Lysbilder PDF",
             "handout": "Handout" if self.language == "en" else "Handout",
-            "exercise-sheet": "Exercise sheet" if self.language == "en" else "Ovingsark",
+            "exercise-sheet": "Exercise sheet" if self.language == "en" else "Øvingsark",
         }
         return labels.get(output_format, output_format)
 
@@ -1766,7 +1774,7 @@ class AssemblyBuilder:
     def _render_concept_summary(self, record: IndexedObject) -> str:
         heading = "## At a glance" if self.language == "en" else "## Kort oversikt"
         items = [
-            f"- {('Level' if self.language == 'en' else 'Niva')}: {record.model.level}",
+            f"- {('Level' if self.language == 'en' else 'Nivå')}: {record.model.level}",
         ]
         topic_links = self._topic_links(record, current_kind="concept")
         if topic_links:
@@ -1796,12 +1804,12 @@ class AssemblyBuilder:
                 f"{localized_minutes(record.model.estimated_time_minutes, self.language)}"
             ),
             (
-                f"- {('Solution visibility' if self.language == 'en' else 'Losningssynlighet')}: "
+                f"- {('Solution visibility' if self.language == 'en' else 'Løsningssynlighet')}: "
                 + (
                     "teacher-only separate file"
                     if record.model.solution_visibility == "teacher" and self.language == "en"
                     else (
-                        "egen fil kun for laerer"
+                        "egen fil kun for lærer"
                         if record.model.solution_visibility == "teacher"
                         else ("private file" if self.language == "en" else "privat fil")
                     )
@@ -1960,7 +1968,7 @@ class AssemblyBuilder:
         parts: list[str] = []
         if heading_level is not None:
             parts.extend(["#" * heading_level + f" {record.model.title[self.language]}", ""])
-        if self.output_format in {"html", "revealjs"}:
+        if self.output_format in {"html", "revealjs", "slides-pdf"}:
             interactive = self.output_format == "html" and bool(record.model.interactive_path)
             parts.append(
                 self._render_figure_html_block(
@@ -2089,7 +2097,7 @@ class AssemblyBuilder:
                     (
                         record.directory
                         / (
-                            record.model.pdf_path
+                        record.model.pdf_path
                             if self.output_format in {"pdf", "handout", "exercise-sheet"}
                             else record.model.svg_path
                         )
@@ -2256,11 +2264,11 @@ class AssemblyBuilder:
             "## Teacher solution sheet" if include_solutions and self.language == "en" else None
         )
         if include_solutions and self.language == "nb":
-            heading = "## Losningsark for laerer"
+            heading = "## Løsningsark for lærer"
         if not include_solutions and self.language == "en":
             heading = "## Exercise sheet"
         if not include_solutions and self.language == "nb":
-            heading = "## Ovingsark"
+            heading = "## Øvingsark"
 
         lines = [heading, ""]
         if include_solutions:
@@ -2268,7 +2276,7 @@ class AssemblyBuilder:
                 "For teacher use only. This version includes solution material that is excluded "
                 "from student builds."
                 if self.language == "en"
-                else "Kun for laererbruk. Denne versjonen inkluderer losningsmateriale som er "
+                else "Kun for lærerbruk. Denne versjonen inkluderer løsningsmateriale som er "
                 "utelatt fra studentbyggen."
             )
         else:
@@ -2418,7 +2426,7 @@ class AssemblyBuilder:
             stale_label = "yes" if self.language == "en" else "ja"
             fresh_label = "no" if self.language == "en" else "nei"
             instructor_label = (
-                "Instructor note" if self.language == "en" else "Faglaerermerknad"
+                "Instructor note" if self.language == "en" else "Faglærermerknad"
             )
             approval_history_label = (
                 "Approval history" if self.language == "en" else "Godkjenningshistorikk"
@@ -3241,6 +3249,8 @@ class AssemblyBuilder:
             raise AssemblyError(f"{identifier} does not support language {self.language}")
 
     def _ensure_output_supported(self, outputs: list[str], identifier: str) -> None:
+        if self.output_format == "slides-pdf" and "revealjs" in outputs:
+            return
         if self.output_format not in outputs:
             raise AssemblyError(f"{identifier} does not support format {self.output_format}")
 
@@ -3367,9 +3377,13 @@ class AssemblyBuilder:
 
 
 def build_output_name(identifier: str, output_format: str, *, audience: str) -> str:
-    extension = ".pdf" if output_format in {"pdf", "handout", "exercise-sheet"} else ".html"
+    extension = (
+        ".pdf" if output_format in {"pdf", "slides-pdf", "handout", "exercise-sheet"} else ".html"
+    )
     suffix = ""
-    if output_format == "handout":
+    if output_format == "slides-pdf":
+        suffix = "-slides"
+    elif output_format == "handout":
         suffix = "-handout"
     elif output_format == "exercise-sheet":
         suffix = "-solution-sheet" if audience == "teacher" else "-exercise-sheet"
@@ -3390,13 +3404,51 @@ def localized_count_label(count: int, language: str) -> str:
     return f"{count} items"
 
 
-def topic_listing_sort_key(record: IndexedObject) -> tuple[int, str, str]:
+def topic_listing_sort_key(record: IndexedObject, *, language: str) -> tuple[int, str, str]:
     kind = record.model.kind if not isinstance(record.model, Collection) else "collection"
-    return (KIND_SORT_ORDER.get(kind, 99), record.model.title["en"], record.model.id)
+    localized_title = record.model.title.get(language)
+    if localized_title is None:
+        localized_title = next(iter(record.model.title.values()))
+    return (KIND_SORT_ORDER.get(kind, 99), localized_title, record.model.id)
 
 
 def humanize_slug(slug: str) -> str:
-    return slug.replace("-", " ").title()
+    return " ".join(humanize_slug_token(token) for token in slug.split("-"))
+
+
+def humanize_slug_token(token: str) -> str:
+    acronym_labels = {
+        "ai": "AI",
+        "api": "API",
+        "csv": "CSV",
+        "evm": "EVM",
+        "iv": "IV",
+        "knn": "kNN",
+        "llm": "LLM",
+        "llms": "LLMs",
+        "nlp": "NLP",
+        "pca": "PCA",
+        "rag": "RAG",
+        "sql": "SQL",
+        "utxo": "UTXO",
+    }
+    if token in acronym_labels:
+        return acronym_labels[token]
+    return token.capitalize()
+
+
+def localized_language_name(language: str, ui_language: str) -> str:
+    labels = {
+        "en": {
+            "en": "English",
+            "nb": "Engelsk",
+        },
+        "nb": {
+            "en": "Norwegian",
+            "nb": "Norsk",
+        },
+    }
+    return labels[language][ui_language]
 
 
 def output_category_for_kind(target_kind: str) -> str:

@@ -1,0 +1,77 @@
+## From conversation to action: what is an AI agent?
+
+In the first modules of `BIK 2551`, we use AI as a conversation partner: we
+ask questions and get text back. An AI agent goes one step further. It can
+plan, use tools, and perform actions in the real world.
+
+That difference matters. A regular chatbot gives you an answer. An agent can
+search the web, run code, update a spreadsheet, or send an email as part of a
+coherent task.
+
+## Zero-shot dialogue versus agents with tool access
+
+In a regular AI conversation, the model only has access to what you write and
+what it learned during training. It cannot check facts, retrieve updated
+information, or do anything outside the conversation window.
+
+An agent has access to tools:
+
+- **Browser**: search for updated information.
+- **Code execution**: analyze data, run calculations, generate files.
+- **APIs**: communicate with other systems.
+- **File access**: read and write documents.
+
+This makes the agent far more useful for real work tasks, but also more risky.
+
+## The agent loop: plan, tool, action, observation
+
+An AI agent works in a loop:
+
+1. **Plan**: The agent analyzes the task and decides the next step.
+2. **Tool**: It selects a tool that can help, such as search, code, or an API.
+3. **Action**: The tool is executed and produces a result.
+4. **Observation**: The agent evaluates the result and decides whether the task
+   is solved or whether more steps are needed.
+
+This loop repeats until the task is complete. That means the agent can handle
+multi-step tasks and adapt as it goes.
+
+## Opportunities and challenges
+
+AI agents open up many possibilities, but also have clear limitations:
+
+**Opportunities:**
+
+- Automate compound tasks that span several systems.
+- Analyze data and produce reports without manual work.
+- Reduce the time from idea to action.
+
+**Challenges:**
+
+- **Cost**: Agents use many API calls and can become expensive.
+- **Infinite loops**: The agent can get stuck in repeated attempts without
+  moving forward.
+- **Bad actions**: An agent that sends email or modifies files can cause damage
+  if it misunderstands the task.
+- **Security**: Tool access requires access control and monitoring.
+
+::: {.teacher-only}
+Show a demo of a code agent solving a multi-step task, for example analyzing a
+dataset and producing a report. Point out how the agent loop works in practice:
+planning, tool choice, action, observation. Discuss in plenary: What happens if
+the agent makes a mistake in step 2 of 5?
+:::
+
+## Where this topic fits in `BIK 2551`
+
+AI agents represent the next level after basic prompting and custom
+assistants. In this module, participants learn what agents can do and what
+risks they introduce. That knowledge is necessary for assessing automation
+opportunities in the next module.
+
+## Practical points to keep
+
+- An agent can do things, not just write things.
+- The agent loop, plan, tool, action, observation, is the core mechanism.
+- Tool access creates power, but requires control and monitoring.
+- Start with simple agent tasks and increase complexity gradually.

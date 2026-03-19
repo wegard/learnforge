@@ -1,0 +1,78 @@
+## Creative AI tools are useful when the goal is exploration, not just answers
+
+Generative AI is not only about text. In `BIK 2551`, participants also
+encounter tools that create images, presentations, video, or visual drafts. The
+point is not to master every platform, but to understand which kinds of tasks
+these tools are actually good for in day-to-day work.
+
+## Three main categories of creative tools
+
+Most creative AI tools fall into one of three categories:
+
+- **Image generators** create illustrations, simple visualizations, or idea
+  sketches from text descriptions.
+- **Presentation tools** suggest structure, slides, and visual layouts from a
+  topic or a text draft.
+- **Multimodal workspaces** combine text, images, audio, and diagrams in one
+  process.
+
+The most important distinction is not between brand names. It is between what
+you want to achieve: idea development, communication, or finished production.
+
+## When these tools actually create value
+
+Creative tools are especially useful when you need:
+
+- a quick first version of a visual expression,
+- several alternative ways to present the same message,
+- support for making complex material easier to communicate.
+
+They work less well when the demands for domain precision, visual identity, or
+legal control are high. An AI-generated image may be good enough for ideation,
+but not necessarily for external publication without quality control.
+
+## Use creative tools as collaborators
+
+The best workflow is often iterative:
+
+1. Start with a clear task and a concrete audience.
+2. Ask the tool to generate several options, not one "finished" solution.
+3. Choose the best draft and improve it manually.
+4. Quality-check language, facts, graphics, and rights before use.
+
+That makes the tools useful as creative sparring partners, not autonomous
+producers.
+
+## Licensing, copyright, and reputational risk
+
+Creative AI tools raise their own questions about copyright, licensing, and
+internal brand use. Before using generated material at work, clarify:
+
+- whether the tool can be used in a commercial or institutional context,
+- whether the organization has guidelines for generated images and video,
+- whether the content could be mistaken for documentation or fact when it is
+  really illustration.
+
+This matters especially when AI is used in presentations, customer dialogue, or
+teaching.
+
+::: {.teacher-only}
+Show two quick contrasts: one image-generation tool and one presentation tool.
+Afterward, discuss what actually saved time and what still required human
+editing to become good enough.
+:::
+
+## Where this topic fits in `BIK 2551`
+
+This module expands participants' understanding of what generative AI can be
+used for beyond text. It fits well between basic prompting and project work,
+because many participants will use AI to communicate ideas, not just to analyze
+them.
+
+## Practical points to keep
+
+- Choose tools based on the task, not the hype.
+- Use creative tools for ideation and variation, not blind final production.
+- Always quality-check content that will be shared with others.
+- Clarify licensing and internal policy before using generated material
+  externally.

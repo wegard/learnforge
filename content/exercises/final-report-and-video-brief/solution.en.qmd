@@ -1,0 +1,24 @@
+## Teacher guidance
+
+Use this as assessment support, not as a template answer.
+
+### A strong final report
+
+- shows a clear connection between problem, intervention, and result,
+- documents both benefits and limitations,
+- uses concrete examples of prompts, workflow, or output,
+- includes a credible reflection on responsible use.
+
+### A strong video presentation
+
+- prioritizes the main point over detail,
+- explains the project in language non-technical stakeholders can understand,
+- shows why the project matters for the workday,
+- ends with a clear next step.
+
+### Signs of a weak submission
+
+- a lot of tool talk, but little understanding of the problem,
+- claims about impact without logs, observations, or comparison,
+- missing assessment of risk, quality, or human control,
+- an unclear recommendation about what the organization should do next.

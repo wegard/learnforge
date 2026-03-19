@@ -1,0 +1,75 @@
+## The difference between asking a question and giving the model something to work with
+
+A language model that answers without extra information relies only on what it
+learned during training. It is like asking a colleague a question before they
+have read the case material. In `BIK 2551`, we learn two ways of giving the
+model relevant knowledge: the context window and RAG systems.
+
+## The context window as working memory
+
+The context window is everything the model can see in a single conversation:
+your prompt, previous messages, and any documents you attach. Think of it as
+the model's short-term memory.
+
+Many modern models have very large context windows. In practice, that means you
+can often paste in long documents and ask the model to work directly with the
+content.
+
+Practical consequences:
+
+- The more relevant context you provide, the better the answer.
+- Irrelevant information can confuse the model, so be selective.
+- As the conversation gets longer, the model can lose track of early messages.
+
+## RAG: retrieving knowledge from external sources
+
+RAG (Retrieval-Augmented Generation) is a technique where the model
+automatically retrieves relevant information from a knowledge base before it
+generates an answer. Instead of relying on what the model remembers, the system
+searches your documents and gives the model the most relevant excerpts.
+
+Benefits of RAG:
+
+- Answers can be based on updated or specialized information.
+- The model can provide sources, which makes answers easier to verify.
+- The knowledge base can be updated without retraining the model.
+
+Limitations:
+
+- Quality depends on the search step finding the right documents.
+- The setup requires more technical infrastructure than plain prompting.
+
+## When the context window is enough, and when you need RAG
+
+For many day-to-day tasks, the context window is sufficient. Paste in the
+document, ask the question, get the answer. Tools like NotebookLM show how this
+works in practice: you upload sources and the model works precisely with the
+content.
+
+RAG becomes useful when:
+
+- the knowledge base is too large to fit into the context window,
+- the information changes frequently and must stay up to date,
+- you need automatic source citation in the answer.
+
+::: {.teacher-only}
+Demonstrate NotebookLM with a short document. Let participants see the
+difference between asking the model without context and with the document
+available. Discuss: When is pasting in text enough, and when would a RAG
+solution be better?
+:::
+
+## Where this topic fits in `BIK 2551`
+
+Context windows and RAG build on the basic understanding of language models
+from Day 1. The knowledge is directly applicable in the workshop where
+participants set up their own AI assistants with a custom knowledge base.
+
+## Practical points to keep
+
+- Give the model relevant context. Do not assume it already knows enough from
+  training.
+- Start with the context window; consider RAG only when the document set gets
+  too large.
+- Always verify citations. RAG reduces hallucination, but it does not eliminate
+  it.

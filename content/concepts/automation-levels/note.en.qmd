@@ -1,0 +1,87 @@
+## AI can do things, not just write things
+
+So far in `BIK 2551`, we have used AI to generate text: summaries, drafts, and
+analyses. But the real productivity gain comes when AI is connected to actions:
+analyzing spreadsheets, sorting email, updating systems. This module presents
+three levels of automation, from the simplest to the most advanced.
+
+## Level 1: advanced data analysis in chat
+
+The simplest step is to let the AI tool work directly with your data. Modern
+platforms can run code in the background when you upload a spreadsheet or a
+data file.
+
+Typical tasks:
+
+- Describe a dataset: number of rows, columns, and missing values.
+- Create simple visualizations: bar charts and trend lines.
+- Test a hypothesis or calculate key figures.
+- Generate a short report based on the findings.
+
+This requires no technical skill beyond writing good prompts.
+
+## Level 2: no-code and low-code automation
+
+Tools like Zapier and Make let you connect systems visually without writing
+code. You build a workflow where an event in one system triggers an action in
+another.
+
+Example: An incoming email triggers AI classification, which logs the result in
+a spreadsheet and sends an alert if the case is urgent.
+
+These workflows fit when:
+
+- the task repeats regularly with the same structure,
+- you need to connect two or more systems,
+- error handling can be managed with simple rules.
+
+## Level 3: APIs and tailored solutions
+
+An API (Application Programming Interface) is a standardized way for systems to
+communicate with each other. For managers and knowledge workers, the most
+important thing is to understand the concept, not to code it.
+
+Think of an API as a door into and out of a system:
+
+- You send a request through the door, for example a text that should be
+  analyzed.
+- The system processes the request and sends the answer back.
+
+API-based automation gives full flexibility, but it requires technical
+competence or collaboration with a developer.
+
+## Choose the right level for the task
+
+Not every automation needs to be advanced:
+
+- **Level 1** covers one-off needs and ad hoc analysis.
+- **Level 2** covers repeating tasks between known systems.
+- **Level 3** covers tailored solutions with special requirements.
+
+Always start with the simplest level that solves the problem. Complexity should
+be justified by a concrete gain.
+
+::: {.teacher-only}
+Show a simple Make or Zapier workflow live, for example email classification
+that logs to a spreadsheet. Also show a short demo of Advanced Data Analysis
+with an anonymized Excel file. Discuss: Which level of automation fits the
+participants' own projects?
+:::
+
+## Where this topic fits in `BIK 2551`
+
+The automation levels build on the understanding of AI agents and give
+participants a framework for evaluating what degree of automation is realistic
+for their own work tasks.
+
+The workshop afterward lets participants design an automation solution for
+their own project.
+
+## Practical points to keep
+
+- Start with level 1, data analysis in chat. It requires the least and creates
+  quick value.
+- Level 2, no-code, fits repeating tasks with clear structure.
+- Level 3, API-based, is for tailored needs. Involve technical competence.
+- Always document the automation: what it does, who owns it, and what happens
+  if it fails.

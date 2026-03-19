@@ -4,8 +4,10 @@ collection_kind: lecture
 status: approved
 visibility: student
 languages:
+  - en
   - nb
 title:
+  en: Day 1 - Introduction to Generative AI and Prompt Engineering
   nb: Dag 1 - Introduksjon til generativ KI og prompt engineering
 courses:
   - bik2551
@@ -25,6 +27,7 @@ owners:
   - vegard
 updated: 2026-03-19
 translation_status:
+  en: approved
   nb: approved
 ai:
   generated_fields: []

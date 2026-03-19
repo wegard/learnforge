@@ -1,0 +1,94 @@
+# Course Overview
+
+`BIK 2551 Artificial Intelligence for Increased Productivity` is an executive
+course at BI Norwegian Business School (7.5 ECTS, spring 2026). The course is
+aimed at managers and knowledge workers who want to use generative artificial
+intelligence in a structured, safe, and measurable way in their own work.
+
+The course is being migrated to LearnForge from legacy material in
+`course-inbox/ai-produktivitet/`.
+
+## Knowledge Goals
+
+- Understand how generative language models work, including the training
+  process, tokens, probabilistic text generation, and the difference between
+  search and generation.
+- Know core concepts such as context windows, RAG, hallucinations, agents, and
+  automation.
+- Understand the ethical, legal, and security-related frameworks that shape AI
+  use in organizations, including the EU AI Act, GDPR, and copyright.
+- Assess maturity and risk levels for AI implementation in their own
+  organization.
+
+## Skills Goals
+
+- Formulate effective instructions (prompts) using structured frameworks such as
+  Role, Context, Task, and Format.
+- Set up personal AI assistants with custom instructions and knowledge bases.
+- Design and run a mini-experiment with before/after measurement of
+  productivity and quality.
+- Identify and map automation opportunities at different levels, from simple
+  chat use to agent-based workflows.
+
+## General Competence
+
+- Reflect critically on the opportunities, limitations, and risks of using
+  generative AI in professional practice.
+- Develop and communicate an AI strategy adapted to their own team or
+  organization.
+- Communicate results and lessons learned through a written report and a video
+  presentation.
+
+## Planned Content
+
+The course is organized around four in-person teaching days across two sessions:
+
+### Session 1: Exploration and Core Skills
+
+- **Day 1 - Introduction and language models:** What generative AI is, prompt
+  engineering, ethics and law, creative AI tools, and project kick-off.
+- **Day 2 - Toolkit and project start:** Context windows and RAG,
+  source-grounded AI systems, custom instructions, and a project workshop with
+  presentations of project ideas.
+
+### Between Sessions (about 10 weeks)
+
+Independent work on the project assignment. Implementation and a mini-experiment
+with an AI logbook. Digital supervision via Canvas.
+
+### Session 2: Implementation, Strategy, and the Future
+
+- **Day 3 - AI agents:** Sharing experiences, AI agents in theory and practice,
+  automation levels, and an automation workshop.
+- **Day 4 - Strategy, leadership, and the future:** AI strategy and
+  implementation in organizations, the future of work, and project
+  presentations.
+
+## Teaching Format
+
+The course consists of two in-person sessions of two days each, with guided
+project work in the period between them. Teaching combines academic input,
+practical demonstrations, workshops, and project labs.
+
+Throughout the course, participants work on a concrete process from their own
+job and gradually develop an AI-based solution or workflow that is tested and
+evaluated in practice.
+
+## Tools
+
+- AI platforms: ChatGPT, Claude, Gemini (BI-licensed).
+- Creative tools: image generation, presentation tools, multimodal models.
+- Automation: no-code platforms (Zapier, Make), agent frameworks.
+- No programming or Python experience required.
+
+## Assessment
+
+Individual project assignment with two submissions:
+
+1. **Final report** (up to 10 pages, PDF): Problem definition, current-state
+   analysis, plan for measuring effect, description of the solution,
+   measurement results, benefits, limitations, and next steps.
+2. **Video presentation** (5 minutes): Presentation of the project and the
+   results.
+
+Submission deadline: May 29, 2026 at 12:00.

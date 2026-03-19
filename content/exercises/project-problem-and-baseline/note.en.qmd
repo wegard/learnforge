@@ -1,0 +1,41 @@
+## Scope the project before you choose a tool
+
+Choose one concrete work task or "time thief" from your own job that you want
+to improve with AI. The goal of this exercise is to define the problem clearly
+enough that the project becomes manageable during the course.
+
+### Step 1: Formulate the problem
+
+Write one sentence that describes:
+
+- what currently takes unnecessary time,
+- who is affected,
+- why it is worth improving.
+
+### Step 2: Describe the current situation
+
+Create a simple as-is description of the process:
+
+1. Which 4 to 6 steps does the task currently contain?
+2. How much time do you normally spend on each step?
+3. Where do waiting time, duplicate work, or quality problems appear?
+
+### Step 3: Describe the desired situation
+
+Sketch a to-be process with AI support:
+
+- Which step should AI help with?
+- What should still be done by people?
+- What result do you want to achieve?
+
+### Step 4: Set goals and success criteria
+
+Define 2 to 3 concrete goals, for example:
+
+- reduced time spent,
+- better quality or fewer errors,
+- faster response time for users or customers.
+
+**Success criteria:** A colleague who does not know your project should be able
+to read the description and understand the problem, the current workflow, and
+what you want to test.

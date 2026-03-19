@@ -1,0 +1,20 @@
+## Teacher guidance
+
+A good measurement plan is simple, consistent, and tied to the goal of the
+project.
+
+### Characteristics of a strong submission
+
+- It is clear which task is being compared before and after.
+- There are few enough measurement points that the participant will actually
+  keep the log.
+- The logbook distinguishes between observations and assumptions.
+- The plan explains how quality will be assessed, not just time spent.
+- The risk assessment is connected to the specific work process.
+
+### Common weaknesses
+
+- Too many measurement points without realistic data collection.
+- Comparison of different kinds of tasks that are not directly comparable.
+- No plan for quality assurance of the output.
+- No reflection on data, privacy, or internal policy.

@@ -15,6 +15,7 @@ from app.indexer import load_repository
 from app.resource_workflow import transition_resource_to_state, write_stale_resource_report
 from app.scaffold import scaffold_object
 from app.search import search_repository
+from app.translation import build_course_translation_report
 from app.validator import validate_repository, write_validation_report
 
 app = typer.Typer(help="Thin CLI for LearnForge bootstrap workflows.", no_args_is_help=True)
@@ -187,6 +188,45 @@ def search(query: str = typer.Argument(..., help="Free-text query.")) -> None:
         return
     for result in results:
         typer.echo(f"{result.identifier} [{result.kind}] {result.title} :: {result.path}")
+
+
+@app.command("translation-status")
+def translation_status(
+    course_id: str = typer.Argument(..., help="Course identifier."),
+    lang: str = typer.Option("en", "--lang", case_sensitive=False),
+    json_output: bool = typer.Option(False, "--json", help="Print the translation report as JSON."),
+) -> None:
+    if lang not in LANGUAGES:
+        raise typer.BadParameter(f"lang must be one of {LANGUAGES}")
+    try:
+        report = build_course_translation_report(course_id, language=lang, root=REPO_ROOT)
+    except ValueError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+    if json_output:
+        typer.echo(json.dumps(report, indent=2))
+        raise typer.Exit(code=0)
+
+    typer.echo(
+        f"Course translation status: {report['course_id']} [{report['language']}] "
+        f"{report['approved_count']}/{report['entry_count']} approved"
+    )
+    for entry in report["entries"]:
+        note_status = "-"
+        if entry["note_exists"] is not None:
+            note_status = "yes" if entry["note_exists"] else "no"
+        solution_status = "-"
+        if entry["solution_exists"] is not None:
+            solution_status = "yes" if entry["solution_exists"] else "no"
+        source_words = entry["source_word_count_nb"]
+        source_display = "-" if source_words is None else str(source_words)
+        typer.echo(
+            f"{entry['kind']:10} {entry['identifier']:35} "
+            f"state={entry['translation_status']:12} "
+            f"langs={','.join(entry['languages']):7} "
+            f"note={note_status:3} solution={solution_status:3} nb_words={source_display}"
+        )
 
 
 @app.command("approve")

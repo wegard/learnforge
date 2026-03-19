@@ -2,10 +2,13 @@ id: bik2551
 status: approved
 visibility: student
 languages:
+  - en
   - nb
 title:
+  en: BIK 2551 - Artificial Intelligence for Increased Productivity
   nb: BIK 2551 - Kunstig intelligens for økt produktivitet
 summary:
+  en: Executive course on using generative AI in a structured, safe, and measurable way for knowledge work at BI.
   nb: Executive-kurs om bruk av generativ KI for kunnskapsarbeidere ved BI.
 owners:
   - vegard

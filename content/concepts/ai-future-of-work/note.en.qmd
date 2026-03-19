@@ -1,0 +1,82 @@
+## What happens when machines can do more and more?
+
+Throughout `BIK 2551`, participants learn to use AI tools, build assistants,
+and design automations. In this module, we zoom out: How will AI change work in
+the short and medium term? And what does that mean for the human role?
+
+## Augmentation versus automation
+
+There are two different lenses on AI in working life:
+
+- **Augmentation**: AI strengthens human capability. Knowledge workers do the
+  same tasks, but faster and with better quality.
+- **Automation**: AI takes over the task entirely. Humans move to other tasks
+  or the role disappears.
+
+Research suggests that generative AI often lifts the weakest performers the
+most, especially in writing tasks and customer service. That means AI can help
+reduce quality differences inside an organization.
+
+In practice, most use cases today are augmentation, not full automation. But
+the boundary is moving quickly.
+
+## Autonomous agents: the next horizon
+
+AI agents that can plan and act over longer periods are developing quickly.
+Evaluations show that models improve significantly from year to year in their
+ability to solve complex, long-running tasks.
+
+What this means in practice:
+
+- Tasks that currently require human coordination may be handled by agents.
+- The exact timing is uncertain, but the direction is clear.
+- Organizations that understand agent-based AI will be better prepared to
+  adapt.
+
+## Three time horizons
+
+A useful exercise is to evaluate your own work tasks from three perspectives:
+
+- **3 years**: Which tasks are already being augmented? Where can you become
+  more productive with today's tools?
+- **5 years**: Which tasks are likely to be fully automated? Which new tasks
+  will appear?
+- **10 years**: Which roles in the organization change fundamentally? What is
+  the uniquely human contribution?
+
+::: {.teacher-only}
+Ask participants to list three tasks from their own work and place them in the
+categories "augmented", "automated", and "more important" for each time
+horizon. Discuss in groups and compare. Point to "The Human Edge": What should
+humans do when machines can do more and more? You can also mention the
+extended-mind perspective: we may need to change how we use our own thinking.
+:::
+
+## The human role in an AI-driven future
+
+Some skills become more important, not less, as AI takes over routine work:
+
+- **Critical judgment**: evaluating whether AI-generated output is correct and
+  relevant.
+- **Relationship building**: trust, negotiation, and collaboration require
+  human presence.
+- **Ethical judgment**: deciding what should be done, not just what can be
+  done.
+- **Creative problem framing**: defining new problems, not only solving
+  existing ones.
+
+## Where this topic fits in `BIK 2551`
+
+This module closes the academic part of the course. After learning tools,
+techniques, automation, and strategy, the future perspective gives participants
+a frame for understanding why the competence they have built remains relevant
+and what they should learn next.
+
+## Practical points to keep
+
+- AI augments today, but automates tomorrow. Follow the development.
+- Evaluate your own tasks across three time horizons to identify what is
+  changing.
+- Invest in skills AI cannot replace: judgment, relationships, and ethics.
+- Share lessons from the course inside your organization as a starting point
+  for continued discussion.

@@ -3,8 +3,10 @@ kind: exercise
 status: approved
 visibility: student
 languages:
+  - en
   - nb
 title:
+  en: Automation Design Workshop
   nb: Workshop for design av automatisering
 courses:
   - bik2551
@@ -23,6 +25,7 @@ owners:
   - vegard
 updated: 2026-03-19
 translation_status:
+  en: approved
   nb: approved
 ai:
   generated_fields: []

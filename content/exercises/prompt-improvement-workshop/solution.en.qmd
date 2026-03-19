@@ -1,0 +1,45 @@
+## Example solutions
+
+### Prompt 1 - improved
+
+> **Role:** You are a project manager writing updates to senior management.
+> **Context:** The project is about introducing AI tools in customer service.
+> We are halfway through the pilot and are two weeks ahead of plan.
+> **Task:** Write a short status update by email.
+> **Format:** Maximum five sentences. Use bullet points for key figures.
+
+The improvement gives the model a clear perspective, concrete content to work
+with, and a bounded format. The result is an email management can actually use.
+
+### Prompt 2 - improved
+
+> **Role:** You are a communications adviser.
+> **Context:** I am presenting results from an AI experiment to department
+> managers. They have limited technical background.
+> **Task:** Create an outline for five slides.
+> **Format:** One heading and three bullet points per slide.
+
+Context about the audience and the format requirement makes the model adapt the
+level and scope instead of producing a generic draft.
+
+### Prompt 3 - improved
+
+> **Role:** You are an analyst reading reports for decision-makers.
+> **Context:** The report is a 40-page quarterly report on sales development in
+> the Nordic region.
+> **Task:** Summarize the most important findings and any red flags.
+> **Format:** Five bullet points, maximum two sentences per point.
+
+The task shifts from "summarize everything" to "extract what matters for a
+decision," which is far more useful.
+
+### Prompt 4 - improved
+
+> **Role:** You are an experienced writer giving constructive feedback.
+> **Context:** The text is an internal memo about a new personnel policy. The
+> audience is all employees, including people without an HR background.
+> **Task:** Give feedback on clarity, tone, and structure.
+> **Format:** Three strengths and three concrete improvement suggestions.
+
+The format and task ensure that the feedback is balanced and actionable instead
+of vague praise or generic criticism.

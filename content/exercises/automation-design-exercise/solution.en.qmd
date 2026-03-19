@@ -1,0 +1,36 @@
+## Example: automated classification of incoming requests
+
+### Task and level
+
+**Task:** Customer service receives 50 emails per day. Each email must be
+classified as urgent, normal, or informational and forwarded to the correct
+team.
+
+**Chosen level:** Level 2, a no-code workflow in Make or Zapier.
+
+### Process diagram
+
+1. **Trigger:** A new email arrives in the inbox.
+2. **AI classification:** Send the email subject and body to an AI model with
+   the prompt: "Classify this request as urgent, normal, or informational.
+   Reply with the category only."
+3. **Routing:** Based on the classification, forward the email to the correct
+   team channel.
+4. **Logging:** Log timestamp, sender, category, and receiving team in a
+   spreadsheet.
+
+### Runbook
+
+1. **Failure handling:** If the AI classification fails, for example because of
+   a timeout or an unknown answer, the email is sent to a fallback queue that
+   is checked manually twice per day.
+2. **Ownership:** The head of customer service owns the solution. Automatic
+   alerts are triggered if the error rate exceeds 10 percent.
+3. **Shutdown:** The solution is turned off during system updates and when
+   changes in email structure require a new prompt.
+
+### Why this design works
+
+The process diagram has a clear trigger, one AI step, and simple decision
+logic. The runbook covers the three most common failure scenarios: technical
+failure, responsibility, and planned downtime.

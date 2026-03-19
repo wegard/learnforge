@@ -795,7 +795,7 @@ def test_language_switch_falls_back_when_counterpart_is_not_approved(tmp_path: P
         root=tmp_path,
     )
 
-    assert "Norsk home" in assembly.markdown
+    assert "Norwegian (home)" in assembly.markdown
     assert "build/exports/student/nb/html/resource/angrist-podcast-iv" not in assembly.markdown
 
     with pytest.raises(AssemblyError):
@@ -807,6 +807,76 @@ def test_language_switch_falls_back_when_counterpart_is_not_approved(tmp_path: P
             output_format="html",
             root=tmp_path,
         )
+
+
+def test_topic_listing_assembly_supports_nb_only_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "topic-prompt-engineering",
+        index=index,
+        audience="student",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    listing_ids = [entry.identifier for entry in assembly.listing_entries]
+
+    assert assembly.target.kind == "topic-listing"
+    assert assembly.target.identifier == "topic-prompt-engineering"
+    assert "prompt-engineering-basics" in listing_ids
+    assert "custom-assistant-setup" in listing_ids
+    assert "bik2551-day-01" in listing_ids
+    assert "Strukturert prompting for kunnskapsarbeidere" in assembly.markdown
+    assert "Tema: Prompt Engineering" in assembly.markdown
+
+
+def test_nb_student_shell_uses_norwegian_letters() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bik2551",
+        index=index,
+        audience="student",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "Søk i LearnForge" in assembly.markdown
+    assert "Brødsmuler" in assembly.markdown
+    assert "forelesningsrekkefølge" in assembly.markdown
+    assert "øvinger" in assembly.markdown
+    assert "Engelsk" in assembly.markdown
+    assert "AI Strategy" in assembly.markdown
+
+
+def test_bik2551_day_01_assembly_supports_english_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bik2551-day-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "generative-ai-fundamentals",
+        "prompt-engineering-basics",
+        "ai-ethics-law-security",
+        "creative-ai-tools-overview",
+        "prompt-improvement-workshop",
+    ]
+    assert "## Language models generate text through prediction, not understanding" in (
+        assembly.markdown
+    )
+    assert "## Improve vague prompts with structure" in assembly.markdown
+    assert "Dag 1 - Introduksjon til generativ KI og prompt engineering" not in assembly.markdown
 
 
 def copy_repo_subset(target_root: Path) -> None:

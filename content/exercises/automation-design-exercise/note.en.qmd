@@ -1,0 +1,31 @@
+## Design an automation for your workday
+
+Choose a repeating task from your job and design an automation solution. You do
+not need to build it. The goal is to create a plan that can be evaluated.
+
+### Step 1: Choose the task and automation level
+
+Describe the task briefly and choose a level, 1, 2, or 3:
+
+- **Level 1:** Data analysis in chat for a one-off need.
+- **Level 2:** No-code workflow for a repeating task across systems.
+- **Level 3:** API-based solution for a tailored need.
+
+### Step 2: Draw a process diagram
+
+Draw a simple flow from trigger to final result:
+
+- What triggers the process?
+- Which steps does the AI perform?
+- What is the end result?
+
+### Step 3: Write a runbook
+
+Answer three questions:
+
+1. What do we do if the automation fails?
+2. Who owns the solution and monitors it?
+3. When should the solution be turned off?
+
+**Success criteria:** The process diagram is clear enough that a colleague can
+understand the flow. The runbook addresses failure handling and ownership.

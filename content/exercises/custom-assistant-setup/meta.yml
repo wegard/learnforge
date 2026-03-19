@@ -3,8 +3,10 @@ kind: exercise
 status: approved
 visibility: student
 languages:
+  - en
   - nb
 title:
+  en: Custom AI Assistant Setup Workshop
   nb: Workshop for oppsett av tilpasset KI-assistent
 courses:
   - bik2551
@@ -23,6 +25,7 @@ owners:
   - vegard
 updated: 2026-03-19
 translation_status:
+  en: approved
   nb: approved
 ai:
   generated_fields: []

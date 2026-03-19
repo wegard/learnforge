@@ -1,0 +1,78 @@
+## From general questions to a personal AI assistant
+
+A standard AI conversation starts from zero every time. The model knows nothing
+about who you are, what you work on, or how you prefer to communicate. In
+`BIK 2551`, we learn how to set up custom assistants that remember your context
+and work the way you need them to.
+
+## Custom Instructions: the simplest form of customization
+
+Most AI platforms let you save fixed instructions that apply in every
+conversation. You define who you are, what you work with, and how the model
+should respond.
+
+A good set of Custom Instructions includes:
+
+- **Your role and domain**: "I am a project manager in a municipality."
+- **Typical tasks**: "I often write case briefs and meeting minutes."
+- **Preferred style**: "Write concisely and formally. Use standard written
+  Norwegian."
+- **Constraints**: "Do not use English technical terms when Norwegian ones
+  exist."
+
+## GPTs, Gems, and Projects: specialized assistants
+
+Platforms offer different ways to build more advanced assistants. The names and
+feature sets change over time, but the pattern is the same:
+
+- **Shared assistants** with their own instructions and knowledge base.
+- **Project spaces** where documents, conversations, and guidelines are kept
+  together.
+- **Personal profiles** or fixed instructions that apply across conversations.
+
+What they have in common is that you combine a persona, who the assistant is,
+with a knowledge base, what it has access to. That lets the assistant provide
+more specialized answers without you having to repeat the context every time.
+
+## Build a persona for your workday
+
+An effective AI assistant needs a clearly defined persona:
+
+1. **Role**: What is the assistant's function? Adviser, copy editor,
+   analyst?
+2. **Domain knowledge**: Which documents or guidelines should it know?
+3. **Tasks**: What should it help with every day?
+4. **Tone**: Formal, informal, direct, diplomatic?
+5. **Boundaries**: What should it not do or speak about?
+
+::: {.teacher-only}
+Demo: Set up a simple GPT or Claude Project with an uploaded employee handbook
+as the knowledge base. Show the difference in answers with and without that
+context. Briefly discuss the risks of giving the model access to internal
+information and how enterprise agreements handle this.
+:::
+
+## Security considerations for custom assistants
+
+When you upload documents to an AI assistant, the same rules apply as for any
+other AI use:
+
+- Check whether the platform uses the content for model training.
+- Use enterprise versions for sensitive documents.
+- Do not upload personal data, HR data, or customer data without approval.
+
+## Where this topic fits in `BIK 2551`
+
+Custom assistants are the bridge between basic prompting and daily AI use. This
+module gives participants a concrete, personal AI solution they can use
+immediately at work.
+
+The experience from this module becomes input to the project assignment and to
+the more advanced Day 3 topics on AI agents and automation.
+
+## Practical points to keep
+
+- Define a clear persona with role, domain knowledge, and boundaries.
+- Upload relevant documents as a knowledge base for better answers.
+- Use enterprise platform versions for sensitive information.
+- A custom assistant saves time by removing repeated context-setting.

@@ -1,0 +1,46 @@
+## Create a simple before-and-after plan you can actually carry out
+
+The project in `BIK 2551` should not just describe an idea. It should also
+test whether AI creates a real improvement. In this exercise, you will design a
+mini-experiment with a simple logbook.
+
+### Step 1: Choose what you will compare
+
+Describe one task that will be performed:
+
+- without AI support for one period,
+- with AI support for a similar period.
+
+Keep the task as similar as possible in both periods.
+
+### Step 2: Choose measurement points
+
+Define 2 to 4 measurement points that are realistic to follow, for example:
+
+- time spent,
+- number of errors or rework,
+- perceived quality,
+- waiting time for a customer or colleague.
+
+### Step 3: Set up the logbook
+
+Decide which fields you will record each time:
+
+1. date,
+2. task,
+3. which AI tool was used,
+4. a short description of the prompt or working method,
+5. time spent,
+6. observations about quality and risk.
+
+### Step 4: Plan quality assurance
+
+Briefly describe how you will handle:
+
+- sensitive data,
+- hallucinations or wrong answers,
+- situations where AI should not be used.
+
+**Success criteria:** The measurement plan is simple enough that you will
+actually carry it out between sessions, but clear enough that you can compare
+before and after in a credible way.

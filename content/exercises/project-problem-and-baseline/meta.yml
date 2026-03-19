@@ -3,8 +3,10 @@ kind: exercise
 status: approved
 visibility: student
 languages:
+  - en
   - nb
 title:
+  en: "Project outline: problem, current state, and goals"
   nb: "Prosjektskisse: problem, nåsituasjon og mål"
 courses:
   - bik2551
@@ -24,6 +26,7 @@ owners:
   - vegard
 updated: 2026-03-19
 translation_status:
+  en: approved
   nb: approved
 ai:
   generated_fields: []

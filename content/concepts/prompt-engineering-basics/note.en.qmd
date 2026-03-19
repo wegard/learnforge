@@ -1,0 +1,83 @@
+## Structured prompting is a learnable skill
+
+Many people find that AI tools give vague or unhelpful answers. The reason is
+rarely the model itself. It is usually the instruction. In `BIK 2551`, we
+treat prompting as a practical skill, not a technical niche. With a clear
+structure, knowledge workers get much better results from the same model.
+
+## Four building blocks: Role, Context, Task, Format
+
+Most good prompts are built from four elements:
+
+- **Role**: Who should the model act as? An adviser, a domain expert, a
+  critical reader?
+- **Context**: What is the background? What information does the model need to
+  understand the situation?
+- **Task**: What should the model do? Be as concrete as possible.
+- **Format**: What should the answer look like? A bullet list, a table, an
+  email draft, a short summary?
+
+When an answer misses the mark, check which building block is missing. Often it
+is the context or the format that is too vague.
+
+## Frameworks: CO-STAR and TIDD-EC
+
+Two established frameworks build on the four building blocks:
+
+**CO-STAR** structures the prompt in six steps: Context, Objective, Style,
+Tone, Audience, Response format. It works well for tasks where tone and target
+audience matter, such as emails, reports, and presentations.
+
+**TIDD-EC** emphasizes iteration: Task, Instructions, Do, Don't, Examples,
+Constraints. It fits situations where you need precise control over what the
+model should and should not do.
+
+Both frameworks are tools, not rules. Use the one that fits the task.
+
+## Prompting is iterative, not a one-off activity
+
+A common misconception is that you need to write one perfect prompt. In
+practice, good prompting is a conversation: you start with a draft, evaluate
+the response, and adjust the instruction.
+
+Typical iterations:
+
+- Add more context when the response is too general.
+- Tighten the format when the response is too long.
+- Ask the model to critique its own answer to surface weaknesses.
+- Provide an example of the desired output when description alone is not
+  enough.
+
+## Templates to keep using
+
+Three templates cover many common work tasks:
+
+- **The summarizer**: "Summarize this document in five bullet points. Write for
+  a manager with two minutes to spare."
+- **The planner**: "Create a weekly plan for this project. Use a table with
+  columns for task, owner, deadline, and status."
+- **The analyst**: "Analyze this text. Identify three strengths and three
+  weaknesses. Present the result as a short report with headings."
+
+::: {.teacher-only}
+Have participants start with a deliberately vague prompt and improve it through
+three rounds using Role, Context, Task, and Format. Compare the first and last
+version in plenary. The point is that the difference in output is often
+dramatic.
+:::
+
+## Where this topic fits in `BIK 2551`
+
+Prompt engineering is the first practical skill in the course. It builds
+directly on the understanding of how language models work and gives
+participants tools they can use immediately in their own work.
+
+Later in the course, advanced prompting, custom AI assistants, and automation
+all build on these same principles.
+
+## Practical points to keep
+
+- Structured prompts give better answers than loose questions.
+- Use Role, Context, Task, and Format as a checklist.
+- Iterate. One round is rarely enough.
+- Reusable templates save time and provide a starting point for new tasks.

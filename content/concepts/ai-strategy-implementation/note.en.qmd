@@ -1,0 +1,72 @@
+## From experiment to organizational practice
+
+Most organizations that adopt AI start with individual experiments. The real
+challenge is moving from isolated testing to coordinated practice that creates
+lasting value. In `BIK 2551`, we give participants a framework for
+understanding where their organization is today and what the next step should
+be.
+
+## A simple maturity model
+
+Organizational AI maturity can be described in four levels:
+
+- **Ad hoc**: Individuals experiment on their own initiative. There are no
+  shared guidelines or tool choices.
+- **Pilot**: The organization has started one or more limited projects.
+  Lessons are documented, but not shared systematically.
+- **Portfolio**: Several AI initiatives are coordinated. There are shared
+  guidelines, platform choices, and competence development.
+- **Scaled operations**: AI is integrated into the core business with
+  governance, measurement, and continuous improvement.
+
+Most Norwegian organizations are somewhere between ad hoc and pilot. Admitting
+that is useful because it clarifies what should be prioritized next.
+
+## Why AI projects fail
+
+Research and practice point to the same reasons:
+
+- **No anchoring**: Leadership has not taken ownership. The project dies when
+  the enthusiast moves on.
+- **Unclear benefits**: No one has defined what success means in measurable
+  terms.
+- **Weak data foundation**: The tool works, but the organization lacks access
+  to data of sufficient quality.
+- **Missing ownership**: No one is responsible for maintaining and improving
+  the solution after the pilot.
+
+The common denominator is that the failures are rarely technological. They are
+organizational.
+
+## Building blocks in an AI strategy
+
+A minimum viable AI strategy contains:
+
+1. **Platform and tool choices**: Which AI tools should the organization use,
+   and which agreements are in place?
+2. **Competence development**: Who needs training, and at what level?
+3. **Governance**: Guidelines for use, roles, responsibilities, and risk
+   management.
+4. **Measurement of benefits**: How do we know AI is creating value?
+
+::: {.teacher-only}
+Give participants ten minutes to sketch a minimum AI policy for their own unit.
+It should cover what is allowed, what requires approval, and who is
+responsible. Discuss two or three examples in plenary and point out what is
+still missing.
+:::
+
+## Where this topic fits in `BIK 2551`
+
+AI strategy is the link between the practical skills from Days 1 to 3 and
+organizational change. After learning to use the tools, prompt effectively, and
+design automations, this module focuses on how all of that can be anchored in
+the organization.
+
+## Practical points to keep
+
+- Find out where the organization sits in the maturity model. The next step
+  depends on the starting point.
+- AI projects usually fail because of organizational weakness, not technology.
+- A minimum viable AI strategy is better than no strategy at all.
+- Start with governance and measurement. Tool choice can be adjusted later.

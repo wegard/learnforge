@@ -76,6 +76,40 @@ def test_stale_resources_command_writes_report(tmp_path: Path, monkeypatch) -> N
     assert payload["stale_resources"][0]["id"] == "iv-policy-brief-stale"
 
 
+def test_translation_status_command_reports_bik2551_en(tmp_path: Path, monkeypatch) -> None:
+    copy_repo_subset(tmp_path)
+    monkeypatch.setattr(cli_module, "REPO_ROOT", tmp_path)
+
+    result = runner.invoke(app, ["translation-status", "bik2551", "--lang", "en", "--json"])
+
+    payload = json.loads(result.stdout)
+    course_entry = next(entry for entry in payload["entries"] if entry["identifier"] == "bik2551")
+    concept_entry = next(
+        entry
+        for entry in payload["entries"]
+        if entry["identifier"] == "generative-ai-fundamentals"
+    )
+    exercise_entry = next(
+        entry
+        for entry in payload["entries"]
+        if entry["identifier"] == "prompt-improvement-workshop"
+    )
+
+    assert result.exit_code == 0
+    assert payload["course_id"] == "bik2551"
+    assert payload["language"] == "en"
+    assert payload["missing_count"] == 0
+    assert course_entry["translation_status"] == "approved"
+    assert course_entry["note_exists"] is True
+    assert course_entry["source_word_count_nb"] == 448
+    assert concept_entry["translation_status"] == "approved"
+    assert concept_entry["note_exists"] is True
+    assert concept_entry["source_word_count_nb"] == 468
+    assert exercise_entry["translation_status"] == "approved"
+    assert exercise_entry["note_exists"] is True
+    assert exercise_entry["solution_exists"] is True
+
+
 def copy_repo_subset(target_root: Path) -> None:
     for relative_path in ("content", "collections", "courses"):
         shutil.copytree(REPO_ROOT / relative_path, target_root / relative_path)

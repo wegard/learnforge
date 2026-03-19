@@ -1,0 +1,16 @@
+## Teacher guidance
+
+A strong project outline usually has these characteristics:
+
+- The problem is concrete and tied to a real work process.
+- The current situation is described through clear steps, not general claims.
+- AI is used to improve one defined part of the workflow, not "everything."
+- The goals can be observed or measured in practice.
+
+### Signs that the project should be scoped down further
+
+- The problem is phrased as "improve the whole team's productivity."
+- It is unclear which data, documents, or tools are involved.
+- The project requires major system changes or long approval processes.
+- The participant has not defined what should be compared before and after AI
+  use.

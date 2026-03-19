@@ -1,0 +1,89 @@
+## Responsible AI use requires awareness of legal and ethical frameworks
+
+Generative AI gives knowledge workers new opportunities, but also new risks. In
+`BIK 2551`, we focus on the most important legal and ethical frameworks that
+shape how AI can be used in Norwegian organizations. The goal is not to turn
+participants into lawyers, but to give them enough understanding to make
+informed everyday choices.
+
+## The EU AI Act: a risk-based approach
+
+The EU AI Act classifies AI systems into risk categories:
+
+- **Unacceptable risk**: Prohibited uses such as social scoring and
+  manipulation.
+- **High risk**: Strict requirements for documentation and oversight. This
+  includes areas such as recruitment, credit scoring, and critical
+  infrastructure.
+- **Limited risk**: Transparency requirements, for example telling users that
+  they are interacting with AI.
+- **Minimal risk**: Most AI productivity tools. No special requirements, but
+  good practice is still recommended.
+
+For participants in this course, most use cases will fall into the minimal or
+limited risk categories, but it is still important to know where the
+boundaries are.
+
+## GDPR and data handling when using AI tools
+
+Personal data is regulated by GDPR regardless of whether it is processed by a
+human or by an AI model. Core principles include:
+
+- **Data minimization**: Do not share more personal data with AI tools than is
+  necessary.
+- **Purpose limitation**: Data collected for one purpose cannot automatically
+  be used for another.
+- **Transparency**: Individuals have the right to know when AI is used in
+  decisions that concern them.
+
+In practice, this means you should think carefully before pasting customer
+data, employee data, or other sensitive information into an AI service.
+
+## Consumer services versus enterprise agreements
+
+The difference between consumer and enterprise versions of AI tools matters:
+
+- **Consumer services** often have different terms for storage, access, and
+  downstream data use than organizations expect.
+- **Enterprise agreements** usually provide clearer control of data use, access
+  management, and contractual guarantees.
+
+Before uploading internal documents, always check which terms and agreements
+apply to the platform your organization uses.
+
+## Bias in models: training data and filtering
+
+AI models inherit biases from their training data. This can lead to:
+
+- Systematic favoritism toward certain groups in recruitment or evaluation.
+- Cultural and language biases that reflect dominant perspectives in the
+  training data.
+- Different filtering behavior across platforms, because models from different
+  providers handle controversial topics differently.
+
+Awareness of bias is a first-level responsibility for anyone using AI in
+professional settings.
+
+::: {.teacher-only}
+Show a concrete example where two different models give very different answers
+on a political or controversial topic. Discuss: Who decides what the model
+filters? What does that mean for users?
+:::
+
+## Where this topic fits in `BIK 2551`
+
+Ethics, law, and security form the frame around all practical AI use in the
+course. After this module, participants should be able to assess whether a use
+case is safe to experiment with and what precautions are needed.
+
+The topic returns later in the course when we discuss automation, AI agents,
+and organizational implementation.
+
+## Practical points to keep
+
+- Check whether your organization has an enterprise agreement before sharing
+  sensitive data.
+- Most productivity tools fall into the minimal-risk category under the AI Act.
+- Personal data requires the same caution whether it is processed by humans or
+  AI.
+- Be aware that models carry built-in biases. Verify important judgments.

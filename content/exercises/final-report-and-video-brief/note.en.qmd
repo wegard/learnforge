@@ -1,0 +1,43 @@
+## Structure the final delivery around decisions, effects, and reflection
+
+The final delivery in `BIK 2551` consists of a written report and a short video
+presentation. The goal is to document what you did, what you learned, and
+whether AI actually created value in the work process.
+
+### Part 1: Final report
+
+The report should cover these parts:
+
+1. **Problem and context**  
+   What did you want to improve, and why was it relevant?
+2. **Current state and chosen solution**  
+   How did you work before, and what did you test with AI?
+3. **Measurement plan and results**  
+   What did you measure, and what did you find?
+4. **Risk and responsible use**  
+   How did you handle privacy, quality assurance, and limitations?
+5. **Next steps**  
+   What would you do next in your unit or organization?
+
+### Part 2: Video presentation
+
+Use five minutes to answer three questions:
+
+- What was the problem?
+- What did you try?
+- What did you learn?
+
+Keep the presentation simple and decision-relevant. Think of the audience as a
+manager or colleague who wants to know whether the solution should continue.
+
+### Part 3: Personal reflection
+
+Add a short reflection on:
+
+- what AI improved,
+- what still required human judgment,
+- what you would be cautious about scaling further.
+
+**Success criteria:** The delivery is clear enough that an outside reader can
+understand the project's value, limitations, and next step without having to
+see the full process from the inside.

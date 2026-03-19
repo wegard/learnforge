@@ -1,0 +1,31 @@
+## Build your own AI assistant
+
+In this workshop, you will set up a custom AI assistant for your own workday.
+Use any platform you prefer, such as a GPT, a Gem, or a Claude Project.
+
+### Step 1: Define the persona
+
+Fill in the following for your assistant:
+
+- **Role:** What is the assistant's function?
+- **Domain knowledge:** Which topics should it know well?
+- **Typical tasks:** What should it help you with every day?
+- **Tone and style:** Formal, informal, concise, more elaborate?
+- **Constraints:** What should it not do?
+
+### Step 2: Upload a knowledge base
+
+Choose one or two documents from your workday, such as guidelines, templates,
+or project descriptions, and upload them as context.
+
+### Step 3: Test it with three tasks
+
+Give the assistant three tasks that you actually do at work. Assess:
+
+1. Did the assistant provide a relevant and useful answer?
+2. Did it use the knowledge base in its response?
+3. Did it stay within the defined tone and style?
+
+**Success criteria:** The assistant gives noticeably better answers than a
+standard AI chat without customization. You can explain to a colleague what the
+persona contains and why.
