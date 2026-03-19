@@ -1,0 +1,59 @@
+# AI i finansnæringen
+
+## Oversikt
+
+Kunstig intelligens har en betydelig innvirkning på finansnæringen, med
+applikasjoner som forbedrer effektivitet, sikkerhet og kundeservice. Her ser vi
+på hvordan de tre hovedkategoriene av maskinlæring brukes i finans.
+
+## Supervised learning i finans
+
+Veiledet læring trenes med merkede data (har fasit) og er oppgavedrevet.
+
+**Eksempler:**
+
+- **Prediksjon av aksjekursbevegelser:** Forutsi fremtidige aksjekursendringer
+  basert på historiske data, nyheter og markedsindikatorer.
+- **Kredittscoring:** Vurdere kredittrisikoen til låntakere ved hjelp av
+  klassifiseringsmodeller som logistisk regresjon eller beslutningstrær.
+- **Anomalideteksjon:** Oppdage uvanlige transaksjoner eller mønstre som kan
+  indikere svindel eller markedsmanipulasjon.
+- **Porteføljeoptimalisering:** Konstruere en optimal investeringsportefølje
+  basert på forventet avkastning og risiko.
+
+## Unsupervised learning i finans
+
+Uovervåket læring finner skjulte mønstre i data uten fasit.
+
+**Eksempler:**
+
+- **Klyngeanalyse av investorer:** Identifisere ulike investorgrupper basert på
+  atferd, investeringsmønstre og risikoprofil.
+- **Kundesegmentering:** Dele kunder inn i segmenter for målrettet markedsføring
+  og tjenester.
+- **Markedsanalyse:** Avdekke skjulte korrelasjoner og mønstre i markedet for
+  nye investeringsmuligheter.
+- **Anomalideteksjon:** Oppdage uvanlige transaksjoner som kan indikere svindel,
+  uten å ha historiske merkelapper.
+
+## Reinforcement learning i finans
+
+Forsterkende læring trener en agent som lærer ved belønning og straff.
+
+**Eksempler:**
+
+- **Tradingrobot:** Beslutninger om kjøp og salg basert på markedssituasjonen.
+- **Porteføljeforvaltning:** Optimalisering av porteføljesammensetning over tid.
+- **Risikostyring:** Modeller som vurderer og håndterer ulike typer risiko.
+- **Høyfrekvent handel:** Handelsstrategier som utnytter små prisforskjeller.
+
+## Nøkkelbruksområder
+
+| Bruksområde | ML-type | Typiske metoder |
+|---|---|---|
+| Svindeldeteksjon | Veiledet / uovervåket | Klassifisering, anomalideteksjon |
+| Kredittscoring | Veiledet | Logistisk regresjon, ensemble-metoder |
+| Risikostyring | Veiledet | Tidsseriemodeller, stresstest |
+| Algoritmisk trading | Forsterkende | RL-agenter, signalmodeller |
+| Kundesegmentering | Uovervåket | Klyngeanalyse, PCA |
+| Porteføljeoptimalisering | Veiledet / forsterkende | Optimeringsalgoritmer |

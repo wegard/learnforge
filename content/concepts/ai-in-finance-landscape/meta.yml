@@ -1,0 +1,35 @@
+id: ai-in-finance-landscape
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: AI i finansnæringen
+courses:
+  - bik2550
+topics:
+  - ai-fundamentals
+  - ai-in-finance
+tags:
+  - ai
+  - finance
+  - supervised-learning
+  - unsupervised-learning
+  - reinforcement-learning
+level: introductory
+prerequisites: []
+related:
+  - ml-supervised-learning-overview
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
