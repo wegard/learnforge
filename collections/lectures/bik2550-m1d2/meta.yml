@@ -1,0 +1,37 @@
+id: bik2550-m1d2
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Modul 1, Dag 2 — Hva er maskinlæring
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - ai-in-finance
+tags:
+  - lecture
+  - supervised-learning
+  - unsupervised-learning
+  - model-evaluation
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+items:
+  - ml-supervised-learning-overview
+  - ml-unsupervised-learning-overview
+  - ml-model-evaluation-overview
+  - ml-finance-demo
+  - fraud-detection-exercise
