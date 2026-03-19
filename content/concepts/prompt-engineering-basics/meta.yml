@@ -1,0 +1,33 @@
+id: prompt-engineering-basics
+kind: concept
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Strukturert prompting for kunnskapsarbeidere
+courses:
+  - bik2551
+topics:
+  - prompt-engineering
+tags:
+  - prompting
+  - co-star
+  - tidd-ec
+  - structured-prompts
+  - iterative-prompting
+level: introductory
+prerequisites: []
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []

@@ -1,0 +1,81 @@
+## Strukturert prompting er en lærbar ferdighet
+
+Mange opplever at KI-verktøy gir vage eller ubrukelige svar. Årsaken er sjelden
+modellen — det er instruksjonen. I `BIK 2551` behandler vi prompting som en
+praktisk ferdighet, ikke en teknisk nisje. Med en tydelig struktur får
+kunnskapsarbeidere vesentlig bedre resultater fra samme modell.
+
+## Fire byggesteiner: Rolle, Kontekst, Oppgave, Format
+
+De fleste gode prompts bygger på fire elementer:
+
+- **Rolle** — Hvem skal modellen opptre som? En rådgiver, en fagekspert, en
+  kritisk leser?
+- **Kontekst** — Hva er bakgrunnen? Hvilken informasjon trenger modellen for å
+  forstå situasjonen?
+- **Oppgave** — Hva skal modellen gjøre? Vær så konkret som mulig.
+- **Format** — Hvordan skal svaret se ut? Punktliste, tabell, e-postutkast,
+  kort oppsummering?
+
+Når et svar ikke treffer, sjekk hvilken byggestein som mangler. Ofte er det
+kontekst eller format som er for vagt.
+
+## Rammeverk: CO-STAR og TIDD-EC
+
+To etablerte rammeverk bygger videre på de fire byggesteinene:
+
+**CO-STAR** strukturerer prompten i seks steg: Context, Objective, Style, Tone,
+Audience, Response format. Det passer godt for oppgaver der tone og målgruppe er
+viktige, som e-poster, rapporter og presentasjoner.
+
+**TIDD-EC** legger vekt på iterasjon: Task, Instructions, Do, Don't, Examples,
+Constraints. Det passer når du trenger presis kontroll over hva modellen skal og
+ikke skal gjøre.
+
+Begge rammeverkene er verktøy, ikke regler. Bruk det som passer oppgaven.
+
+## Prompting er iterativt, ikke en engangsaktivitet
+
+Et vanlig misforståelse er at man skal skrive én perfekt prompt. I praksis er
+god prompting en samtale: du starter med et utkast, vurderer svaret, og
+justerer instruksjonen.
+
+Typiske iterasjoner:
+
+- Legg til kontekst når svaret er for generelt.
+- Begrens formatet når svaret er for langt.
+- Be modellen kritisere sitt eget svar for å oppdage svakheter.
+- Gi et eksempel på ønsket output når beskrivelsen ikke er nok.
+
+## Standardmaler å ta med videre
+
+Tre maler dekker mange arbeidsoppgaver:
+
+- **Oppsummereren** — «Oppsummer dette dokumentet i fem kulepunkter. Skriv for
+  en leder som har to minutter.»
+- **Planleggeren** — «Lag en ukeplan for dette prosjektet. Bruk tabell med
+  kolonner for oppgave, ansvarlig, frist og status.»
+- **Analytikeren** — «Analyser denne teksten. Identifiser tre styrker og tre
+  svakheter. Presenter som en kort rapport med overskrifter.»
+
+::: {.teacher-only}
+La deltakerne starte med en bevisst vag prompt og forbedre den i tre runder
+med Rolle, Kontekst, Oppgave og Format. Sammenlign første og siste versjon
+i plenum. Poenget er at forskjellen i output ofte er dramatisk.
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Prompt engineering er den første praktiske ferdigheten i kurset. Den bygger
+direkte på forståelsen av hvordan spraakmodeller fungerer og gir deltakerne
+verktøy de kan bruke umiddelbart i egen jobb.
+
+Senere i kurset bygger avansert prompting, tilpassede KI-assistenter og
+automatisering videre på disse grunnprinsippene.
+
+## Praktiske poeng å ta med videre
+
+- Strukturerte prompts gir bedre svar enn løse spørsmål.
+- Bruk Rolle, Kontekst, Oppgave og Format som sjekkliste.
+- Iterer — én runde er sjelden nok.
+- Standardmaler sparer tid og gir et utgangspunkt for nye oppgaver.
