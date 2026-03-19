@@ -1,0 +1,132 @@
+The safest teacher solution is a small set of representative SQL queries plus one
+clean Python workflow that loads query results into Pandas and produces the requested
+plots.
+
+## Suggested approach
+
+1. Start by identifying the schema:
+   - `Employees.id`
+   - `Cars.id`
+   - `Customers.id`
+   - `Sales.id`
+   - `Sales.customer_id`, `Sales.car_id`, and `Sales.employee_id` are the key bridge
+     columns for joins.
+2. Keep the single-table SQL queries simple and explicit.
+3. Use explicit `JOIN ... ON ...` syntax rather than comma joins.
+4. Move result tables into Pandas with `pd.read_sql(...)` once the SQL logic is
+   correct.
+5. Parse date values in Pandas before building the yearly mean sales-price plot.
+6. Close the connection at the end with `con.close()`.
+
+## Representative SQL answers
+
+Single-table examples:
+
+```sql
+SELECT make, year, color
+FROM Cars;
+
+SELECT phone, birth_year
+FROM Customers
+WHERE first_name = 'Lanay' AND last_name = 'Holt';
+
+SELECT DISTINCT make
+FROM Cars
+ORDER BY make ASC;
+
+SELECT id, name, salary
+FROM Employees
+WHERE department = 'Sales'
+ORDER BY salary DESC;
+```
+
+Join examples:
+
+```sql
+SELECT Customers.first_name, Customers.last_name, Sales.date, Sales.price
+FROM Customers
+JOIN Sales ON Customers.id = Sales.customer_id;
+
+SELECT Sales.date, Sales.price, Employees.name
+FROM Sales
+JOIN Employees ON Sales.employee_id = Employees.id
+WHERE Sales.price = 5000;
+
+SELECT Customers.first_name, Customers.last_name, Cars.make, Cars.type, Sales.price
+FROM Sales
+JOIN Customers ON Sales.customer_id = Customers.id
+JOIN Cars ON Sales.car_id = Cars.id;
+```
+
+Aggregate examples:
+
+```sql
+SELECT employee_id, COUNT(*) AS number_of_sales
+FROM Sales
+GROUP BY employee_id;
+
+SELECT MIN(price) AS min_sale_price, MAX(price) AS max_sale_price
+FROM Sales;
+
+SELECT department, AVG(salary) AS average_salary
+FROM Employees
+GROUP BY department;
+```
+
+## Representative Python workflow
+
+```python
+import sqlite3
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+con = sqlite3.connect("auto_dealership_database.db")
+
+hondas = pd.read_sql(
+    "SELECT * FROM Cars WHERE make = ?",
+    con,
+    params=("Honda",),
+)
+
+service_employees = pd.read_sql(
+    "SELECT * FROM Employees WHERE department = ?",
+    con,
+    params=("Service",),
+)
+
+sales = pd.read_sql("SELECT date, price FROM Sales", con)
+sales["date"] = pd.to_datetime(sales["date"])
+yearly_sales_price = sales.groupby(sales["date"].dt.year)["price"].mean()
+
+mercedes = pd.read_sql(
+    "SELECT year, msrp FROM Cars WHERE make = ?",
+    con,
+    params=("Mercedes",),
+)
+yearly_mercedes_msrp = mercedes.groupby("year")["msrp"].mean()
+
+yearly_sales_price.plot(title="Yearly mean sales price")
+plt.show()
+
+yearly_mercedes_msrp.plot(title="Yearly mean Mercedes MSRP")
+plt.show()
+
+con.close()
+```
+
+## What students should usually find
+
+- The `Sales` table acts as the central bridge for most interesting joins.
+- SQL is the natural place to filter rows, join tables, and compute grouped summary
+  values.
+- Pandas is the natural place to inspect returned tables, parse dates, and produce
+  plots.
+- The most common mistakes are joining on the wrong key, forgetting `GROUP BY`, or
+  treating date strings as if they were already datetime values.
+
+## Teaching emphasis
+
+The important point is not that every student writes the exact same queries. The
+important point is that they can defend why a step belongs in SQL or in Python, and
+that their full workflow is reproducible from connection to conclusion.

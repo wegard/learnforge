@@ -21,6 +21,7 @@
 - Phase 11 complete checkpoint: `tem0052` third exercise promotion slice
 - Phase 11 complete checkpoint: `tem0052` tenth concept promotion + lecture 3 refresh
 - Phase 11 parallel checkpoint: `edi3400` database concept block formalized through `python-sql-integration`
+- Phase 11 parallel checkpoint: `edi3400` problem-set promotion + lecture block assembly
 
 ## Non-Goals For This Run
 
@@ -30,8 +31,8 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No `edi3400` lecture assembly yet
-- No `edi3400` exercise promotion yet
+- No `edi3400` migration beyond the first database lecture block
+- No `edi3400` assignment collection work yet
 - Keep `edi3400` intentionally English-only in this slice
 - Leave unrelated local draft courses/concepts untouched
 - No Textual TUI
@@ -169,9 +170,20 @@
 - `edi3400` starts from the self-contained database block rather than the earlier
   Python-introduction lectures
 - `edi3400` remains intentionally English-only during the current migration stage
-- `courses/edi3400/plan.yml` stays empty until the first lecture collection exists
+- The first canonical `edi3400` database block now spans:
+  - `edi3400-lecture-11`
+  - `edi3400-lecture-12`
+  - `edi3400-lecture-13`
+- `sql-python-problem-set` keeps its local SQLite example database as an
+  object-local asset under `content/exercises/sql-python-problem-set/assets/`
 - Generated Quarto source staging now stays under `build/generated/` with target-scoped
   cleanup instead of whole-tree resets so repeated sequential renders remain stable
+- Generated Quarto source files now use plain `*.qmd` names under a format-specific
+  directory (`.../<audience>/<language>/<format>/<identifier>.qmd`) to avoid Quarto
+  post-processing failures on names like `*.html.qmd`
+- Leakage reporting now treats only actual teacher-only block syntax / rendered
+  teacher-only classes as leakage markers; it no longer flags literal metadata text
+  such as `teacher-only separate file`
 - Hardened the Quarto/build path so `course-inbox/` is excluded from project rendering
 - Fixed single-file Quarto build handling to:
   - keep project rendering compatible with the inbox exclusion
@@ -236,6 +248,27 @@
   builds:
   - assembly tests for course + three concepts
   - student HTML build tests for `edi3400` and `python-sql-integration`
+- Promoted the first canonical `edi3400` exercise with teacher solution separation:
+  - `content/exercises/sql-python-problem-set/`
+  - `content/exercises/sql-python-problem-set/assets/auto_dealership_database.db`
+  - `solution.en.qmd`
+- Assembled the first canonical `edi3400` lecture block using promoted objects only:
+  - `collections/lectures/edi3400-lecture-11/meta.yml`
+  - `collections/lectures/edi3400-lecture-12/meta.yml`
+  - `collections/lectures/edi3400-lecture-13/meta.yml`
+- Wired the current `edi3400` promoted lecture sequence into `courses/edi3400/plan.yml`:
+  - `edi3400-lecture-11`
+  - `edi3400-lecture-12`
+  - `edi3400-lecture-13`
+- Added regression coverage for the `edi3400` problem set and lecture block:
+  - exercise assembly/build checks for student and teacher HTML outputs
+  - lecture assembly/build checks for lectures 11-13
+  - course-page checks for lecture/exercise surfacing
+- Fixed two generic Quarto/reporting issues exposed by the `edi3400` exercise slice:
+  - teacher HTML exercise builds no longer fail on generated-source names like
+    `*.html.qmd`
+  - student leakage reports no longer false-positive on literal metadata text such as
+    `teacher-only separate file`
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
@@ -332,9 +365,9 @@
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
   - ten first-wave `tem0052` concepts, three exercises, and four lectures are promoted so far
-  - `edi3400` has a draft canonical shell plus three promoted database concepts
-  - no `edi3400` exercises promoted yet
-  - no `edi3400` lectures assembled yet
+  - `edi3400` now has a canonical shell, three promoted database concepts, one
+    promoted problem-set exercise, and the first lecture block for lectures 11-13
+  - no `edi3400` assignment collection yet
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -418,6 +451,9 @@
 - `courses/edi3400/plan.yml`
 - `courses/edi3400/syllabus.en.qmd`
 - `courses/edi3400/MIGRATION_INVENTORY.md`
+- `collections/lectures/edi3400-lecture-11/meta.yml`
+- `collections/lectures/edi3400-lecture-12/meta.yml`
+- `collections/lectures/edi3400-lecture-13/meta.yml`
 - `collections/lectures/tem0052-lecture-02/meta.yml`
 - `collections/lectures/tem0052-lecture-03/meta.yml`
 - `collections/lectures/tem0052-lecture-05/meta.yml`
@@ -433,6 +469,10 @@
 - `content/exercises/spam-filtering-naive-bayes/meta.yml`
 - `content/exercises/spam-filtering-naive-bayes/note.en.qmd`
 - `content/exercises/spam-filtering-naive-bayes/solution.en.qmd`
+- `content/exercises/sql-python-problem-set/meta.yml`
+- `content/exercises/sql-python-problem-set/note.en.qmd`
+- `content/exercises/sql-python-problem-set/solution.en.qmd`
+- `content/exercises/sql-python-problem-set/assets/auto_dealership_database.db`
 - `representative-targets.yml`
 - `schemas/resource.schema.json`
 - `templates/meta.yml.j2`
@@ -516,6 +556,24 @@
   - `./.venv/bin/python -m pytest -q tests/test_edi3400_course.py`
   - `./.venv/bin/teach build python-sql-integration --audience student --lang en --format html`
   - `./.venv/bin/teach build edi3400 --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
+- `edi3400` problem-set promotion + lecture block assembly:
+  - `git status --short`
+  - `find content/exercises/sql-python-problem-set -maxdepth 3 -type f | sort`
+  - `find collections/lectures -maxdepth 2 -path '*/edi3400-*' -type f | sort`
+  - `sed -n '1,240p' content/exercises/sql-python-problem-set/meta.yml`
+  - `sed -n '1,320p' content/exercises/sql-python-problem-set/note.en.qmd`
+  - `sed -n '1,320p' content/exercises/sql-python-problem-set/solution.en.qmd`
+  - `sed -n '1,220p' collections/lectures/edi3400-lecture-11/meta.yml`
+  - `sed -n '1,220p' collections/lectures/edi3400-lecture-12/meta.yml`
+  - `sed -n '1,220p' collections/lectures/edi3400-lecture-13/meta.yml`
+  - `sed -n '1,120p' courses/edi3400/plan.yml`
+  - `./.venv/bin/ruff check app/assembly.py app/build.py tests/test_edi3400_course.py`
+  - `./.venv/bin/python -m pytest -q tests/test_edi3400_course.py`
+  - `./.venv/bin/teach build sql-python-problem-set --audience student --lang en --format html`
+  - `./.venv/bin/teach build sql-python-problem-set --audience teacher --lang en --format html`
+  - `./.venv/bin/teach build edi3400-lecture-11 --audience student --lang en --format html`
+  - `./.venv/bin/teach build assignment-01 --audience student --lang en --format exercise-sheet`
   - `./.venv/bin/teach validate`
 - `tem0052` first canonical promotion:
   - `mkdir -p content/concepts/bias-variance-tradeoff content/exercises/model-assessment-lab collections/lectures/tem0052-lecture-05`
@@ -671,12 +729,16 @@
 ## Test / Build Results
 
 - Latest validation pass on the current working tree:
-  - `Validated 85 objects and 7 courses. Errors: 0. Warnings: 41.`
-  - `Representative targets: 13/13 passed`
+  - `Validated 108 objects and 7 courses. Errors: 3. Warnings: 55.`
+  - `Representative targets: 12/15 passed`
   - current warnings are expected from:
     - the sample stale approved resource
     - intentionally English-only student-visible `tem0052` and `edi3400` objects
     - additional in-progress local authoring content outside this migration slice
+  - current errors are outside the `edi3400` problem-set slice:
+    - one unrelated representative assignment PDF compile failure
+    - two unrelated `BIK2550` representative targets requesting unsupported `nb`
+      lecture builds
 - Validation passed with warnings on the current working tree:
   - `Validated 41 objects and 5 courses. Errors: 0. Warnings: 15.`
   - `Representative targets: 13/13 passed`
@@ -687,10 +749,14 @@
 - Lint passed:
   - `All checks passed!`
 - Focused `edi3400` database-slice tests passed:
-  - `8 passed in 7.78s` for `tests/test_edi3400_course.py`
+  - `14 passed in 29.15s` for `tests/test_edi3400_course.py`
 - Isolated `edi3400` builds passed:
   - `teach build python-sql-integration --audience student --lang en --format html`
   - `teach build edi3400 --audience student --lang en --format html`
+  - `teach build sql-python-problem-set --audience student --lang en --format html`
+  - `teach build sql-python-problem-set --audience teacher --lang en --format html`
+  - `teach build edi3400-lecture-11 --audience student --lang en --format html`
+  - `teach build assignment-01 --audience student --lang en --format exercise-sheet`
 - Focused `tem0052` concept/lecture tests passed after the lecture refresh:
   - `5 passed in 52.58s` for
     - `tests/test_assembly.py::test_tem0052_lecture_03_assembly_expands_classification_block`
@@ -750,11 +816,27 @@
   - `build/reports/builds/student/en/html/concept/python-sql-integration/build-manifest.json`
   - `build/reports/builds/student/en/html/concept/python-sql-integration/dependency-manifest.json`
   - `build/reports/builds/student/en/html/concept/python-sql-integration/teacher-leakage-report.json`
+- `edi3400` problem-set artifact paths:
+  - `build/exports/student/en/html/exercise/sql-python-problem-set/sql-python-problem-set.html`
+  - `build/reports/builds/student/en/html/exercise/sql-python-problem-set/build-manifest.json`
+  - `build/reports/builds/student/en/html/exercise/sql-python-problem-set/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/exercise/sql-python-problem-set/teacher-leakage-report.json`
+  - `build/exports/teacher/en/html/exercise/sql-python-problem-set/sql-python-problem-set.html`
+  - `build/reports/builds/teacher/en/html/exercise/sql-python-problem-set/build-manifest.json`
+  - `build/reports/builds/teacher/en/html/exercise/sql-python-problem-set/dependency-manifest.json`
+  - `build/reports/builds/teacher/en/html/exercise/sql-python-problem-set/teacher-leakage-report.json`
 - `edi3400` course artifact paths:
   - `build/exports/student/en/html/course/edi3400/edi3400.html`
   - `build/reports/builds/student/en/html/course/edi3400/build-manifest.json`
   - `build/reports/builds/student/en/html/course/edi3400/dependency-manifest.json`
   - `build/reports/builds/student/en/html/course/edi3400/teacher-leakage-report.json`
+- `edi3400` lecture artifact paths:
+  - `build/exports/student/en/html/collection/edi3400-lecture-11/edi3400-lecture-11.html`
+  - `build/reports/builds/student/en/html/collection/edi3400-lecture-11/build-manifest.json`
+  - `build/reports/builds/student/en/html/collection/edi3400-lecture-11/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/collection/edi3400-lecture-11/teacher-leakage-report.json`
+  - `build/exports/student/en/html/collection/edi3400-lecture-12/edi3400-lecture-12.html`
+  - `build/exports/student/en/html/collection/edi3400-lecture-13/edi3400-lecture-13.html`
 - `edi3400` tracked migration inventory:
   - `courses/edi3400/MIGRATION_INVENTORY.md`
 - New `tem0052` concept artifact paths:
@@ -890,9 +972,11 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote `sql-python-problem-set` so the `edi3400` database block has one canonical
-  exercise with separate teacher solution material
-- After that, decide which local `.db`, `.sql`, and helper `.py` files genuinely
-  belong as object-local canonical assets before assembling `edi3400-lecture-13`
+- Decide whether one of `edi3400-lecture-11`, `edi3400-lecture-12`, or
+  `edi3400-lecture-13` is now stable enough to add to `representative-targets.yml`
+- Decide which local `.db`, `.sql`, and helper `.py` files genuinely belong as
+  object-local canonical assets beyond the currently promoted dealership database
+- After that, either keep deepening the `edi3400` database block with curated
+  supporting assets or move back to the next narrow `tem0052` migration slice
 - Keep `edi3400` intentionally English-only until the database block is broader;
   the resulting translation warnings remain expected and non-blocking

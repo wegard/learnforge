@@ -3298,7 +3298,8 @@ class AssemblyBuilder:
             / identifier
             / self.audience
             / self.language
-            / f"{identifier}.{self.output_format}.qmd"
+            / self.output_format
+            / f"{identifier}.qmd"
         )
         path.parent.mkdir(parents=True, exist_ok=True)
         return path

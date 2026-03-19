@@ -1,0 +1,40 @@
+id: sql-python-problem-set
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: SQL and Python problem set
+courses:
+  - edi3400
+topics:
+  - data-management
+  - databases
+  - sql
+tags:
+  - exercise
+  - sqlite3
+  - pandas
+  - joins
+  - aggregation
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 75
+concepts:
+  - relational-database-fundamentals
+  - sql-query-basics
+  - python-sql-integration
+solution_storage: separate-file
+solution_visibility: teacher

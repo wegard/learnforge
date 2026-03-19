@@ -8,18 +8,22 @@ from app.config import REPO_ROOT
 from app.indexer import load_repository
 
 
-def test_edi3400_course_is_indexed_with_first_exercise_slice() -> None:
+def test_edi3400_course_is_indexed_with_first_three_lecture_slices() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
 
     course = index.courses["edi3400"]
 
     assert course.model.id == "edi3400"
     assert course.model.languages == ["en"]
-    assert course.plan.lectures == []
+    assert course.plan.lectures == [
+        "edi3400-lecture-11",
+        "edi3400-lecture-12",
+        "edi3400-lecture-13",
+    ]
     assert course.plan.assignments == []
 
 
-def test_edi3400_course_assembles_with_first_exercise_slice() -> None:
+def test_edi3400_course_assembles_with_first_three_lecture_slices() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
         "edi3400",
@@ -33,12 +37,18 @@ def test_edi3400_course_assembles_with_first_exercise_slice() -> None:
     assert assembly.target.kind == "course"
     assert assembly.target.identifier == "edi3400"
     assert [entry.identifier for entry in assembly.listing_entries] == [
+        "edi3400-lecture-11",
+        "edi3400-lecture-12",
+        "edi3400-lecture-13",
         "sql-python-problem-set",
         "topic-data-management",
         "topic-databases",
         "topic-sql",
     ]
     assert "EDI 3400 - Programming and Data Management" in assembly.markdown
+    assert "Lecture 11 - Introduction to relational databases" in assembly.markdown
+    assert "Lecture 12 - SQL basics" in assembly.markdown
+    assert "Lecture 13 - Python and SQL" in assembly.markdown
     assert "SQL and Python problem set" in assembly.markdown
     assert "Data Management" in assembly.markdown
     assert "Databases" in assembly.markdown
@@ -67,7 +77,32 @@ def test_relational_database_fundamentals_concept_links_to_edi3400() -> None:
     assert "sql-query-basics" in related_ids
     assert "python-sql-integration" in related_ids
     assert "sql-python-problem-set" in related_ids
+    assert "edi3400-lecture-11" in related_ids
     assert "edi3400" in related_ids
+
+
+def test_edi3400_lecture_11_assembly_expands_relational_database_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-11",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["relational-database-fundamentals"]
+    assert (
+        "## Relational databases organize data by structure, not by accident"
+        in assembly.markdown
+    )
+    assert "## `SELECT` and `FROM` define the starting point" not in assembly.markdown
+    assert "## Python turns SQL work into a reproducible workflow" not in assembly.markdown
 
 
 def test_sql_query_basics_concept_links_database_foundations_and_edi3400() -> None:
@@ -91,7 +126,30 @@ def test_sql_query_basics_concept_links_database_foundations_and_edi3400() -> No
     assert "relational-database-fundamentals" in related_ids
     assert "python-sql-integration" in related_ids
     assert "sql-python-problem-set" in related_ids
+    assert "edi3400-lecture-12" in related_ids
     assert "edi3400" in related_ids
+
+
+def test_edi3400_lecture_12_assembly_expands_sql_query_basics() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-12",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["sql-query-basics"]
+    assert "## `SELECT` and `FROM` define the starting point" in assembly.markdown
+    assert "## `WHERE` filters rows" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+    assert "## Lab brief" not in assembly.markdown
 
 
 def test_python_sql_integration_concept_links_database_foundations_and_edi3400() -> None:
@@ -115,7 +173,30 @@ def test_python_sql_integration_concept_links_database_foundations_and_edi3400()
     assert "relational-database-fundamentals" in related_ids
     assert "sql-query-basics" in related_ids
     assert "sql-python-problem-set" in related_ids
+    assert "edi3400-lecture-13" in related_ids
     assert "edi3400" in related_ids
+
+
+def test_edi3400_lecture_13_assembly_expands_python_sql_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-13",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["python-sql-integration", "sql-python-problem-set"]
+    assert "## `sqlite3` is the simplest bridge" in assembly.markdown
+    assert "## Pandas is often the cleanest next step" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "## `SELECT` and `FROM` define the starting point" not in assembly.markdown
 
 
 def test_sql_python_problem_set_links_database_concepts_and_course() -> None:
@@ -139,7 +220,54 @@ def test_sql_python_problem_set_links_database_concepts_and_course() -> None:
     assert "relational-database-fundamentals" in related_ids
     assert "sql-query-basics" in related_ids
     assert "python-sql-integration" in related_ids
+    assert "edi3400-lecture-13" in related_ids
     assert "edi3400" in related_ids
+
+
+def test_sql_python_problem_set_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "sql-python-problem-set",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "SQL and Python problem set" in html
+    assert "auto_dealership_database.db" in html
+    assert "## Solution" not in html
+    assert "The safest teacher solution is a small set of representative SQL queries" not in html
+    assert build_manifest["target"]["identifier"] == "sql-python-problem-set"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_sql_python_problem_set_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "sql-python-problem-set",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "SQL and Python problem set" in html
+    assert "The safest teacher solution is a small set of representative SQL queries" in html
+    assert "Representative Python workflow" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "sql-python-problem-set"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
 
 
 def test_python_sql_integration_student_page_builds_cleanly() -> None:
@@ -182,6 +310,87 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
 
     assert "EDI 3400 - Programming and Data Management" in html
     assert "Part 4: Databases with SQL and Python" in html
+    assert "../../collection/edi3400-lecture-11/edi3400-lecture-11.html" in html
+    assert "../../collection/edi3400-lecture-12/edi3400-lecture-12.html" in html
+    assert "../../collection/edi3400-lecture-13/edi3400-lecture-13.html" in html
     assert "Assessment Status" in html
     assert "Search LearnForge" in html
     assert "Breadcrumbs:" in html
+
+
+def test_edi3400_lecture_11_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-11",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 11 - Introduction to relational databases" in html
+    assert "This lecture includes" in html
+    assert "Relational database fundamentals" in html
+    assert "SELECT and FROM define the starting point" not in html
+    assert "Python turns SQL work into a reproducible workflow" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["relational-database-fundamentals"]
+
+
+def test_edi3400_lecture_12_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-12",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 12 - SQL basics" in html
+    assert "This lecture includes" in html
+    assert "SQL query basics" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert "Lab brief" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["sql-query-basics"]
+
+
+def test_edi3400_lecture_13_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-13",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 13 - Python and SQL" in html
+    assert "This lecture includes" in html
+    assert "Python and SQL integration" in html
+    assert "SQL and Python problem set" in html
+    assert "SELECT and FROM define the starting point" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["python-sql-integration", "sql-python-problem-set"]

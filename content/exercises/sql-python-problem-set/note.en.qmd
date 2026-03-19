@@ -1,0 +1,68 @@
+## Lab brief
+
+Use the local course database `auto_dealership_database.db` from this exercise's
+`assets/` folder to practice the full database workflow in `EDI 3400`: understand
+the schema, write SQL queries, and pull results into Python for further analysis.
+
+The point of the lab is not to memorize isolated SQL commands. The point is to move
+from relational structure to query logic and then into a reproducible Python
+workflow.
+
+## Dataset overview
+
+The database contains four core tables:
+
+- `Employees`
+- `Cars`
+- `Customers`
+- `Sales`
+
+Read the schema carefully before writing queries. In particular, identify which
+columns link the `Sales` table to the other tables.
+
+## Tasks
+
+1. Inspect the schema and write a short note identifying:
+   - the primary key for each table,
+   - how `Sales` connects to `Customers`, `Cars`, and `Employees`.
+2. Write at least four single-table SQL queries, including:
+   - one `SELECT`/`FROM` query,
+   - one `WHERE` filter,
+   - one `ORDER BY` query,
+   - one query that uses `DISTINCT`.
+3. Write at least three multi-table SQL queries with joins, including:
+   - one query that combines customers and sales,
+   - one query that combines sales and employees,
+   - one query that combines sales, customers, and cars.
+4. Write at least three summary queries using aggregate functions and `GROUP BY`
+   where appropriate. Include examples such as:
+   - counting sales per employee,
+   - finding minimum or maximum sale prices,
+   - computing an average salary or average sale price by group.
+5. From Python, create:
+   - one Pandas DataFrame containing all Honda cars,
+   - one Pandas DataFrame containing all employees in the service department.
+6. From Python, produce two small plots:
+   - yearly mean sales `price` based on the sales date,
+   - yearly mean `msrp` for Mercedes cars based on the car year.
+7. Write a short conclusion covering:
+   - which queries were easiest to express in SQL,
+   - which transformations felt more natural in Python or Pandas,
+   - one schema feature that made the joins possible,
+   - one mistake or debugging step you had to resolve.
+
+## Starter outline
+
+```python
+import sqlite3
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+con = sqlite3.connect("auto_dealership_database.db")
+cur = con.cursor()
+```
+
+Keep the SQL readable inside Python strings. Use parameterized queries whenever a
+Python variable should affect the SQL statement. Close the database connection when
+the workflow is complete.

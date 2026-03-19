@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -52,6 +53,10 @@ class BuildArtifact:
 
 class BuildError(RuntimeError):
     pass
+
+
+TEACHER_BLOCK_SOURCE_RE = re.compile(r":::\s*\{\.teacher-only\}")
+TEACHER_BLOCK_OUTPUT_RE = re.compile(r'class="[^"]*\bteacher-only\b[^"]*"')
 
 
 def build_target(
@@ -296,10 +301,8 @@ def build_leakage_report(
         1 for item in assembly.solution_observations if item.included_in_output
     )
 
-    generated_source_has_marker = (
-        ".teacher-only" in generated_source_text or "teacher-only" in generated_source_text
-    )
-    output_has_marker = ".teacher-only" in output_text or "teacher-only" in output_text
+    generated_source_has_marker = bool(TEACHER_BLOCK_SOURCE_RE.search(generated_source_text))
+    output_has_marker = bool(TEACHER_BLOCK_OUTPUT_RE.search(output_text))
     generated_source_has_solution_marker = SOLUTION_BLOCK_MARKER in generated_source_text
     output_has_solution_marker = SOLUTION_BLOCK_MARKER in output_text
 

@@ -10,8 +10,8 @@ course/object structure.
 - Course language at migration start: `en` only
 - The current README, lecture notebooks, and homework notebooks are reference
   material, not source of truth
-- The course outline is still a sketch, so `courses/edi3400/plan.yml` stays empty
-  until the first canonical lecture collection exists
+- The course outline is still a sketch, so `courses/edi3400/plan.yml` grows
+  incrementally as stable lecture collections are assembled
 - The first canonical slice starts with the database block:
   - Lecture 11: relational databases
   - Lecture 12: SQL basics
@@ -107,7 +107,7 @@ Build the first LearnForge checkpoint for `edi3400` around the database block.
 
 ## Current Canonical Checkpoint
 
-The first database concept block is now scaffolded in canonical LearnForge form.
+The first database lecture slice is now scaffolded in canonical LearnForge form.
 
 ### Implemented objects
 
@@ -115,19 +115,28 @@ The first database concept block is now scaffolded in canonical LearnForge form.
 - concept: `sql-query-basics`
 - concept: `python-sql-integration`
 - exercise: `sql-python-problem-set`
+- lecture collection: `edi3400-lecture-11`
+- lecture collection: `edi3400-lecture-12`
+- lecture collection: `edi3400-lecture-13`
+
+### Course plan status
+
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-11`
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-12`
+- `edi3400-lecture-12` is scoped to canonical SQL querying material only
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-13`
+- `edi3400-lecture-13` combines canonical Python/SQL integration material with the
+  promoted problem set as applied follow-up
+- The first canonical database lecture block for `edi3400` now spans lectures 11-13
 
 ## Next Migration Actions
 
-1. Keep the canonical course shell in place, but leave `courses/edi3400/plan.yml`
-   empty until the first lecture collection is assembled from promoted objects only.
-2. Assemble `edi3400-lecture-11` from promoted objects only.
-3. Decide whether `edi3400-lecture-12` should include only `sql-query-basics` or also
-   the exercise as a capstone task.
-4. Decide which `.db`, `.sql`, and helper `.py` files genuinely belong as canonical
+1. Decide which `.db`, `.sql`, and helper `.py` files genuinely belong as canonical
    object-local assets.
-4. Convert `Problem_set5_solution.ipynb` into `sql-python-problem-set` with a
-   student-facing note and a separate `solution.en.qmd`.
-5. Assemble `edi3400-lecture-11`, `edi3400-lecture-12`, and `edi3400-lecture-13`
-   only after their referenced concepts/exercises exist canonically.
-6. Leave the rest of the Python and third-party-library material in the inbox until
+2. Decide whether one of `edi3400-lecture-11`, `edi3400-lecture-12`, or
+   `edi3400-lecture-13` is now stable enough to add to `representative-targets.yml`.
+3. Decide whether Homework problem set 5 should remain a lecture-linked exercise only
+   or later be promoted into a formal assignment collection when the course sketch is
+   more mature.
+4. Leave the rest of the Python and third-party-library material in the inbox until
    that database promotion pattern is stable.
