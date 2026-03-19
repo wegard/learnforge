@@ -1,0 +1,35 @@
+id: llms-and-next-token-prediction
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Store språkmodeller og neste-token-prediksjon
+courses:
+  - bik2550
+topics:
+  - deep-learning
+  - language-models
+tags:
+  - llm
+  - language-models
+  - next-token-prediction
+  - transformers
+level: introductory
+prerequisites:
+  - neural-networks-introduction
+related:
+  - generative-ai-introduction
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []

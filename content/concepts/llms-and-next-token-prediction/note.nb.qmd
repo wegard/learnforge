@@ -1,0 +1,69 @@
+# Store språkmodeller og neste-token-prediksjon
+
+## Hva er en språkmodell?
+
+En språkmodell er et nevralt nettverk trent på enorme mengder tekstdata for å
+forstå og generere menneskelig språk. Kjernemekanismen er enkel:
+**predikere neste token (ord/tegn) i en sekvens.**
+
+## Neste-token-prediksjon
+
+Modellen estimerer sannsynligheten for neste ord basert på tidligere ord. Jo mer
+data modellen er trent på, desto bedre forstår den kontekst og betydning.
+
+*Eksempel:* Gitt sekvensen "Aksjekursen til Equinor falt kraftig etter...",
+predikerer modellen sannsynlige neste ord.
+
+## Fra bigrammer til Transformers
+
+### Bigram-modell
+
+Den enkleste språkmodellen teller par av tegn/ord (bigrammer) og beregner
+sannsynligheter:
+
+1. Tell alle tegnpar i treningsdataene
+2. Normaliser radene til en sannsynlighetsmatrise
+3. Generer nytt tekst ved å samle neste tegn fra fordelingen
+
+### Transformer-baserte modeller
+
+Moderne språkmodeller bruker Transformer-arkitekturen med
+selvoppmerksomhet (self-attention), der hvert token kan "se" hele konteksten.
+Dette gir:
+
+- Parallelliserbar trening på GPU/TPU
+- Bedre fangst av langtidsavhengigheter
+- Dynamiske, kontekstavhengige representasjoner
+
+## Treningsprosessen
+
+Store språkmodeller trenes typisk i tre faser:
+
+1. **Pre-trening:** Uovervåket læring på enorme datamengder (internett, bøker).
+   Modellen lærer språkmønstre og generell kunnskap.
+2. **Instruksjonstuning (SFT):** Finjustering på merkede datasett med
+   spørsmål-svar-par for å følge instruksjoner.
+3. **RLHF:** Forsterkningslæring fra menneskelig tilbakemelding for å
+   alignere med menneskelige preferanser.
+
+## Kjente modeller
+
+- **GPT-serien (OpenAI):** GPT-3, GPT-4, GPT-5
+- **Gemini (Google):** Multimodal fra starten
+- **Claude (Anthropic):** Sikkerhetsfokusert, store kontekstvinduer
+- **Llama (Meta):** Åpne vekter, forskningsvennlig
+- **Mistral (Mistral AI):** Europeisk, effektiv
+- **DeepSeek, Qwen:** Kinesiske modeller i rask utvikling
+
+## Begrensninger
+
+- **Hallusinasjoner:** Produserer plausibelt men feilaktig innhold
+- **Bias:** Reproduserer skjevheter fra treningsdata
+- **Personvern:** Risiko ved sensitive data i prompts
+- **Forklarbarhet:** "Black box" — problematisk i regulerte bransjer
+- **Kostnad:** Dyr trening og inferens
+
+## Kontekstvindu
+
+Størrelsen på tekst modellen kan "se" under generering. Moderne modeller
+har kontekstvinduer fra tusenvis til millioner av tokens.
