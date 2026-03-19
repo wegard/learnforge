@@ -1,0 +1,65 @@
+# Uovervåket maskinlæring
+
+## Oversikt
+
+I uovervåket læring (unsupervised learning) trenes modellen på umerkede data —
+det finnes ingen fasit. Modellen må selv finne mønstre, struktur eller
+grupperinger i dataene.
+
+*Eksempel:* Segmentere kunder i grupper uten på forhånd å vite kategoriene.
+
+## Klyngeanalyse (clustering)
+
+Algoritmer grupperer data i klynger basert på likheter, uten forhåndsdefinerte
+kategorier. Klyngeanalyse brukes ofte eksplorativt for å finne uoppdagede
+mønstre eller segmenter i data.
+
+### K-means klyngeanalyse
+
+K-means deler data i $K$ klynger etter likhet:
+
+1. Velg antall klynger $K$ på forhånd
+2. Plasser klyngesentroider tilfeldig
+3. Tilordne hvert datapunkt til nærmeste sentroid
+4. Flytt sentroidene til gjennomsnitt av sine tilordnede punkter
+5. Gjenta steg 3–4 til balanse
+
+*Eksempel i finans:* Gruppere investeringsporteføljer i segmenter som oppfører
+seg likt i markedet.
+
+### Eksempler i finans
+
+- **Kundesegmentering:** Gruppere bankkunder etter lignende karakteristikker
+  (inntekt, bruksmønster, preferanser) for målrettede tjenester
+- **Investorgruppering:** Identifisere ulike investorgrupper basert på
+  handelsmønstre og risikoprofil
+- **Markedsanalyse:** Avdekke skjulte korrelasjoner og mønstre i markedet
+
+## Anomali- og avviksdeteksjon
+
+Oppdager uvanlige datapunkter som ikke passer inn i de øvrige mønstrene.
+
+*Eksempel:* Finne "unormale" transaksjoner som skiller seg fra en kundes vanlige
+mønster — potensiell svindel.
+
+## Dimensjonsreduksjon (PCA)
+
+Prinsipal komponent-analyse (PCA) reduserer kompleksitet ved å komprimere mange
+variabler til færre hovedkomponenter.
+
+*Eksempel i finans:* Oppsummere 100 finansielle indikatorer til 3 underliggende
+faktorer som forklarer mesteparten av variasjonen.
+
+Andre teknikker for dimensjonsreduksjon:
+
+- **t-SNE** — for visualisering av høydimensjonale data i 2D/3D
+- **UMAP** — raskere alternativ til t-SNE
+
+## Sammenlignet med veiledet læring
+
+| | Veiledet | Uovervåket |
+|---|---|---|
+| Data | Merkede (har fasit) | Umerkede (ingen fasit) |
+| Mål | Forutsi kjent utfall | Oppdage skjulte mønstre |
+| Eksempler | Klassifisering, regresjon | Klynging, PCA, anomalideteksjon |
+| Bruk i finans | Kredittscoring, svindeldeteksjon | Segmentering, risikogruppering |
