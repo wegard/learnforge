@@ -1,31 +1,24 @@
-id: automation-levels
-kind: concept
+id: bik2551-day-03
+kind: collection
+collection_kind: lecture
 status: approved
 visibility: student
 languages:
   - nb
 title:
-  nb: Fra chatbot til automatisering
+  nb: Dag 3 - KI-agenter og automatisering
 courses:
   - bik2551
 topics:
+  - ai-agents
   - ai-automation
 tags:
-  - automation
-  - data-analysis
-  - no-code
-  - api
-  - zapier
-  - make
-level: introductory
-prerequisites: []
-related:
-  - ai-agents-introduction
-  - custom-ai-assistants
+  - lecture
+  - day-3
 outputs:
   - html
-  - pdf
   - revealjs
+  - pdf
   - handout
 owners:
   - vegard
@@ -34,3 +27,7 @@ translation_status:
   nb: approved
 ai:
   generated_fields: []
+items:
+  - ai-agents-introduction
+  - automation-levels
+  - automation-design-exercise

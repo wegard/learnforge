@@ -18,7 +18,10 @@ tags:
   - code-agents
 level: introductory
 prerequisites: []
-related: []
+related:
+  - automation-levels
+  - custom-ai-assistants
+  - context-windows-and-rag
 outputs:
   - html
   - pdf

@@ -113,10 +113,17 @@ Day 2 content — 5 objects promoted:
 | `custom-assistant-setup` | exercise | approved |
 | `bik2551-day-02` | collection (lecture) | approved |
 
+Day 3 content — 4 objects promoted:
+
+| Object id | Kind | Status |
+| --- | --- | --- |
+| `ai-agents-introduction` | concept | approved |
+| `automation-levels` | concept | approved |
+| `automation-design-exercise` | exercise | approved |
+| `bik2551-day-03` | collection (lecture) | approved |
+
 ## Next Migration Actions
 
-1. Scaffold Day 3 concept objects (`ai-agents-introduction`, `automation-levels`).
-2. Create the Day 3 exercise (`automation-design-exercise`).
-3. Create the `bik2551-day-03` lecture collection.
-4. Repeat for Day 4.
-5. Leave all remaining legacy files in the inbox until they are explicitly promoted.
+1. Scaffold Day 4 concept objects (`ai-strategy-implementation`, `ai-future-of-work`).
+2. Create the `bik2551-day-04` lecture collection.
+3. Leave all remaining legacy files in the inbox until they are explicitly promoted.
