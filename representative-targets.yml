@@ -69,11 +69,6 @@ targets:
     audience: teacher
     language: en
     format: exercise-sheet
-  - label: BIK2550 lecture page
-    id: bik2550-m1d1
-    audience: teacher
-    language: nb
-    format: html
   - label: BIK2550 lecture slides
     id: bik2550-m3d1
     audience: teacher
