@@ -1,0 +1,76 @@
+## Fra generelle spørsmål til en personlig KI-assistent
+
+En standard KI-samtale starter fra null hver gang. Modellen vet ingenting om
+hvem du er, hva du jobber med, eller hvordan du foretrekker å kommunisere. I
+`BIK 2551` lærer vi å sette opp tilpassede assistenter som husker konteksten
+din og jobber slik du trenger.
+
+## Custom Instructions: Den enkleste formen for tilpasning
+
+De fleste KI-plattformer lar deg lagre faste instruksjoner som gjelder i alle
+samtaler. Du definerer hvem du er, hva du jobber med, og hvordan modellen skal
+svare.
+
+En god Custom Instruction inneholder:
+
+- **Din rolle og fagområde** — «Jeg er prosjektleder i en kommune.»
+- **Typiske oppgaver** — «Jeg skriver ofte saksfremlegg og møtereferater.»
+- **Foretrukket stil** — «Skriv kortfattet og formelt. Bruk norsk bokmål.»
+- **Begrensninger** — «Ikke bruk engelske faguttrykk der norske finnes.»
+
+## GPTs, Gems og Projects: Spesialiserte assistenter
+
+Plattformene tilbyr ulike måter å bygge mer avanserte assistenter:
+
+- **GPTs (OpenAI)** — Selvstendige assistenter med egne instruksjoner og
+  kunnskapsbase. Kan deles med andre.
+- **Gems (Google)** — Tilsvarende konsept i Google AI Studio og Gemini.
+- **Projects (Claude)** — Prosjektbaserte arbeidsområder med faste
+  instruksjoner og opplastede dokumenter.
+
+Felles for alle er at du kombinerer en persona (hvem assistenten er) med en
+kunnskapsbase (hva den har tilgang til). Det gjør at assistenten kan gi
+spesialiserte svar uten at du må gjenta konteksten i hver samtale.
+
+## Bygg en persona for din arbeidshverdag
+
+En effektiv KI-assistent trenger en tydelig definert persona:
+
+1. **Rolle** — Hva er assistentens funksjon? Rådgiver, korrekturleser,
+   analytiker?
+2. **Fagkunnskap** — Hvilke dokumenter eller retningslinjer skal den kjenne?
+3. **Oppgaver** — Hva skal den hjelpe med daglig?
+4. **Tone** — Formell, uformell, direkte, diplomatisk?
+5. **Grenser** — Hva skal den ikke gjøre eller uttale seg om?
+
+::: {.teacher-only}
+Demo: Sett opp en enkel GPT eller Claude Project med en opplastet
+personalhåndbok som kunnskapsbase. Vis forskjellen i svar med og uten denne
+konteksten. Diskuter kort risiko ved å gi modellen tilgang til intern
+informasjon og hvordan bedriftsavtaler håndterer dette.
+:::
+
+## Sikkerhetshensyn ved tilpassede assistenter
+
+Når du laster opp dokumenter til en KI-assistent, gjelder de samme reglene
+som for all KI-bruk:
+
+- Sjekk om plattformen bruker innholdet til modelltrening.
+- Bruk bedriftsversjoner for sensitive dokumenter.
+- Ikke last opp personopplysninger, HR-data eller kundedata uten godkjenning.
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Tilpassede assistenter er broen mellom grunnleggende prompting og den daglige
+bruken av KI. Denne modulen gir deltakerne en konkret, personlig KI-løsning
+de kan bruke umiddelbart i jobben.
+
+Erfaringene herfra danner grunnlag for prosjektoppgaven og for de mer avanserte
+temaene om KI-agenter og automatisering i Dag 3.
+
+## Praktiske poeng å ta med videre
+
+- Definer en tydelig persona med rolle, fagkunnskap og grenser.
+- Last opp relevante dokumenter som kunnskapsbase for bedre svar.
+- Bruk bedriftsversjoner av plattformene for sensitive opplysninger.
+- En tilpasset assistent sparer tid ved å fjerne gjentatt kontekstgiving.
