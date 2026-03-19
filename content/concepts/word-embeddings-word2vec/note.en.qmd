@@ -1,0 +1,126 @@
+## From sparse counts to dense meaning
+
+Bag-of-words methods represent text with very long sparse vectors. That is often
+good enough for classification or similarity, but it treats words as unrelated
+labels. `Word embeddings` change that by representing each word as a short dense
+vector in which proximity reflects shared usage.
+
+The guiding idea is distributional: words that appear in similar contexts tend to
+have related meanings. In the old phrase often attributed to Firth, you know a word
+by the company it keeps.
+
+## What embeddings try to capture
+
+A good embedding space lets us say more than "this word appeared often." It lets us
+compare usage patterns directly.
+
+- Words with similar contexts should be close in the vector space.
+- Directions in the space may capture recurring semantic contrasts.
+- Dense vectors can be used as features for later models.
+
+This is why analogies like `king - man + woman ≈ queen` became famous. The analogy
+is not magic; it is an illustration of the fact that some regularities in word use
+can become approximately linear in the learned space.
+
+## Co-occurrence and PMI give one route to embeddings
+
+One route starts from a co-occurrence matrix rather than a document-term matrix.
+Instead of counting how often a word appears in a document, we count how often a
+target word appears near a context word inside a fixed window.
+
+If `Co_{ij}` is the co-occurrence count for target word `i` and context word `j`,
+then the normalized joint and marginal probabilities are:
+
+$$
+p_{ij} = \frac{Co_{ij}}{\sum_{i,j} Co_{ij}},
+\qquad
+p_i = \frac{\sum_j Co_{ij}}{\sum_{i,j} Co_{ij}},
+\qquad
+p_j = \frac{\sum_i Co_{ij}}{\sum_{i,j} Co_{ij}}
+$$
+
+Pointwise Mutual Information compares the observed joint frequency with what we
+would expect under independence:
+
+$$
+\operatorname{PMI}(i,j) = \log\!\left(\frac{p_{ij}}{p_i p_j}\right)
+$$
+
+High PMI means the pair occurs together more often than chance would suggest.
+
+## PPMI and SVD turn co-occurrence into dense vectors
+
+Raw PMI has two practical problems. It can be negative, and it often overweights
+rare events. A common fix is positive PMI:
+
+$$
+\operatorname{PPMI}(i,j) = \max\!\left(\log\!\left(\frac{p_{ij}}{p_i p_j}\right), 0\right)
+$$
+
+The resulting matrix is still large and sparse, so we reduce it with truncated
+Singular Value Decomposition:
+
+$$
+M \approx U_K S_K V_K'
+$$
+
+The rows of the reduced factor matrix give dense word vectors. This keeps the
+distributional idea while compressing the vocabulary into a lower-dimensional space
+that is easier to compare with cosine similarity.
+
+## Word2Vec uses prediction instead of matrix factorization
+
+The better-known route is predictive. `Word2Vec` popularized shallow neural methods
+that learn embeddings by solving self-supervised prediction tasks on running text.
+
+Two standard variants are:
+
+- **CBOW**: predict the center word from surrounding context words.
+- **Skip-gram**: predict surrounding context words from the center word.
+
+The legacy `GRA 4164` slides focus on skip-gram. Slide a context window across the
+corpus, create target-context pairs, and train a shallow network so words that
+share contexts end up with similar hidden-layer vectors.
+
+::: {.teacher-only}
+Emphasize that the hidden layer is the real prize. The prediction task is only the
+training mechanism used to learn useful word vectors.
+:::
+
+## Negative sampling makes training practical
+
+A full softmax over a large vocabulary is expensive. `Negative sampling` reduces the
+cost by pairing each observed target-context relation with a small number of random
+non-context words. The model is then trained to score real neighbours highly and
+sampled noise words poorly.
+
+This changes the computation, but not the intuition: useful embeddings are learned
+when the model can distinguish real contextual neighbours from implausible ones.
+
+## Why embeddings matter and where they break
+
+Word embeddings improved on bag-of-words in three important ways:
+
+- they are dense rather than sparse,
+- they support similarity and analogy operations directly,
+- and they can be fed into downstream models as reusable features.
+
+But classic Word2Vec-style embeddings are still static. A word gets one vector no
+matter which sentence it appears in. That is a real limitation for polysemous words
+such as `apple`, `bank`, or `charge`.
+
+This is one reason later contextual models such as BERT and transformer-based LLMs
+became so important: they produce token representations that depend on the sentence
+around them.
+
+## What to report
+
+When students present an embeddings-based analysis in this course, they should
+report:
+
+- what context definition was used, including the window size,
+- whether the approach was matrix-factorization-based or predictive,
+- how similarity between words was measured,
+- one interpretable nearest-neighbour or analogy result, and
+- one honest limitation, especially around static meaning or sensitivity to corpus
+  choice.

@@ -1,0 +1,40 @@
+A strong teacher solution should compare prompt variations in a disciplined way and
+separate output quality from output style. The point is not to find one magical
+prompt, but to show what kinds of constraints change the model's behaviour and why.
+
+## Suggested approach
+
+1. Keep one baseline prompt and vary one major feature at a time.
+   - audience specificity
+   - tone
+   - role or perspective
+   - requested structure
+   - explicit constraints
+2. Ask students to compare outputs on a small rubric:
+   - relevance to task
+   - clarity
+   - persuasiveness
+   - factual restraint
+3. In the reflection section, prefer a realistic marketing use case such as:
+   - customer support summarization
+   - campaign message drafting
+   - review analysis
+   - topic discovery in customer feedback
+4. Expect students to justify why they choose one approach first.
+   - LLM prompting may be fast and flexible, but harder to control.
+   - Classical text-as-data methods may be narrower, but often easier to audit and
+     measure.
+5. Require one paragraph on governance risks.
+   - data privacy
+   - biased outputs
+   - hallucinated claims
+   - weak domain grounding
+
+## What students should notice
+
+- Extra context often improves task fit, but it can also overconstrain the answer.
+- Tone and role instructions can strongly change style without improving substance.
+- Prompting is powerful for drafting, ideation, and summarization, but it is not a
+  substitute for reliable ground truth.
+- In a business setting, the best method is usually the one that balances quality,
+  cost, controllability, and governance.

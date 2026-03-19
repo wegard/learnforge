@@ -1,0 +1,53 @@
+## Lab brief
+
+Compare Shakespeare plays using bag-of-words counts, TF-IDF weighting, and cosine
+similarity. The point is not just to run a vectorizer, but to understand how
+preprocessing and weighting choices change the similarity signal.
+
+The legacy course notebook uses a single plain-text Shakespeare corpus named
+`data/shakespeare.txt`. If that exact file is distributed in class, use it. If not,
+use any equivalent public-domain Shakespeare corpus that lets you split the text
+into individual plays.
+
+## Tasks
+
+1. Load the corpus and split it into individual plays.
+   - Create a table with at least `title` and `content`.
+   - Report how many plays were detected.
+2. Preprocess the text.
+   - lowercase the text,
+   - remove punctuation and standalone numbers,
+   - remove common English stop words,
+   - keep the cleaned text in a separate column.
+3. Build a document-term matrix with `CountVectorizer`.
+   - Report the vocabulary size.
+   - Inspect a few interpretable terms such as `hamlet`, `king`, `love`, or
+     `william`.
+4. Build a TF-IDF representation of the same cleaned corpus.
+   - Identify the highest aggregate TF-IDF terms or the highest TF-IDF terms for
+     one selected play.
+   - Explain why these terms differ from raw-count leaders.
+5. Compute cosine similarity between plays using the TF-IDF matrix.
+   - Pick one reference play, for example *Hamlet*.
+   - Report the three most similar plays and their similarity scores.
+6. Compare the bag-of-words and TF-IDF views.
+   - Where does raw frequency overstate similarity?
+   - Where does TF-IDF produce a more useful business-style comparison?
+7. Write a short reflection on one limitation of this workflow.
+   - Examples: dependence on preprocessing choices, lack of word order, long-play
+     effects, or noisy character names.
+
+## Starter outline
+
+```python
+import re
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+corpus_path = "shakespeare.txt"  # or the path provided by your instructor
+```
+
+Keep the workflow inspectable. You should be able to explain how the plays were
+split, how the text was cleaned, and why cosine similarity is being applied to the
+final representation.

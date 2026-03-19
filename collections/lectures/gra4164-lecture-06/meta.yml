@@ -1,0 +1,36 @@
+id: gra4164-lecture-06
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 6 - Word embeddings
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-representation
+  - language-models
+tags:
+  - lecture
+  - word-embeddings
+  - word2vec
+  - nlp
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - word-embeddings-word2vec

@@ -1,0 +1,33 @@
+id: gra4164-assignment-02
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 2 - Word embeddings and semantic change
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-representation
+  - language-models
+tags:
+  - assignment
+  - word-embeddings
+  - word2vec
+  - semantic-change
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - word-embeddings-sotu-analysis

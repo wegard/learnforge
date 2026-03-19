@@ -1,0 +1,50 @@
+The teacher solution should treat the assignment as a comparison exercise, not a
+hunt for one perfect embedding model. The strongest submissions make tradeoffs
+explicit and keep the interpretation grounded in the limits of the corpus.
+
+## Suggested approach
+
+1. Start with a transparent local Word2Vec baseline on the SOTU corpus.
+   - lowercase and tokenize consistently
+   - remove stop-words if the goal is semantic content rather than rhetorical style
+   - use a moderate window such as 5 and a small minimum count
+2. Compare the local model against one alternative.
+   - preprocessed versus lightly processed text
+   - local Word2Vec versus pre-trained GloVe
+   - different context windows
+3. Evaluate with interpretable checks rather than only a loss number.
+   - nearest neighbours for words like `economy`, `security`, and `freedom`
+   - at least three analogy or offset queries
+   - a cosine-similarity table for a small hand-picked word set
+4. Use PCA or t-SNE only as an exploratory device.
+   - students should define the plotted vocabulary clearly
+   - they should not overclaim from a visually tidy cluster
+5. Treat semantic change carefully.
+   - splitting the corpus into two historical periods is reasonable
+   - comparing vectors across time requires aligned spaces or a clear proxy method
+   - a good conceptual answer can earn full credit even if a full temporal model is
+     not implemented
+
+## What students should usually find
+
+- The local SOTU corpus is large enough for interesting neighbours, but still small
+  enough that many results are noisy and parameter-sensitive.
+- Preprocessing changes neighbourhoods in visible ways, especially for politically
+  loaded words and inflected forms.
+- Pre-trained embeddings are often smoother and more stable, but they may miss
+  domain-specific political usage.
+- Analogy-style queries can produce plausible results, but they are not a reliable
+  proof of semantic understanding.
+- Visualizations are useful for exploration, but they compress away information and
+  can create misleading impressions of separation or coherence.
+
+## Teaching emphasis
+
+The debrief should stress three points:
+
+- word embeddings are powerful because they encode relative usage patterns, not
+  because they reveal objective meaning;
+- claims about semantic change are methodologically fragile unless the comparison
+  across time is designed carefully; and
+- campaign strategy should use embedding results as exploratory evidence, not as a
+  standalone basis for high-stakes messaging decisions.

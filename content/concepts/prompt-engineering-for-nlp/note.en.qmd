@@ -1,0 +1,117 @@
+## Why prompt engineering matters
+
+Training a large language model from scratch is usually out of reach. Fine-tuning is
+more feasible, but it still needs data, infrastructure, and a clear task design. In
+many practical settings, the cheapest lever is simply to give a better prompt to an
+already trained model.
+
+That is what `prompt engineering` means in this course: shaping the input so the
+model is more likely to produce a useful output for the task at hand.
+
+## Better prompts give the model a better problem
+
+The legacy `GRA 4164` lecture makes one practical point repeatedly: a vague prompt
+creates a vague task. A more specific prompt gives the model a more constrained
+search space.
+
+This is why a prompt like `prompt` produces something thin and generic, while
+`prompt engineering` produces a richer, more targeted response. The model is still
+doing next-token prediction, but the context now points more clearly toward the kind
+of answer the user wants.
+
+## Four practical ingredients
+
+Good prompts usually improve along four dimensions:
+
+- `clarity`: say what you want directly,
+- `context`: include enough background for the task,
+- `constraints`: specify format, tone, scope, or what to avoid,
+- `iteration`: refine the prompt after inspecting the first response.
+
+This is not magic and it is not a rigid formula. It is a way to reduce ambiguity in
+the interaction between user and model.
+
+## Zero-shot, one-shot, and few-shot prompting
+
+One major design choice is whether you only give the task, or whether you also give
+examples.
+
+- `Zero-shot` prompting asks the model to solve the task directly.
+- `One-shot` prompting gives one worked example first.
+- `Few-shot` prompting gives several examples to establish the pattern.
+
+Examples are especially useful when the desired output format is hard to describe
+precisely. Instead of explaining the style abstractly, you demonstrate it.
+
+## Chain-of-thought style prompting
+
+Some tasks improve when the prompt encourages intermediate reasoning steps rather
+than an immediate answer. The old lecture illustrates this with arithmetic and
+step-by-step examples.
+
+The practical lesson is narrower than the hype: for tasks involving logic, planning,
+or multi-step comparison, prompts that structure the response process often perform
+better than prompts that demand the final answer immediately.
+
+What matters is not the phrase itself, but the structure it induces:
+
+- identify the subproblem,
+- reason through it explicitly,
+- then produce the conclusion.
+
+## Prompt quality depends on understanding the model
+
+Good prompting is easier if you know what kind of system you are talking to.
+
+Useful questions include:
+
+- Is the model text-only, or can it handle code and images?
+- Does it have access to real-time information or only its training data?
+- What is the effective memory or context limit?
+- Is it a raw base model or a post-trained chatbot?
+
+These are not cosmetic details. They shape what the model can reliably do and what
+kind of prompt strategy makes sense.
+
+## Prompting has failure modes
+
+The lecture source highlights several common risks:
+
+- hallucinated citations or unsupported claims,
+- biased or skewed outputs,
+- prompt hacking or adversarial manipulation,
+- and overconfidence from fluent but weakly grounded responses.
+
+Prompting is therefore not only about getting more detail. It is also about
+requesting verifiable structure, scope limits, or uncertainty when the task calls for
+it.
+
+::: {.teacher-only}
+Ask students to compare three prompts for the same task: one vague, one specific,
+and one example-driven. The difference in output quality usually makes the lesson
+clear immediately.
+:::
+
+## Alignment explains why chatbot behaviour differs from raw prediction
+
+The models people use in practice are usually not raw next-token predictors. They
+have typically been post-trained to be more helpful, safer, and more responsive to
+instructions.
+
+That alignment layer matters for prompt engineering because it changes how the model
+interprets the prompt. Instruction tuning and preference alignment make the system
+more responsive to user intent than a base model would be.
+
+This is why prompt engineering and alignment belong together conceptually: prompting
+is about guiding behaviour at inference time, while alignment is about shaping
+behaviour during post-training.
+
+## What to report
+
+When students explain prompt engineering in this course, they should report:
+
+- what makes the prompt more specific or constrained than a vague baseline,
+- whether the task is zero-shot or example-driven,
+- what role intermediate reasoning or stepwise decomposition plays,
+- what assumptions are being made about the model’s capabilities and limits,
+- and one failure mode that good prompting can reduce but not eliminate.

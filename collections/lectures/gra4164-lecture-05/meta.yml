@@ -1,0 +1,37 @@
+id: gra4164-lecture-05
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 5 - Practical day 1
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-representation
+  - language-models
+tags:
+  - lecture
+  - practical-day
+  - nlp
+  - lab
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - bow-tfidf-shakespeare-lab
+  - bigram-language-model-lab

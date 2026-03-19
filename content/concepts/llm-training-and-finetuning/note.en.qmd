@@ -1,0 +1,102 @@
+## What training is optimizing
+
+LLM training is usually described as `self-supervised` because the text itself
+supplies the prediction target. The model reads a sequence and is trained to assign
+high probability to the next token that actually occurred.
+
+For next-token prediction, a common loss is cross-entropy. In this setting, the
+loss is low when the model assigns high probability to the correct next token and
+high when it does not.
+
+This is the central optimization target behind pretraining: adjust the parameters so
+that the average prediction loss over the training corpus becomes smaller.
+
+## Gradient descent and backpropagation do the learning
+
+The old Lecture 9 slides put the mechanics in standard machine-learning terms:
+
+- `gradient descent` updates parameters in the direction that reduces loss,
+- `backpropagation` efficiently computes the required derivatives through the
+  network,
+- and the learning rate controls how aggressively parameters are updated.
+
+The update rule is the familiar one:
+
+$$
+v \leftarrow v - \eta \nabla L
+$$
+
+where `η` is the learning rate and `∇L` is the gradient of the loss with respect to
+the parameters.
+
+If the learning rate is too high, training becomes unstable. If it is too low,
+training becomes unnecessarily slow.
+
+## Mini-batches, epochs, and teacher forcing
+
+Three pieces of training terminology matter repeatedly:
+
+- an `epoch` is one full pass through the training data,
+- a `mini-batch` is a smaller subset used for one parameter update,
+- and `teacher forcing` means the model is given the correct previous history during
+  training rather than its own earlier guesses.
+
+Mini-batching is mostly about efficiency and noise control. Teacher forcing matters
+because it stabilizes next-token learning during training, even though inference
+later requires the model to continue from its own generated outputs.
+
+## Pretraining is broad; fine-tuning is targeted
+
+`Pretraining` aims to build a general-purpose language model from very large text
+corpora. It is expensive, data-hungry, and compute-intensive, but it gives the model
+its broad language competence.
+
+`Fine-tuning` takes that base model and adapts it to a narrower objective:
+
+- a domain,
+- a task,
+- or a preferred interaction style.
+
+The point is not to relearn language from scratch. The point is to reshape an
+already capable model toward a more specific target behaviour.
+
+## Fine-tuning changes what the model becomes good at
+
+A fine-tuned model may become better at:
+
+- answering questions in a specific domain,
+- following a narrow instruction style,
+- producing safer or more useful responses,
+- or handling structured tasks such as classification or extraction.
+
+But every fine-tuning choice is a trade-off. Improvements on one behaviour may come
+with degraded breadth, overfitting to the fine-tuning distribution, or loss of
+generality.
+
+## Why optimization details still matter conceptually
+
+You do not need to derive backpropagation by hand to understand what is happening,
+but you do need the causal story:
+
+1. the model makes a prediction,
+2. the loss measures how wrong that prediction was,
+3. gradients tell us how each parameter contributed,
+4. optimization nudges the parameters toward better predictions.
+
+That loop is what connects abstract architecture to actual learned behaviour.
+
+::: {.teacher-only}
+Students often think fine-tuning is "just adding more data." Push them to say what
+objective changed, what data distribution changed, and what behaviour is expected to
+improve.
+:::
+
+## What to report
+
+When students explain LLM training in this course, they should report:
+
+- what prediction target the model is trained on,
+- what the loss function is trying to minimize,
+- why gradient descent and backpropagation are needed,
+- what role mini-batches, epochs, and teacher forcing play,
+- and how pretraining differs from fine-tuning in purpose and scope.

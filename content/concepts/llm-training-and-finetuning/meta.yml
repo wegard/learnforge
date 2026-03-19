@@ -1,0 +1,41 @@
+id: llm-training-and-finetuning
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: LLM training and fine-tuning
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - deep-learning
+tags:
+  - llm
+  - training
+  - gradient-descent
+  - backpropagation
+  - fine-tuning
+level: intermediate
+prerequisites:
+  - attention-and-transformers
+  - llm-input-output-architecture
+related:
+  - llm-introduction-tokenization
+  - attention-and-transformers
+  - llm-input-output-architecture
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

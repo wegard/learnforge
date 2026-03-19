@@ -1,0 +1,39 @@
+id: bigram-language-model-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Bigram language model lab
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - language-models
+tags:
+  - exercise
+  - n-grams
+  - bigrams
+  - next-token-prediction
+  - pytorch
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 120
+concepts:
+  - ngram-language-models
+solution_storage: separate-file
+solution_visibility: teacher

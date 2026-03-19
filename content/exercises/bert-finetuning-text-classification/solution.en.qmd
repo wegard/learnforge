@@ -1,0 +1,51 @@
+A strong teacher solution should frame this as a workflow and evaluation exercise,
+not as a leaderboard contest. Students should show that they understand how
+fine-tuning changes the modelling pipeline compared with earlier bag-of-words
+classifiers.
+
+## Suggested approach
+
+1. Use one public benchmark and one custom labeled dataset.
+   - A small but well-controlled subset of `yelp_review_full` is sufficient for the
+     benchmark part.
+   - The custom dataset can be paragraph-level State of the Union text with binary
+     or three-class labels.
+2. Keep the first transformer run operationally simple.
+   - `google-bert/bert-base-cased` is fine if a GPU is available.
+   - `distilbert-base-uncased` is a reasonable fallback for limited hardware.
+   - Three epochs with moderate batch sizes are enough for the pedagogical goal.
+3. Require a baseline comparison.
+   - TF-IDF with logistic regression is the cleanest baseline.
+   - The comparison should emphasize tradeoffs in accuracy, setup time,
+     interpretability, and compute cost.
+4. Treat evaluation as more than one headline metric.
+   - Accuracy alone is not enough when classes are imbalanced.
+   - Students should inspect macro F1, confusion patterns, and several concrete
+     misclassifications.
+5. Reward honest discussion of data limitations.
+   - Small custom datasets will usually be label-noisy and unstable.
+   - A weaker custom result can still earn strong marks if the analysis is careful
+     and methodologically sound.
+
+## What students should usually find
+
+- Fine-tuning on a benchmark dataset is straightforward once the tokenization and
+  label pipeline are correct, but it is computationally heavier than earlier
+  methods in the course.
+- The custom dataset often becomes the real bottleneck: label quality and class
+  balance matter as much as model choice.
+- A fine-tuned transformer may outperform a TF-IDF baseline, but not always by a
+  dramatic margin on a small noisy dataset.
+- Error analysis often reveals ambiguous labels, truncated context, and category
+  overlap rather than purely model failure.
+
+## Teaching emphasis
+
+The debrief should stress four points:
+
+- fine-tuning is powerful because it adapts contextual representations to a task,
+  not because BERT is automatically superior in every setting;
+- benchmark accuracy does not transfer automatically to a custom business dataset;
+- smaller classical baselines remain useful reference points; and
+- compute, labeling cost, and reproducibility should shape the method choice in a
+  real organization.

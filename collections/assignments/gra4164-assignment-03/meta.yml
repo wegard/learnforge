@@ -1,0 +1,34 @@
+id: gra4164-assignment-03
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 3 - BERT fine-tuning for text classification
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - deep-learning
+  - text-classification
+tags:
+  - assignment
+  - bert
+  - fine-tuning
+  - transformers
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - bert-finetuning-text-classification

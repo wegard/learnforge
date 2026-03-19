@@ -97,6 +97,15 @@ These can stay in the inbox until the core NLP content is migrated.
 | `gra4164-lecture-09` | LLM Architecture and Training | `llm-input-output-architecture`, `llm-training-and-finetuning` |
 | `gra4164-lecture-11` | Prompt Engineering | `prompt-engineering-for-nlp`, `prompt-engineering-reflection` |
 
+## Proposed Assignment Collections
+
+| Collection id | Title | Planned items |
+| --- | --- | --- |
+| `gra4164-assignment-01` | Assignment 1 - Boolean search and topic modelling | `sotu-boolean-search-topic-modeling` |
+| `gra4164-assignment-02` | Assignment 2 - Word embeddings and semantic change | `word-embeddings-sotu-analysis` |
+| `gra4164-assignment-03` | Assignment 3 - BERT fine-tuning for text classification | `bert-finetuning-text-classification` |
+| `gra4164-assignment-04` | Assignment 4 - Prompt engineering and reflection | `prompt-engineering-reflection` |
+
 ## Cross-Course References
 
 Content objects should list relevant concepts from other courses in `related:`:
@@ -112,8 +121,9 @@ Content objects should list relevant concepts from other courses in `related:`:
 - **Data assets**: The SOTU corpus (228 speeches), shakespeare.txt, and GDP.csv
   should be referenced via resource objects or exercise setup instructions, not
   bulk-imported.
-- **Computational requirements**: Assignment 3 (BERT fine-tuning) requires GPU
-  access — document in exercise metadata when promoted.
+- **Computational requirements**: Assignment 3 (BERT fine-tuning) is documented as
+  GPU-recommended, with smaller-model and smaller-subset fallbacks for limited
+  hardware.
 
 ## Promoted in the current checkpoint
 
@@ -123,15 +133,39 @@ Content objects should list relevant concepts from other courses in `related:`:
 - Concept: `boolean-dictionary-methods-nlp`
 - Concept: `text-regression-classification`
 - Concept: `topic-modeling-lsa-lda`
+- Concept: `ngram-language-models`
+- Concept: `word-embeddings-word2vec`
+- Concept: `llm-introduction-tokenization`
+- Concept: `attention-and-transformers`
+- Concept: `llm-input-output-architecture`
+- Concept: `llm-training-and-finetuning`
+- Concept: `prompt-engineering-for-nlp`
 - Exercise: `sotu-boolean-search-topic-modeling`
+- Exercise: `bow-tfidf-shakespeare-lab`
+- Exercise: `bigram-language-model-lab`
+- Exercise: `word-embeddings-sotu-analysis`
+- Exercise: `bert-finetuning-text-classification`
+- Exercise: `prompt-engineering-reflection`
+- Assignment collection: `gra4164-assignment-01`
+- Assignment collection: `gra4164-assignment-02`
+- Assignment collection: `gra4164-assignment-03`
+- Assignment collection: `gra4164-assignment-04`
 - Lecture collection: `gra4164-lecture-01`
 - Lecture collection: `gra4164-lecture-02`
 - Lecture collection: `gra4164-lecture-03`
+- Lecture collection: `gra4164-lecture-04`
+- Lecture collection: `gra4164-lecture-05`
+- Lecture collection: `gra4164-lecture-06`
+- Lecture collection: `gra4164-lecture-07`
+- Lecture collection: `gra4164-lecture-08`
+- Lecture collection: `gra4164-lecture-09`
+- Lecture collection: `gra4164-lecture-11`
 
 ## Next Migration Actions
 
-1. Promote the Lecture 4 concept: `ngram-language-models`.
-2. Promote the Practical Day 1 exercises: `bow-tfidf-shakespeare-lab`,
-   `bigram-language-model-lab`.
-3. Create lecture collections `gra4164-lecture-04` and `gra4164-lecture-05`.
-4. Leave all remaining legacy files in the inbox until explicitly promoted.
+1. Decide whether the practical-day labs should remain standalone exercises only or
+   also be grouped into optional workshop collections.
+2. Reconcile remaining draft objects surfaced by `gra4164`, especially
+   `topic-modeling-lsa-lda`, if they should appear as fully approved course
+   concepts.
+3. Leave all remaining legacy files in the inbox until explicitly promoted.

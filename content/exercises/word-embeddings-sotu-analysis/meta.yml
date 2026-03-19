@@ -1,0 +1,41 @@
+id: word-embeddings-sotu-analysis
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: State of the Union - word embeddings and semantic change
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-representation
+  - language-models
+tags:
+  - exercise
+  - word-embeddings
+  - word2vec
+  - sotu
+  - semantic-change
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: hard
+estimated_time_minutes: 180
+concepts:
+  - text-preprocessing-nlp
+  - word-embeddings-word2vec
+solution_storage: separate-file
+solution_visibility: teacher

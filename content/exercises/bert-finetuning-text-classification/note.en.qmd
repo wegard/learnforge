@@ -1,0 +1,97 @@
+## Lab brief
+
+Fine-tune a pre-trained transformer for supervised text classification. The
+assignment has two parts: first, you will run a benchmark-style fine-tuning task
+on a public dataset such as `yelp_review_full`; second, you will adapt the same
+workflow to a labeled course-relevant dataset such as State of the Union
+paragraphs.
+
+The goal is not only to obtain a usable classifier, but to understand what has to
+go right for fine-tuning to be credible: label design, tokenization, train/test
+separation, evaluation, and computational constraints.
+
+GPU access is strongly recommended. If you do not have a GPU, you may use a
+smaller subset, fewer epochs, or a lighter model such as DistilBERT, but you must
+explain the tradeoff clearly.
+
+## Part 1: Benchmark fine-tuning task
+
+Start from a public labeled dataset such as `yelp_review_full`, `imdb`, or another
+well-justified text classification dataset.
+
+1. Choose a pre-trained encoder model.
+   - `google-bert/bert-base-cased` is the canonical reference from the legacy
+     assignment.
+   - You may use another encoder if you justify the choice.
+2. Prepare the dataset.
+   - Define the prediction target.
+   - Use a train, validation, and test split.
+   - Report class balance and any filtering or truncation choices.
+3. Fine-tune the model for sequence classification.
+   - Describe tokenizer settings, maximum length, batch size, learning rate, and
+     number of epochs.
+   - State whether you used the Hugging Face `Trainer` API or a lower-level
+     PyTorch loop.
+4. Evaluate the trained model.
+   - Report accuracy and at least one class-sensitive metric such as macro F1.
+   - Include a confusion matrix or an equivalent error summary.
+   - Inspect at least five incorrect predictions and discuss the likely cause.
+
+## Part 2: Course-specific labeled dataset
+
+Create a second experiment on a course-relevant corpus, preferably labeled State of
+the Union text.
+
+1. Build a labeled dataset.
+   - Define the unit of analysis, such as paragraph, sentence, or document.
+   - Choose a binary or multi-class labeling rule.
+   - Explain how you generated the labels and where noise may enter.
+2. Fine-tune the model on your own dataset.
+   - Reuse the benchmark workflow where possible.
+   - If your dataset is small, explain how you limit overfitting.
+3. Compare against a simpler baseline.
+   - Use a method such as TF-IDF plus logistic regression or Naive Bayes.
+   - Explain where the transformer helps and where the simpler baseline is still
+     competitive.
+4. Reflect on feasibility.
+   - Discuss data size, label quality, compute cost, and whether this workflow is
+     realistic for a business team with limited resources.
+
+## Deliverable
+
+Submit a short report with:
+
+1. the benchmark setup and results;
+2. the course-specific dataset design;
+3. a comparison between the fine-tuned model and a simpler baseline;
+4. an error analysis section; and
+5. a short recommendation on when fine-tuning is worth the extra complexity.
+
+## Starter outline
+
+```python
+from datasets import load_dataset
+from transformers import (
+    AutoModelForSequenceClassification,
+    AutoTokenizer,
+    Trainer,
+    TrainingArguments,
+)
+
+model_name = "google-bert/bert-base-cased"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+def tokenize(batch):
+    return tokenizer(batch["text"], truncation=True)
+
+dataset = load_dataset("yelp_review_full")
+encoded = dataset.map(tokenize, batched=True)
+
+model = AutoModelForSequenceClassification.from_pretrained(
+    model_name,
+    num_labels=5,
+)
+```
+
+Focus on experimental discipline and interpretation. A smaller, well-analysed run
+is better than a large run with weak evaluation.

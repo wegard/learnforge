@@ -1,0 +1,42 @@
+id: llm-introduction-tokenization
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: LLM introduction and tokenization
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - tokenization
+  - text-analysis
+tags:
+  - llm
+  - tokenization
+  - bpe
+  - transformers
+  - unicode
+level: intermediate
+prerequisites:
+  - ngram-language-models
+  - word-embeddings-word2vec
+related:
+  - text-preprocessing-nlp
+  - ngram-language-models
+  - word-embeddings-word2vec
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

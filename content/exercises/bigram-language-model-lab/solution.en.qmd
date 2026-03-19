@@ -1,0 +1,56 @@
+The teacher solution should keep the count-based model explicit before introducing a
+neural variant. The learning objective is mechanism, not model performance.
+
+## Suggested approach
+
+1. Build the vocabulary and include boundary markers:
+
+   ```python
+   unique_chars = sorted(set("".join(words)))
+   stoi = {s: i for i, s in enumerate(["<S>"] + unique_chars + ["<E>"])}
+   itos = {i: s for s, i in stoi.items()}
+   ```
+
+2. Count all bigrams:
+
+   ```python
+   N = torch.zeros((len(stoi), len(stoi)), dtype=torch.int32)
+
+   for word in words:
+       chs = ["<S>"] + list(word) + ["<E>"]
+       for ch1, ch2 in zip(chs, chs[1:]):
+           N[stoi[ch1], stoi[ch2]] += 1
+   ```
+
+3. Convert counts to probabilities with smoothing:
+
+   ```python
+   P = (N + 1).float()
+   P /= P.sum(dim=1, keepdim=True)
+   ```
+
+4. Sample names by repeatedly drawing from `torch.multinomial(P[idx], 1)`.
+5. Evaluate the model with negative average log likelihood across all observed
+   transitions.
+6. If students reach the neural-network extension, keep it minimal:
+
+   ```python
+   xs_onehot = F.one_hot(xs, num_classes=len(stoi)).float()
+   W = torch.randn((len(stoi), len(stoi)), requires_grad=True)
+
+   for _ in range(200):
+       logits = xs_onehot @ W
+       probs = torch.exp(logits) / torch.exp(logits).sum(1, keepdim=True)
+       loss = -probs[torch.arange(len(ys)), ys].log().mean()
+       W.grad = None
+       loss.backward()
+       W.data -= 5.0 * W.grad
+   ```
+
+## What students should notice
+
+- The count-based model already captures real local structure.
+- Smoothing is not cosmetic; it prevents zero-probability failures.
+- Generated names can look plausible while still being semantically meaningless.
+- The neural version uses different machinery, but the training target is still
+  next-token prediction.

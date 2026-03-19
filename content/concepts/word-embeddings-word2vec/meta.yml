@@ -1,0 +1,41 @@
+id: word-embeddings-word2vec
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Word embeddings and Word2Vec
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-representation
+  - language-models
+tags:
+  - word-embeddings
+  - word2vec
+  - pmi
+  - skip-gram
+  - negative-sampling
+level: intermediate
+prerequisites:
+  - bag-of-words-tfidf-cosine
+related:
+  - text-as-data-introduction
+  - bag-of-words-tfidf-cosine
+  - ngram-language-models
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

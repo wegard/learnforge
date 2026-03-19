@@ -1,0 +1,40 @@
+id: bow-tfidf-shakespeare-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Bag-of-words, TF-IDF, and Shakespeare similarity lab
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-representation
+tags:
+  - exercise
+  - bag-of-words
+  - tf-idf
+  - cosine-similarity
+  - shakespeare
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 90
+concepts:
+  - text-preprocessing-nlp
+  - bag-of-words-tfidf-cosine
+solution_storage: separate-file
+solution_visibility: teacher

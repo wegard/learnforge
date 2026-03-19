@@ -1,0 +1,32 @@
+id: gra4164-assignment-04
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 4 - Prompt engineering and reflection
+courses:
+  - gra4164
+topics:
+  - prompt-engineering
+  - language-models
+tags:
+  - assignment
+  - prompting
+  - reflection
+  - llm
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - prompt-engineering-reflection

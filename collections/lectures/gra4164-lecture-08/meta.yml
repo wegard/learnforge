@@ -1,0 +1,36 @@
+id: gra4164-lecture-08
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 8 - Attention and transformers
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - deep-learning
+  - text-analysis
+tags:
+  - lecture
+  - attention
+  - transformers
+  - llm
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - attention-and-transformers

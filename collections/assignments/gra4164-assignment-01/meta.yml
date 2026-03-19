@@ -1,0 +1,33 @@
+id: gra4164-assignment-01
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 1 - Boolean search and topic modelling
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - topic-modeling
+tags:
+  - assignment
+  - boolean-search
+  - lda
+  - sotu
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - sotu-boolean-search-topic-modeling

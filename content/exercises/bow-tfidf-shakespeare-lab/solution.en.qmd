@@ -1,0 +1,60 @@
+The safest teacher solution is a transparent workflow that students can inspect
+line by line rather than a highly optimized pipeline.
+
+## Suggested approach
+
+1. Read the plain-text corpus and detect play boundaries with a regular expression
+   that captures the year line and title line.
+2. Store the extracted plays in a `DataFrame` with `title` and `content`.
+3. Clean the content consistently before vectorization:
+
+   ```python
+   import re
+
+   def preprocess_text(text: str) -> str:
+       text = text.lower()
+       text = re.sub(r"[^a-z\\s]", " ", text)
+       text = re.sub(r"\\b\\d+\\b", " ", text)
+       text = re.sub(r"\\s+", " ", text).strip()
+       return text
+   ```
+
+4. Fit both a count vectorizer and a TF-IDF vectorizer:
+
+   ```python
+   count_vectorizer = CountVectorizer(stop_words="english")
+   X_count = count_vectorizer.fit_transform(plays_df["content_clean"])
+
+   tfidf_vectorizer = TfidfVectorizer(stop_words="english")
+   X_tfidf = tfidf_vectorizer.fit_transform(plays_df["content_clean"])
+   ```
+
+5. Compute cosine similarity on the TF-IDF matrix and inspect a reference play:
+
+   ```python
+   similarity = cosine_similarity(X_tfidf)
+   similarity_df = pd.DataFrame(
+       similarity,
+       index=plays_df["title"],
+       columns=plays_df["title"],
+   )
+
+   hamlet_similar = (
+       similarity_df["1604 - THE TRAGEDY OF HAMLET, PRINCE OF DENMARK"]
+       .sort_values(ascending=False)
+       .head(4)
+   )
+   ```
+
+6. Ask for an interpretation, not only a ranking. Students should explain whether
+   the nearest neighbours are driven by recurring names, genre overlap, or
+   genuinely distinctive vocabulary.
+
+## What students should notice
+
+- Raw counts reward long plays and very common terms.
+- TF-IDF downweights ubiquitous terms and highlights more distinctive language.
+- Cosine similarity is more useful than Euclidean distance here because it compares
+  direction rather than length.
+- Even after cleaning, the representation is still bag-of-words. It ignores syntax,
+  tone, and sequence.

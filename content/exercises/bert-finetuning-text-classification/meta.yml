@@ -1,0 +1,43 @@
+id: bert-finetuning-text-classification
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: BERT fine-tuning for text classification
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - deep-learning
+  - text-classification
+tags:
+  - exercise
+  - bert
+  - transformers
+  - fine-tuning
+  - text-classification
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: hard
+estimated_time_minutes: 240
+concepts:
+  - text-regression-classification
+  - llm-introduction-tokenization
+  - llm-input-output-architecture
+  - llm-training-and-finetuning
+solution_storage: separate-file
+solution_visibility: teacher

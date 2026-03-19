@@ -1,0 +1,69 @@
+## Exercise brief
+
+This exercise has two goals. First, you will test how prompt wording changes the
+output of a large language model. Second, you will step back and assess where text
+as data methods could create value in a marketing setting, and what tradeoffs that
+would introduce.
+
+Use any approved classroom LLM interface or another model interface provided by
+your instructor. Keep notes as you work. Your submission can be a short structured
+memo with screenshots or copied outputs where useful.
+
+## Part 1: Prompt engineering experiment
+
+Start from a simple marketing prompt such as:
+
+`Write a product description for a new type of running shoe.`
+
+Then create at least five variations that deliberately change one or more of the
+following:
+
+- specificity
+- target audience
+- tone
+- perspective or role
+- amount of context or constraints
+
+For each version:
+
+1. Record the prompt.
+2. Save the output.
+3. Write two or three sentences on how the change affected relevance, clarity, and
+   persuasiveness.
+
+## Part 2: Marketing strategy reflection
+
+Imagine a company launching a new product and trying to improve reach, customer
+engagement, or message quality using text-based methods from this course.
+
+Write a short reflection that covers:
+
+1. A concrete use case.
+   - Describe the business context, the product or service, and the communication
+     problem to solve.
+2. Two course tools or approaches.
+   - Choose two methods from the course.
+   - Explain what each one could contribute and where each one is weak.
+3. A practical implementation choice.
+   - Pick the approach you would actually use first.
+   - Outline the workflow, data sources, and how you would evaluate success.
+4. A critical reflection.
+   - Discuss bias, privacy, hallucinations, governance, or interpretation limits.
+
+## Suggested structure
+
+- Introduction
+- Prompt experiment
+- Marketing use case
+- Tool comparison
+- Recommended approach
+- Risks and limitations
+
+## What good work should show
+
+- Clear evidence that prompt changes were deliberate rather than random.
+- Concrete comparison between outputs, not only description of prompts.
+- A realistic marketing use case with an identifiable decision problem.
+- Explicit tradeoffs between at least two methods from the course.
+- Critical judgment about when LLM output is useful and when it should not be
+  trusted on its own.

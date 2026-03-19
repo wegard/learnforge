@@ -1,0 +1,40 @@
+id: ngram-language-models
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: N-gram language models
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - language-models
+tags:
+  - n-grams
+  - bigrams
+  - next-token-prediction
+  - smoothing
+  - language-modeling
+level: intermediate
+prerequisites:
+  - text-preprocessing-nlp
+related:
+  - text-as-data-introduction
+  - bag-of-words-tfidf-cosine
+  - boolean-dictionary-methods-nlp
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

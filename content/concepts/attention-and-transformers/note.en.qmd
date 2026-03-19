@@ -1,0 +1,135 @@
+## Why transformers changed NLP
+
+Earlier NLP models had a basic representation problem: a word such as `bank`
+received the same vector regardless of context. That is often good enough for
+classical bag-of-words methods, but it breaks down once meaning depends on distant
+words in the sentence.
+
+Transformers solved this by building `contextual` token representations. Instead of
+assigning one fixed embedding to each word type, they update each token
+representation based on the surrounding sequence.
+
+## Self-attention is the core mechanism
+
+The key idea is simple: when computing the representation of one token, the model
+should be able to look at other tokens in the sequence and decide which ones matter
+most.
+
+That mechanism is `self-attention`. For each position, the model:
+
+1. compares the current token with other tokens,
+2. assigns attention weights,
+3. and combines information from the relevant tokens into a new contextualized
+   representation.
+
+This is what lets the model decide that `bank` is related to `water` in one
+sentence and to `credit` in another.
+
+## Query, key, and value
+
+The legacy Lecture 8 slides describe self-attention through three learned
+projections:
+
+- `query`: what the current token is looking for,
+- `key`: what each token offers as an address or match signal,
+- `value`: the content to be retrieved if the match is strong.
+
+If the input embedding at position `i` is `x_i`, then the model learns:
+
+$$
+q_i = x_i W^Q,\qquad k_i = x_i W^K,\qquad v_i = x_i W^V
+$$
+
+The attention score between token `i` and token `j` is based on the scaled dot
+product between the query and key:
+
+$$
+\operatorname{score}(i,j) = \frac{q_i \cdot k_j}{\sqrt{d_k}}
+$$
+
+After a softmax step, these scores become weights that sum to one, and the new
+representation is a weighted combination of the value vectors.
+
+## Why self-attention is powerful
+
+The attraction of self-attention is not only accuracy. It changes what is easy for
+the model to learn.
+
+- Long-range dependencies are easier to capture because any token can attend
+  directly to any other token in the sequence.
+- Training is more parallelizable than recurrent sequence models.
+- The attention weights offer at least some interpretive signal about what parts of
+  the sequence influenced a representation.
+
+This is why transformers became the dominant architecture behind modern LLMs.
+
+## Causal and bidirectional attention are different choices
+
+Not every transformer is allowed to see the same context.
+
+- In `causal` attention, a token can only attend to previous tokens. This is the
+  setup used for next-token prediction in GPT-style models.
+- In `bidirectional` attention, a token can attend to tokens on both sides. This is
+  common in encoder-style models such as BERT.
+
+The causal case requires masking: the model must not peek at future tokens during
+training, or the prediction task becomes trivial.
+
+## Multi-head attention learns several relevance patterns at once
+
+One attention pattern is often too restrictive. Different relationships may matter
+simultaneously: syntax, entity reference, negation, topic cues, and many others.
+
+`Multi-head attention` handles this by running several attention mechanisms in
+parallel on different learned projections of the same inputs. The outputs are then
+combined.
+
+The practical effect is greater representational capacity. Different heads can focus
+on different kinds of structure in the same sentence.
+
+::: {.teacher-only}
+Ask students to imagine two simultaneous questions for the same token: "Which word
+does this refer to syntactically?" and "Which earlier words define the topic?" That
+is the simplest intuition for why one attention pattern is not enough.
+:::
+
+## A transformer block is more than attention
+
+A standard transformer block includes three important pieces around attention:
+
+- a residual connection,
+- layer normalization,
+- and a feed-forward network.
+
+The block logic is roughly:
+
+1. compute multi-head attention,
+2. add the original signal back through a residual path,
+3. normalize,
+4. apply a feed-forward network,
+5. add another residual path,
+6. normalize again.
+
+The residual paths and normalization mainly help optimization and training stability.
+The feed-forward stage adds non-linearity and richer feature transformation beyond
+the weighted averaging of attention alone.
+
+## From static to contextual embeddings
+
+Word2Vec gave one vector per word. Transformers give one vector per token position
+in context. That is the conceptual leap that connects Lecture 6 to Lecture 8.
+
+It is also why transformers work so well for ambiguous language: the model does not
+need to store one universal meaning for `bank`. It can build the meaning required by
+the current sentence.
+
+## What to report
+
+When students explain attention and transformers in this course, they should
+report:
+
+- what self-attention is doing conceptually,
+- how query, key, and value differ,
+- why masking is needed for causal language modelling,
+- why multi-head attention is useful,
+- and one clear reason transformers improved on static embedding approaches.

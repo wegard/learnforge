@@ -1,0 +1,110 @@
+## From tokens to model input
+
+An LLM does not receive raw words as input. By the time the sequence enters the
+transformer stack, each token has already been mapped to a vector representation.
+Lecture 9 focuses on what happens between tokenization and generated output.
+
+The starting point is an embedding matrix `E`. A token id selects one row from this
+matrix, producing a dense vector for that token. For a sequence of length `N`, the
+model therefore begins with a matrix of token embeddings rather than a list of
+strings.
+
+## Positional information has to be added explicitly
+
+Self-attention compares tokens in parallel. That is powerful, but it does not by
+itself tell the model which token came first.
+
+This is why transformer inputs also include `positional embeddings`. Without them,
+sentences such as "the cat chased the dog" and "the dog chased the cat" would
+contain the same token identities but lose crucial order information.
+
+The original transformer paper used sinusoidal positional embeddings:
+
+$$
+PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right),
+\qquad
+PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+$$
+
+The practical point is more important than the exact formula: the model needs a way
+to represent position as well as content.
+
+## Context length is a real system constraint
+
+The sequence length `N` cannot grow without limit. Attention cost grows quickly with
+sequence size, so every model has a finite context window.
+
+That matters for real use:
+
+- long prompts may be truncated,
+- the model may throw an error when the limit is exceeded,
+- and prompt design has to respect the architecture’s memory budget.
+
+This is one reason tokenization and architecture cannot be treated as separate
+concerns.
+
+## The model head turns hidden states into next-token probabilities
+
+After the final transformer layer, the model still has contextual hidden states, not
+human-readable text. A `language-model head` converts the hidden state for the last
+position into logits over the vocabulary, then softmax turns those logits into a
+probability distribution.
+
+The architecture can be summarized like this:
+
+1. token embeddings plus positional information enter the transformer,
+2. repeated transformer blocks produce contextual hidden states,
+3. the final hidden state is projected back to vocabulary space,
+4. softmax gives probabilities for the next token.
+
+The legacy lecture notes also emphasize `weight tying`: the same embedding matrix can
+be reused both when mapping tokens into vectors and when projecting hidden states
+back toward vocabulary scores.
+
+## Output generation is a sampling problem
+
+Once the model produces a probability distribution, it still has to choose an actual
+next token. Different decoding rules create noticeably different behaviour.
+
+- `Greedy decoding` always takes the most likely token. This is stable, but often
+  repetitive and generic.
+- `Random sampling` uses the full distribution, but can produce too many low-quality
+  continuations.
+- `Top-k sampling` keeps only the `k` most likely candidates, renormalizes, and then
+  samples.
+- `Temperature` rescales the logits before softmax. Lower temperature sharpens the
+  distribution; higher temperature flattens it.
+
+These choices are part of the system behaviour, not just UI polish. The same model
+weights can produce very different outputs depending on the decoding rule.
+
+## Encoding and decoding refer to different transformer roles
+
+The word `encoding` is used for building useful contextual representations of the
+input sequence. The word `decoding` is used for generating output tokens one step at
+a time.
+
+Modern GPT-style LLMs are mostly discussed as decoder-style systems, but the
+original transformer was an encoder-decoder architecture designed for sequence
+transduction tasks such as translation.
+
+In encoder-decoder models, the decoder can also use `cross-attention`, where the
+decoder queries the encoder output while generating the response. That is the main
+architectural difference between the encoder and decoder sides.
+
+::: {.teacher-only}
+Ask students what changes when the same transformer weights are paired with
+different decoding rules. This helps separate model parameters from inference
+strategy.
+:::
+
+## What to report
+
+When students explain LLM input and output architecture in this course, they should
+report:
+
+- how token embeddings and positional information are combined,
+- why context-window limits matter,
+- what the model head does,
+- how a decoding strategy changes output behaviour,
+- and whether the system being discussed is decoder-only or encoder-decoder.

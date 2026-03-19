@@ -1,0 +1,41 @@
+id: prompt-engineering-for-nlp
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Prompt engineering for NLP
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - prompt-engineering
+tags:
+  - prompting
+  - few-shot
+  - chain-of-thought
+  - alignment
+  - llm-applications
+level: intermediate
+prerequisites:
+  - llm-input-output-architecture
+  - llm-training-and-finetuning
+related:
+  - llm-introduction-tokenization
+  - attention-and-transformers
+  - llm-training-and-finetuning
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

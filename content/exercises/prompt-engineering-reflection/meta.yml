@@ -1,0 +1,40 @@
+id: prompt-engineering-reflection
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Prompt engineering and marketing reflection
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - prompt-engineering
+tags:
+  - exercise
+  - prompting
+  - reflection
+  - marketing
+  - llm
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - prompt-engineering-for-nlp
+  - llm-training-and-finetuning
+solution_storage: separate-file
+solution_visibility: teacher

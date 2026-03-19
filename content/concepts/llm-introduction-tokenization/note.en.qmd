@@ -1,0 +1,145 @@
+## What a large language model is
+
+In `GRA 4164`, a large language model is best understood as a very large neural
+network trained to predict the next token in a sequence. That sounds narrow, but it
+is enough to produce surprisingly broad behaviour: text generation, summarization,
+question answering, translation, coding assistance, and many other language tasks.
+
+The core pattern is the same one students already saw in simpler form with n-gram
+models: use previous context to predict what comes next. The difference is scale,
+representation quality, and the transformer architecture used to model long-range
+dependencies.
+
+## Why LLMs became useful
+
+Three ingredients came together:
+
+- much larger text corpora,
+- much more compute,
+- and model architectures that scale effectively.
+
+Training compresses large amounts of text into model weights. Inference then uses
+those weights to produce a probability distribution over possible next tokens.
+
+This does not mean the model stores explicit rules or a database of facts in a
+human-readable way. It means statistical regularities from the training data are
+encoded in the parameters of the network.
+
+## LLMs still learn through self-supervision
+
+The training signal is built from the text itself. If a sequence reads:
+
+`We know what comes next in this [sentence]`
+
+then the next token in the original text is the supervision target. This is why
+LLM training is called `self-supervised`: the corpus supplies both the input and
+the prediction target.
+
+At a high level, the lifecycle usually includes:
+
+1. pre-training on large unlabeled text corpora,
+2. supervised fine-tuning on curated instruction-response pairs,
+3. additional alignment stages to improve usefulness and reduce harmful behaviour.
+
+Lecture 7 only needs the overview. The architecture details come later.
+
+## Tokens are not the same as words
+
+A model does not read raw text directly. It reads `tokens`, which are discrete units
+from a learned vocabulary. Depending on the tokenizer, a token may be:
+
+- a whole word,
+- part of a word,
+- punctuation,
+- whitespace,
+- or a chunk of bytes.
+
+This matters because many LLM behaviours that look mysterious are really token-level
+effects. If a word is split into awkward subparts, spelling can be harder. If a
+number is broken into several tokens, arithmetic can become less stable. If source
+code is tokenized poorly, programming performance suffers.
+
+## Why tokenization exists
+
+A model needs a finite vocabulary. Word-level vocabularies become too large and
+cannot handle unseen terms well. Character-level vocabularies are flexible but make
+sequences much longer. Modern tokenizers compromise by using subword units.
+
+That compromise matters operationally:
+
+- shorter sequences are cheaper to process,
+- rare words can still be represented through smaller pieces,
+- and multilingual text can share useful fragments across vocabularies.
+
+## Unicode and UTF-8 come first
+
+Before tokenization, text is just encoded characters. Unicode gives each character a
+code point, while UTF-8 maps characters to one or more bytes.
+
+That is important because modern tokenizers often begin from byte-compatible text
+representations. The same visible string can therefore be thought of at several
+levels:
+
+1. characters,
+2. bytes,
+3. tokens,
+4. model embeddings.
+
+Understanding that stack helps explain why emojis, accented characters, and
+non-English scripts can behave differently from plain ASCII text.
+
+## Byte-pair encoding explains modern subword tokenizers
+
+One common approach is Byte-Pair Encoding (BPE). The logic is simple:
+
+1. start with small units,
+2. count frequent adjacent pairs,
+3. merge the most common pair,
+4. repeat until the vocabulary reaches the desired size.
+
+This creates subword units that are more flexible than whole words and more compact
+than character-only tokenization. Common fragments become single tokens, while rare
+or unseen words can still be decomposed into smaller pieces.
+
+The outcome is practical rather than linguistically perfect. Tokenizers are built to
+support model efficiency and coverage, not to reflect the "true" structure of human
+language.
+
+## Why tokenization affects model behaviour
+
+The legacy tokenizer notebook highlights four recurring consequences:
+
+- spelling can be unreliable because the model predicts tokens, not letters,
+- arithmetic can be weak because numbers are split into token sequences rather than
+  treated like exact symbolic objects,
+- non-English text may be represented less efficiently if the tokenizer is biased
+  toward English-heavy corpora,
+- and code performance depends heavily on whether common programming patterns are
+  tokenized cleanly.
+
+::: {.teacher-only}
+A useful classroom prompt is to ask students why an LLM can write a convincing
+paragraph about arithmetic but still make small calculation errors. The right answer
+starts with representation, not intelligence.
+:::
+
+## From static embeddings to contextual tokens
+
+Word2Vec gave one vector per word type. LLMs go further by producing contextual
+representations for tokens inside a sequence. The token `bank` in a sentence about
+finance does not need to be represented the same way as `bank` in a sentence about a
+river.
+
+That is a major conceptual shift from classical word embeddings to transformer-based
+language models, and it is why tokenization is not just preprocessing. It shapes the
+units from which all later contextual reasoning is built.
+
+## What to report
+
+When students explain LLM tokenization in this course, they should report:
+
+- what a token is and why it is not always a word,
+- why subword tokenization is a practical compromise,
+- how Unicode/UTF-8 and tokenization relate,
+- one concrete way tokenization affects model performance, and
+- one limitation of token-based language modelling that remains visible in practice.

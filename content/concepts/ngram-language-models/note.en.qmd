@@ -1,0 +1,123 @@
+## Why sequence matters
+
+Classical bag-of-words methods ignore order. That is useful for many business
+tasks, but it cannot answer a basic question: given the tokens we have already
+seen, what token is likely to come next?
+
+`GRA 4164` uses n-gram models to introduce that shift from unordered text
+representation to sequential prediction. The model is simple enough to inspect by
+hand, yet close enough to modern language modelling that it forms a practical
+bridge to later LLM topics.
+
+## An n-gram is a short-memory model
+
+An n-gram model predicts the next token from the previous `n - 1` tokens.
+
+- A **unigram** model ignores context and uses only overall token frequencies.
+- A **bigram** model uses one previous token.
+- A **trigram** model uses two previous tokens.
+
+The trade-off is direct. Larger `n` gives richer local context, but also creates
+many more possible histories to estimate from data. In small corpora, that quickly
+leads to sparse counts and unstable probabilities.
+
+## Bigram probabilities come from counts
+
+The cleanest first example is a character-level bigram model. Add a start token and
+an end token to each observed string, then count every adjacent pair:
+
+- `<S> -> v`
+- `v -> e`
+- `e -> g`
+- `g -> a`
+- `a -> r`
+- `r -> d`
+- `d -> <E>`
+
+For a bigram model, the conditional probability of the next character is:
+
+$$
+P(c_t \mid c_{t-1}) =
+\frac{\operatorname{count}(c_{t-1}, c_t)}{\operatorname{count}(c_{t-1})}
+$$
+
+This is the core idea behind next-token prediction: estimate a probability
+distribution for the next step from observed transitions in the training corpus.
+
+## A count matrix makes the model visible
+
+In practice, it is useful to store the counts in a matrix. Each row represents the
+current token and each column represents the next token. Normalizing each row turns
+counts into a probability distribution.
+
+That makes two things easy to inspect:
+
+- which tokens are likely to begin a sequence,
+- and which continuations are likely after a given token.
+
+The original lecture notebook uses a names corpus and constructs this matrix
+explicitly before sampling new names from the learned probabilities.
+
+## Smoothing prevents zero-probability dead ends
+
+Pure count estimates are brittle. If a token pair never appears in the training
+data, the estimated probability becomes zero. Then one unseen transition makes the
+probability of a full sequence collapse to zero as well.
+
+A standard fix is additive smoothing:
+
+$$
+\hat{P}(c_t \mid c_{t-1}) =
+\frac{\operatorname{count}(c_{t-1}, c_t) + 1}
+{\sum_j \bigl(\operatorname{count}(c_{t-1}, j) + 1\bigr)}
+$$
+
+This does not solve every sparsity problem, but it is enough to explain why
+language models need some way to handle unseen events.
+
+::: {.teacher-only}
+Ask students why a deterministic "most likely next character" rule produces poor
+generated text. The point is to distinguish probability estimation from greedy
+prediction before introducing sampling.
+:::
+
+## Sampling turns the model into a generator
+
+Once each row is a probability distribution, generation is straightforward:
+
+1. Start from `<S>`.
+2. Sample the next token from the row for the current token.
+3. Move to the sampled token and repeat.
+4. Stop when `<E>` is generated.
+
+This is why even a simple bigram model can generate plausible-looking names or
+short text fragments. It has learned local sequential structure, even though it has
+no deeper understanding of meaning.
+
+## Log likelihood measures model fit
+
+To evaluate the model, we ask how much probability it assigns to the sequences that
+actually occur in the data. For a corpus of observed transitions, the log
+likelihood is:
+
+$$
+\ell = \sum_{w \in D} \sum_{t=0}^{T_w} \log P(c_{t+1} \mid c_t)
+$$
+
+Higher log likelihood means the model fits the observed data better. In practice we
+usually minimize the negative average log likelihood, which turns the objective into
+a loss function.
+
+This matters because later neural language models use the same logic: they are
+still trained to assign high probability to the next token that actually occurred.
+
+## What to report
+
+When students describe an n-gram language model in this course, they should report:
+
+- what the token unit is (character or word),
+- what value of `n` is being used and what context it retains,
+- how counts were converted into probabilities,
+- whether smoothing was applied, and
+- one honest limitation of the model, especially around short memory or data
+  sparsity.

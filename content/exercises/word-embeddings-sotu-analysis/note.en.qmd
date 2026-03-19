@@ -1,0 +1,72 @@
+## Lab brief
+
+Analyse State of the Union speeches with word embeddings to study semantic
+neighbourhoods, vector arithmetic, and possible shifts in political language over
+time. The point is not only to train a model, but to compare modelling choices and
+interpret what the resulting embedding space can and cannot tell you.
+
+You may use a public State of the Union corpus, an instructor-provided copy, or a
+well-justified subset. If full training is too slow on your machine, you may rely
+on a pre-trained embedding model for some parts, but you should still explain what
+is gained and lost when you do that.
+
+## Tasks
+
+1. Prepare the corpus.
+   - Load the speeches with year metadata.
+   - Create one preprocessed version and, if you want, keep one less-processed
+     version for comparison.
+   - Explain your tokenization, stop-word, and lemmatization or stemming choices.
+2. Train or load embeddings.
+   - Train a Word2Vec model on the corpus or justify why you rely on pre-trained
+     embeddings for part of the assignment.
+   - Report the main modelling choices: vector size, window, minimum count, and
+     training epochs.
+3. Compare embedding spaces.
+   - Choose at least five words that matter for political speech, such as
+     `economy`, `security`, `freedom`, `war`, or `america`.
+   - Compare cosine similarities or nearest neighbours across two settings.
+   - One comparison must involve a preprocessing decision, a model choice, or a
+     contrast between local and pre-trained embeddings.
+4. Test vector arithmetic and nearest neighbours.
+   - Run at least three analogy-style or offset-style queries.
+   - For at least three focal words, inspect nearest neighbours and comment on what
+     appears meaningful, noisy, or unstable.
+5. Visualise a subset of the embedding space.
+   - Use PCA or t-SNE on a clearly defined word set.
+   - Annotate the plot and discuss whether the visible clusters are interpretable
+     or potentially misleading.
+6. Analyse semantic change over time.
+   - Compare two time periods and discuss whether selected words appear to shift in
+     meaning or association.
+   - If you do not implement a full aligned temporal embedding analysis, explain in
+     detail how you would design one and what the main technical challenges are.
+7. Write a short campaign memo.
+   - Conclude with how your findings could inform a presidential campaign's
+     language strategy.
+   - Distinguish clearly between exploratory insight and claims you would trust for
+     decision-making.
+
+## Starter outline
+
+```python
+import pandas as pd
+from gensim.models import Word2Vec
+from sklearn.decomposition import PCA
+
+vector_size = 100
+window = 5
+min_count = 2
+
+model = Word2Vec(
+    sentences=tokenized_documents,
+    vector_size=vector_size,
+    window=window,
+    min_count=min_count,
+    sg=1,
+    epochs=5,
+)
+```
+
+Deliver the analysis as a short report with figures and tables referenced in the
+text. Focus on interpretation, comparison, and limitations, not only on code.

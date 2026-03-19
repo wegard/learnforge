@@ -1,0 +1,42 @@
+id: llm-input-output-architecture
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: LLM input-output architecture
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - language-models
+  - deep-learning
+  - tokenization
+tags:
+  - llm
+  - transformer
+  - positional-embeddings
+  - decoding
+  - sampling
+level: intermediate
+prerequisites:
+  - llm-introduction-tokenization
+  - attention-and-transformers
+related:
+  - word-embeddings-word2vec
+  - llm-introduction-tokenization
+  - attention-and-transformers
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

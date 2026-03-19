@@ -1,0 +1,54 @@
+## Lab brief
+
+Build and evaluate a character-level bigram language model for next-token
+prediction. Start with a transparent count-based model, then extend it to a neural
+version if time permits.
+
+The original practical uses a plain-text names file named `data/names.txt` with one
+name per line. If that file is distributed in class, use it. Otherwise use any
+comparable list of names or short strings where character transitions are easy to
+inspect.
+
+## Tasks
+
+1. Load and inspect the names corpus.
+   - Report the number of names,
+   - the shortest and longest length,
+   - and the set of unique characters.
+2. Build a count-based bigram model.
+   - Add start and end tokens,
+   - count every adjacent character pair,
+   - and store the counts in a table or matrix.
+3. Convert counts into probabilities.
+   - Apply additive smoothing so unseen transitions do not get probability zero.
+   - Inspect one row of the resulting probability matrix.
+4. Generate synthetic names by sampling from the model.
+   - Produce at least 10 names.
+   - Comment on whether the generated names look plausible or only locally
+     consistent.
+5. Evaluate the model with average negative log likelihood.
+   - Compute the loss on the observed corpus.
+   - Explain what a lower loss means in this setting.
+6. Compare against a naive baseline.
+   - Use uniform random character sampling or another clearly weaker baseline.
+   - Explain why the bigram model performs better.
+7. If time permits, estimate the same next-character task with a simple neural
+   network.
+   - one-hot encode the input character,
+   - learn a weight matrix with gradient descent,
+   - compare the neural model loss with the count-based model.
+8. Write a short reflection on what the model still cannot do.
+   - Focus on short memory, data sparsity, or lack of semantic understanding.
+
+## Starter outline
+
+```python
+import torch
+import torch.nn.functional as F
+
+names_path = "names.txt"  # or the path provided by your instructor
+words = open(names_path, encoding="utf-8").read().splitlines()
+```
+
+Do not hide the logic inside a library wrapper. The point of the lab is to make
+next-token prediction visible.
