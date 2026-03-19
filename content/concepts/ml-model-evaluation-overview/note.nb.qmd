@@ -1,0 +1,78 @@
+# Evaluering av maskinlæringsmodeller
+
+## Hva er en god modell?
+
+En god maskinlæringsmodell gir nøyaktige og pålitelige prediksjoner på nye data.
+Kjennetegn:
+
+- **Lav feil (tapsfunksjon):** Modellen gjør få feil på treningsdata.
+- **Generaliserer godt:** Yter bra også på data den ikke har sett før.
+- **Robust:** Stabil under varierende forhold og små endringer i data.
+
+## Tapsfunksjoner
+
+Tapsfunksjonen viser forskjellen mellom predikerte og faktiske verdier. Lavere
+tap = bedre modell.
+
+### Mean Squared Error (MSE) — regresjon
+
+$$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$
+
+MSE viser gjennomsnittet av kvadrerte residualer.
+
+### Evalueringsmål for klassifikasjon
+
+- **Accuracy** — andel korrekte prediksjoner
+- **Presisjon** — andel sanne positive blant de som ble predikert positive
+- **Recall** — andel sanne positive blant alle faktisk positive
+- **F1-score** — harmonisk gjennomsnitt av presisjon og recall
+- **Confusion matrix** — tabell over sanne/falske positive og negative
+
+## Hvordan lærer modellen?
+
+Optimering handler om å finne de beste parameterne gitt tapsfunksjonen.
+
+### Gradientnedstigning (gradient descent)
+
+Den vanligste optimeringsmetoden. Parametrene justeres trinnvis i retning av
+lavere tap:
+
+1. Start med tilfeldige parametere
+2. Beregn tapsfunksjonen
+3. Beregn gradienten (retning for bratteste stigning)
+4. Oppdater parametrene i motsatt retning
+5. Gjenta
+
+**Læringsrate** påvirker optimaliseringen:
+
+- For høy: ustabil optimalisering
+- For lav: veldig langsom læring
+
+### Varianter
+
+- **Stochastic Gradient Descent (SGD):** Bruker ett eksempel om gangen
+- **Mini-batch gradient descent:** Bruker små delsett av data
+- **Adam:** Populær adaptiv metode som justerer læringsraten automatisk
+
+## Overtilpasning (overfitting)
+
+Overtilpasning betyr at modellen lærer treningsdata for godt og presterer
+dårlig på nye data.
+
+### Metoder for å unngå overtilpasning
+
+- **Kryssvalidering (cross-validation):** Bruk av flere delsett for å trene og
+  teste modellen.
+- **Regularisering:** Metoder som begrenser modellens kompleksitet (f.eks.
+  Ridge, Lasso).
+- **Tidlig stopp (early stopping):** Avslutter treningen før modellen blir for
+  tilpasset treningsdata.
+
+## Anvendelser i finans
+
+| Bruksområde | Typisk problemtype | Viktige evalueringsmål |
+|---|---|---|
+| Svindeldeteksjon | Klassifikasjon | Precision, recall, F1 |
+| Kredittscoring | Klassifikasjon | Accuracy, confusion matrix |
+| Risikostyring | Regresjon | MSE, RMSE |
+| Algoritmisk trading | Regresjon/klassifikasjon | R², Sharpe ratio |

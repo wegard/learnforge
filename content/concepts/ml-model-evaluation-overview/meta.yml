@@ -1,0 +1,36 @@
+id: ml-model-evaluation-overview
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Evaluering av maskinlæringsmodeller
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - model-selection
+tags:
+  - model-evaluation
+  - overfitting
+  - cross-validation
+  - loss-function
+  - gradient-descent
+level: introductory
+prerequisites: []
+related:
+  - bias-variance-tradeoff
+  - model-selection-cross-validation
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
