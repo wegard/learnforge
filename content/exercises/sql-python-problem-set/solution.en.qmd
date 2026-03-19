@@ -81,7 +81,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-con = sqlite3.connect("auto_dealership_database.db")
+con = sqlite3.connect("assets/auto_dealership_database.db")
 
 hondas = pd.read_sql(
     "SELECT * FROM Cars WHERE make = ?",

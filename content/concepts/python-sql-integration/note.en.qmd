@@ -17,9 +17,12 @@ The basic pattern is:
 ```python
 import sqlite3
 
-con = sqlite3.connect("example_database.db")
+con = sqlite3.connect("auto_dealership_database.db")
 cur = con.cursor()
 ```
+
+In the current canonical `EDI 3400` database slice, that local example can be the
+same `auto_dealership_database.db` used in `sql-python-problem-set`.
 
 At that point:
 

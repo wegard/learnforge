@@ -1,0 +1,39 @@
+id: principal-component-analysis
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Principal component analysis
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - unsupervised-learning
+  - dimensionality-reduction
+  - preprocessing
+tags:
+  - pca
+  - dimensionality-reduction
+  - explained-variance
+  - feature-scaling
+level: intermediate
+prerequisites: []
+related:
+  - k-means-clustering
+  - model-selection-cross-validation
+  - linear-regression-prediction
+  - penalized-linear-models
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

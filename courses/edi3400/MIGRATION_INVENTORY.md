@@ -26,8 +26,14 @@ course/object structure.
   promote only the specific assets that a canonical object actually needs
 - No promotion of the nested legacy git repository, editor files, or build/tooling
   noise from the inbox
-- Do not add `edi3400` representative targets until at least one lecture collection
-  is stable enough to act as a regression target
+- For the first canonical database slice, keep only
+  `auto_dealership_database.db` as a canonical object-local asset
+- Leave `example_database.db`, `example_queries.sql`, and `isqlite3.py` in the
+  inbox unless a later canonical object explicitly needs them
+- Keep Homework problem set 5 as a lecture-linked LearnForge `exercise` for now,
+  not a formal assignment collection
+- `edi3400-lecture-13` is the representative regression target for the current
+  database slice
 
 ## Migration Buckets
 
@@ -128,15 +134,20 @@ The first database lecture slice is now scaffolded in canonical LearnForge form.
 - `edi3400-lecture-13` combines canonical Python/SQL integration material with the
   promoted problem set as applied follow-up
 - The first canonical database lecture block for `edi3400` now spans lectures 11-13
+- The retained canonical database asset for this slice is:
+  - `content/exercises/sql-python-problem-set/assets/auto_dealership_database.db`
+- `edi3400-lecture-13` is now stable enough to remain in
+  `representative-targets.yml` as the regression target for the slice
+- Homework problem set 5 remains modeled as `sql-python-problem-set`, a lecture-linked
+  exercise rather than a formal assignment collection
 
 ## Next Migration Actions
 
-1. Decide which `.db`, `.sql`, and helper `.py` files genuinely belong as canonical
-   object-local assets.
-2. Decide whether one of `edi3400-lecture-11`, `edi3400-lecture-12`, or
-   `edi3400-lecture-13` is now stable enough to add to `representative-targets.yml`.
-3. Decide whether Homework problem set 5 should remain a lecture-linked exercise only
-   or later be promoted into a formal assignment collection when the course sketch is
-   more mature.
-4. Leave the rest of the Python and third-party-library material in the inbox until
-   that database promotion pattern is stable.
+1. Decide whether the next canonical slice after the database block should start with
+   the early Python foundations or the later data-analysis block.
+2. Decide the object granularity for the early Python lectures before promoting
+   `Lecture_notebooks/02_...` through `05_...`.
+3. Reframe Lecture 9 IDE / generative-AI material only after the foundational Python
+   workflow is stable enough to support a clean concept-plus-exercise slice.
+4. Keep assessment structure and formal assignments draft-level until more of the
+   course scope is canonical.

@@ -99,12 +99,15 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Concept: `linear-regression-prediction`
 - Concept: `penalized-linear-models`
 - Concept: `logistic-regression-classification`
+- Concept: `principal-component-analysis`
+- Concept: `k-means-clustering`
 - Exercise: `model-assessment-lab`
 - Exercise: `house-prices-regression`
 - Exercise: `spam-filtering-naive-bayes`
 - Lecture collection: `tem0052-lecture-02`
 - Lecture collection: `tem0052-lecture-03`
 - Lecture collection: `tem0052-lecture-05`
+- Lecture collection: `tem0052-lecture-06`
 - Lecture collection: `tem0052-lecture-07`
 
 ### First concept candidates
@@ -117,6 +120,8 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - `naive-bayes-classification`
 - `decision-tree-learning`
 - `ensemble-methods-introduction`
+- `principal-component-analysis`
+- `k-means-clustering`
 - `model-selection-cross-validation`
 - `random-forests`
 
@@ -131,12 +136,18 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - `tem0052-lecture-02` linear prediction + regularisation
 - `tem0052-lecture-03` classification methods
 - `tem0052-lecture-04` model assessment + bias-variance
+- `tem0052-lecture-06` unsupervised learning with PCA + k-means
 - `tem0052-lecture-07` ensemble methods + random forests
 
 ## Next Migration Actions
 
-1. Scaffold the first concept objects for `tem0052`.
-2. Convert one student exercise and one teacher solution from the legacy notebook pair.
-3. Extract 1-2 reusable figures from the legacy notebooks or slide decks.
-4. Create the first lecture collection assembled from promoted objects only.
-5. Leave all remaining legacy files in the inbox until they are explicitly promoted.
+1. Convert `income-classification-ensemble` once the ensemble block is stable enough
+   to support another exercise promotion.
+2. Decide whether the next lecture assembly target should be
+   `tem0052-lecture-04` or an earlier foundations/preprocessing slice.
+3. Extract 1-2 reusable figures from the remaining legacy notebooks or slide decks,
+   especially if the unsupervised block needs a better visual explanation.
+4. Draft the first fresh-authored concept from the redesign-only queue, likely
+   support vector machines, gradient boosting, or hierarchical clustering.
+5. Leave the neural-network bridge material in the inbox until the classical-ML core
+   is more complete.

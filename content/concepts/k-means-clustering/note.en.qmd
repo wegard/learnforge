@@ -1,0 +1,86 @@
+## K-means groups observations by centroid proximity
+
+`K`-means is the simplest clustering workflow in `TEM 0052`. It partitions the data
+into `K` groups by repeatedly assigning each observation to the nearest centroid and
+then updating each centroid to the mean of the assigned points.
+
+That makes the method easy to explain and easy to run. It also means students should
+be clear about what objective it is optimizing.
+
+## The algorithm minimizes within-cluster dispersion
+
+The working objective behind `K`-means is usually summarized as within-cluster sum of
+squares (WCSS), also called inertia in many software libraries.
+
+The algorithm tries to make points inside each cluster stay close to their centroid.
+So the method is not looking for arbitrary cluster shapes. It is looking for compact,
+centroid-based partitions.
+
+That is why `K`-means often works best when clusters are roughly spherical and
+separated in scale-compatible directions.
+
+## Choosing `K` is a modelling judgment, not a theorem
+
+Students usually first meet two heuristics:
+
+- the elbow method, which looks for diminishing returns in WCSS as `K` grows,
+- the silhouette score, which measures how well points fit their own cluster relative
+  to neighboring clusters.
+
+Both are useful. Neither should be treated as an automatic proof of the correct
+number of clusters.
+
+In the legacy notebook, the iris example is helpful because it shows how these
+diagnostics can guide the choice of `K`, while also reminding students that an
+"optimal" cluster count still depends on what structure they care about.
+
+## Scaling and initialization matter
+
+Like other distance-based methods, `K`-means is sensitive to feature scale.
+
+- if one variable has a much larger numerical range, it can dominate the distance
+  calculation,
+- if the initialization is poor, the algorithm can settle into a weaker local
+  optimum,
+- if categorical or heavily skewed features are left untreated, the clusters can be
+  misleading.
+
+That is why preprocessing is part of the clustering workflow rather than an afterthought.
+
+## K-means discovers structure; it does not validate meaning
+
+`K`-means always returns a partition once `K` is fixed. That does not mean the
+resulting clusters are substantively meaningful.
+
+Students should still ask:
+
+- do the clusters align with an interpretable story,
+- are the cluster centers stable across reasonable preprocessing choices,
+- and would a different unsupervised workflow describe the data more honestly?
+
+::: {.teacher-only}
+Pause students if they start treating discovered clusters like known class labels.
+The method is exploratory, not supervised truth recovery.
+:::
+
+## How PCA and K-means work together
+
+PCA and `K`-means are often taught together because they solve different parts of the
+unsupervised-learning problem:
+
+- PCA gives a lower-dimensional representation for inspection,
+- `K`-means gives a centroid-based partition of the observations.
+
+PCA can make cluster plots easier to visualize, but it does not replace the
+clustering objective. Students should keep the distinction clear: dimensionality
+reduction and clustering are complementary, not interchangeable.
+
+## What to report
+
+When presenting a `K`-means workflow in `TEM 0052`, students should usually report:
+
+- which variables entered the clustering,
+- whether scaling was used,
+- how `K` was chosen,
+- one quality diagnostic such as WCSS or silhouette score,
+- and one short interpretation of what the resulting clusters do and do not show.

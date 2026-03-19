@@ -715,6 +715,11 @@ def _collect_translation_coverage(
     student_visible_target_count = 0
     fully_approved_target_count = 0
 
+    course_languages: dict[str, list[str]] = {
+        cid: list(crec.model.languages)
+        for cid, crec in index.courses.items()
+    }
+
     for record in index.objects.values():
         model = record.model
         if model.visibility not in {"student", "public"}:
@@ -722,7 +727,7 @@ def _collect_translation_coverage(
         if model.status not in {"approved", "published"}:
             continue
         student_visible_target_count += 1
-        missing_languages = _missing_languages_for_object(record)
+        missing_languages = _missing_languages_for_object(record, course_languages)
         if not missing_languages:
             fully_approved_target_count += 1
             continue
@@ -736,9 +741,8 @@ def _collect_translation_coverage(
         )
         approved_languages = [
             language
-            for language in LANGUAGES
-            if language in model.languages
-            and model.translation_status.get(language) == "approved"
+            for language in model.languages
+            if model.translation_status.get(language) == "approved"
             and record.note_path(language).exists()
         ]
         if approved_languages:
@@ -775,7 +779,7 @@ def _collect_translation_coverage(
                 "missing_languages": missing_languages,
             }
         )
-        if len(missing_languages) < len(LANGUAGES):
+        if len(missing_languages) < len(record.model.languages):
             _add_issue(
                 issues,
                 code="missing-approved-translation",
@@ -799,9 +803,18 @@ def _collect_translation_coverage(
     }
 
 
-def _missing_languages_for_object(record: IndexedObject) -> list[str]:
+def _missing_languages_for_object(
+    record: IndexedObject,
+    course_languages: dict[str, list[str]],
+) -> list[str]:
+    expected: set[str] = set()
+    for course_id in getattr(record.model, "courses", []):
+        expected.update(course_languages.get(course_id, []))
+    if not expected:
+        expected = set(record.model.languages)
+
     missing: list[str] = []
-    for language in LANGUAGES:
+    for language in sorted(expected):
         if language not in record.model.languages:
             missing.append(language)
             continue
@@ -815,10 +828,7 @@ def _missing_languages_for_object(record: IndexedObject) -> list[str]:
 
 def _missing_languages_for_course(record) -> list[str]:
     missing: list[str] = []
-    for language in LANGUAGES:
-        if language not in record.model.languages:
-            missing.append(language)
-            continue
+    for language in record.model.languages:
         if not record.syllabus_path(language).exists():
             missing.append(language)
     return missing

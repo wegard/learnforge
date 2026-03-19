@@ -1,0 +1,39 @@
+id: k-means-clustering
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: K-means clustering
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - unsupervised-learning
+  - clustering
+  - preprocessing
+tags:
+  - k-means
+  - clustering
+  - centroids
+  - elbow-method
+  - silhouette-score
+level: intermediate
+prerequisites: []
+related:
+  - principal-component-analysis
+  - knn-supervised-learning
+  - model-selection-cross-validation
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

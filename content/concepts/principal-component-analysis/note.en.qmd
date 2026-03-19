@@ -1,0 +1,96 @@
+## PCA compresses variation, not meaning
+
+Principal component analysis (PCA) is one of the main unsupervised tools in `TEM 0052`
+because it gives a principled way to replace many correlated variables with a smaller
+set of synthetic directions. The key idea is not to keep the original features
+intact. The key idea is to keep as much variation as possible while working in a
+lower-dimensional coordinate system.
+
+That makes PCA useful for visualization, compression, and preprocessing. It does not
+make it a free prediction upgrade.
+
+## Principal components are directions of maximal variance
+
+PCA searches for new axes in the feature space:
+
+1. the first principal component captures the largest possible variance,
+2. the second captures the next largest variance subject to being orthogonal to the
+   first,
+3. later components continue that pattern.
+
+So PCA is not selecting the "best original variables." It is constructing linear
+combinations of the original variables.
+
+In the legacy course material, the seeds example is useful because several geometric
+measurements move together. PCA turns that correlation structure into a smaller set of
+summary directions that are easier to inspect.
+
+## Explained variance is the compression rule
+
+Each component comes with an explained-variance contribution. That is the practical
+summary students should inspect before deciding how many components to retain.
+
+- if the first two components explain most of the total variance, a 2D projection may
+  be a defensible simplification,
+- if the variance is spread more evenly across many components, aggressive
+  compression will throw away more information.
+
+This is why PCA is always a trade-off. Fewer dimensions make visualization and
+downstream modelling easier, but that convenience comes at the cost of information
+loss.
+
+## Feature scaling usually matters before PCA
+
+PCA is variance-driven, so variables on larger numerical scales can dominate the
+components even when that scale difference is not substantively important.
+
+That is why standardization is often part of the default workflow:
+
+- without scaling, a large-range predictor can determine the first component mostly
+  by units,
+- with scaling, PCA focuses more on shared structure than on raw measurement scale.
+
+The wine example from the legacy notebook makes this concrete. PCA on unscaled
+features can emphasize the largest-magnitude chemistry measurements, while PCA on
+standardized features gives a more balanced summary of the feature set.
+
+::: {.teacher-only}
+Ask students whether the first component is "important" because of modelling logic or
+because one variable happened to be measured on a larger scale.
+:::
+
+## PCA is useful for exploration, not automatic interpretation
+
+PCA helps with three common tasks:
+
+- visualizing high-dimensional data in two dimensions,
+- reducing redundancy before a downstream model,
+- diagnosing whether a dataset contains a smaller latent structure.
+
+But students should not over-interpret the components. A principal component is a
+mathematical direction, not automatically a clean substantive construct. Loadings can
+help describe which variables matter most, but the interpretation still requires
+judgment.
+
+## Where PCA fits in `TEM 0052`
+
+In this course, PCA belongs in the unsupervised-learning block alongside clustering.
+It gives students a first example of a method that is not trying to predict a label.
+Instead, it reorganizes the feature space so later inspection or modelling becomes
+easier.
+
+That also makes PCA a useful bridge to later workflows:
+
+- exploratory plots before fitting a supervised model,
+- dimensionality reduction before classification,
+- and a way to discuss what information is lost when we compress data.
+
+## What students should be able to do after this concept
+
+Students should be able to:
+
+- explain what a principal component represents,
+- interpret explained-variance ratios as a compression trade-off,
+- justify why scaling may matter before PCA,
+- distinguish PCA from variable selection,
+- and explain when a low-dimensional projection is useful versus misleading.

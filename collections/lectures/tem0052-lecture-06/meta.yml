@@ -1,0 +1,35 @@
+id: tem0052-lecture-06
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 6 - Unsupervised learning with PCA and k-means
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - unsupervised-learning
+  - clustering
+  - dimensionality-reduction
+tags:
+  - lecture
+  - unsupervised-learning
+  - clustering
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - principal-component-analysis
+  - k-means-clustering

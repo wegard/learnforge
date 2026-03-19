@@ -59,7 +59,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-con = sqlite3.connect("auto_dealership_database.db")
+con = sqlite3.connect("assets/auto_dealership_database.db")
 cur = con.cursor()
 ```
 
