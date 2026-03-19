@@ -1,0 +1,58 @@
+The strongest teacher solution is a small class with explicit state transitions and
+clear authorization checks rather than an overbuilt contract framework.
+
+## Suggested approach
+
+1. Use a tiny set of named states such as `created`, `funded`, `released`,
+   `refunded`.
+2. Centralize transition guards so invalid calls fail with readable messages.
+3. Append a short event string on each valid transition.
+4. Show at least one valid path and several invalid attempts in a simple driver
+   script.
+5. Use the debrief to connect the local state machine to the idea of deterministic
+   shared execution on-chain.
+
+## Minimal reference implementation
+
+```python
+from dataclasses import dataclass, field
+
+
+@dataclass
+class EscrowContract:
+    buyer: str
+    seller: str
+    arbiter: str
+    amount: int
+    state: str = "created"
+    events: list[str] = field(default_factory=list)
+
+    def fund(self, caller: str) -> None:
+        if caller != self.buyer:
+            raise ValueError("only buyer can fund")
+        if self.state != "created":
+            raise ValueError("contract can only be funded once from created state")
+        self.state = "funded"
+        self.events.append(f"funded by {caller}")
+
+    def release(self, caller: str) -> None:
+        if caller not in {self.buyer, self.arbiter}:
+            raise ValueError("only buyer or arbiter can release")
+        if self.state != "funded":
+            raise ValueError("contract must be funded before release")
+        self.state = "released"
+        self.events.append(f"released by {caller}")
+```
+
+## What students should notice
+
+- Contract logic is really about allowed transitions over persistent state.
+- Caller permissions and state guards are separate checks.
+- The code is deterministic locally, but a real chain also needs metering,
+  transaction ordering, and replicated execution.
+
+## Teaching emphasis
+
+Keep the exercise tooling-neutral. Solidity syntax, deployment frameworks, and wallet
+interaction can come later once the course decides whether to adopt a specific
+Ethereum stack.

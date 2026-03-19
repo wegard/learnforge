@@ -1,0 +1,54 @@
+## A UTXO is a spendable chunk, not an account balance
+
+Bitcoin-like systems do not usually store one running balance per user. Instead, they
+track unspent transaction outputs, usually abbreviated `UTXOs`.
+
+A UTXO is a discrete spendable claim created by an earlier transaction output and not
+yet consumed by a later one. That means ownership is represented as a set of
+spendable pieces rather than one centralized account number.
+
+## How spending works in the UTXO model
+
+The model follows a simple rule:
+
+1. a transaction consumes one or more existing UTXOs as inputs,
+2. those inputs are removed from the spendable set,
+3. the transaction creates new outputs,
+4. those new outputs become the next UTXOs.
+
+This is why a transaction often creates a payment output plus a change output. If a
+user controls a `5.0` coin-sized UTXO and wants to transfer `2.0`, the remaining
+value is usually returned as a new output rather than left inside a mutable account
+balance.
+
+## Why this helps with double-spend prevention
+
+The UTXO rule gives the ledger a sharp test for reuse: each output can be spent at
+most once. If the same prior output is referenced twice, one of those attempts must
+fail.
+
+That does not solve the full network coordination problem by itself. Competing
+transactions can still be broadcast. But it does give the protocol a clear local
+validation rule for what counts as an already-spent claim.
+
+## Why compare this to an account model
+
+Students should understand that the UTXO design is a choice, not the only way to run
+a blockchain.
+
+- In a UTXO model, value is tracked as individual spendable outputs.
+- In an account model, value is tracked as mutable balances attached to accounts.
+
+The UTXO model can make transaction lineage and double-spend checks more explicit. An
+account model can feel more intuitive to newcomers because it resembles bank
+balances. The course uses the UTXO framing because it maps closely to Bitcoin and
+makes ledger-state validation concrete.
+
+## What students should be able to report
+
+When students explain the UTXO model in `TEM 00UU`, they should be able to report:
+
+- what counts as an unspent output,
+- how a transaction consumes old outputs and creates new ones,
+- why change outputs are often needed,
+- and how the model supports double-spend prevention at the ledger-rule level.

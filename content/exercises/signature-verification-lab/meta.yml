@@ -1,0 +1,39 @@
+id: signature-verification-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Signature verification lab
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - cryptography
+  - public-key-cryptography
+  - digital-signatures
+tags:
+  - exercise
+  - python
+  - cryptography
+  - signatures
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: easy
+estimated_time_minutes: 40
+concepts:
+  - public-key-cryptography
+  - digital-signatures
+solution_storage: separate-file
+solution_visibility: teacher

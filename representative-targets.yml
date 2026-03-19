@@ -34,6 +34,11 @@ targets:
     audience: student
     language: en
     format: html
+  - label: EDI3400 lecture page
+    id: edi3400-lecture-13
+    audience: student
+    language: en
+    format: html
   - label: Teacher lecture slides
     id: lecture-04
     audience: teacher
@@ -66,11 +71,11 @@ targets:
     format: exercise-sheet
   - label: BIK2550 lecture page
     id: bik2550-m1d1
-    audience: student
+    audience: teacher
     language: nb
     format: html
   - label: BIK2550 lecture slides
     id: bik2550-m3d1
-    audience: student
+    audience: teacher
     language: nb
     format: revealjs

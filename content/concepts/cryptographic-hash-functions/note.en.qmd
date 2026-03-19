@@ -1,0 +1,61 @@
+## Hash functions turn arbitrary data into short fingerprints
+
+A hash function takes an input of any size and returns a fixed-size output. For a
+cryptographic hash such as `SHA-256`, that output is treated as a compact fingerprint
+of the original data.
+
+In this course, the important intuition is operational rather than purely
+mathematical: if the input changes, the digest should change in a way that is easy to
+detect and hard to fake.
+
+## The properties that matter in blockchain systems
+
+Students should recognize four practical properties early:
+
+- determinism: the same input always gives the same output,
+- fixed-size output: large and small inputs both map to a digest of the same length,
+- one-wayness / preimage resistance: it should be hard to reconstruct the input from
+  the digest,
+- collision resistance: it should be hard to find two distinct inputs with the same
+  digest.
+
+One more idea matters pedagogically even if it is not a formal property by itself:
+the avalanche effect. A tiny input change should produce a dramatically different
+digest.
+
+## Why hashes matter for blockchain
+
+Hash functions appear throughout blockchain systems because they make integrity
+checks cheap.
+
+- Transactions can be identified by their digest.
+- Blocks can include the digest of the previous block.
+- Merkle trees summarize large transaction sets into one short value.
+- Proof-of-work systems build their mining puzzle around repeated hashing.
+
+That does not mean hashing is enough on its own. A hash can show that data changed,
+but it does not say who was authorized to change it. That is why the next lectures
+move toward keys, signatures, and transaction rules.
+
+## What the avalanche exercise is really showing
+
+The first coding lab uses Python's `hashlib` to hash nearby strings and compare the
+outputs. Students should notice three things:
+
+1. Identical inputs always produce identical digests.
+2. Small changes in the input produce outputs that look unrelated.
+3. The digest format stays fixed even when the input size changes.
+
+That experiment does not prove security formally, but it makes the integrity idea
+concrete enough to support the later blockchain data-structure lectures.
+
+## What students should be able to report
+
+When students describe a hash function in `TEM 00UU`, they should usually be able to
+report:
+
+- what input was hashed,
+- which hash algorithm was used,
+- what changed between two nearby inputs,
+- how different the resulting digests look,
+- and why that behavior is useful for ledger integrity and block linking.

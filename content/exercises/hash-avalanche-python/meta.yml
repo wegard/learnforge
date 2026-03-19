@@ -1,0 +1,38 @@
+id: hash-avalanche-python
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Hash avalanche in Python
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - cryptography
+  - hash-functions
+tags:
+  - exercise
+  - python
+  - hashlib
+  - sha-256
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: easy
+estimated_time_minutes: 30
+concepts:
+  - distributed-ledgers-and-trust
+  - cryptographic-hash-functions
+solution_storage: separate-file
+solution_visibility: teacher

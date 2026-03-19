@@ -1,0 +1,38 @@
+id: blockchain-consensus-and-canonical-chain
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Blockchain consensus and canonical chain selection
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - consensus
+  - chain-selection
+tags:
+  - double-spending
+  - forks
+  - canonical-chain
+  - decentralization
+level: introductory
+prerequisites:
+  - cryptocurrency-transactions
+  - blockchain-data-structures
+related:
+  - proof-of-work-and-proof-of-stake
+  - proof-of-work-mining-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

@@ -1,0 +1,36 @@
+id: tem00uu-lecture-04
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 4 - Block structure and Merkle trees
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - blockchain-data-structures
+  - hash-linking
+  - merkle-trees
+tags:
+  - lecture
+  - blockchain
+  - merkle
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - blockchain-data-structures
+  - merkle-trees
+  - simple-blockchain-lab

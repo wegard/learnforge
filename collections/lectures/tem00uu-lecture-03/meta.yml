@@ -1,0 +1,36 @@
+id: tem00uu-lecture-03
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 3 - Transactions and the UTXO model
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - transactions
+  - utxo-model
+  - ledger-validation
+tags:
+  - lecture
+  - blockchain
+  - transactions
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - cryptocurrency-transactions
+  - utxo-transaction-model
+  - transaction-validation-lab

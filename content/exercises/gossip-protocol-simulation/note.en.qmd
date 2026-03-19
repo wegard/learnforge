@@ -1,0 +1,53 @@
+## Lab brief
+
+Build a small Python simulation of gossip-based message relay over a peer-to-peer
+network. The point is not to open real sockets. The point is to make propagation,
+duplicate receipt, and already-seen message tracking visible with fully deterministic
+local data structures.
+
+Represent the network as a graph of nodes and peer links. A dictionary from node id to
+peer list is enough.
+
+## Tasks
+
+1. Represent a small network of at least five nodes as an adjacency list.
+2. Represent node state with at least:
+   - a set of seen message ids,
+   - a log of forwarded messages,
+   - and any delivery metadata you want to track.
+3. Implement `propagate_message(peers, origin, message_id)` that:
+   - starts from one origin node,
+   - relays the message to that node's peers,
+   - prevents a node from forwarding the same message more than once,
+   - records which nodes eventually receive the message.
+4. Report at least:
+   - the order in which nodes first receive the message,
+   - how many relay attempts were made,
+   - how many duplicate deliveries were suppressed.
+5. Modify the network in one simple way, for example:
+   - remove one peer connection,
+   - isolate one node,
+   - or compare a sparse graph with a denser one.
+6. Write a short note explaining:
+   - why gossip creates duplicate traffic,
+   - why seen-message tracking matters,
+   - how network connectivity affects propagation speed or coverage,
+   - why this local simulation is still much simpler than a real blockchain network.
+
+## Starter outline
+
+```python
+from collections import deque
+
+
+peers = {
+    "A": ["B", "C"],
+    "B": ["A", "D"],
+    "C": ["A", "D", "E"],
+    "D": ["B", "C", "E"],
+    "E": ["C", "D"],
+}
+```
+
+Keep the relay rule deterministic. A queue-based breadth-first simulation is a good
+fit for the first pass.

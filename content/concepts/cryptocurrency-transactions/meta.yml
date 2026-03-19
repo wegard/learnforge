@@ -1,0 +1,37 @@
+id: cryptocurrency-transactions
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Cryptocurrency transactions
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - transactions
+  - ledger-validation
+tags:
+  - transaction-inputs
+  - transaction-outputs
+  - authorization
+  - value-transfer
+level: introductory
+prerequisites:
+  - digital-signatures
+related:
+  - utxo-transaction-model
+  - transaction-validation-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

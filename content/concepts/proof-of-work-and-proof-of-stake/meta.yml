@@ -1,0 +1,39 @@
+id: proof-of-work-and-proof-of-stake
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Proof of Work and Proof of Stake
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - consensus
+  - proof-of-work
+  - proof-of-stake
+tags:
+  - mining
+  - validators
+  - sybil-resistance
+  - slashing
+level: introductory
+prerequisites:
+  - blockchain-consensus-and-canonical-chain
+  - blockchain-data-structures
+related:
+  - blockchain-consensus-and-canonical-chain
+  - proof-of-work-mining-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

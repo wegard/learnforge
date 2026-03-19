@@ -1,0 +1,39 @@
+id: simple-blockchain-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Simple blockchain lab
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - blockchain-data-structures
+  - hash-linking
+  - merkle-trees
+tags:
+  - exercise
+  - python
+  - block-structure
+  - merkle-root
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 50
+concepts:
+  - blockchain-data-structures
+  - merkle-trees
+solution_storage: separate-file
+solution_visibility: teacher

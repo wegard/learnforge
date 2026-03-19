@@ -1,0 +1,47 @@
+The cleanest teacher solution is a minimal signing script that shows one valid case
+and one tampered-message failure.
+
+## Suggested approach
+
+1. Generate an `Ed25519` key pair.
+2. Sign one fixed byte string.
+3. Verify the signature against the original message.
+4. Attempt verification against a modified message and catch the failure explicitly.
+
+## Minimal reference implementation
+
+```python
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+
+private_key = Ed25519PrivateKey.generate()
+public_key = private_key.public_key()
+
+message = b"alice->bob:2.50"
+signature = private_key.sign(message)
+
+public_key.verify(signature, message)
+print("original message verified")
+
+tampered_message = b"alice->bob:25.00"
+
+try:
+    public_key.verify(signature, tampered_message)
+    print("unexpected success")
+except InvalidSignature:
+    print("tampered message rejected")
+```
+
+## What students should notice
+
+- The signature verifies only for the exact original message.
+- The public key can verify but cannot produce the signature.
+- A valid signature supports authorization, but it says nothing about whether the
+  sender had enough balance or whether the ledger accepts the transaction.
+
+## Teaching emphasis
+
+If you want a follow-up extension, ask students to serialize the public key and test
+verification after reloading it. Keep the first required version small and focused on
+message integrity plus authorization.

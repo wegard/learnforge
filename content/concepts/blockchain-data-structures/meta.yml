@@ -1,0 +1,38 @@
+id: blockchain-data-structures
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Blockchain data structures
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - blockchain-data-structures
+  - hash-linking
+tags:
+  - blocks
+  - block-headers
+  - previous-hash
+  - tamper-evidence
+level: introductory
+prerequisites:
+  - cryptocurrency-transactions
+  - cryptographic-hash-functions
+related:
+  - merkle-trees
+  - simple-blockchain-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

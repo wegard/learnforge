@@ -1,0 +1,60 @@
+## Smart contracts are shared state machines executed by the blockchain
+
+So far in `TEM 00UU`, students have mostly seen blockchains as systems for recording
+transactions and reaching consensus on ledger history. Smart-contract platforms add a
+different idea: the chain can also maintain persistent program state and execute
+agreed-upon rules for changing that state.
+
+A smart contract is therefore best introduced not as "magic code on the blockchain,"
+but as a public state machine whose transitions are defined by program logic and
+validated by the network.
+
+## What makes a smart contract different from an ordinary script
+
+An ordinary local script runs because one machine decides to run it. A smart contract
+matters because many nodes agree on the same transition result.
+
+- The contract code is part of the shared system.
+- The contract has persistent state, not just one-off computation.
+- Users submit transactions that call contract functions.
+- Nodes execute or verify those function effects under common protocol rules.
+
+This is why smart contracts are closely tied to platform design, not just programming
+syntax.
+
+## Why Ethereum and the EVM matter
+
+Bitcoin includes limited scripting, but Ethereum popularized the idea of a more
+general execution environment. The Ethereum Virtual Machine, or EVM, is the abstract
+machine that defines how contract bytecode is executed and how state transitions are
+accounted for.
+
+Students do not need bytecode details in the first pass. The important ideas are:
+
+- contract logic is executed in a shared deterministic environment,
+- storage updates become part of the chain's agreed state,
+- and computation is metered rather than free.
+
+## Why gas exists
+
+If arbitrary computation were free, contract platforms would be easy to abuse. Gas is
+the mechanism used to meter computation and storage use so execution consumes a priced
+resource.
+
+The first teaching intuition is simple:
+
+- every instruction is not equally cheap,
+- contract execution has economic cost,
+- and gas limits help bound resource usage.
+
+That lets students connect smart-contract design to both engineering constraints and
+economic incentives.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- why a smart contract is best understood as a shared state machine,
+- how contract calls differ from ordinary local program execution,
+- why Ethereum-style systems need a virtual machine model,
+- and why gas exists as a metering mechanism.

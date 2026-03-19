@@ -1,0 +1,36 @@
+id: distributed-ledgers-and-trust
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Distributed ledgers and trust
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - distributed-ledgers
+  - financial-infrastructure
+tags:
+  - ledger
+  - trust
+  - decentralization
+  - consensus
+level: introductory
+prerequisites: []
+related:
+  - cryptographic-hash-functions
+  - hash-avalanche-python
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

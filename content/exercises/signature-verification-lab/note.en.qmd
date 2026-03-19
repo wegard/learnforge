@@ -1,0 +1,43 @@
+## Lab brief
+
+Generate a key pair, sign a transaction-like message, and verify the signature in
+Python. The point of the lab is to observe the authorization workflow directly:
+private key signs, public key verifies, and tampering should break verification.
+
+For a first pass, it is fine to use the `cryptography` package with `Ed25519`. The
+course can move to Bitcoin-specific curve choices later. Right now the goal is to
+understand the signing workflow, not curve internals.
+
+## Tasks
+
+1. Generate one signing key pair.
+2. Create a transaction-like message string such as:
+   - `alice->bob:2.50`
+   - or a JSON payload with sender, recipient, and amount.
+3. Sign the exact byte representation of that message.
+4. Verify the signature with the public key.
+5. Change one part of the message, for example the amount or recipient, and confirm
+   that the original signature no longer verifies.
+6. Write a short note answering:
+   - what the private key does,
+   - what the public key does,
+   - what changes caused verification to fail,
+   - why successful verification does not by itself prove that the ledger state is
+     valid.
+
+## Starter outline
+
+```python
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+
+private_key = Ed25519PrivateKey.generate()
+public_key = private_key.public_key()
+
+message = b"alice->bob:2.50"
+signature = private_key.sign(message)
+```
+
+Keep the workflow in a plain script. Catch the failed verification case explicitly so
+the contrast is visible in the output.

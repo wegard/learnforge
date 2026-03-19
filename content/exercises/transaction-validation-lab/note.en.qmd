@@ -1,0 +1,54 @@
+## Lab brief
+
+Build a minimal Python validator for Bitcoin-like transactions using plain data
+structures. The point is to make ledger-state validation explicit: a transaction is
+not valid just because it has the right fields. It also has to reference spendable
+outputs, avoid double-spending, and conserve value.
+
+For this first pass, treat signature verification as already handled elsewhere. The
+lab focus is the ledger rule set around inputs, outputs, and the current UTXO state.
+
+## Tasks
+
+1. Represent a small UTXO set in Python, for example as a dictionary that maps
+   output ids to owner and amount.
+2. Represent a transaction with:
+   - a list of input ids,
+   - a list of outputs with recipient and amount,
+   - and any extra metadata you need for reporting.
+3. Implement `validate_transaction(tx, utxos)` that checks at least:
+   - every input exists in the current UTXO set,
+   - no input is repeated inside the same transaction,
+   - total output value does not exceed total input value.
+4. Implement `apply_transaction(tx, utxos)` that:
+   - removes spent inputs from the UTXO set,
+   - creates new output ids,
+   - inserts the new outputs into the updated UTXO set.
+5. Test at least three cases:
+   - one valid transaction,
+   - one overspending transaction,
+   - one double-spend attempt.
+6. Write a short note explaining:
+   - which rule rejected each invalid case,
+   - why UTXO validation helps prevent double-spending,
+   - why this still does not replace signature checks or network consensus.
+
+## Starter outline
+
+```python
+utxos = {
+    "u1": {"owner": "alice", "amount": 5.0},
+    "u2": {"owner": "alice", "amount": 2.0},
+}
+
+tx = {
+    "inputs": ["u1"],
+    "outputs": [
+        {"owner": "bob", "amount": 3.0},
+        {"owner": "alice", "amount": 2.0},
+    ],
+}
+```
+
+Keep the workflow deterministic and visible. A plain script with printed validation
+results is enough.

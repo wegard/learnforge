@@ -1,0 +1,53 @@
+## Lab brief
+
+Build a minimal Python representation of a blockchain with hash-linked blocks and a
+simple Merkle-root helper. The point is not to implement mining or networking yet.
+The point is to see how blocks commit to both the previous block and the transaction
+set they contain.
+
+Keep the design small and explicit. A lightweight `Block` data class or dictionary
+representation is enough.
+
+## Tasks
+
+1. Represent a block with at least:
+   - an index,
+   - a previous-hash field,
+   - a transaction list,
+   - a timestamp or simple sequence marker,
+   - a Merkle-root field.
+2. Write a helper that hashes one transaction string with `SHA-256`.
+3. Write a small `merkle_root(transactions)` helper that:
+   - hashes the transactions,
+   - combines hashes in pairs,
+   - repeats until one root remains.
+4. Write a block-hash helper that commits to the block header fields.
+5. Create a chain of at least three linked blocks where each block stores the prior
+   block hash in its header.
+6. Change one transaction in an earlier block and show what breaks:
+   - the Merkle root changes,
+   - the block hash changes,
+   - the next block's previous-hash pointer no longer matches.
+7. Write a short note explaining:
+   - what the Merkle root summarizes,
+   - why previous-hash links matter,
+   - why this still does not decide which chain the network should accept.
+
+## Starter outline
+
+```python
+import hashlib
+from dataclasses import dataclass
+
+
+@dataclass
+class Block:
+    index: int
+    previous_hash: str
+    transactions: list[str]
+    timestamp: str
+    merkle_root: str
+```
+
+It is fine to duplicate the last hash when a Merkle level has an odd number of
+elements. The important part is that the reduction rule is deterministic.

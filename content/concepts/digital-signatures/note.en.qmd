@@ -1,0 +1,69 @@
+## Digital signatures prove authorization over a message
+
+Once students understand key pairs, the next step is signatures. A digital signature
+lets the holder of a private key approve a message in a way that others can verify
+with the matching public key.
+
+For blockchain systems, that message is often a transaction or a transaction-like
+payload. The network does not need to trust a personal promise. It needs a
+cryptographic check that the transaction was authorized by the relevant key holder.
+
+## The verification logic is the core idea
+
+At the workflow level, digital signatures give the ledger three useful properties:
+
+- authenticity: the signature should only verify against the correct public key,
+- integrity: if the message changes, the signature check should fail,
+- non-repudiation in the protocol sense: a valid signature is evidence that the
+  corresponding private key approved that exact message.
+
+That is why signatures belong directly on the path from keys to transactions.
+
+## Why hashes still matter here
+
+In practical signature systems, the message is often hashed before or during the
+signature process. That keeps signing efficient and binds the authorization to the
+exact message content.
+
+Students do not need full implementation details yet, but they should understand the
+chain of logic:
+
+1. represent the transaction data as a message,
+2. bind the signature to that exact message,
+3. verify the signature with the public key,
+4. reject the transaction if the message or signature does not match.
+
+## What signatures do and do not prove
+
+A valid signature proves something narrow but important: the private key holder
+authorized this message.
+
+It does not prove:
+
+- that the transaction is economically sensible,
+- that the signer is a known real-world person,
+- that the signer still controls the same key later,
+- or that the rest of the ledger state is valid.
+
+Those extra questions depend on transaction rules, ledger state, and broader system
+design.
+
+## Why this matters for the rest of the course
+
+Without signatures, a decentralized ledger would have no clean way to distinguish a
+legitimate spend from a forged one. Signatures are therefore not a side feature. They
+are one of the core mechanisms that make a cryptocurrency ledger enforceable.
+
+The coding lab for this lecture should make one observation especially clear:
+tampering with the message after signing must cause verification to fail.
+
+## What students should be able to report
+
+When students explain a digital-signature workflow in `TEM 00UU`, they should be
+able to report:
+
+- what message was signed,
+- which key pair produced and verified the signature,
+- what happened when the message changed,
+- and why signature verification supports transaction authorization but not full
+  economic validity on its own.

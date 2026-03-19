@@ -1,0 +1,55 @@
+## Merkle trees compress many transaction hashes into one commitment
+
+A block can contain many transactions, but the header still needs a compact way to
+commit to the full transaction set. That is the role of the Merkle tree.
+
+A Merkle tree starts from the transaction hashes, then repeatedly hashes pairs of
+values upward until only one value remains. That final value is the Merkle root.
+
+In practice, the block header stores the root rather than the full tree.
+
+## Why the Merkle root is useful
+
+The root acts as a commitment to the transaction list.
+
+- If any transaction changes, its leaf hash changes.
+- That change propagates upward through the tree.
+- The Merkle root therefore changes as well.
+
+This means the header can summarize many transactions with one short hash while still
+preserving tamper evidence.
+
+## Why this matters for verification
+
+Merkle trees are not just storage compression. They support efficient proofs of
+membership.
+
+Instead of downloading every transaction in a block, a light client can check a much
+smaller proof showing how one transaction hash connects to the recorded Merkle root.
+That is the basic intuition behind simplified payment verification and other
+commitment-based verification workflows.
+
+Students do not need to master every proof format yet. The key point is that a tree
+structure makes selective verification possible in a way that a flat list summary
+does not.
+
+## What the first coding lab should emphasize
+
+The first Merkle-tree lab does not need production-grade handling of every edge case.
+It should make three things visible:
+
+1. transaction hashes become leaf values,
+2. repeated pairwise hashing produces one root,
+3. changing one transaction changes the root commitment.
+
+That is enough for the rest of the course, where the Merkle root appears as one of
+the key fields in a block header.
+
+## What students should be able to report
+
+When students explain a Merkle tree in `TEM 00UU`, they should be able to report:
+
+- what the leaf hashes represent,
+- how the tree is reduced to one Merkle root,
+- why the root belongs in the block header,
+- and why the structure helps light-weight verification.

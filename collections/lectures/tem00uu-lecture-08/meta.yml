@@ -1,0 +1,34 @@
+id: tem00uu-lecture-08
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 8 - Ethics, regulation, and sustainability
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - blockchain-ethics
+  - regulation
+  - sustainability
+tags:
+  - lecture
+  - blockchain
+  - ethics
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - blockchain-ethics-law-and-sustainability

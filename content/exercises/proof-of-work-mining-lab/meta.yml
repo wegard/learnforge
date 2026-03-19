@@ -1,0 +1,38 @@
+id: proof-of-work-mining-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Proof-of-work mining lab
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - consensus
+  - proof-of-work
+tags:
+  - exercise
+  - python
+  - mining
+  - nonce-search
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 50
+concepts:
+  - blockchain-consensus-and-canonical-chain
+  - proof-of-work-and-proof-of-stake
+solution_storage: separate-file
+solution_visibility: teacher

@@ -1,0 +1,64 @@
+The best teacher solution is a compact validator with clear failure messages rather
+than a full wallet or blockchain implementation.
+
+## Suggested approach
+
+1. Store the current UTXO set as a dictionary keyed by output id.
+2. Reject missing inputs immediately.
+3. Reject repeated input ids inside the same transaction.
+4. Sum input and output amounts and reject overspending.
+5. On success, remove spent inputs and create deterministic new output ids.
+
+## Minimal reference implementation
+
+```python
+from copy import deepcopy
+
+
+def validate_transaction(tx: dict, utxos: dict) -> tuple[bool, str]:
+    inputs = tx["inputs"]
+    outputs = tx["outputs"]
+
+    if len(inputs) != len(set(inputs)):
+        return False, "duplicate input inside transaction"
+
+    if any(input_id not in utxos for input_id in inputs):
+        return False, "missing or already spent input"
+
+    total_input = sum(utxos[input_id]["amount"] for input_id in inputs)
+    total_output = sum(output["amount"] for output in outputs)
+
+    if total_output > total_input:
+        return False, "outputs exceed inputs"
+
+    return True, "ok"
+
+
+def apply_transaction(tx: dict, utxos: dict, tx_id: str) -> dict:
+    ok, message = validate_transaction(tx, utxos)
+    if not ok:
+        raise ValueError(message)
+
+    updated = deepcopy(utxos)
+    for input_id in tx["inputs"]:
+        del updated[input_id]
+
+    for index, output in enumerate(tx["outputs"]):
+        updated[f"{tx_id}:{index}"] = output
+
+    return updated
+```
+
+## What students should notice
+
+- Missing inputs and repeated inputs are different failure modes, but both block a
+  valid spend.
+- Value conservation is a separate rule from authorization.
+- A valid local transaction check still does not decide which competing transaction
+  wins across the network.
+
+## Teaching emphasis
+
+Keep the first version focused on ledger-state rules. If you want one extension, ask
+students to add a placeholder authorization rule such as matching each input owner to
+an expected signer before connecting the logic to real signature verification later.

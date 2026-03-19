@@ -1,0 +1,37 @@
+id: smart-contract-state-machine-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Smart contract state machine lab
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - smart-contracts
+  - evm
+tags:
+  - exercise
+  - python
+  - state-machine
+  - escrow
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 50
+concepts:
+  - smart-contracts-and-the-evm
+solution_storage: separate-file
+solution_visibility: teacher

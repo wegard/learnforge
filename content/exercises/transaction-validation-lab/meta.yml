@@ -1,0 +1,39 @@
+id: transaction-validation-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Transaction validation lab
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - transactions
+  - utxo-model
+  - ledger-validation
+tags:
+  - exercise
+  - python
+  - utxo
+  - double-spend
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - cryptocurrency-transactions
+  - utxo-transaction-model
+solution_storage: separate-file
+solution_visibility: teacher

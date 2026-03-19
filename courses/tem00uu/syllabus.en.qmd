@@ -1,0 +1,89 @@
+# Course Overview
+
+`TEM 00UU Foundations of Cryptocurrency and Blockchain` is currently represented in
+LearnForge as a draft course shell based on the current course sketch.
+
+The course introduces how cryptography, data structures, networking, and consensus
+make cryptocurrency and blockchain systems work. The teaching direction is
+implementation-focused and assumes students can work with Python but do not already
+know cryptography.
+
+The current sketch has two unevenly developed parts. Part A is already coherent
+enough to guide the first migration slices. Part B remains intentionally provisional
+and will stay outside the canonical lecture plan until the scope is clearer.
+
+## Knowledge Goals
+
+- Explain the role of ledgers, hash functions, public-key cryptography, digital
+  signatures, transactions, UTXOs, block structures, Merkle trees, consensus, and
+  peer-to-peer networking in blockchain systems.
+- Compare Proof of Work and Proof of Stake, including their security assumptions,
+  incentives, and sustainability trade-offs.
+- Describe the basic ideas behind smart contracts, Ethereum-style execution, and
+  Layer 2 scaling approaches.
+- Discuss privacy, regulation, business relevance, and market-facing questions around
+  cryptocurrency and blockchain technology.
+
+## Skills Goals
+
+- Implement small Python exercises for hashing, signatures, transactions, block
+  validation, proof-of-work mining, and peer-to-peer communication.
+- Read and extend a simple Bitcoin-like code base for learning purposes.
+- Translate technical blockchain mechanisms into clear conceptual and business-facing
+  explanations.
+- Scope and execute a substantial course project that combines code with conceptual
+  analysis.
+
+## General Competence
+
+- Evaluate what parts of blockchain systems are fundamental infrastructure choices
+  versus application-specific design decisions.
+- Reflect critically on decentralization, security, privacy, regulation, and
+  sustainability trade-offs.
+- Communicate technical blockchain ideas clearly to audiences with mixed technical
+  backgrounds.
+
+## Planned Content Areas
+
+### Part A: Cryptography and blockchain foundations
+
+- Lecture 1: Ledgers, trust, and cryptographic hash functions
+- Lecture 2: Public and private keys, digital signatures
+- Lecture 3: Transactions and the UTXO model
+- Lecture 4: Blocks, hash linking, and Merkle trees
+- Lecture 5: Consensus mechanisms, especially Proof of Work and Proof of Stake
+- Lecture 6: Peer-to-peer networking, gossip, and node discovery
+- Lecture 7: Smart contracts, the EVM, and Layer 2 scaling
+- Lecture 8: Ethics, regulation, and sustainability in blockchain systems
+- Project framing remains part of the draft assessment description and is not yet a
+  canonical lecture or assignment object in LearnForge.
+
+### Part B: Business, markets, and forecasting
+
+- The role of blockchain technology in business settings
+- The market for cryptocurrencies
+- Forecasting cryptocurrency values
+- This part remains intentionally TBA in the current LearnForge checkpoint and is not
+  yet represented by canonical lecture collections or reusable objects.
+
+## Teaching Format
+
+The draft teaching format combines lectures with guided Python exercises.
+
+Part A is expected to stay close to the implementation-focused teaching style in the
+current course sketch, with students building small components of a Bitcoin-like
+system to understand the underlying mechanics.
+
+## Assessment
+
+The current sketch uses a semester-long group project rather than a traditional exam.
+
+The project direction is still draft-level, but the intended deliverables are:
+
+- a short mid-semester proposal
+- final code and documentation
+- a presentation or demo
+
+The canonical LearnForge project brief should be authored later, once the assessment
+scope, milestones, and evaluation criteria are stable enough to treat as source of
+truth.

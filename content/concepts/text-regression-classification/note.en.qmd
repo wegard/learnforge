@@ -1,0 +1,69 @@
+## Why standard regression fails with text
+
+The document-term matrix typically has far more columns than rows ($n \ll p$).
+Standard OLS cannot estimate more parameters than observations, so ordinary linear
+regression on raw text features will fail or overfit catastrophically.
+
+In `GRA 4164`, this is the entry point for penalised regression. Lasso adds a
+penalty $\lambda \sum_j |\beta_j|$ that forces most coefficients to zero, keeping
+only the most predictive terms. Ridge regression shrinks all coefficients without
+zeroing them out. Cross-validation selects the penalty strength $\lambda$ that
+generalises best to held-out data.
+
+The key insight for text applications is that most terms in the vocabulary are
+irrelevant to any given prediction task. Penalisation exploits this sparsity.
+
+## Naive Bayes classification
+
+When the outcome is categorical — spam or ham, positive or negative, topic A or
+topic B — naive Bayes is a natural starting point. Despite its simplicity, it works
+remarkably well for document classification.
+
+The classifier applies Bayes' rule to compute the probability that a document
+belongs to each class:
+
+$$
+v_{k,\text{NB}} = \arg\max_{v_k} \; P(v_k) \prod_{j} P(c_j \mid v_k)
+$$
+
+The "naive" assumption is that word occurrences are conditionally independent given
+the class. This is obviously wrong for natural language — words are not independent —
+but the assumption simplifies computation to mere counting and still produces
+competitive classifiers.
+
+**Estimation** reduces to counting: the prior $\hat{P}(v_k) = n_k / n$ is the class
+proportion, and the likelihood uses Laplace-smoothed frequencies:
+
+$$
+\hat{P}(c_j \mid v_k) = \frac{\text{count}(c_j, v_k) + 1}{\sum \text{count}(c, v_k) + p}
+$$
+
+The $+1$ in the numerator prevents zero probabilities from collapsing the entire
+product.
+
+## When to use which
+
+Text regressions are the natural choice when the outcome is continuous (GDP growth,
+stock returns, review ratings). Naive Bayes is preferred for categorical outcomes
+(spam detection, sentiment polarity, document routing). Both methods take the
+document-term matrix as input and both benefit from the same preprocessing pipeline.
+
+::: {.teacher-only}
+Ask students why the "naive" independence assumption works well in practice despite
+being wrong. The key insight is that classification only requires getting the ranking
+of class probabilities right, not their exact values — and independent-feature models
+are surprisingly good at ranking.
+:::
+
+## What to report
+
+When students present a text regression or classification in this course, they
+should report:
+
+- the target variable and whether it is continuous or categorical,
+- the text features used (raw counts, TF-IDF, or other weighting),
+- the regularisation method and how $\lambda$ was chosen (for regression),
+- at least one evaluation metric appropriate to the task (MSE for regression;
+  accuracy, precision, and recall for classification),
+- and a short discussion of whether the model captures a meaningful relationship
+  or is driven by spurious term associations.

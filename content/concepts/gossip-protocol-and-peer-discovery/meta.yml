@@ -1,0 +1,39 @@
+id: gossip-protocol-and-peer-discovery
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Gossip protocol and peer discovery
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - networking
+  - gossip-protocols
+  - peer-discovery
+tags:
+  - relay
+  - flooding
+  - bootstrap
+  - peers
+level: introductory
+prerequisites:
+  - blockchain-peer-to-peer-networks
+  - blockchain-consensus-and-canonical-chain
+related:
+  - blockchain-peer-to-peer-networks
+  - gossip-protocol-simulation
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

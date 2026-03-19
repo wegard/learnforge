@@ -1,0 +1,63 @@
+The best teacher solution is a small queue-based simulation that makes message flow
+auditable rather than trying to mimic real socket behavior.
+
+## Suggested approach
+
+1. Store peers as an adjacency list.
+2. Maintain one `seen` set per node.
+3. Use a queue of `(sender, receiver, message_id)` events.
+4. Count suppressed duplicate deliveries separately from first-time receipt.
+5. Run the same message through two slightly different network topologies so students
+   can compare coverage and relay counts.
+
+## Minimal reference implementation
+
+```python
+from collections import deque
+
+
+def propagate_message(peers: dict[str, list[str]], origin: str, message_id: str) -> dict:
+    seen = {node: set() for node in peers}
+    received_order: list[str] = []
+    forwarded: dict[str, list[str]] = {node: [] for node in peers}
+    duplicate_deliveries = 0
+    relay_attempts = 0
+
+    queue = deque([(None, origin, message_id)])
+
+    while queue:
+        sender, receiver, message = queue.popleft()
+        relay_attempts += 1
+
+        if message in seen[receiver]:
+            duplicate_deliveries += 1
+            continue
+
+        seen[receiver].add(message)
+        received_order.append(receiver)
+
+        for peer in peers[receiver]:
+            if peer == sender:
+                continue
+            forwarded[receiver].append(peer)
+            queue.append((receiver, peer, message))
+
+    return {
+        "received_order": received_order,
+        "relay_attempts": relay_attempts,
+        "duplicate_deliveries": duplicate_deliveries,
+        "forwarded": forwarded,
+    }
+```
+
+## What students should notice
+
+- Redundant paths improve reachability but also increase duplicate traffic.
+- "Seen message" tracking is what keeps gossip from relaying the same content forever.
+- Connectivity and propagation are related, but richer connectivity is not free.
+
+## Teaching emphasis
+
+Keep the focus on message dissemination logic. Real blockchain networking adds peer
+churn, protocol messages, latency, mempools, and adversarial behavior on top of this
+core relay pattern.

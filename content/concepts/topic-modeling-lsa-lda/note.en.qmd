@@ -1,0 +1,78 @@
+## Discovering latent themes without labels
+
+Boolean search and text regression require the analyst to know what to look for.
+Topic models take the opposite approach: they discover recurring themes in a corpus
+without any predefined labels. In `GRA 4164`, this is the first unsupervised method
+students encounter for text.
+
+The shared intuition across all topic models is that documents are mixtures of
+topics, and topics are clusters of words that tend to appear together.
+
+## LSA: dimension reduction via SVD
+
+Latent Semantic Analysis applies truncated Singular Value Decomposition to the
+document-term matrix. The $n \times p$ matrix $\boldsymbol{C}$ is approximated as:
+
+$$
+\boldsymbol{C} \approx \boldsymbol{U}_K \boldsymbol{S}_K \boldsymbol{V}_K'
+$$
+
+where $K \ll p$. The factor matrix $F = U_K S_K$ ($n \times K$) gives the prevalence
+of each component in each document. The loading matrix $L = V_K$ ($p \times K$)
+gives the importance of each word for each component.
+
+This achieves three things:
+
+1. **Easier interpretation** — $K$ components instead of $p$ features.
+2. **Noise reduction** — the sparse, high-dimensional matrix is compressed into a
+   dense, low-dimensional one.
+3. **Better similarity** — synonyms may load on the same component; polysemous
+   words may load on multiple components, partially addressing problems that simple
+   word counts cannot handle.
+
+However, LSA is not a probabilistic model. It does not describe a plausible process
+for how documents are generated.
+
+## LDA: a probabilistic alternative
+
+Latent Dirichlet Allocation treats documents as probability distributions over
+topics and topics as probability distributions over words:
+
+$$
+\boldsymbol{q}_i = v_{i1}\boldsymbol{\theta}_1 + \cdots + v_{iK}\boldsymbol{\theta}_K
+$$
+
+Each document's topic weights $v_i$ sum to one, and each topic's word probabilities
+$\theta_l$ sum to one. Dirichlet priors on both encourage sparsity — most documents
+focus on a few topics, and most topics concentrate on a few words.
+
+The generative story is intuitive: pick a topic distribution for the document, then
+for each word position, sample a topic and sample a word from that topic.
+
+LDA (Blei et al., 2003) is one of the most cited models in NLP, with over 20,000
+citations. Extensions include dynamic topic models, supervised topic models, and
+correlated topic models.
+
+## When to use which
+
+LSA is faster and requires no distributional assumptions, making it a good first
+pass. LDA gives interpretable probability distributions and a generative framework
+that is easier to communicate to stakeholders. Both require choosing $K$, the number
+of topics — typically through out-of-sample testing or domain judgment.
+
+::: {.teacher-only}
+Show word cloud examples from real topic models and ask students to label the topics
+before revealing the ground truth. This exercise builds intuition for what topic
+models actually capture and where human interpretation adds value.
+:::
+
+## What to report
+
+When students present a topic model in this course, they should report:
+
+- the number of topics chosen and the justification,
+- the preprocessing steps applied before fitting,
+- the top words for each topic (word clouds or ranked lists),
+- how topic prevalence varies across documents or time, and
+- one honest assessment of whether the discovered topics align with domain
+  knowledge or appear to be statistical artifacts.

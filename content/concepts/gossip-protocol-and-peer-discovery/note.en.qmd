@@ -1,0 +1,53 @@
+## Gossip spreads transactions and blocks through repeated local relay
+
+Peer-to-peer structure explains who is connected to whom. Gossip explains how
+information moves across those connections.
+
+In a gossip-style protocol, a node that learns about a new transaction or block
+forwards it to some or all of its peers. Those peers then repeat the process. The
+whole network does not need a central broadcaster. Global dissemination emerges from
+many local forwarding decisions.
+
+## Why gossip is useful
+
+The main advantage is robustness through simple repeated relay.
+
+- A node only needs to know a limited set of peers.
+- Messages can travel through many alternative paths.
+- The system can keep working even if some links fail or some peers disappear.
+
+This is a pragmatic fit for decentralized systems, where the network must keep
+operating without assuming any single reliable router.
+
+## Why gossip also creates duplicate traffic
+
+The same message may reach a node multiple times from different peers. That is not a
+bug by itself. Redundancy is part of what makes gossip resilient.
+
+Nodes therefore need lightweight bookkeeping, for example remembering message ids they
+have already seen, so they relay new information once rather than flooding the
+network forever.
+
+## How peer discovery fits in
+
+Gossip only works after a node has peers. Peer discovery is the process of finding an
+initial set of network neighbors.
+
+In practice, systems may use:
+
+- bootstrap peers,
+- DNS seeds,
+- cached addresses from prior sessions,
+- or protocol-level address exchange.
+
+Students do not need production detail yet. The core point is that "who do I connect
+to first?" is a real systems problem, not a trivial footnote.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- how gossip relays transactions and blocks without a central broadcaster,
+- why duplicate message receipt is expected in resilient peer-to-peer systems,
+- why nodes track already-seen messages,
+- and why peer discovery is necessary before message propagation can begin.

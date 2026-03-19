@@ -1,0 +1,36 @@
+id: tem00uu-lecture-06
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 6 - Peer-to-peer networking and gossip
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - networking
+  - gossip-protocols
+  - peer-discovery
+tags:
+  - lecture
+  - blockchain
+  - networking
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - blockchain-peer-to-peer-networks
+  - gossip-protocol-and-peer-discovery
+  - gossip-protocol-simulation

@@ -25,7 +25,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] == 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 13
+    assert build_summary["target_count"] == 16
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -115,6 +115,7 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("iv-dag-figure", "teacher", "en", "pdf") in target_keys
     assert ("angrist-podcast-iv", "student", "en", "html") in target_keys
     assert ("tem0052-lecture-05", "student", "en", "html") in target_keys
+    assert ("edi3400-lecture-13", "student", "en", "html") in target_keys
     assert ("resource-inbox", "teacher", "en", "html") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys
     assert ("assignment-01", "student", "en", "exercise-sheet") in target_keys
@@ -143,6 +144,11 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         target
         for target in report.build_summary["targets"]
         if target["target_id"] == "tem0052-lecture-05" and target["format"] == "html"
+    )
+    edi3400_lecture_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "edi3400-lecture-13" and target["format"] == "html"
     )
     figure_html_target = next(
         target
@@ -184,6 +190,10 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert concept_target["integrity"]["broken_link_count"] == 0
     assert lecture_target["status"] == "passed"
     assert tem0052_lecture_target["status"] == "passed"
+    assert edi3400_lecture_target["status"] == "passed"
+    assert edi3400_lecture_target["expected_output_path"].endswith(
+        "build/exports/student/en/html/collection/edi3400-lecture-13/edi3400-lecture-13.html"
+    )
     assert figure_html_target["status"] == "passed"
     assert figure_pdf_target["status"] == "passed"
     assert resource_page_target["status"] == "passed"

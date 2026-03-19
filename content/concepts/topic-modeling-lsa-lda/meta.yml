@@ -1,0 +1,40 @@
+id: topic-modeling-lsa-lda
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Topic modelling with LSA and LDA
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - topic-modeling
+  - unsupervised-learning
+tags:
+  - lsa
+  - lda
+  - topic-modeling
+  - svd
+  - dimensionality-reduction
+level: intermediate
+prerequisites:
+  - bag-of-words-tfidf-cosine
+related:
+  - boolean-dictionary-methods-nlp
+  - text-regression-classification
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

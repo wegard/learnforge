@@ -1,0 +1,39 @@
+id: blockchain-ethics-law-and-sustainability
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Blockchain ethics, law, and sustainability
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - blockchain-ethics
+  - regulation
+  - sustainability
+tags:
+  - privacy
+  - compliance
+  - energy
+  - governance
+level: introductory
+prerequisites:
+  - proof-of-work-and-proof-of-stake
+  - smart-contracts-and-the-evm
+related:
+  - proof-of-work-and-proof-of-stake
+  - smart-contracts-and-the-evm
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

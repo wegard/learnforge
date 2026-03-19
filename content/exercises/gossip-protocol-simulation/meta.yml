@@ -1,0 +1,39 @@
+id: gossip-protocol-simulation
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Gossip protocol simulation
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - networking
+  - gossip-protocols
+  - peer-discovery
+tags:
+  - exercise
+  - python
+  - graph
+  - message-relay
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - blockchain-peer-to-peer-networks
+  - gossip-protocol-and-peer-discovery
+solution_storage: separate-file
+solution_visibility: teacher

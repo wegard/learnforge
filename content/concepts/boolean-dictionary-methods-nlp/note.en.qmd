@@ -1,0 +1,61 @@
+## The simplest supervised text methods
+
+Boolean and dictionary-based techniques are by far the most widely used text methods
+in economics and finance. They are attractive because they require only counting and
+normalisation — no estimation, no training data, and no tuning parameters.
+
+The core idea is the same in both cases. We define a mapping from word counts to a
+quantity of interest — sentiment, uncertainty, topic prevalence — and then apply it
+to the document-term matrix.
+
+## Dictionary-based methods
+
+A sentiment dictionary is a pre-built list of words labelled as positive or
+negative. Standard examples include the General Inquirer for general text and the
+Loughran-McDonald dictionary for financial language. The analyst counts positive and
+negative terms in each document and computes a summary score, for instance
+$\#W^{pos} - \#W^{neg}$.
+
+Tetlock (2008) showed that the sentiment content of a newspaper column predicts
+next-day stock market returns. The Baker-Bloom-Davis Economic Policy Uncertainty
+Index uses a similar counting approach across major newspapers and has become a
+standard macroeconomic indicator.
+
+## Boolean search
+
+Boolean methods use logical operators — AND, OR, NOT — to search for specific terms
+or combinations of terms. For example, searching for "uncertainty" OR
+"uncertainties" in a document corpus and counting matches. The result is a binary or
+count indicator for each document.
+
+These methods are supervised in the sense that the analyst must know what to search
+for. The functional form is fixed: given an input, the output is deterministic.
+
+## Limitations worth discussing
+
+- **Subjectivity** — the analyst must choose the dictionary or search terms, and
+  results can be highly sensitive to these choices.
+- **Polysemy** — the same word can mean different things in different contexts
+  ("bank" as a financial institution versus a river bank).
+- **Synonymy** — different words can carry the same meaning, but a fixed dictionary
+  will miss synonyms it does not contain.
+
+These limitations motivate the data-driven methods covered later in the course —
+text regressions, classification, and topic models.
+
+::: {.teacher-only}
+Ask students how they would design a sentiment dictionary for their own business
+domain. What words would they include? How would they handle domain-specific jargon
+that general dictionaries miss?
+:::
+
+## What to report
+
+When students present a Boolean or dictionary-based analysis in this course, they
+should report:
+
+- the dictionary or search terms used and their source,
+- how counts were normalised (raw counts, proportions, binary),
+- sensitivity to alternative specifications (at least three variations),
+- and one honest assessment of whether the results reflect the intended concept
+  or an artifact of the chosen terms.

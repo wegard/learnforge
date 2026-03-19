@@ -1,0 +1,55 @@
+## Transactions express state changes, not just payments
+
+Once a blockchain system has keys and signatures, the next question is how a transfer
+is represented inside the ledger. A transaction is that representation. It is the
+structured claim that some previously controlled value should move to new owners
+under explicit rules.
+
+Students should treat a transaction as a state-change request, not as a vague "send
+money" button. The ledger only changes when a transaction can be parsed, validated,
+and accepted under the protocol rules.
+
+## What a transaction usually contains
+
+In a Bitcoin-like system, a transaction typically contains:
+
+- one or more inputs that point to value being spent,
+- one or more outputs that define the new spendable claims,
+- and authorization data, usually tied to a digital-signature workflow.
+
+The details vary across blockchain designs, but the logic is stable: value does not
+appear from nowhere, and a claimed transfer must link back to prior ledger state.
+
+## Why transaction validation is more than syntax
+
+It is not enough for a transaction to look well-formed. The system also needs to
+check whether the transaction makes sense against current ledger state.
+
+At a minimum, students should expect questions like:
+
+- Do the referenced inputs exist?
+- Have they already been spent?
+- Does the signer have the right to authorize them?
+- Do the outputs claim more value than the inputs provide?
+
+This is why transaction handling sits between cryptography and consensus in the
+course sequence. Keys and signatures help with authorization, but ledger validation
+still has to decide whether the proposed state change is admissible.
+
+## Why transactions come before blocks
+
+Blocks do not create the basic transfer logic. They package transactions and put them
+into an agreed order.
+
+Pedagogically, that means students should understand the transaction layer before
+they move to block structure, Merkle trees, and consensus. If the transaction rules
+are unclear, the later data-structure lectures become much harder to reason about.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- what a blockchain transaction is trying to change,
+- why transactions need inputs, outputs, and authorization,
+- why validation depends on current ledger state rather than message format alone,
+- and why block ordering is a later layer built on top of transaction rules.

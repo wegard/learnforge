@@ -1,0 +1,36 @@
+id: cryptographic-hash-functions
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Cryptographic hash functions
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - cryptography
+  - hash-functions
+tags:
+  - sha-256
+  - avalanche-effect
+  - data-integrity
+  - one-wayness
+level: introductory
+prerequisites: []
+related:
+  - distributed-ledgers-and-trust
+  - hash-avalanche-python
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

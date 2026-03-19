@@ -1,0 +1,38 @@
+id: blockchain-peer-to-peer-networks
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Blockchain peer-to-peer networks
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - networking
+  - peer-to-peer-systems
+tags:
+  - decentralization
+  - nodes
+  - propagation
+  - resilience
+level: introductory
+prerequisites:
+  - distributed-ledgers-and-trust
+  - blockchain-consensus-and-canonical-chain
+related:
+  - gossip-protocol-and-peer-discovery
+  - gossip-protocol-simulation
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

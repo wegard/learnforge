@@ -1,0 +1,38 @@
+id: merkle-trees
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Merkle trees
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - blockchain-data-structures
+  - merkle-trees
+tags:
+  - merkle-root
+  - transaction-commitment
+  - verification
+  - spv
+level: introductory
+prerequisites:
+  - cryptographic-hash-functions
+  - blockchain-data-structures
+related:
+  - blockchain-data-structures
+  - simple-blockchain-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

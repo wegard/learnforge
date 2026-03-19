@@ -1,0 +1,38 @@
+id: smart-contracts-and-the-evm
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Smart contracts and the EVM
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - smart-contracts
+  - evm
+tags:
+  - ethereum
+  - state-machine
+  - gas
+  - execution
+level: introductory
+prerequisites:
+  - blockchain-data-structures
+  - blockchain-consensus-and-canonical-chain
+related:
+  - layer-2-scaling
+  - smart-contract-state-machine-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

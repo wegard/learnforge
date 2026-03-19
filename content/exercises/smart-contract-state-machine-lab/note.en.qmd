@@ -1,0 +1,57 @@
+## Lab brief
+
+Build a small Python model of a smart contract as a state machine. The point is not
+to use Solidity or deploy to a test chain yet. The point is to make contract state,
+authorized function calls, and invalid transitions explicit in a deterministic local
+program.
+
+Use a simple escrow-style contract with roles such as buyer, seller, and optional
+arbiter.
+
+## Tasks
+
+1. Represent a contract with at least:
+   - the participating addresses or user ids,
+   - the escrow amount,
+   - the current contract state,
+   - a small event log.
+2. Implement a constructor or setup function that creates a contract in an initial
+   state such as `created`.
+3. Implement a `fund(caller)` action that:
+   - only the buyer can call,
+   - only succeeds once,
+   - moves the contract into a funded state.
+4. Implement a `release(caller)` action that:
+   - only succeeds after funding,
+   - can be restricted to the buyer or arbiter,
+   - moves the contract into a terminal released state.
+5. Implement a `refund(caller)` action that:
+   - only succeeds after funding,
+   - cannot happen after release,
+   - moves the contract into a terminal refunded state.
+6. Reject invalid actions with clear messages, for example:
+   - seller tries to fund the contract,
+   - release is attempted before funding,
+   - refund is attempted after release.
+7. Write a short note explaining:
+   - why this is a state machine rather than just a sequence of Python functions,
+   - how authorization rules resemble contract-call permissions,
+   - why this model still omits gas, consensus delays, and real on-chain deployment.
+
+## Starter outline
+
+```python
+from dataclasses import dataclass, field
+
+
+@dataclass
+class EscrowContract:
+    buyer: str
+    seller: str
+    arbiter: str
+    amount: int
+    state: str = "created"
+    events: list[str] = field(default_factory=list)
+```
+
+Keep the first pass explicit and small. Printed state transitions are enough.

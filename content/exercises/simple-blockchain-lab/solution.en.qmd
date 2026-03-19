@@ -1,0 +1,57 @@
+The strongest teacher solution is a compact chain model that shows tamper evidence
+directly rather than trying to approximate a full Bitcoin node.
+
+## Suggested approach
+
+1. Use `SHA-256` for transaction hashes and block-header hashes.
+2. Keep transactions as simple strings so the data-structure logic stays visible.
+3. Implement one deterministic Merkle-root rule, for example duplicating the last hash
+   when a level has an odd number of entries.
+4. Build three blocks in sequence and verify that each `previous_hash` matches the
+   actual hash of the prior block.
+5. Mutate one old transaction and recompute the affected block to show the break in
+   the chain.
+
+## Minimal reference structure
+
+```python
+import hashlib
+from dataclasses import asdict, dataclass
+import json
+
+
+def sha256_hex(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def merkle_root(transactions: list[str]) -> str:
+    level = [sha256_hex(tx) for tx in transactions]
+    while len(level) > 1:
+        if len(level) % 2 == 1:
+            level.append(level[-1])
+        level = [
+            sha256_hex(level[i] + level[i + 1])
+            for i in range(0, len(level), 2)
+        ]
+    return level[0]
+
+
+@dataclass
+class Block:
+    index: int
+    previous_hash: str
+    transactions: list[str]
+    timestamp: str
+    merkle_root: str
+```
+
+## What students should notice
+
+- The Merkle root changes when a block's transaction list changes.
+- The block hash changes when the Merkle root or previous-hash field changes.
+- A later block can only point correctly to the exact earlier block it was built on.
+
+## Teaching emphasis
+
+Keep the exercise focused on commitments and linkage. Consensus, nonce search, and
+network forks belong in later lectures.

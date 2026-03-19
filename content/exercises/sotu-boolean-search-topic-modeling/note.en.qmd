@@ -1,0 +1,49 @@
+## Lab brief
+
+Analyse State of the Union speeches to test whether presidential language predicts
+economic outcomes. The exercise applies Boolean search, topic modelling, and
+sentiment analysis to the same corpus, building a comparative view of supervised
+versus unsupervised text methods.
+
+You have been hired as an analyst for a presidential campaign. The team speculates
+that highly positive speeches correlate with stronger economic performance. Your job
+is to assess this hypothesis using a dataset of State of the Union speeches
+(1980-2017) matched with annual GDP growth rates.
+
+The SOTU corpus is publicly available (e.g., on Kaggle). You are free to analyse
+the full dataset or a justified subset.
+
+## Tasks
+
+1. Describe in words how Boolean search combined with text regression could address
+   the campaign team's hypothesis. Discuss strengths and weaknesses.
+2. Define a set of positive search terms and count their frequency in each speech.
+   Normalise by document length.
+3. Run at least five Boolean search specifications with different term sets. Regress
+   term frequency on GDP growth for each specification. Compare the results.
+4. Assess how sensitive the regression output is to the choice of terms. Would you
+   trust a single specification? Why or why not?
+5. Preprocess the corpus (tokenise, remove stop-words, lemmatise) and fit an LDA
+   topic model. Justify your choice of the number of topics.
+6. Visualise the topics using word clouds or ranked word lists. Can you associate
+   meaningful themes with each topic?
+7. Analyse how topic prevalence varies across presidents. Illustrate with
+   appropriate figures.
+8. Correlate topic weights with GDP growth. Compare the explanatory power of the
+   topic model with the Boolean search approach.
+9. Extract the first paragraph of each speech. Score sentiment manually (-1 to 1)
+   and with an automated dictionary (e.g., VADER). Compare the two scores.
+
+## Starter outline
+
+```python
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.feature_extraction.text import CountVectorizer
+from scipy.stats import pearsonr
+```
+
+Deliver answers in a PDF report (maximum 5 pages). Clearly label each task.
+Figures and tables must be referenced in the text.

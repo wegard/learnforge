@@ -1,0 +1,54 @@
+The strongest teacher solution is a deterministic nonce-search script with explicit
+reporting rather than a more realistic but noisy simulation.
+
+## Suggested approach
+
+1. Keep the candidate header small and JSON serializable.
+2. Use a deterministic serialization rule such as `json.dumps(..., sort_keys=True)`.
+3. Search sequentially from nonce `0` upward.
+4. Return both the winning hash and the number of attempts so difficulty changes are
+   visible.
+5. Use the discussion prompt at the end to connect the toy miner back to chain
+   selection and the PoW-versus-PoS comparison.
+
+## Minimal reference implementation
+
+```python
+import hashlib
+import json
+from copy import deepcopy
+
+
+def hash_header(header: dict) -> str:
+    encoded = json.dumps(header, sort_keys=True).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def mine_block(header: dict, difficulty: int) -> tuple[dict, int]:
+    prefix = "0" * difficulty
+    candidate = deepcopy(header)
+    attempts = 0
+
+    while True:
+        digest = hash_header(candidate)
+        attempts += 1
+        if digest.startswith(prefix):
+            return {
+                "nonce": candidate["nonce"],
+                "hash": digest,
+                "attempts": attempts,
+            }, attempts
+        candidate["nonce"] += 1
+```
+
+## What students should notice
+
+- A one-digit increase in difficulty can make the search much slower.
+- Finding a valid nonce is easy to verify but expensive to discover.
+- A winning block does not eliminate forks instantly; later blocks are still needed
+  to strengthen one branch over another.
+
+## Teaching emphasis
+
+Keep the code focused on the search puzzle. Difficulty retargeting, network latency,
+and validator economics belong in lecture discussion rather than the first coding lab.

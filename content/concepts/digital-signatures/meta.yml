@@ -1,0 +1,38 @@
+id: digital-signatures
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Digital signatures
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - cryptography
+  - digital-signatures
+tags:
+  - authorization
+  - authenticity
+  - integrity
+  - transactions
+level: introductory
+prerequisites:
+  - public-key-cryptography
+  - cryptographic-hash-functions
+related:
+  - public-key-cryptography
+  - signature-verification-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

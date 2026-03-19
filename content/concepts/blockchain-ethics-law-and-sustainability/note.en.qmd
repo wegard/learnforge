@@ -1,0 +1,72 @@
+## Blockchain systems create governance tradeoffs, not just technical capabilities
+
+By Lecture 8, students have seen how cryptocurrencies and blockchains can be built:
+hashes, signatures, transactions, blocks, consensus, networking, and smart-contract
+execution. The final foundational question is whether those systems are desirable,
+for whom, and under what constraints.
+
+That shifts the course from "how does it work?" to "what problems does it create or
+intensify?" In practice, blockchain systems always sit inside legal, ethical, and
+environmental tradeoffs.
+
+## Privacy is not the same as anonymity
+
+Public blockchains often give users pseudonymous addresses rather than true
+anonymity. That distinction matters.
+
+- Transaction histories may be public and persistent.
+- Address clustering and exchange data can support deanonymization.
+- More transparency can help auditability, but it can also weaken user privacy.
+
+Students should be able to see that blockchain privacy is not one simple slider from
+"public" to "private." Different systems make different tradeoffs between audit,
+traceability, and confidentiality.
+
+## Regulation enters through institutions, not just code
+
+A blockchain protocol may run without a central operator, but real-world use still
+interacts with legal systems.
+
+- Exchanges and custodians face KYC and AML obligations.
+- Token issuance may trigger securities, consumer-protection, or payments questions.
+- Firms adopting blockchain tools still operate inside existing compliance regimes.
+
+The key teaching point is that protocol decentralization does not remove law. It
+changes where legal responsibility and enforcement pressure show up.
+
+## Sustainability is partly a consensus-design question
+
+Environmental impact is one of the clearest examples of a blockchain design choice
+with public consequences.
+
+Proof of Work links security to energy-intensive computation. Proof of Stake and
+other designs try to reduce that operating cost, but they introduce different trust,
+governance, and economic assumptions.
+
+Students should therefore connect sustainability back to earlier technical lectures:
+
+- consensus choices shape resource use,
+- incentives shape infrastructure buildout,
+- and "more efficient" does not mean "tradeoff free."
+
+## Business relevance depends on more than technical novelty
+
+From a business perspective, blockchain systems should not be evaluated only by
+whether the technology is clever.
+
+- Does the system solve a real coordination or trust problem?
+- Are the compliance and governance costs acceptable?
+- Are the privacy properties appropriate for the use case?
+- Do the energy and infrastructure costs make sense relative to alternatives?
+
+This framing helps students avoid treating decentralization as an automatic virtue.
+
+## What students should be able to discuss
+
+After this concept, students should be able to discuss:
+
+- why pseudonymity does not guarantee privacy,
+- how regulation still shapes decentralized systems,
+- why sustainability questions are partly technical and partly institutional,
+- and how blockchain design should be judged against practical alternatives rather
+  than in isolation.

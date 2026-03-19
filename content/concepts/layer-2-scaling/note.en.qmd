@@ -1,0 +1,53 @@
+## Layer 2 scaling moves activity off the base layer without abandoning it
+
+Once students see smart contracts and richer on-chain execution, the next question is
+why everything should not simply happen on the base chain. The answer is scale: base
+layers usually face real limits in throughput, latency, and execution cost.
+
+Layer 2 systems try to handle more user activity without asking the base layer to do
+every step directly.
+
+## The core intuition
+
+Layer 2 does not mean "ignore Layer 1." It means:
+
+- do some activity away from the base chain,
+- compress, aggregate, or defer what gets posted on-chain,
+- and still rely on the base layer for settlement, dispute resolution, or security.
+
+That is why Layer 2 is better understood as a family of architectures than one single
+technology.
+
+## Two major teaching examples
+
+The lecture sketch points to two useful examples.
+
+- Payment channels and the Lightning Network:
+  parties lock funds on-chain, update balances off-chain, and only settle final or
+  disputed outcomes back to the base chain.
+- Rollups:
+  many transactions are executed or ordered off-chain, and a compressed result or
+  proof is posted to Layer 1.
+
+Students do not need protocol internals yet. They do need the architectural idea that
+base-layer security can support higher-throughput activity elsewhere.
+
+## Why the tradeoff is not free
+
+Layer 2 systems trade one bottleneck for a more complex design space.
+
+- Users may depend on extra operators, watchers, sequencers, or bridge logic.
+- Withdrawal, dispute, and data-availability assumptions matter.
+- The meaning of "secure because it uses Layer 1" depends on the exact mechanism.
+
+That is why comparisons between Lightning, optimistic rollups, and zk-rollups should
+stay architectural in the first pass rather than collapsing into slogans.
+
+## What students should be able to compare
+
+After this concept, students should be able to compare:
+
+- why Layer 2 exists at all,
+- how payment channels differ from rollups,
+- what it means to settle or anchor back to Layer 1,
+- and why scaling usually introduces new coordination or trust assumptions.

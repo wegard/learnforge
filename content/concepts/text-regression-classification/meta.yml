@@ -1,0 +1,42 @@
+id: text-regression-classification
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Text regression and naive Bayes classification
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - classification
+  - regression
+tags:
+  - naive-bayes
+  - text-regression
+  - lasso
+  - penalized-regression
+  - text-classification
+level: intermediate
+prerequisites:
+  - bag-of-words-tfidf-cosine
+related:
+  - boolean-dictionary-methods-nlp
+  - topic-modeling-lsa-lda
+  - logistic-regression-classification
+  - linear-regression-prediction
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

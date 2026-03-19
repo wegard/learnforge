@@ -1,0 +1,55 @@
+## Blocks package transactions into an ordered hash-linked history
+
+After students understand transactions, the next question is how those transactions
+are grouped and recorded over time. In a blockchain system, the basic unit is the
+block: a package of transactions plus metadata that helps the network validate and
+order that package.
+
+That shift matters. A single valid transaction says something local about a proposed
+state change. A sequence of blocks starts to define a shared ledger history.
+
+## What a block typically contains
+
+A Bitcoin-like block usually has two layers:
+
+- a block header with metadata such as the previous block hash, timestamp, nonce, and
+  a summary commitment to the transactions,
+- and a transaction list containing the block's detailed payload.
+
+Students do not need every production-level field immediately. The important idea is
+that the header is a compact commitment to the block's identity and position in the
+chain.
+
+## Why the previous-hash field matters
+
+The defining blockchain move is hash linking. Each block header includes the hash of
+the previous block, so the blocks form a chain of commitments rather than a loose
+collection of records.
+
+That gives the ledger tamper evidence:
+
+- if an old block changes, its hash changes,
+- if its hash changes, the next block's previous-hash reference no longer matches,
+- and the inconsistency propagates forward through the chain.
+
+This does not stop an attacker by itself. Consensus and network rules still matter.
+But it does make historical modification detectable at the data-structure level.
+
+## Why block structure comes before consensus
+
+Consensus decides which chain the network accepts. Block structure defines what a
+candidate chain looks like in the first place.
+
+Pedagogically, students should first understand how blocks hold transactions and how
+hash links preserve history. Then the consensus lecture can ask why the network ends
+up choosing one candidate history over another.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- what a block is doing beyond storing raw transactions,
+- why block headers contain a previous-hash reference,
+- how hash linking gives the chain tamper-evident structure,
+- and why block structure and consensus solve different parts of the blockchain
+  problem.

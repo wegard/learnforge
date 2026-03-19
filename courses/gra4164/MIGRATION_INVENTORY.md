@@ -120,14 +120,18 @@ Content objects should list relevant concepts from other courses in `related:`:
 - Concept: `text-as-data-introduction`
 - Concept: `text-preprocessing-nlp`
 - Concept: `bag-of-words-tfidf-cosine`
+- Concept: `boolean-dictionary-methods-nlp`
+- Concept: `text-regression-classification`
+- Concept: `topic-modeling-lsa-lda`
+- Exercise: `sotu-boolean-search-topic-modeling`
 - Lecture collection: `gra4164-lecture-01`
 - Lecture collection: `gra4164-lecture-02`
+- Lecture collection: `gra4164-lecture-03`
 
 ## Next Migration Actions
 
-1. Promote the Lecture 3 concepts: `boolean-dictionary-methods-nlp`,
-   `text-regression-classification`, `topic-modeling-lsa-lda`.
-2. Convert the first assignment notebook (`assignment1.ipynb`) into an exercise +
-   teacher solution.
-3. Create lecture collection `gra4164-lecture-03` assembled from promoted objects.
+1. Promote the Lecture 4 concept: `ngram-language-models`.
+2. Promote the Practical Day 1 exercises: `bow-tfidf-shakespeare-lab`,
+   `bigram-language-model-lab`.
+3. Create lecture collections `gra4164-lecture-04` and `gra4164-lecture-05`.
 4. Leave all remaining legacy files in the inbox until explicitly promoted.

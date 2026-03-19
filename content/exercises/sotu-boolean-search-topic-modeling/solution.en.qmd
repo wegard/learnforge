@@ -1,0 +1,48 @@
+The safest teacher solution follows the assignment notebook closely but emphasises
+interpretation and method comparison over reproducing exact numbers.
+
+## Suggested approach
+
+1. Load the SOTU speeches and GDP data, merge on year, and filter to 1980-2017
+   (39 speeches).
+2. For the Boolean search, start with the provided terms (great, strong, positive,
+   growth, progress, prosperity, success) and compute term frequency as count
+   divided by total word count per speech.
+3. Run OLS of GDP growth on term frequency. The baseline specification typically
+   gives $R^2 \approx 0.15$ with a significant positive coefficient.
+4. Vary the search terms across at least five specifications. Students should find
+   that the sign, magnitude, and significance of the coefficient change
+   substantially, revealing how arbitrary the method is.
+5. Preprocess with standard NLP pipeline (lowercase, tokenise, stop-word removal,
+   lemmatisation) and fit LDA with 5 topics as a starting point.
+6. Regress GDP growth on all topic weights. The topic model typically achieves
+   $R^2 \approx 0.47$, a substantial improvement over Boolean search.
+7. For sentiment analysis, extract first paragraphs, score manually, and score with
+   VADER. The correlation between manual and automated scores is typically moderate
+   ($r \approx 0.5$--$0.6$).
+
+## What students should usually find
+
+- Boolean search results are highly sensitive to term selection — a single
+  specification is not trustworthy.
+- Topic models capture richer structure and produce better explanatory power without
+  requiring the analyst to pre-specify which words matter.
+- The relationship between speech content and GDP growth is correlational, not
+  causal — presidents respond to economic conditions as much as they shape them.
+- Manual and automated sentiment scores agree moderately, highlighting the
+  difficulty of reducing complex language to a single number.
+
+## Teaching emphasis
+
+The important point is not the exact $R^2$ values. The important point is the
+comparison between methods:
+
+- Boolean search is simple but fragile — small changes in term selection produce
+  large changes in results.
+- Topic modelling is data-driven and more robust, but requires interpretation
+  of abstract components.
+- Sensitivity analysis is essential for any text-as-data result.
+
+Use the debrief to stress that all three methods (Boolean, topic modelling,
+sentiment) answer slightly different questions and that combining them gives a more
+complete picture.

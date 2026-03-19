@@ -1,0 +1,60 @@
+## Consensus chooses one history from many valid candidates
+
+By Lecture 4, students know how transactions can be validated and how blocks can be
+hash linked. That still does not solve the core decentralized problem: which history
+should everyone accept if different nodes see different candidate blocks?
+
+Consensus is the rule set that lets a decentralized network converge on one accepted
+ledger history without handing control to a central bookkeeper.
+
+## Why transaction validity is not enough
+
+Two conflicting transactions can both look locally plausible before the network has
+settled on one shared ordering.
+
+That is the double-spending problem in decentralized form:
+
+- one user may try to spend the same funds twice,
+- two miners may produce competing blocks at nearly the same time,
+- different nodes may temporarily disagree about which tip is current.
+
+Consensus is what resolves those conflicts. It turns a set of individually valid
+objects into one accepted sequence of state changes.
+
+## What a canonical chain rule does
+
+A blockchain network needs a public rule for selecting between competing histories.
+In Bitcoin-like systems, this is usually described as following the chain with the
+most cumulative proof of work.
+
+Students often hear "the longest chain," but the deeper point is cumulative work, not
+just raw block count. The network wants a rule that can be checked by everyone and
+that makes history expensive to rewrite.
+
+This gives a practical answer to forks:
+
+- if two candidate tips appear, nodes may temporarily disagree,
+- later blocks add more evidence in favor of one branch,
+- and the weaker branch is abandoned as a stale fork.
+
+## Why consensus sits after block structure
+
+Consensus does not replace cryptography, transaction validation, or block structure.
+It depends on them.
+
+- Hashes make history tamper evident.
+- Signatures and transaction rules define valid state transitions.
+- Block structure defines what candidate ledger history looks like.
+- Consensus decides which candidate history becomes authoritative.
+
+That ordering matters pedagogically. Students should see consensus as a selection
+mechanism layered on top of already valid candidate blocks.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- why a decentralized ledger needs a public chain-selection rule,
+- how temporary forks arise even when nodes follow the protocol,
+- why consensus solves a different problem from transaction validation,
+- and why the network converges on one canonical history rather than many.

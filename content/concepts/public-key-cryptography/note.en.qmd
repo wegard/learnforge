@@ -1,0 +1,67 @@
+## Public-key cryptography separates disclosure from control
+
+Symmetric cryptography uses one shared secret. That can work when two parties already
+trust each other enough to exchange the key safely, but it becomes awkward in open
+networks with many participants.
+
+Public-key cryptography changes the setup. Each participant has a key pair:
+
+- a private key, which must stay secret,
+- and a public key, which can be shared.
+
+That split is what makes blockchain authorization practical. A user can publish an
+address or public key for receiving funds without revealing the secret needed to
+authorize spending.
+
+## What the key pair is doing
+
+The public and private keys are mathematically linked, but not interchangeable.
+
+- The private key is the control object.
+- The public key is the verification or receiving object.
+
+The course does not need students to derive elliptic-curve formulas by hand. The
+important point is the workflow logic: anyone can know the public key, but only the
+holder of the private key should be able to produce valid authorizations.
+
+## Why this matters in cryptocurrency systems
+
+A blockchain ledger cannot rely on "the bank recognizes my identity." It needs a
+protocol-level way to check who is allowed to move a coin or approve a transaction.
+
+Public-key cryptography provides that starting point:
+
+- users generate key pairs,
+- ownership rules point to public keys or derived addresses,
+- and later transactions must provide cryptographic proof tied to the corresponding
+  private key.
+
+This gives the system a notion of control without requiring a centralized account
+manager.
+
+::: {.teacher-only}
+Students often confuse "public key" with "public identity." It is worth stressing
+that a public key proves control relations inside the protocol, not civil identity in
+the legal sense.
+:::
+
+## What a public key does not do
+
+Students should also be clear about the limits.
+
+- A public key does not reveal the private key.
+- A public key does not by itself prove who a person is off-chain.
+- A public key does not protect message confidentiality unless the system is using it
+  for encryption.
+
+In this course, the immediate role is not encryption but authorization.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- how asymmetric cryptography differs from shared-secret cryptography,
+- why blockchains need key pairs to separate receiving from spending authority,
+- what the private key controls,
+- what the public key can safely reveal,
+- and why protocol authorization is not the same thing as real-world identity.

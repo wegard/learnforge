@@ -1,0 +1,66 @@
+## Ledgers are coordination technology
+
+A ledger is a structured record of who owns what, who owes what, and which transfers
+have already happened. In ordinary finance, that record is usually maintained by an
+institution such as a bank, clearinghouse, payment processor, or accounting system.
+
+That sounds mundane, but it is the real starting point for blockchain. Before
+students worry about coins, mining, or smart contracts, they need to understand that
+cryptocurrency systems are trying to solve a ledger problem: how do many parties keep
+one shared history of valid transactions?
+
+## Why trust becomes difficult without a shared authority
+
+In a centralized setting, trust is delegated. The bank updates balances, resolves
+disputes, and acts as the reference point when two records disagree.
+
+In a decentralized setting, that fallback disappears. If many participants can hold a
+copy of the ledger, the hard question is no longer just storage. The hard question is
+agreement:
+
+- Which transactions are valid?
+- In what order did they happen?
+- Which version of the ledger should everyone treat as canonical?
+
+This is why blockchain should be introduced as a trust-coordination system rather
+than just a database design.
+
+## What makes a ledger distributed
+
+A distributed ledger is not merely a file copied across many computers. The copies
+need rules for staying aligned.
+
+At a minimum, students should recognize four ingredients:
+
+- shared data structure, so participants know what a valid record looks like,
+- validation rules, so invalid transactions can be rejected,
+- propagation, so new information reaches other participants,
+- and a consensus mechanism, so the network can converge on one accepted state.
+
+The rest of the course unpacks those ingredients one by one.
+
+::: {.teacher-only}
+Ask students to compare "I trust the bank's database" with "I trust the protocol's
+rules plus the network's agreement process." That contrast helps the rest of Part A
+land much faster.
+:::
+
+## Why this concept comes before cryptography details
+
+Cryptography matters because it helps solve specific ledger problems. Hash functions
+help preserve integrity. Public-key cryptography helps prove authorization. Consensus
+helps the network agree on history.
+
+If students skip the ledger framing, those later tools can look like unrelated
+technical tricks. The right sequence is the opposite: define the trust problem first,
+then show why each cryptographic building block is useful.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- why financial systems depend on ledgers,
+- why decentralized ledgers create an agreement problem,
+- how distributed ledgers differ from ordinary replicated storage,
+- and why blockchain combines data structures, cryptography, networking, and
+  consensus rather than relying on any one of them alone.

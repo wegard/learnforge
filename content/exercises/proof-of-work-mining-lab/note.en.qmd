@@ -1,0 +1,48 @@
+## Lab brief
+
+Build a small Python mining demo that searches for a nonce making a block-header hash
+start with a chosen number of leading zeros. The point is not to reproduce Bitcoin's
+exact rules. The point is to make Proof of Work visible as an expensive search
+process.
+
+Keep the block header minimal and deterministic. A dictionary or data class with a
+previous-hash field, a Merkle-root field, and a nonce is enough.
+
+## Tasks
+
+1. Represent a candidate block header with at least:
+   - a `previous_hash`,
+   - a `merkle_root`,
+   - a timestamp or height marker,
+   - a `nonce`.
+2. Write a helper that serializes the header deterministically and hashes it with
+   `SHA-256`.
+3. Implement `mine_block(header, difficulty)` that:
+   - starts from nonce `0`,
+   - increments the nonce,
+   - stops when the block hash begins with the required number of leading zeros,
+   - returns the winning nonce, hash, and attempt count.
+4. Run the miner at two difficulty levels, for example `3` and `4`, and record how
+   the search effort changes.
+5. Create two competing candidate blocks at the same height and write a short note
+   explaining:
+   - why both cannot remain the canonical tip forever,
+   - how later blocks would break the tie,
+   - why this toy lab illustrates PoW but not full network consensus.
+6. Add a short comparison paragraph stating one security intuition PoW gives and one
+   reason many systems instead explore PoS.
+
+## Starter outline
+
+```python
+import hashlib
+import json
+
+
+def hash_header(header: dict) -> str:
+    encoded = json.dumps(header, sort_keys=True).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+```
+
+Keep the exercise small. A printed report of difficulty, nonce, hash, and attempts is
+enough.

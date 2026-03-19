@@ -1,0 +1,53 @@
+## Blockchain networks are peer-to-peer systems, not client-server services
+
+Up to Lecture 5, students have seen how a blockchain can represent valid
+transactions, ordered blocks, and a consensus rule. The next question is how those
+objects move through a decentralized system in the first place.
+
+Blockchain networks are not usually organized as one central server broadcasting the
+truth to everyone else. They are peer-to-peer systems in which many nodes store
+ledger data, validate messages locally, and connect to multiple other nodes.
+
+## Why the peer-to-peer structure matters
+
+That structure changes both the strengths and the weaknesses of the system.
+
+- There is no single server whose failure shuts the whole network down.
+- Nodes can validate independently rather than trusting one coordinator.
+- Censorship becomes harder because many paths may exist for message relay.
+- On the other hand, nodes may temporarily disagree because not every message reaches
+  every peer at the same time.
+
+This is why consistency in blockchain is a network-level achievement, not just a data
+structure property.
+
+## What a node is doing
+
+At an introductory level, a node is a participant that:
+
+- stores some view of the ledger state,
+- checks transactions and blocks against protocol rules,
+- sends and receives messages from peers,
+- and updates its local state as new information arrives.
+
+Different production systems have different node roles, but the first teaching model
+should stay simple: many independently checking peers, no single trusted hub.
+
+## Why propagation delays matter
+
+Decentralization does not eliminate timing problems. If one valid block reaches some
+nodes before others, the network can briefly disagree about the current tip. That is
+one reason forks and stale blocks occur even when participants are honest.
+
+Students should connect this back to the consensus lecture: consensus rules resolve
+competing histories, but networking determines how quickly information about those
+histories spreads.
+
+## What students should be able to explain
+
+After this concept, students should be able to explain:
+
+- how a blockchain peer-to-peer network differs from a client-server model,
+- why multiple peer connections support resilience and censorship resistance,
+- what a node does beyond merely storing data,
+- and why propagation delay matters for forks and coordination.

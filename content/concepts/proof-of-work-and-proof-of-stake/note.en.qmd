@@ -1,0 +1,60 @@
+## Proof of Work and Proof of Stake make Sybil resistance costly in different ways
+
+Once students see why consensus is needed, the next question is how a network avoids
+cheap identity-based attacks. A decentralized system cannot simply trust whoever
+shouts the loudest or creates the most fake nodes.
+
+Consensus mechanisms therefore need Sybil resistance: influence over block production
+must be tied to something costly or scarce.
+
+## Proof of Work ties influence to computation
+
+In Proof of Work, miners compete to find a nonce that makes the block hash satisfy a
+difficulty target. This turns block production into an expensive search problem.
+
+That design matters because:
+
+- producing blocks requires real computational effort,
+- rewriting history means redoing and surpassing that work,
+- and attacking the network becomes economically costly rather than merely
+  organizationally difficult.
+
+Difficulty adjustment then keeps block production near the intended pace as aggregate
+hash power rises or falls.
+
+## Proof of Stake ties influence to collateral at risk
+
+Proof of Stake replaces mining expenditure with economic stake. Validators lock up
+cryptocurrency, and protocol rules select or weight block production rights using
+that stake.
+
+The key teaching intuition is different from PoW:
+
+- validators risk losing value through penalties or slashing,
+- security depends on economic alignment and protocol enforcement,
+- and participants must agree on the relevant validator set and checkpoint history.
+
+This is why PoS discussions often include terms such as finality, slashing, and weak
+subjectivity.
+
+## Comparing the two
+
+The goal is similar in both systems: make consensus attacks expensive.
+
+- PoW spends external resources, especially electricity and hardware.
+- PoS places internal capital at risk inside the protocol.
+- PoW is operationally simple to explain with a toy mining loop.
+- PoS is usually more energy efficient but introduces different governance and
+  coordination assumptions.
+
+Students do not need every production detail yet. They do need to see that "better"
+depends on which costs, attack models, and operational tradeoffs matter most.
+
+## What students should be able to compare
+
+After this concept, students should be able to compare:
+
+- how PoW and PoS create costly participation,
+- why PoW uses mining and difficulty targets,
+- why PoS discussions focus on stake, penalties, and subjectivity,
+- and which tradeoffs are mainly about energy, capital, and coordination.

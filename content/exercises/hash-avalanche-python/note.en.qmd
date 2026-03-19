@@ -1,0 +1,46 @@
+## Lab brief
+
+Use Python's `hashlib` module to inspect how `SHA-256` behaves when the input changes
+slightly. The goal is not to reimplement cryptography from scratch. The goal is to
+observe the practical properties that make cryptographic hash functions useful in
+blockchain systems.
+
+## Tasks
+
+1. Write a helper function `sha256_hex(text: str) -> str` that returns the hexadecimal
+   `SHA-256` digest of a UTF-8 encoded string.
+2. Hash at least five related inputs where only a small part changes. For example:
+   - `ledger-entry-001`
+   - `ledger-entry-002`
+   - `ledger-entry-001 `
+   - `Ledger-entry-001`
+   - `ledger-entry-001!`
+3. Print the digest for each input and compare the outputs visually.
+4. Add one small function that estimates how different two digests are, for example by
+   counting how many hexadecimal positions differ.
+5. Write a short note answering:
+   - what the experiment says about determinism,
+   - what it suggests about the avalanche effect,
+   - why this behavior is useful for ledger integrity,
+   - what the experiment cannot prove about collision resistance or security.
+
+## Starter outline
+
+```python
+import hashlib
+
+
+def sha256_hex(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+samples = [
+    "ledger-entry-001",
+    "ledger-entry-002",
+    "ledger-entry-001 ",
+    "Ledger-entry-001",
+    "ledger-entry-001!",
+]
+```
+
+Keep the script simple and reproducible. A plain `.py` file is enough.

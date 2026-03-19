@@ -1,0 +1,33 @@
+id: gra4164-lecture-03
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 3 - Bag-of-words-based methods
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-classification
+  - topic-modeling
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - boolean-dictionary-methods-nlp
+  - text-regression-classification
+  - topic-modeling-lsa-lda

@@ -1,0 +1,37 @@
+id: utxo-transaction-model
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: The UTXO transaction model
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - transactions
+  - utxo-model
+tags:
+  - bitcoin
+  - unspent-outputs
+  - double-spending
+  - ledger-state
+level: introductory
+prerequisites:
+  - cryptocurrency-transactions
+related:
+  - cryptocurrency-transactions
+  - transaction-validation-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

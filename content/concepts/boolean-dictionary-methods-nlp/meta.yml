@@ -1,0 +1,38 @@
+id: boolean-dictionary-methods-nlp
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Boolean and dictionary-based text methods
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - text-classification
+tags:
+  - boolean-search
+  - sentiment-dictionary
+  - text-classification
+level: introductory
+prerequisites:
+  - bag-of-words-tfidf-cosine
+related:
+  - text-regression-classification
+  - topic-modeling-lsa-lda
+  - text-preprocessing-nlp
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

@@ -1,0 +1,37 @@
+id: public-key-cryptography
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Public-key cryptography
+courses:
+  - tem00uu
+topics:
+  - blockchain-foundations
+  - cryptography
+  - public-key-cryptography
+tags:
+  - asymmetric-cryptography
+  - key-pairs
+  - private-keys
+  - public-keys
+level: introductory
+prerequisites:
+  - cryptographic-hash-functions
+related:
+  - digital-signatures
+  - signature-verification-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

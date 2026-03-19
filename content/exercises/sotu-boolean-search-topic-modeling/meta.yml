@@ -1,0 +1,42 @@
+id: sotu-boolean-search-topic-modeling
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: State of the Union - Boolean search and topic modelling
+courses:
+  - gra4164
+topics:
+  - natural-language-processing
+  - text-analysis
+  - topic-modeling
+  - text-classification
+tags:
+  - exercise
+  - boolean-search
+  - lda
+  - sentiment-analysis
+  - sotu
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+  - leif
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 120
+concepts:
+  - boolean-dictionary-methods-nlp
+  - topic-modeling-lsa-lda
+  - text-regression-classification
+solution_storage: separate-file
+solution_visibility: teacher

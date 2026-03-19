@@ -1,0 +1,55 @@
+The strongest teacher solution is a very small script that makes the hash behavior
+visible without adding unnecessary crypto theory or notebook overhead.
+
+## Suggested approach
+
+1. Use `hashlib.sha256(...)` on UTF-8 encoded strings and return the digest with
+   `.hexdigest()`.
+2. Prepare a short list of closely related strings where each case changes one
+   character, capitalization, spacing, or punctuation.
+3. Print the digest table in a deterministic order.
+4. Add one helper that compares two hexadecimal digests position by position.
+
+## Minimal reference implementation
+
+```python
+import hashlib
+
+
+def sha256_hex(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def hex_distance(left: str, right: str) -> int:
+    return sum(a != b for a, b in zip(left, right))
+
+
+samples = [
+    "ledger-entry-001",
+    "ledger-entry-002",
+    "ledger-entry-001 ",
+    "Ledger-entry-001",
+    "ledger-entry-001!",
+]
+
+digests = {sample: sha256_hex(sample) for sample in samples}
+
+for sample, digest in digests.items():
+    print(f"{sample}: {digest}")
+
+baseline = digests[samples[0]]
+for sample in samples[1:]:
+    print(sample, hex_distance(baseline, digests[sample]))
+```
+
+## What students should notice
+
+- The same input always gives the same digest.
+- Small input changes produce outputs that look unrelated to the baseline digest.
+- The digest length stays fixed across every example.
+
+## Teaching emphasis
+
+Do not let students overclaim what the experiment proves. The lab illustrates the
+avalanche effect and the integrity-check intuition. It does not establish formal
+security proofs or demonstrate true collision resistance empirically.
