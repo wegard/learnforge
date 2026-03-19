@@ -18,7 +18,10 @@ tags:
   - human-edge
 level: introductory
 prerequisites: []
-related: []
+related:
+  - ai-strategy-implementation
+  - ai-agents-introduction
+  - automation-levels
 outputs:
   - html
   - pdf

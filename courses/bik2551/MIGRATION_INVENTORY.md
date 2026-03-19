@@ -122,8 +122,17 @@ Day 3 content — 4 objects promoted:
 | `automation-design-exercise` | exercise | approved |
 | `bik2551-day-03` | collection (lecture) | approved |
 
+Day 4 content — 3 objects promoted:
+
+| Object id | Kind | Status |
+| --- | --- | --- |
+| `ai-strategy-implementation` | concept | approved |
+| `ai-future-of-work` | concept | approved |
+| `bik2551-day-04` | collection (lecture) | approved |
+
 ## Next Migration Actions
 
-1. Scaffold Day 4 concept objects (`ai-strategy-implementation`, `ai-future-of-work`).
-2. Create the `bik2551-day-04` lecture collection.
-3. Leave all remaining legacy files in the inbox until they are explicitly promoted.
+All four campus days are now promoted. Remaining work:
+
+1. Promote items from the "Rewrite Fresh" bucket as needed.
+2. Leave all remaining legacy files in the inbox until they are explicitly promoted.

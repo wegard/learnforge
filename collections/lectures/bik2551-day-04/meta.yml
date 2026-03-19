@@ -1,0 +1,31 @@
+id: bik2551-day-04
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Dag 4 - Strategi, ledelse og fremtidens arbeidsliv
+courses:
+  - bik2551
+topics:
+  - ai-strategy
+tags:
+  - lecture
+  - day-4
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+items:
+  - ai-strategy-implementation
+  - ai-future-of-work
