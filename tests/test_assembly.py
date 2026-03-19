@@ -287,6 +287,7 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
 
     assert "linear-regression-prediction" in related_ids
     assert "penalized-linear-models" in related_ids
+    assert "logistic-regression-classification" in related_ids
     assert "model-assessment-lab" in related_ids
     assert "house-prices-regression" in related_ids
     assert "tem0052" in [entry.identifier for entry in assembly.related_entries]
@@ -309,6 +310,7 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
     assert "bias-variance-tradeoff" in related_ids
     assert "linear-regression-prediction" in related_ids
     assert "penalized-linear-models" in related_ids
+    assert "logistic-regression-classification" in related_ids
     assert "model-assessment-lab" in related_ids
     assert "house-prices-regression" in related_ids
     assert "tem0052" in related_ids
@@ -357,6 +359,27 @@ def test_penalized_models_concept_links_tem0052_regression_content() -> None:
     assert "## Related links" in assembly.markdown
 
 
+def test_logistic_regression_concept_links_tem0052_classification_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "logistic-regression-classification",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "linear-regression-prediction" in related_ids
+    assert "model-selection-cross-validation" in related_ids
+    assert "bias-variance-tradeoff" in related_ids
+    assert "model-assessment-lab" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
 def test_house_prices_exercise_links_tem0052_concepts_and_course() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -374,6 +397,26 @@ def test_house_prices_exercise_links_tem0052_concepts_and_course() -> None:
     assert "penalized-linear-models" in related_ids
     assert "bias-variance-tradeoff" in related_ids
     assert "model-selection-cross-validation" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
+def test_model_assessment_exercise_links_tem0052_classification_concepts() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "model-assessment-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "bias-variance-tradeoff" in related_ids
+    assert "model-selection-cross-validation" in related_ids
+    assert "logistic-regression-classification" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 

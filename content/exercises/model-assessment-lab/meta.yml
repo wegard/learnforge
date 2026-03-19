@@ -34,5 +34,6 @@ estimated_time_minutes: 45
 concepts:
   - bias-variance-tradeoff
   - model-selection-cross-validation
+  - logistic-regression-classification
 solution_storage: separate-file
 solution_visibility: teacher

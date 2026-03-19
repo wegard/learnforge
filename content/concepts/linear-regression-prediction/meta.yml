@@ -22,6 +22,7 @@ prerequisites: []
 related:
   - house-prices-regression
   - penalized-linear-models
+  - logistic-regression-classification
   - model-selection-cross-validation
   - bias-variance-tradeoff
 outputs:

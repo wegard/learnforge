@@ -1,0 +1,82 @@
+## Logistic regression is a classifier, not a ranking trick
+
+Despite the name, logistic regression is a classification model. It starts with the
+same linear predictor idea as ordinary linear regression, but maps that score into a
+probability between `0` and `1`.
+
+That makes it a strong baseline for binary outcomes in `TEM 0052`: transparent,
+reasonably interpretable, and easy to compare against more flexible classifiers.
+
+## From linear score to probability
+
+Logistic regression uses a linear score
+
+$$
+z_i = \beta_0 + x_i^\top\beta
+$$
+
+and transforms it with the logistic function
+
+$$
+\Pr(y_i = 1 \mid x_i) = \frac{1}{1 + e^{-z_i}}.
+$$
+
+This matters because predictions now have a probabilistic interpretation. We are not
+just assigning class labels. We are estimating the chance of the positive class under
+the model.
+
+## What the coefficients mean
+
+The coefficients still describe a linear relationship, but now on the log-odds scale:
+
+$$
+\log\left(\frac{p_i}{1 - p_i}\right) = \beta_0 + x_i^\top\beta.
+$$
+
+In practice, students do not need to become log-odds purists. They do need to know
+three things:
+
+- coefficient signs still matter,
+- feature scaling can strongly affect optimization and coefficient comparison,
+- and the same coefficient can look reasonable while the classification threshold is still wrong for the task.
+
+## Thresholds and metrics are part of the model choice
+
+The default `0.5` threshold is only a starting point. The right threshold depends on
+the error trade-off in the application.
+
+That is why evaluation should not stop at overall accuracy. In this course, a
+logistic workflow should usually check:
+
+- confusion matrix structure,
+- precision and recall where class balance matters,
+- and whether predicted probabilities appear well calibrated enough to trust.
+
+::: {.teacher-only}
+Ask students whether a model with slightly lower accuracy but much better recall for
+the positive class might be the better choice in a business or policy setting.
+:::
+
+## Where logistic regression fits in `TEM 0052`
+
+Logistic regression belongs early in the course because it connects several core
+ideas:
+
+- the linear-model logic from ordinary regression,
+- the model-selection discipline from cross-validation,
+- and the classification workflow used later for trees, ensembles, and support vector machines.
+
+It is also one of the baseline models in the model-assessment lab, where students use
+the same resampling rule to compare logistic regression with alternatives.
+
+## What to report
+
+When students present a logistic-regression workflow in `TEM 0052`, they should
+usually report:
+
+- the target definition and class balance,
+- the preprocessing and feature-coding rule,
+- the train/test or cross-validation protocol,
+- at least one threshold-free or probability-aware evaluation point together with class predictions,
+- and one short explanation of whether the model is useful because it is accurate,
+  interpretable, well-calibrated, or simply a strong baseline.

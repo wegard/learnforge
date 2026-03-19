@@ -1,32 +1,31 @@
-id: model-selection-cross-validation
+id: logistic-regression-classification
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Model selection and cross-validation
+  en: Logistic regression for classification
 courses:
   - tem0052
 topics:
   - predictive-modelling
+  - classification
+  - linear-models
   - model-selection
-  - cross-validation
-  - regularization
 tags:
-  - model-selection
-  - cross-validation
-  - aic
-  - bic
+  - logistic-regression
+  - classification
+  - probabilities
+  - decision-threshold
 level: intermediate
-prerequisites: []
-related:
-  - bias-variance-tradeoff
+prerequisites:
   - linear-regression-prediction
-  - penalized-linear-models
-  - logistic-regression-classification
+related:
+  - linear-regression-prediction
+  - model-selection-cross-validation
+  - bias-variance-tradeoff
   - model-assessment-lab
-  - house-prices-regression
 outputs:
   - html
   - pdf
@@ -34,7 +33,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-18
+updated: 2026-03-19
 translation_status:
   en: approved
 ai:

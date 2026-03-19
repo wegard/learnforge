@@ -131,6 +131,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    fifth_concept_artifact = build_target(
+        "logistic-regression-classification",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     exercise_artifact = build_target(
         "model-assessment-lab",
         audience="student",
@@ -150,6 +157,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     second_concept_html = second_concept_artifact.output_path.read_text(encoding="utf-8")
     third_concept_html = third_concept_artifact.output_path.read_text(encoding="utf-8")
     fourth_concept_html = fourth_concept_artifact.output_path.read_text(encoding="utf-8")
+    fifth_concept_html = fifth_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
 
@@ -157,6 +165,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
     assert "../linear-regression-prediction/linear-regression-prediction.html" in concept_html
     assert "../penalized-linear-models/penalized-linear-models.html" in concept_html
+    assert (
+        "../logistic-regression-classification/logistic-regression-classification.html"
+        in concept_html
+    )
     assert "../../course/tem0052/tem0052.html" in concept_html
     assert "teacher-only" not in concept_html
 
@@ -167,6 +179,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         in second_concept_html
     )
     assert "../penalized-linear-models/penalized-linear-models.html" in second_concept_html
+    assert (
+        "../logistic-regression-classification/logistic-regression-classification.html"
+        in second_concept_html
+    )
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in second_concept_html
     assert "teacher-only" not in second_concept_html
 
@@ -201,9 +217,26 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in fourth_concept_html
     assert "teacher-only" not in fourth_concept_html
 
+    assert "Logistic regression for classification" in fifth_concept_html
+    assert (
+        "../../exercise/model-assessment-lab/model-assessment-lab.html"
+        in fifth_concept_html
+    )
+    assert (
+        "../linear-regression-prediction/linear-regression-prediction.html"
+        in fifth_concept_html
+    )
+    assert (
+        "../model-selection-cross-validation/model-selection-cross-validation.html"
+        in fifth_concept_html
+    )
+    assert "../../course/tem0052/tem0052.html" in fifth_concept_html
+    assert "teacher-only" not in fifth_concept_html
+
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html
     assert "Model selection and cross-validation" in exercise_html
+    assert "Logistic regression for classification" in exercise_html
     assert "The point of the lab is not the exact winning score." not in exercise_html
     assert "lf-solution-block" not in exercise_html
 

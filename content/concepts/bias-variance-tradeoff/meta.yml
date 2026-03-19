@@ -22,6 +22,7 @@ prerequisites: []
 related:
   - linear-regression-prediction
   - penalized-linear-models
+  - logistic-regression-classification
   - model-selection-cross-validation
   - model-assessment-lab
   - house-prices-regression
