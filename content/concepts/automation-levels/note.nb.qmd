@@ -1,0 +1,87 @@
+## KI kan gjøre ting, ikke bare skrive ting
+
+Så langt i `BIK 2551` har vi brukt KI til å generere tekst — oppsummeringer,
+utkast, analyser. Men den virkelige produktivitetsgevinsten kommer når KI
+kobles til handlinger: analysere regneark, sortere e-post, oppdatere systemer.
+Denne modulen presenterer tre nivåer av automatisering, fra det enkleste til
+det mest avanserte.
+
+## Nivå 1: Avansert dataanalyse i chat
+
+Det enkleste steget er å la KI-verktøyet jobbe direkte med dataene dine.
+Moderne plattformer kan kjøre kode i bakgrunnen når du laster opp et regneark
+eller en datafil.
+
+Typiske oppgaver:
+
+- Beskrive et datasett (antall rader, kolonner, manglende verdier).
+- Lage enkle visualiseringer (søylediagrammer, trendlinjer).
+- Teste en hypotese eller beregne nøkkeltall.
+- Generere en kort rapport basert på funnene.
+
+Dette krever ingen teknisk kompetanse utover å formulere gode prompts.
+
+## Nivå 2: No-code og low-code automatisering
+
+Verktøy som Zapier og Make lar deg koble systemer sammen visuelt — uten å
+skrive kode. Du bygger en arbeidsflyt der en hendelse i ett system utløser
+en handling i et annet.
+
+Eksempel: En innkommende e-post utløser klassifisering med KI, som logger
+resultatet i et regneark og sender et varsel hvis saken er hastesak.
+
+Slike arbeidsflyter passer når:
+
+- Oppgaven gjentas jevnlig med samme struktur.
+- Du trenger kobling mellom to eller flere systemer.
+- Feilhåndtering kan løses med enkle regler.
+
+## Nivå 3: API-er og skreddersydde løsninger
+
+Et API (Application Programming Interface) er en standardisert måte for
+systemer å kommunisere med hverandre. For ledere og kunnskapsarbeidere er
+det viktigste å forstå konseptet, ikke å kunne programmere det.
+
+Tenk på et API som en «dør» inn og ut av et system:
+
+- Du sender en forespørsel gjennom døren (for eksempel en tekst som skal
+  analyseres).
+- Systemet behandler forespørselen og sender svaret tilbake.
+
+API-basert automatisering gir full fleksibilitet, men krever teknisk
+kompetanse eller samarbeid med en utvikler.
+
+## Velg riktig nivå for oppgaven
+
+Ikke all automatisering trenger å være avansert:
+
+- **Nivå 1** dekker engangsbehov og ad hoc-analyser.
+- **Nivå 2** dekker repeterende oppgaver mellom kjente systemer.
+- **Nivå 3** dekker skreddersydde løsninger med spesielle krav.
+
+Start alltid med det enkleste nivået som løser problemet. Kompleksitet bør
+begrunnes med konkret gevinst.
+
+::: {.teacher-only}
+Vis en enkel Make- eller Zapier-arbeidsflyt i sanntid — for eksempel en
+e-postklassifisering som logger til et regneark. Vis også en kort demo av
+Advanced Data Analysis med et anonymisert Excel-ark. Diskuter: Hvilket
+automatiseringsnivå passer for deltakernes egne prosjekter?
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Automatiseringsnivåene bygger videre på forståelsen av KI-agenter og gir
+deltakerne et rammeverk for å vurdere hvilken grad av automatisering som er
+realistisk for deres egne arbeidsoppgaver.
+
+Workshopen etterpå lar deltakerne designe en automatiseringsløsning for sitt
+eget prosjekt.
+
+## Praktiske poeng å ta med videre
+
+- Start med nivå 1 (dataanalyse i chat) — det krever minst og gir rask verdi.
+- Nivå 2 (no-code) passer for repeterende oppgaver med tydelig struktur.
+- Nivå 3 (API) er for skreddersydde behov — involver teknisk kompetanse.
+- Dokumenter alltid automatiseringen: hva gjør den, hvem eier den, og hva
+  skjer hvis den feiler.
