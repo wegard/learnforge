@@ -1,0 +1,36 @@
+id: deep-learning-architectures-overview
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Arkitekturer for dyp læring
+courses:
+  - bik2550
+topics:
+  - deep-learning
+  - neural-networks
+tags:
+  - deep-learning
+  - cnn
+  - rnn
+  - transformers
+  - autoencoders
+  - diffusion-models
+level: introductory
+prerequisites:
+  - neural-networks-introduction
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []

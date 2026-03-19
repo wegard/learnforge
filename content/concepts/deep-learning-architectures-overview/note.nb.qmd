@@ -1,0 +1,95 @@
+# Arkitekturer for dyp læring
+
+## Hva er dyp læring?
+
+Dyp læring er en underkategori av maskinlæring basert på nevrale nettverk med
+flere skjulte lag ("dype" nettverk). Jo flere lag, desto mer komplekse mønstre
+kan nettverket lære.
+
+**Hvorfor er dyp læring effektivt?**
+
+- Automatiserer funksjonsutvelgelse og mønsteridentifikasjon fra rådata
+- Kan håndtere komplekse datatyper som bilder, tekst og lyd direkte
+- Svært høy ytelse på komplekse oppgaver
+
+## Feedforward Neural Networks
+
+Den enkleste arkitekturen der informasjonen flyter i én retning, fra input til
+output uten tilbakekoblinger. Brukes ofte i klassifisering og regresjon.
+
+## Convolutional Neural Networks (CNN)
+
+Bruker konvolusjonslag for å behandle data med romlig struktur, som bilder.
+
+**Bruksområder:**
+
+- Bildegjenkjenning og ansiktsgjenkjenning
+- Objektdeteksjon
+- Dokumentanalyse (OCR)
+
+## Recurrent Neural Networks (RNN)
+
+Nevrale nettverk som kan "huske" tidligere input og bruke denne informasjonen i
+fremtidige beregninger.
+
+**Varianter:**
+
+- **LSTM (Long Short-Term Memory):** Løser problemet med langtidsavhengigheter
+- **GRU (Gated Recurrent Unit):** Enklere variant av LSTM
+
+**Bruksområder:**
+
+- Tidsserieanalyse (aksjekurser, valutakurser)
+- Naturlig språkbehandling
+- Sekvensprediksjon
+
+## Transformers
+
+Bruker selvoppmerksomhet (self-attention) til å veie betydningen av ulike deler
+av inputdata. Hvert ord kan "se" hele konteksten, noe som gir bedre
+språkforståelse.
+
+**Fordeler:**
+
+- Paralleliserbare operasjoner (raskere trening på GPU/TPU)
+- Fanger opp langtidsavhengigheter bedre enn RNN
+- Grunnlag for alle moderne store språkmodeller
+
+**Bruksområder:**
+
+- Naturlig språkbehandling
+- Maskinoversettelse
+- Generativ modellering
+
+## Autoencoders
+
+Nevrale nettverk som lærer å kopiere input til output gjennom en begrenset
+representasjon (flaskehals).
+
+**Bruksområder:**
+
+- Dimensjonsreduksjon
+- Fjernelse av støy fra data
+- Anomalideteksjon (f.eks. svindeldeteksjon i finans)
+
+## Diffusjonsmodeller
+
+Generative modeller som lærer å lage data ved å reversere en prosess med
+tilført støy. Starter med ren støy og fjerner den gradvis.
+
+**Bruksområder:**
+
+- Generering av realistiske bilder (DALL-E, Stable Diffusion)
+- Dataforbedring
+- Syntetisk datagenerering
+
+## Sammenligning av arkitekturer
+
+| Arkitektur | Styrke | Typisk bruk |
+|---|---|---|
+| Feedforward (MLP) | Enkel, fleksibel | Klassifisering, regresjon |
+| CNN | Romlige mønstre | Bilder, dokumenter |
+| RNN/LSTM | Sekvensielle data | Tidsserier, tekst |
+| Transformer | Langtidskontekst | NLP, språkmodeller |
+| Autoencoder | Kompresjon | Anomalideteksjon, denoising |
+| Diffusjonsmodeller | Generering | Bilder, syntetiske data |
