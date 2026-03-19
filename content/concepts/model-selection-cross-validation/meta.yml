@@ -23,6 +23,7 @@ prerequisites: []
 related:
   - bias-variance-tradeoff
   - linear-regression-prediction
+  - penalized-linear-models
   - model-assessment-lab
   - house-prices-regression
 outputs:

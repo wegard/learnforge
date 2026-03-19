@@ -1,30 +1,31 @@
-id: bias-variance-tradeoff
+id: penalized-linear-models
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Bias-variance trade-off
+  en: Penalized linear models
 courses:
   - tem0052
 topics:
   - predictive-modelling
-  - model-selection
-  - cross-validation
-  - bias-variance
+  - regression
+  - linear-models
+  - regularization
 tags:
-  - model-selection
-  - validation
-  - generalization
+  - ridge
+  - lasso
+  - elastic-net
+  - feature-selection
 level: intermediate
-prerequisites: []
+prerequisites:
+  - linear-regression-prediction
 related:
   - linear-regression-prediction
-  - penalized-linear-models
-  - model-selection-cross-validation
-  - model-assessment-lab
   - house-prices-regression
+  - model-selection-cross-validation
+  - bias-variance-tradeoff
 outputs:
   - html
   - pdf
@@ -32,7 +33,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-18
+updated: 2026-03-19
 translation_status:
   en: approved
 ai:

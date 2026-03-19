@@ -1,0 +1,76 @@
+## Why we penalize a linear model
+
+Penalized regression keeps the linear-model workflow but changes the fitting rule.
+Instead of only minimizing prediction error on the training data, we also penalize
+large coefficients. That makes the model less eager to chase noise, especially when
+predictors are numerous, correlated, or only weakly informative.
+
+In `TEM 0052`, this concept matters because regularization is usually the first
+credible upgrade after the plain linear baseline. It is still interpretable, still
+fast, and often much more stable out of sample.
+
+## Ridge, lasso, and elastic net
+
+All three methods start from the linear-regression loss and add a penalty term:
+
+$$
+\hat{\beta}_{\text{ridge}}
+= \arg\min_{\beta} \sum_{i=1}^{n}(y_i - x_i^\top \beta)^2 + \lambda \sum_{j=1}^{p}\beta_j^2
+$$
+
+$$
+\hat{\beta}_{\text{lasso}}
+= \arg\min_{\beta} \sum_{i=1}^{n}(y_i - x_i^\top \beta)^2 + \lambda \sum_{j=1}^{p}|\beta_j|
+$$
+
+$$
+\hat{\beta}_{\text{elastic net}}
+= \arg\min_{\beta} \sum_{i=1}^{n}(y_i - x_i^\top \beta)^2
++ \lambda \left((1-\alpha)\sum_{j=1}^{p}\beta_j^2 + \alpha \sum_{j=1}^{p}|\beta_j|\right)
+$$
+
+The practical differences are the important ones for this course:
+
+- ridge shrinks correlated predictors together and is often a strong predictive default,
+- lasso can set some coefficients exactly to zero and gives a rough feature-selection rule,
+- elastic net is useful when you want sparsity but also expect correlated predictor groups.
+
+## Regularization is a workflow choice, not a magic fix
+
+Penalization helps only when the rest of the workflow is disciplined.
+
+1. Split or resample the data before comparing models.
+2. Standardize predictors inside the modelling pipeline.
+3. Tune `lambda` with cross-validation rather than visual guesswork.
+4. Compare the penalized model to the plain linear baseline on the same evaluation rule.
+5. Check whether the gain is predictive stability, lower error, simpler coefficients, or all three.
+
+::: {.teacher-only}
+Ask students when they would choose ridge over lasso if the main goal is prediction
+rather than sparse storytelling.
+:::
+
+## What students should notice in the house-prices lab
+
+The house-prices exercise is not there to prove that lasso always wins. It is there
+to make the trade-offs visible:
+
+- ridge often improves stability when many features move together,
+- lasso can produce a smaller and easier-to-report model,
+- elastic net is worth considering when pure lasso is too unstable,
+- and the best-looking training fit is not the same thing as the best out-of-sample workflow.
+
+That is why the lab asks for the same split, the same metrics, and a short written
+comparison of the modelling choices.
+
+## What to report
+
+When students present a penalized regression workflow in `TEM 0052`, they should
+usually report:
+
+- how predictors were scaled and preprocessed,
+- which tuning rule selected `lambda` or `l1_ratio`,
+- the baseline linear-model result used for comparison,
+- the out-of-sample metrics that justified the final choice,
+- and one short explanation of whether the penalty improved prediction, stability,
+  interpretability, or only complexity.

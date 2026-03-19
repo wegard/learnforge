@@ -9,6 +9,7 @@
 - Phase 11 complete checkpoint: `tem0052` second concept promotion slice
 - Phase 11 complete checkpoint: `tem0052` second exercise promotion slice
 - Phase 11 complete checkpoint: `tem0052` third concept promotion slice
+- Phase 11 complete checkpoint: `tem0052` fourth concept promotion slice
 
 ## Non-Goals For This Run
 
@@ -167,6 +168,8 @@
   - `content/concepts/model-selection-cross-validation/`
 - Promoted the third canonical `tem0052` concept:
   - `content/concepts/linear-regression-prediction/`
+- Promoted the fourth canonical `tem0052` concept:
+  - `content/concepts/penalized-linear-models/`
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
@@ -179,6 +182,11 @@
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
 - Linked the promoted linear-regression concept into the current `tem0052` concept/exercise graph:
+  - `bias-variance-tradeoff`
+  - `model-selection-cross-validation`
+  - `house-prices-regression`
+- Linked the promoted penalized-regression concept into the current `tem0052` concept/exercise graph:
+  - `linear-regression-prediction`
   - `bias-variance-tradeoff`
   - `model-selection-cross-validation`
   - `house-prices-regression`
@@ -215,7 +223,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - three first-wave `tem0052` concepts and two exercises/one lecture are promoted so far
+  - four first-wave `tem0052` concepts and two exercises/one lecture are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -250,6 +258,8 @@
 - `content/concepts/model-selection-cross-validation/note.en.qmd`
 - `content/concepts/linear-regression-prediction/meta.yml`
 - `content/concepts/linear-regression-prediction/note.en.qmd`
+- `content/concepts/penalized-linear-models/meta.yml`
+- `content/concepts/penalized-linear-models/note.en.qmd`
 - `content/resources/angrist-podcast-iv/meta.yml`
 - `content/resources/iv-candidate-newsletter/meta.yml`
 - `content/resources/iv-candidate-newsletter/note.en.qmd`
@@ -378,11 +388,18 @@
   - `./.venv/bin/ruff check app tests`
   - `./.venv/bin/python -m pytest -q`
   - `./.venv/bin/teach validate`
+- `tem0052` fourth concept promotion:
+  - `rg -n "penalized|regulari[sz]" courses/tem0052/MIGRATION_INVENTORY.md content/concepts content/exercises -g 'meta.yml' -g 'note.en.qmd'`
+  - `python - <<'PY' ... summarize notebooks/05_Regularised_regressions.ipynb markdown cells ... PY`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach build penalized-linear-models --audience student --lang en --format html`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 16 objects and 2 courses. Errors: 0. Warnings: 7.`
+  - `Validated 17 objects and 2 courses. Errors: 0. Warnings: 8.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
@@ -392,12 +409,13 @@
       - `missing-approved-translation` for `bias-variance-tradeoff`
       - `missing-approved-translation` for `linear-regression-prediction`
       - `missing-approved-translation` for `model-selection-cross-validation`
+      - `missing-approved-translation` for `penalized-linear-models`
       - `missing-approved-translation` for `house-prices-regression`
       - `missing-approved-translation` for `model-assessment-lab`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `66 passed in 188.27s (0:03:08)`
+  - `67 passed in 199.57s (0:03:19)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
@@ -418,6 +436,11 @@
   - `status_counts: candidate=1, reviewed=1, approved=1, published=1`
   - `student_visible_resource_ids: ['angrist-podcast-iv']`
   - `student_exclusion_count: 3`
+- New `tem0052` concept artifact paths:
+  - `build/exports/student/en/html/concept/penalized-linear-models/penalized-linear-models.html`
+  - `build/reports/builds/student/en/html/concept/penalized-linear-models/build-manifest.json`
+  - `build/reports/builds/student/en/html/concept/penalized-linear-models/dependency-manifest.json`
+  - `build/reports/builds/student/en/html/concept/penalized-linear-models/teacher-leakage-report.json`
 - Representative resource outputs verified:
   - Student approved resource page:
     - `build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`

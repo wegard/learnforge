@@ -21,6 +21,7 @@ level: intermediate
 prerequisites: []
 related:
   - house-prices-regression
+  - penalized-linear-models
   - model-selection-cross-validation
   - bias-variance-tradeoff
 outputs:

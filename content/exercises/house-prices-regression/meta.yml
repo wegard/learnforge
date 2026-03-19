@@ -35,6 +35,7 @@ difficulty: medium
 estimated_time_minutes: 60
 concepts:
   - linear-regression-prediction
+  - penalized-linear-models
   - bias-variance-tradeoff
   - model-selection-cross-validation
 solution_storage: separate-file
