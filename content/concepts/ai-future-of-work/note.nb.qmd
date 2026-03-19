@@ -1,0 +1,84 @@
+## Hva skjer når maskinene kan gjøre stadig mer?
+
+Gjennom `BIK 2551` har deltakerne lært å bruke KI-verktøy, bygge assistenter
+og designe automatiseringer. I denne modulen løfter vi blikket: Hvordan vil
+KI endre arbeidslivet på kort og mellomlang sikt? Og hva betyr det for
+menneskers rolle?
+
+## Augmentering vs. automatisering
+
+To ulike perspektiver på KI i arbeidslivet:
+
+- **Augmentering** — KI forsterker menneskets evner. Kunnskapsarbeideren gjør
+  de samme oppgavene, men raskere og med bedre kvalitet.
+- **Automatisering** — KI overtar oppgaven helt. Mennesket flyttes til andre
+  oppgaver eller rollen forsvinner.
+
+Forskning tyder på at generativ KI ofte løfter de svakeste mest — særlig i
+skriveoppgaver og kundeservice. Det betyr at KI kan bidra til å jevne ut
+kvalitetsforskjeller i en organisasjon.
+
+I praksis er de fleste bruksområder i dag augmentering, ikke fullstendig
+automatisering. Men grensen flytter seg raskt.
+
+## Autonome agenter: Neste horisont
+
+KI-agenter som kan planlegge og handle over lengre tid er i rask utvikling.
+Evalueringer viser at modellenes evne til å løse komplekse, langvarige
+oppgaver forbedres betydelig fra år til år.
+
+Hva dette betyr i praksis:
+
+- Oppgaver som i dag krever menneskelig koordinering kan bli håndtert av
+  agenter.
+- Tidsrammen er usikker, men retningen er tydelig.
+- Organisasjoner som forstår agent-basert KI vil være bedre rustet til å
+  tilpasse seg.
+
+## Tre tidshorisonter
+
+En nyttig øvelse er å vurdere egne arbeidsoppgaver i tre perspektiver:
+
+- **3 år** — Hvilke oppgaver augmenteres allerede? Hvor kan du bli mer
+  produktiv med dagens verktøy?
+- **5 år** — Hvilke oppgaver kan sannsynligvis automatiseres helt? Hvilke
+  nye oppgaver oppstår?
+- **10 år** — Hvilke roller i organisasjonen endres fundamentalt? Hva er
+  menneskets unike bidrag?
+
+::: {.teacher-only}
+Be deltakerne liste tre oppgaver fra egen jobb og plassere dem i kategoriene
+«augmenteres», «automatiseres» og «blir viktigere» for hvert tidsperspektiv.
+Diskuter i grupper og sammenlign. Pek på «The Human Edge» — hva skal
+mennesker gjøre når maskiner kan gjøre stadig mer? Nevn extended mind som
+perspektiv: vi må kanskje endre måten vi bruker hodene våre på.
+:::
+
+## Menneskets rolle i en KI-drevet fremtid
+
+Noen ferdigheter blir viktigere, ikke mindre viktige, i takt med at KI tar
+over rutineoppgaver:
+
+- **Kritisk vurdering** — Å evaluere om KI-generert output er riktig og
+  relevant.
+- **Relasjonsbygging** — Tillit, forhandling og samarbeid krever menneskelig
+  tilstedeværelse.
+- **Etisk dømmekraft** — Å avgjøre hva som bør gjøres, ikke bare hva som
+  kan gjøres.
+- **Kreativ problemløsning** — Å definere nye problemer, ikke bare løse
+  eksisterende.
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Denne modulen avslutter den faglige delen av kurset. Etter å ha lært verktøy,
+teknikker, automatisering og strategi, gir fremtidsperspektivet deltakerne
+en ramme for å forstå hvorfor kompetansen de har bygget er varig relevant —
+og hva de bør lære videre.
+
+## Praktiske poeng å ta med videre
+
+- KI augmenterer i dag, men automatiserer i morgen — følg med på utviklingen.
+- Vurder egne oppgaver i tre tidshorisonter for å identifisere hva som endres.
+- Invester i ferdigheter KI ikke kan erstatte: vurdering, relasjoner, etikk.
+- Del erfaringene fra kurset i egen organisasjon som startpunkt for videre
+  diskusjon.
