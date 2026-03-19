@@ -1,0 +1,82 @@
+## Ensemble methods combine weak or unstable models into a stronger workflow
+
+Ensemble methods improve prediction by combining several models instead of trusting a
+single fit. The guiding idea is simple: if different models make different mistakes,
+their aggregate prediction can be more stable and more accurate than any one model on
+its own.
+
+That makes ensemble methods important in `TEM 0052`. They are not a separate world
+from the earlier models. They are a response to the weaknesses students have already
+seen in single learners such as deep trees or high-variance classifiers.
+
+## Three recurring ensemble patterns
+
+This course uses ensemble methods as a family rather than a single algorithm. The
+main patterns students should recognize are:
+
+- voting or averaging, where several fitted models are combined directly,
+- bagging, where the same base learner is fit repeatedly on resampled data and then
+  aggregated,
+- boosting, where models are trained sequentially so later models correct earlier
+  mistakes.
+
+The point is not to memorize a taxonomy for its own sake. The point is to see that
+different ensemble methods improve prediction in different ways.
+
+## Why ensembles can outperform a single model
+
+Ensembles are especially useful when the base learner is unstable or high-variance.
+If one training split leads to a very different fitted model than another, averaging
+across many such fits can reduce sensitivity to noise.
+
+This connects directly to the bias-variance trade-off:
+
+- bagging often lowers variance by averaging many fitted models,
+- boosting often lowers error by focusing learning on hard cases,
+- and the price is usually lower interpretability and higher computational cost.
+
+::: {.teacher-only}
+Ask students when an ensemble that improves accuracy by a small amount may still be a
+bad choice because it becomes too hard to explain or maintain.
+:::
+
+## Bootstrap aggregation is the first key bridge
+
+Bootstrap aggregation, or bagging, is the most direct introduction to ensemble logic.
+We repeatedly sample from the training data with replacement, fit the same learner on
+each bootstrap sample, and then aggregate the predictions.
+
+This is a natural bridge from single trees to random forests:
+
+- the base learner stays familiar,
+- the instability of a single tree becomes visible,
+- and the ensemble result shows why averaging can matter more than a slightly better
+  in-sample fit.
+
+## Where ensembles fit in `TEM 0052`
+
+Ensemble methods belong after students understand baseline models and model
+assessment. Otherwise the ensemble just looks like a black box that wins on a score
+table.
+
+In this course, the correct mental order is:
+
+1. understand a simple learner,
+2. identify its failure mode,
+3. use resampling or sequential fitting to improve the workflow,
+4. decide whether the gain is worth the extra complexity.
+
+That is why random forests appear as the first major ensemble example before later
+methods such as gradient boosting.
+
+## What to report
+
+When students present an ensemble workflow in `TEM 0052`, they should usually
+report:
+
+- what the base learner or component models are,
+- how the ensemble combines predictions,
+- what problem the ensemble is trying to fix relative to a single model,
+- the evaluation rule used to justify the extra complexity,
+- and one short explanation of whether the performance gain is worth the loss in
+  interpretability or speed.

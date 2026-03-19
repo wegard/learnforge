@@ -163,6 +163,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    ninth_concept_artifact = build_target(
+        "ensemble-methods-introduction",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     exercise_artifact = build_target(
         "model-assessment-lab",
         audience="student",
@@ -186,6 +193,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     sixth_concept_html = sixth_concept_artifact.output_path.read_text(encoding="utf-8")
     seventh_concept_html = seventh_concept_artifact.output_path.read_text(encoding="utf-8")
     eighth_concept_html = eighth_concept_artifact.output_path.read_text(encoding="utf-8")
+    ninth_concept_html = ninth_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
 
@@ -283,6 +291,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "Decision tree learning" in seventh_concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in seventh_concept_html
     assert "../knn-supervised-learning/knn-supervised-learning.html" in seventh_concept_html
+    assert (
+        "../ensemble-methods-introduction/ensemble-methods-introduction.html"
+        in seventh_concept_html
+    )
     assert "../random-forests/random-forests.html" in seventh_concept_html
     assert (
         "../logistic-regression-classification/logistic-regression-classification.html"
@@ -296,6 +308,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "teacher-only" not in seventh_concept_html
 
     assert "Random forests" in eighth_concept_html
+    assert (
+        "../ensemble-methods-introduction/ensemble-methods-introduction.html"
+        in eighth_concept_html
+    )
     assert "../decision-tree-learning/decision-tree-learning.html" in eighth_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in eighth_concept_html
     assert (
@@ -308,6 +324,17 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     )
     assert "../../course/tem0052/tem0052.html" in eighth_concept_html
     assert "teacher-only" not in eighth_concept_html
+
+    assert "Introduction to ensemble methods" in ninth_concept_html
+    assert "../random-forests/random-forests.html" in ninth_concept_html
+    assert "../decision-tree-learning/decision-tree-learning.html" in ninth_concept_html
+    assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in ninth_concept_html
+    assert (
+        "../model-selection-cross-validation/model-selection-cross-validation.html"
+        in ninth_concept_html
+    )
+    assert "../../course/tem0052/tem0052.html" in ninth_concept_html
+    assert "teacher-only" not in ninth_concept_html
 
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html

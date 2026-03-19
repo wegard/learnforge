@@ -93,6 +93,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Concept: `model-selection-cross-validation`
 - Concept: `knn-supervised-learning`
 - Concept: `decision-tree-learning`
+- Concept: `ensemble-methods-introduction`
 - Concept: `random-forests`
 - Concept: `linear-regression-prediction`
 - Concept: `penalized-linear-models`
@@ -111,6 +112,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - `penalized-linear-models`
 - `logistic-regression-classification`
 - `decision-tree-learning`
+- `ensemble-methods-introduction`
 - `model-selection-cross-validation`
 - `random-forests`
 

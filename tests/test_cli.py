@@ -17,7 +17,7 @@ def test_validate_command_succeeds() -> None:
     result = runner.invoke(app, ["validate"])
     assert result.exit_code == 0
     assert "Errors: 0" in result.stdout
-    assert "Warnings: 12" in result.stdout
+    assert "Warnings: 13" in result.stdout
     assert "Build summary: build/reports/build-summary.json" in result.stdout
     assert "Resource workflow:" in result.stdout
 

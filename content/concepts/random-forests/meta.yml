@@ -22,6 +22,7 @@ level: intermediate
 prerequisites:
   - decision-tree-learning
 related:
+  - ensemble-methods-introduction
   - decision-tree-learning
   - model-selection-cross-validation
   - bias-variance-tradeoff

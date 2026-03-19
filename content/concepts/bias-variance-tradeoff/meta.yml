@@ -20,6 +20,7 @@ tags:
 level: intermediate
 prerequisites: []
 related:
+  - ensemble-methods-introduction
   - knn-supervised-learning
   - decision-tree-learning
   - random-forests
