@@ -1,0 +1,103 @@
+# Store språkmodeller i dybden
+
+## Kjennetegn ved LLMs
+
+- **Generell språkforståelse:** Kan løse mange ulike språkoppgaver uten å være
+  trent spesifikt for hver enkelt.
+- **Generativ kapasitet:** Kan skape ny tekst som virker menneskeskrevet.
+- **Kontekstuell forståelse:** Forstår hvordan ord og setninger henger sammen
+  over lengre tekstsekvenser.
+- **Skalerbarhet:** Ytelsen forbedres ofte dramatisk når modellstørrelse og
+  datamengde øker (skaleringslover).
+
+## Self-attention: nøkkelen til kontekst
+
+Hvordan vet modellen hva "den" refererer til i setningen: "Banken ga ut en
+rapport. **Den** var positiv."?
+
+Self-attention lar hvert ord "se" på alle andre ord i konteksten og bestemme
+hvilke som er mest relevante. Modellen beregner oppmerksomhetsscore mellom
+ordpar — høy score betyr sterk relevans.
+
+Dette gjør at representasjonen av hvert ord blir **kontekstavhengig**. Vektoren
+for "bank" er ulik i "elvebank" vs. "sentralbank".
+
+### Dynamiske embeddings
+
+I motsetning til statiske embeddings (Word2Vec, GloVe) der et ord alltid har
+samme vektor, endres representasjonen i LLMs basert på ordene rundt — takket
+være attention-mekanismen.
+
+## Treningsprosessen
+
+### Fase 1: Pre-trening
+
+Modellen trenes på enorme, umerkede tekstmengder (internett, bøker, nyheter).
+Mål: lære generell språkstruktur, grammatikk og fakta om verden. Typisk
+oppgave: neste-ord-prediksjon. Krever enorme mengder datakraft (GPU/TPU) og
+tid (uker/måneder). Resultat: en **grunnmodell** (foundation model).
+
+### Fase 2: Finjustering (SFT)
+
+Grunnmodellen tilpasses for spesifikke oppgaver med et mindre, merket datasett
+av høy kvalitet. For eksempel kan en finansiell chatbot finjusteres på par av
+finansielle spørsmål og svar.
+
+### Fase 3: RLHF
+
+Mennesker rangerer ulike svar generert av modellen. En belønningsmodell trenes
+til å etterligne disse preferansene, og LLM-en finjusteres for å maksimere
+scoren. Hjelper med å styre modellen bort fra skadelig innhold og
+feilinformasjon.
+
+## Kontekstvindu
+
+Mengden tekst modellen kan "se" på samtidig. Moderne LLMs har vinduer fra
+tusenvis til millioner av tokens. Viktig for å forstå lange dokumenter
+(årsrapporter), huske tidligere deler av en samtale, og utføre komplekse
+resonneringsoppgaver.
+
+## Emergente egenskaper
+
+Evner som ikke er eksplisitt programmert inn, men som "dukker opp" ved en viss
+modellstørrelse — f.eks. evne til å løse matematiske problemer, skrive kode,
+eller resonnere moralsk. Kvantitative økninger (størrelse, data) kan føre til
+kvalitative sprang.
+
+## Anvendelser i finans
+
+### Analyse og rapportering
+
+- **Avansert sentimentanalyse:** Forstå nyanser i markedssentiment, skille
+  ironi fra ekte negativitet
+- **Rapportanalyse:** Automatisk oppsummere års- og kvartalsrapporter,
+  identifisere nøkkeltemaer og risikoer
+- **Informasjonsekstraksjon:** Hente ut spesifikke data (inntekter, gjeld,
+  ledernavn) fra PDF-rapporter
+
+### Automatisering og assistanse
+
+- **Kundeservice-chatbots:** Mer avanserte og menneskelignende samtaler
+- **Interne kunnskapsbaser:** Naturlig språk-søk i interne dokumenter
+- **Kodeassistanse:** Hjelpe analytikere med Python/R for finansiell modellering
+- **Compliance-overvåking:** Analysere kommunikasjon for regelbrudd
+
+## Fra modell til system
+
+Dagens AI-systemer er mer enn bare språkmodeller:
+
+- **Internett og kunnskapskilder:** Nettlesing og RAG (henting av kilder)
+- **Verktøybruk:** Kjøre kode, kalkulator, databaser og API-er
+- **Resonnering og planlegging:** Bryte ned oppgaver, velge verktøy
+- **Agent-orkestrering:** Kjeder av steg (søk → analyse → handling)
+- **Strukturert output:** JSON/skript for integrasjon i arbeidsflyter
+
+## Utfordringer og risiko
+
+- **Hallusinasjoner:** Plausibelt utseende, men feil innhold — kritisk i finans
+- **Bias:** Reproduserer skjevheter fra treningsdata
+- **Personvern:** Risiko ved sensitive data i prompts
+- **Forklarbarhet:** "Svart boks"-problem i regulerte bransjer
+- **Kostnad:** Dyr trening og inferens
+- **Prompt engineering:** Output-kvalitet avhenger av inputformulering
+- **Overdreven tillit:** Fare for ukritisk bruk uten faktasjekk

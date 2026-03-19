@@ -1,0 +1,38 @@
+id: llms-deep-dive
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Store språkmodeller i dybden
+courses:
+  - bik2550
+topics:
+  - deep-learning
+  - language-models
+  - ai-in-finance
+tags:
+  - llm
+  - transformers
+  - self-attention
+  - rlhf
+  - hallucinations
+  - finance
+level: introductory
+prerequisites:
+  - llms-and-next-token-prediction
+related:
+  - nlp-text-data-finance
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
