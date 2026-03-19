@@ -1,0 +1,32 @@
+id: bik2550-m3d2
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Modul 3, Dag 2 — Generativ AI og multimodalitet i finans
+courses:
+  - bik2550
+topics:
+  - generative-ai
+  - ai-in-finance
+tags:
+  - lecture
+  - multimodality
+  - generative-ai
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+items:
+  - multimodality-in-finance
