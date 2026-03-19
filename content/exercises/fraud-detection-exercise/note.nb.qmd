@@ -1,0 +1,48 @@
+## Oppgavebeskrivelse
+
+Bygg en modell for å oppdage svindel i kredittkort-transaksjoner. Datasettet
+inneholder 284 807 transaksjoner der kun 492 (0,17 %) er svindel — et klassisk
+eksempel på et sterkt ubalansert datasett.
+
+Variablene V1–V28 er PCA-transformerte for personvern, i tillegg til `Time`,
+`Amount` og `Class` (0 = normal, 1 = svindel).
+
+## Oppgaver
+
+1. Last inn datasettet og utforsk fordelingen av svindel vs. normale
+   transaksjoner. Kommenter på ubalansen.
+
+2. Del data i trenings- og testsett. Standardiser `Amount` og `Time`.
+
+3. Tren en klassifiseringsmodell (f.eks. logistisk regresjon eller Random
+   Forest) på treningsdataene.
+
+4. Evaluer modellen med:
+   - Confusion matrix
+   - Precision, recall og F1-score for svindelklassen
+   - Diskuter: er accuracy et godt mål for dette problemet?
+
+5. Eksperimenter med terskelverdi for prediksjon. Hva skjer med precision
+   og recall når du endrer terskelen fra 0,5?
+
+6. **Utvidelse (valgfri):** Prøv en alternativ tilnærming: tren en modell
+   kun på normale transaksjoner og bruk rekonstruksjonsfeil til å flagge
+   anomalier.
+
+## Startkode
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+```
+
+## Tips
+
+- Med kun 0,17 % svindel vil en modell som predikerer "normal" for alle
+  transaksjoner oppnå 99,83 % accuracy — men den er ubrukelig for
+  svindeldeteksjon.
+- Fokuser på recall for svindelklassen: hvor mange av de faktiske
+  svindeltilfellene klarer modellen å fange?

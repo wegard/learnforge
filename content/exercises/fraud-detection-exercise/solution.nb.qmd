@@ -1,0 +1,36 @@
+Løsningsforslaget fokuserer på å demonstrere utfordringen med ubalanserte
+datasett og valg av relevante evalueringsmål.
+
+## Foreslått tilnærming
+
+1. Last inn data og bekreft fordelingen: 492 av 284 807 transaksjoner er svindel
+   (0,17 %).
+
+2. Del data 80/20 med stratifisering (`stratify=y`) for å bevare
+   svindelfordelingen i begge sett.
+
+3. Standardiser `Amount` og `Time` med `StandardScaler`.
+
+4. Tren en `LogisticRegression()` som baseline. Eventuelt med
+   `class_weight='balanced'` for å kompensere ubalansen.
+
+5. Evaluer med confusion matrix og classification report.
+
+## Hva studentene vanligvis finner
+
+- Accuracy er >99 % uansett, men dette er misvisende.
+- Uten balansering fanger modellen kun en liten andel av svindeltilfellene.
+- Med `class_weight='balanced'` øker recall for svindel markant, men precision
+  kan synke (flere falske positiver).
+- Terskelvalg er en avveining: lavere terskel gir høyere recall men flere
+  falske alarmer.
+
+## Undervisningsfokus
+
+Hovedbudskapet er at accuracy er et dårlig mål for ubalanserte problemer.
+Diskuter precision-recall-avveiningen i en reell kontekst: hva koster det
+å miste en svindeltransaksjon vs. å feilaktig blokkere en legitim transaksjon?
+
+For utvidelsesoppgaven: en autoencoder-basert anomalideteksjon trenes kun på
+normale transaksjoner. Svindel gir høyere rekonstruksjonsfeil, noe som kan
+brukes som deteksjonsterskel.

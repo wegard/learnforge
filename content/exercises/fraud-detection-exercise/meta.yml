@@ -1,0 +1,38 @@
+id: fraud-detection-exercise
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Svindeloppdagelse med maskinlæring
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - ai-in-finance
+tags:
+  - exercise
+  - anomaly-detection
+  - classification
+  - fraud-detection
+  - finance
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 30
+concepts:
+  - ml-supervised-learning-overview
+  - ml-model-evaluation-overview
+solution_storage: separate-file
+solution_visibility: teacher
