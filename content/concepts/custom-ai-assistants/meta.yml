@@ -19,7 +19,10 @@ tags:
   - knowledge-base
 level: introductory
 prerequisites: []
-related: []
+related:
+  - context-windows-and-rag
+  - advanced-prompting-techniques
+  - prompt-engineering-basics
 outputs:
   - html
   - pdf

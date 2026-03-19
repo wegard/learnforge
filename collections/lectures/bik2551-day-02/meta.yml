@@ -1,0 +1,34 @@
+id: bik2551-day-02
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Dag 2 - Verktøykasse og tilpassede KI-assistenter
+courses:
+  - bik2551
+topics:
+  - ai-literacy
+  - prompt-engineering
+tags:
+  - lecture
+  - day-2
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+items:
+  - context-windows-and-rag
+  - advanced-prompting-techniques
+  - custom-ai-assistants
+  - custom-assistant-setup

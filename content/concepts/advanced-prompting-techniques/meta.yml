@@ -18,7 +18,10 @@ tags:
   - complex-tasks
 level: introductory
 prerequisites: []
-related: []
+related:
+  - prompt-engineering-basics
+  - context-windows-and-rag
+  - custom-ai-assistants
 outputs:
   - html
   - pdf

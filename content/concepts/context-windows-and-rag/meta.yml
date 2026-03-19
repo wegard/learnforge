@@ -18,7 +18,10 @@ tags:
   - notebooklm
 level: introductory
 prerequisites: []
-related: []
+related:
+  - generative-ai-fundamentals
+  - advanced-prompting-techniques
+  - custom-ai-assistants
 outputs:
   - html
   - pdf
