@@ -1,10 +1,14 @@
 ## Figure details
 
+<div class="lf-meta-panel">
+
 - Interactive mode: local JS enhancement with static fallback
 - Outputs: HTML, PDF, Slides
 - Linked concepts: [Instrumental Variables Intuition](../../concept/iv-intuition/iv-intuition.html)
 - Topics: [Causal Inference](../../listing/topic-causal-inference/topic-causal-inference.html), [Identification](../../listing/topic-identification/topic-identification.html)
 - Courses: [EC202 - Applied Econometrics](../../course/ec202/ec202.html)
+
+</div>
 
 <div class="lf-figure-card" data-figure-id="iv-dag-figure" data-figure-interactive="true">
 <div class="lf-figure-surface" data-figure-surface>

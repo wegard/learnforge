@@ -382,8 +382,35 @@ class AssemblyBuilder:
             "temasidene for begrepsstyrt navigasjon og relatert materiale."
         )
 
+        if self.output_format == "html":
+            hero = (
+                '<div class="lf-hero">'
+                f'<p class="lf-hero-tagline">{escape(intro)}</p>'
+                "</div>"
+            )
+            how_to_use_section = "\n".join(
+                [
+                    "## How to Use This Site"
+                    if self.language == "en"
+                    else "## Slik bruker du siden",
+                    "",
+                    f'::: {{.callout-tip}}\n{how_to_use}\n:::',
+                ]
+            )
+        else:
+            hero = intro
+            how_to_use_section = "\n".join(
+                [
+                    "## How to Use This Site"
+                    if self.language == "en"
+                    else "## Slik bruker du siden",
+                    "",
+                    how_to_use,
+                ]
+            )
+
         sections = [
-            intro,
+            hero,
             "\n".join(
                 [
                     "## Browse by Course" if self.language == "en" else "## Bla etter kurs",
@@ -407,15 +434,7 @@ class AssemblyBuilder:
                     *self._listing_lines(resource_entries, empty_message="No entries."),
                 ]
             ),
-            "\n".join(
-                [
-                    "## How to Use This Site"
-                    if self.language == "en"
-                    else "## Slik bruker du siden",
-                    "",
-                    how_to_use,
-                ]
-            ),
+            how_to_use_section,
         ]
 
         target = BuildTargetRef(
@@ -935,8 +954,18 @@ class AssemblyBuilder:
                 )
             )
 
+        summary_text = record.model.summary[self.language]
+        if self.output_format == "html":
+            course_summary = (
+                '<div class="lf-course-header">'
+                f'<p>{escape(summary_text)}</p>'
+                "</div>"
+            )
+        else:
+            course_summary = summary_text
+
         sections = [
-            record.model.summary[self.language],
+            course_summary,
             self._render_listing_section(
                 title="Lectures" if self.language == "en" else "Forelesninger",
                 entries=lecture_entries,
@@ -1335,6 +1364,7 @@ class AssemblyBuilder:
                 ]
             ).rstrip()
         markdown = frontmatter + "\n" + body + "\n"
+        generated_path.parent.mkdir(parents=True, exist_ok=True)
         generated_path.write_text(markdown, encoding="utf-8")
         return AssemblyDocument(
             target=target,
@@ -1734,27 +1764,28 @@ class AssemblyBuilder:
         return []
 
     def _render_concept_summary(self, record: IndexedObject) -> str:
-        lines = [
-            "## At a glance" if self.language == "en" else "## Kort oversikt",
-            "",
+        heading = "## At a glance" if self.language == "en" else "## Kort oversikt"
+        items = [
             f"- {('Level' if self.language == 'en' else 'Niva')}: {record.model.level}",
         ]
         topic_links = self._topic_links(record, current_kind="concept")
         if topic_links:
-            lines.append(
+            items.append(
                 f"- {('Topics' if self.language == 'en' else 'Temaer')}: {', '.join(topic_links)}"
             )
         course_links = self._course_links(record.model.courses, record.model.kind, record.model.id)
         if course_links:
-            lines.append(
+            items.append(
                 f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
             )
-        return "\n".join(lines)
+        if self.output_format == "html":
+            inner = "\n".join(items)
+            return f'{heading}\n\n<div class="lf-meta-panel">\n\n{inner}\n\n</div>'
+        return "\n".join([heading, "", *items])
 
     def _render_exercise_summary(self, record: IndexedObject) -> str:
-        lines = [
-            "## Exercise details" if self.language == "en" else "## Oppgavedetaljer",
-            "",
+        heading = "## Exercise details" if self.language == "en" else "## Oppgavedetaljer"
+        items = [
             f"- {('Type' if self.language == 'en' else 'Type')}: {record.model.exercise_type}",
             (
                 f"- {('Difficulty' if self.language == 'en' else 'Vanskelighetsgrad')}: "
@@ -1796,16 +1827,19 @@ class AssemblyBuilder:
             )
         ]
         if concept_links:
-            lines.append(
+            items.append(
                 f"- {('Concepts' if self.language == 'en' else 'Begreper')}: "
                 f"{', '.join(concept_links)}"
             )
         course_links = self._course_links(record.model.courses, record.model.kind, record.model.id)
         if course_links:
-            lines.append(
+            items.append(
                 f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
             )
-        return "\n".join(lines)
+        if self.output_format == "html":
+            inner = "\n".join(items)
+            return f'{heading}\n\n<div class="lf-meta-panel">\n\n{inner}\n\n</div>'
+        return "\n".join([heading, "", *items])
 
     def _render_figure_summary(self, record: IndexedObject) -> str:
         interactive_label = (
@@ -1817,9 +1851,8 @@ class AssemblyBuilder:
                 else ("static only" if self.language == "en" else "kun statisk")
             )
         )
-        lines = [
-            "## Figure details" if self.language == "en" else "## Figurdetaljer",
-            "",
+        heading = "## Figure details" if self.language == "en" else "## Figurdetaljer"
+        items = [
             f"- {('Interactive mode' if self.language == 'en' else 'Interaktiv modus')}: "
             f"{interactive_label}",
             (
@@ -1842,21 +1875,24 @@ class AssemblyBuilder:
             )
         ]
         if concept_links:
-            lines.append(
+            items.append(
                 f"- {('Linked concepts' if self.language == 'en' else 'Knyttede begreper')}: "
                 f"{', '.join(concept_links)}"
             )
         topic_links = self._topic_links(record, current_kind="figure")
         if topic_links:
-            lines.append(
+            items.append(
                 f"- {('Topics' if self.language == 'en' else 'Temaer')}: {', '.join(topic_links)}"
             )
         course_links = self._course_links(record.model.courses, record.model.kind, record.model.id)
         if course_links:
-            lines.append(
+            items.append(
                 f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
             )
-        return "\n".join(lines)
+        if self.output_format == "html":
+            inner = "\n".join(items)
+            return f'{heading}\n\n<div class="lf-meta-panel">\n\n{inner}\n\n</div>'
+        return "\n".join([heading, "", *items])
 
     def _concept_figure_records(self, record: IndexedObject) -> list[IndexedObject]:
         figures: list[IndexedObject] = []
@@ -2343,9 +2379,8 @@ class AssemblyBuilder:
             "Why this matters" if self.language == "en" else "Hvorfor dette er nyttig"
         )
         summary_label = "Summary" if self.language == "en" else "Sammendrag"
-        lines = [
-            "## Resource details" if self.language == "en" else "## Ressursdetaljer",
-            "",
+        heading = "## Resource details" if self.language == "en" else "## Ressursdetaljer"
+        items = [
             (
                 f"- {('Workflow state' if self.language == 'en' else 'Arbeidsflytstatus')}: "
                 f"{record.model.status}"
@@ -2365,13 +2400,17 @@ class AssemblyBuilder:
             ),
             f"- {summary_label}: {record.model.summary.get(self.language, '')}",
             f"- {why_label}: {record.model.why_selected.get(self.language, '')}",
-            (
-                f"- {('Open resource' if self.language == 'en' else 'Apne ressurs')}: "
-                f"[{record.model.url}]({record.model.url})"
-            ),
         ]
+        open_label = "Open resource" if self.language == "en" else "Apne ressurs"
+        if self.output_format == "html":
+            items.append(
+                f'- <a href="{record.model.url}" class="lf-resource-open" '
+                f'target="_blank" rel="noopener">{open_label}</a>'
+            )
+        else:
+            items.append(f"- {open_label}: [{record.model.url}]({record.model.url})")
         if record.model.review_after is not None:
-            lines.append(
+            items.append(
                 f"- {('Review after' if self.language == 'en' else 'Revurder etter')}: "
                 f"{record.model.review_after.isoformat()}"
             )
@@ -2384,7 +2423,7 @@ class AssemblyBuilder:
             approval_history_label = (
                 "Approval history" if self.language == "en" else "Godkjenningshistorikk"
             )
-            lines.extend(
+            items.extend(
                 [
                     (
                         f"- {instructor_label}: "
@@ -2401,25 +2440,28 @@ class AssemblyBuilder:
                     f"{item.action}:{item.by}@{item.acted_on.isoformat()}"
                     for item in record.model.approval_history
                 )
-                lines.append(
+                items.append(
                     f"- {approval_history_label}: {history_entries}"
                 )
             if record.model.ai.source or record.model.ai.generated_fields:
-                lines.append(
+                items.append(
                     f"- {('AI provenance' if self.language == 'en' else 'AI-opphav')}: "
                     f"{record.model.ai.source or 'unknown'}"
                 )
         topic_links = self._topic_links(record, current_kind="resource")
         if topic_links:
-            lines.append(
+            items.append(
                 f"- {('Topics' if self.language == 'en' else 'Temaer')}: {', '.join(topic_links)}"
             )
         course_links = self._course_links(record.model.courses, record.model.kind, record.model.id)
         if course_links:
-            lines.append(
+            items.append(
                 f"- {('Courses' if self.language == 'en' else 'Kurs')}: {', '.join(course_links)}"
             )
-        return "\n".join(lines)
+        if self.output_format == "html":
+            inner = "\n".join(items)
+            return f'{heading}\n\n<div class="lf-meta-panel">\n\n{inner}\n\n</div>'
+        return "\n".join([heading, "", *items])
 
     def _resource_inbox_description(self, record: IndexedObject) -> str:
         summary = record.model.summary.get(self.language) or record.model.why_selected.get(
@@ -2655,18 +2697,36 @@ class AssemblyBuilder:
     def _listing_lines(self, entries: list[ListingEntry], *, empty_message: str) -> list[str]:
         if not entries:
             return [empty_message]
+        if self.output_format == "html":
+            return self._listing_cards(entries)
         lines: list[str] = []
         for entry in entries:
-            target_text = (
-                f"[{entry.title}]({entry.href})"
-                if self.output_format == "html" and entry.href
-                else entry.title
-            )
             if entry.description:
-                lines.append(f"- {target_text} - {entry.description}")
+                lines.append(f"- {entry.title} - {entry.description}")
             else:
-                lines.append(f"- {target_text}")
+                lines.append(f"- {entry.title}")
         return lines
+
+    def _listing_cards(self, entries: list[ListingEntry]) -> list[str]:
+        cards: list[str] = []
+        for entry in entries:
+            kind_label = KIND_LABELS.get(entry.kind, entry.kind.title())
+            link = (
+                f'<a href="{entry.href}" class="lf-listing-link">'
+                f"{escape(entry.title)}</a>"
+                if entry.href
+                else f'<span class="lf-listing-link">{escape(entry.title)}</span>'
+            )
+            badge = f'<span class="lf-listing-badge">{escape(kind_label.lower())}</span>'
+            desc = (
+                f'<p class="lf-listing-desc">{escape(entry.description)}</p>'
+                if entry.description
+                else ""
+            )
+            cards.append(
+                f'<div class="lf-listing-card">{link} {badge}{desc}</div>'
+            )
+        return cards
 
     def _course_objects(self, course_id: str) -> list[IndexedObject]:
         return [
@@ -2993,17 +3053,14 @@ class AssemblyBuilder:
         lines = [f"## {title}", ""]
         if not entries:
             lines.append("No entries.")
+        elif self.output_format == "html":
+            lines.extend(self._listing_cards(entries))
         else:
             for entry in entries:
-                target_text = (
-                    f"[{entry.title}]({entry.href})"
-                    if self.output_format == "html" and entry.href
-                    else entry.title
-                )
                 if entry.description:
-                    lines.append(f"- {target_text} - {entry.description}")
+                    lines.append(f"- {entry.title} - {entry.description}")
                 else:
-                    lines.append(f"- {target_text}")
+                    lines.append(f"- {entry.title}")
         if suffix:
             lines.extend(["", suffix])
         return "\n".join(lines)
@@ -3026,26 +3083,22 @@ class AssemblyBuilder:
             for kind in sorted(grouped, key=lambda item: KIND_SORT_ORDER.get(item, 99)):
                 lines.append(f"## {KIND_LABELS.get(kind, kind.title())}s")
                 lines.append("")
-                for entry in grouped[kind]:
-                    target_text = (
-                        f"[{entry.title}]({entry.href})"
-                        if self.output_format == "html" and entry.href
-                        else entry.title
-                    )
-                    if entry.description:
-                        lines.append(f"- {target_text} - {entry.description}")
-                    else:
-                        lines.append(f"- {target_text}")
+                if self.output_format == "html":
+                    lines.extend(self._listing_cards(grouped[kind]))
+                else:
+                    for entry in grouped[kind]:
+                        if entry.description:
+                            lines.append(f"- {entry.title} - {entry.description}")
+                        else:
+                            lines.append(f"- {entry.title}")
                 lines.append("")
             return "\n".join(lines).rstrip()
 
-        for entry in entries:
-            target_text = (
-                f"[{entry.title}]({entry.href})"
-                if self.output_format == "html" and entry.href
-                else entry.title
-            )
-            lines.append(f"- {target_text} - {entry.description}")
+        if self.output_format == "html":
+            lines.extend(self._listing_cards(entries))
+        else:
+            for entry in entries:
+                lines.append(f"- {entry.title} - {entry.description}")
         return "\n".join(lines).rstrip()
 
     def _register_object_files(
@@ -3409,11 +3462,12 @@ def localized_minutes(minutes: int, language: str) -> str:
 
 FIGURE_RENDER_STYLE = """
 .lf-figure-card {
-  border: 1px solid #d8dee6;
-  border-radius: 0.9rem;
-  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.15rem;
   margin: 0 0 1.25rem 0;
   background: #f8fafc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 .lf-figure-surface {
   overflow-x: auto;
@@ -3426,84 +3480,281 @@ FIGURE_RENDER_STYLE = """
 .lf-figure-caption,
 .lf-figure-explainer {
   margin: 0.85rem 0 0 0;
+  font-size: 0.92rem;
+  color: #334155;
+  line-height: 1.5;
 }
 .lf-figure-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.5rem;
   margin: 0 0 0.85rem 0;
 }
 .lf-figure-controls button {
-  border: 1px solid #94a3b8;
+  border: 1px solid #cbd5e1;
   border-radius: 999px;
   padding: 0.35rem 0.85rem;
   background: #ffffff;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.lf-figure-controls button:hover {
+  border-color: #93c5fd;
+  background: #eff6ff;
 }
 .lf-figure-controls button.is-active {
-  border-color: #1d4ed8;
+  border-color: #1e40af;
   background: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
 }
 """
 
 
 STUDENT_SITE_STYLE = """
 .lf-site-shell {
-  border: 1px solid #d8dee6;
-  border-radius: 0.75rem;
-  padding: 1rem 1.1rem;
-  margin: 0 0 1.5rem 0;
-  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 0.85rem 1.1rem;
+  margin: 0 0 1.75rem 0;
+  background: linear-gradient(to bottom, #f8fafc, #ffffff);
 }
 .lf-global-links,
 .lf-search-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
   align-items: center;
 }
 .lf-global-links {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 .lf-global-links a,
 .lf-utility-links a,
 .lf-page-footer a {
   text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.lf-global-links a {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  color: #334155;
+  font-size: 0.92rem;
+}
+.lf-global-links a:hover,
+.lf-global-links a:focus-visible {
+  background: #e0e7ff;
+  color: #1e40af;
+}
+.lf-global-links a:focus-visible {
+  outline: 2px solid #1e40af;
+  outline-offset: 2px;
 }
 .lf-brand {
   font-weight: 700;
-  margin-right: 0.5rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  color: #1e40af !important;
+  margin-right: 0.35rem;
+  padding-left: 0 !important;
+}
+.lf-brand:hover {
+  background: transparent !important;
+  color: #1e3a8a !important;
 }
 .lf-utility-links p {
   margin: 0.25rem 0;
 }
+.lf-breadcrumbs {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+.lf-breadcrumbs strong {
+  display: none;
+}
+.lf-breadcrumbs a {
+  color: #64748b;
+}
+.lf-breadcrumbs a:hover {
+  color: #1e40af;
+}
+.lf-lang-switch {
+  font-size: 0.82rem;
+  color: #64748b;
+}
 .lf-search-form {
-  margin-top: 0.9rem;
+  margin-top: 0.75rem;
 }
 .lf-search-form label {
   display: block;
   font-weight: 600;
-  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  margin-bottom: 0.3rem;
+  color: #475569;
 }
 .lf-search-form input[type="search"] {
   min-width: 16rem;
   max-width: 30rem;
   width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.lf-search-form input[type="search"]:focus {
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+  outline: none;
 }
 .lf-search-form button {
   white-space: nowrap;
+  background: #1e40af;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.lf-search-form button:hover {
+  background: #1e3a8a;
 }
 .lf-search-results {
   margin-top: 0.75rem;
   padding-left: 1rem;
 }
 .lf-page-footer {
-  margin-top: 2rem;
+  margin-top: 3rem;
   padding-top: 1rem;
-  border-top: 1px solid #d8dee6;
-  color: #4b5563;
+  border-top: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.88rem;
+  text-align: center;
+}
+.lf-page-footer a {
+  color: #1e40af;
+}
+.lf-listing-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.5rem;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.lf-listing-card:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.08);
+}
+.lf-listing-link {
+  font-weight: 600;
+  color: #1e40af;
+  text-decoration: none;
+}
+.lf-listing-link:hover {
+  text-decoration: underline;
+}
+.lf-listing-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #475569;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.lf-listing-desc {
+  margin: 0.3rem 0 0 0;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.45;
+}
+.lf-hero {
+  padding: 1rem 0 0.5rem 0;
+}
+.lf-hero-tagline {
+  font-size: 1.1rem;
+  color: #334155;
+  line-height: 1.6;
+  max-width: 48rem;
+}
+.lf-course-header {
+  border-left: 3px solid #1e40af;
+  padding: 0.5rem 0.85rem;
+  margin-bottom: 0.5rem;
+  background: #f8fafc;
+  border-radius: 0 0.35rem 0.35rem 0;
+}
+.lf-course-header p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.55;
+}
+.lf-meta-panel {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  background: #f8fafc;
+}
+.lf-meta-panel ul,
+.lf-meta-panel li {
+  margin-bottom: 0.2rem;
+}
+.lf-resource-open {
+  display: inline-block;
+  background: #1e40af;
+  color: #ffffff !important;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: background 0.15s ease;
+}
+.lf-resource-open:hover {
+  background: #1e3a8a;
 }
 .quarto-alternate-formats {
   display: none;
+}
+@media (max-width: 640px) {
+  .lf-global-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .lf-search-form input[type="search"] {
+    min-width: 0;
+    width: 100%;
+  }
+  .lf-search-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lf-search-form button {
+    width: 100%;
+  }
+  .lf-listing-card {
+    padding: 0.5rem 0.65rem;
+  }
+  .lf-figure-card {
+    padding: 0.65rem;
+  }
+  .lf-figure-svg {
+    max-width: 100%;
+  }
+  .lf-course-header {
+    padding: 0.4rem 0.65rem;
+  }
+  .lf-meta-panel {
+    padding: 0.4rem 0.65rem;
+  }
 }
 """
 

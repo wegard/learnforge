@@ -16,7 +16,9 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme:
+      - cosmo
+      - learnforge.scss
     toc: true
     code-copy: true
     number-sections: true

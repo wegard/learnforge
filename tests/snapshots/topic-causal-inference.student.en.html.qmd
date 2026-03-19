@@ -6,20 +6,20 @@ Topic: Causal Inference
 
 ## Lectures
 
-- [Lecture 4 - Endogeneity and IV](../../collection/lecture-04/lecture-04.html) - ec202
+<div class="lf-listing-card"><a href="../../collection/lecture-04/lecture-04.html" class="lf-listing-link">Lecture 4 - Endogeneity and IV</a> <span class="lf-listing-badge">lecture</span><p class="lf-listing-desc">ec202</p></div>
 
 ## Concepts
 
-- [Instrumental Variables Intuition](../../concept/iv-intuition/iv-intuition.html) - ec202
+<div class="lf-listing-card"><a href="../../concept/iv-intuition/iv-intuition.html" class="lf-listing-link">Instrumental Variables Intuition</a> <span class="lf-listing-badge">concept</span><p class="lf-listing-desc">ec202</p></div>
 
 ## Exercises
 
-- [IV intuition check](../../exercise/ex-iv-concept-check/ex-iv-concept-check.html) - ec202
+<div class="lf-listing-card"><a href="../../exercise/ex-iv-concept-check/ex-iv-concept-check.html" class="lf-listing-link">IV intuition check</a> <span class="lf-listing-badge">exercise</span><p class="lf-listing-desc">ec202</p></div>
 
 ## Figures
 
-- [IV DAG](../../figure/iv-dag-figure/iv-dag-figure.html) - ec202
+<div class="lf-listing-card"><a href="../../figure/iv-dag-figure/iv-dag-figure.html" class="lf-listing-link">IV DAG</a> <span class="lf-listing-badge">figure</span><p class="lf-listing-desc">ec202</p></div>
 
 ## Resources
 
-- [Instrumental Variables Episode](../../resource/angrist-podcast-iv/angrist-podcast-iv.html) - ec202
+<div class="lf-listing-card"><a href="../../resource/angrist-podcast-iv/angrist-podcast-iv.html" class="lf-listing-link">Instrumental Variables Episode</a> <span class="lf-listing-badge">resource</span><p class="lf-listing-desc">ec202</p></div>

@@ -1,0 +1,26 @@
+/*-- scss:defaults --*/
+
+// Color palette
+$primary: #1e40af;
+$body-color: #1e293b;
+$headings-color: #0f172a;
+$link-color: #1e40af;
+$link-hover-color: #1e3a8a;
+
+// Typography: system font stack (fully offline, no external loading)
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
+// Heading weight
+$headings-font-weight: 600;
+
+// Border radius and border color
+$border-radius: 0.5rem;
+$card-border-color: #cbd5e1;
+
+/*-- scss:rules --*/
+
+// Content max-width for readability
+.page-columns .content {
+  max-width: 52rem;
+}
