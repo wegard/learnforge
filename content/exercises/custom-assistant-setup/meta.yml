@@ -1,0 +1,37 @@
+id: custom-assistant-setup
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - nb
+title:
+  nb: Workshop for oppsett av tilpasset KI-assistent
+courses:
+  - bik2551
+topics:
+  - prompt-engineering
+tags:
+  - exercise
+  - custom-instructions
+  - persona
+  - workshop
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: approved
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 30
+concepts:
+  - custom-ai-assistants
+  - prompt-engineering-basics
+  - context-windows-and-rag
+solution_storage: separate-file
+solution_visibility: teacher

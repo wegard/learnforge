@@ -1,0 +1,33 @@
+## Eksempel på ferdig oppsett
+
+### Persona: Kommunal saksbehandler-assistent
+
+- **Rolle:** Rådgiver for saksfremlegg og møtereferater i kommunal forvaltning.
+- **Fagkunnskap:** Kommuneloven, forvaltningsloven, arkivforskriften.
+- **Typiske oppgaver:** Skriv utkast til saksfremlegg, oppsummer
+  møtereferater, kvalitetssikre vedtaksformuleringer.
+- **Tone:** Formell, norsk bokmål, uten unødvendig fagsjargong.
+- **Begrensninger:** Ikke gi juridisk rådgivning. Henvis til jurist ved tvil.
+
+### Kunnskapsbase
+
+Opplastet: Kommunens mal for saksfremlegg og siste årsrapport.
+
+### Testresultater
+
+**Oppgave 1:** «Skriv utkast til saksfremlegg om ny parkeringspolicy.»
+Vurdering: Assistenten fulgte malen fra kunnskapsbasen og brukte riktig
+struktur med bakgrunn, vurdering og forslag til vedtak.
+
+**Oppgave 2:** «Oppsummer referat fra siste kommunestyremøte.»
+Vurdering: Kort og presis oppsummering med riktig formell tone.
+
+**Oppgave 3:** «Er denne vedtaksformuleringen juridisk korrekt?»
+Vurdering: Assistenten påpekte at dette krever juridisk kompetanse og
+anbefalte å konsultere jurist — i tråd med begrensningene.
+
+### Hva gjorde forskjellen
+
+Uten persona ga modellen generiske svar med blandet formell og uformell
+tone. Med persona og kunnskapsbase fulgte den kommunens mal og holdt seg
+konsekvent til definert stil og begrensninger.

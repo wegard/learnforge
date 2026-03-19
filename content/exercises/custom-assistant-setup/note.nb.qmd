@@ -1,0 +1,31 @@
+## Bygg din egen KI-assistent
+
+I denne workshopen setter du opp en tilpasset KI-assistent for din
+arbeidshverdag. Bruk en valgfri plattform (GPT, Gem, Claude Project).
+
+### Steg 1: Definer persona
+
+Fyll ut følgende for assistenten din:
+
+- **Rolle:** Hva er assistentens funksjon?
+- **Fagkunnskap:** Hvilke temaer skal den beherske?
+- **Typiske oppgaver:** Hva skal den hjelpe deg med daglig?
+- **Tone og stil:** Formell, uformell, kortfattet, utdypende?
+- **Begrensninger:** Hva skal den ikke gjøre?
+
+### Steg 2: Last opp kunnskapsbase
+
+Velg ett til to dokumenter fra din arbeidshverdag (retningslinjer,
+maler, prosjektbeskrivelser) og last dem opp som kontekst.
+
+### Steg 3: Test med tre oppgaver
+
+Still assistenten tre oppgaver du faktisk gjør i jobben. Vurder:
+
+1. Ga assistenten et relevant og nyttig svar?
+2. Brukte den kunnskapsbasen i svaret?
+3. Holdt den seg til definert tone og stil?
+
+**Suksesskriterier:** Assistenten gir merkbart bedre svar enn en standard
+KI-samtale uten tilpasning. Du kan forklare for en kollega hva personaen
+inneholder og hvorfor.
