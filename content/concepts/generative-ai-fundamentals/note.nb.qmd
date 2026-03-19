@@ -1,0 +1,67 @@
+## Spraakmodeller genererer tekst gjennom prediksjon, ikke forståelse
+
+Store spraakmodeller (LLM-er) produserer tekst ved å forutsi neste ord basert på
+sannsynlighet. De forstår ikke innholdet slik et menneske gjør. Denne forskjellen
+er grunnleggende for å bruke verktøyene riktig i `BIK 2551`: det som ser ut som
+forståelse er statistisk mønstergjenkjenning trent på enorme tekstmengder.
+
+Det betyr at modellene kan være imponerende presise på mange oppgaver, men også
+ta selvsikkert feil uten å vite det selv.
+
+## Slik trenes en spraakmodell
+
+En LLM utvikles i flere steg:
+
+- **Pre-training** bruker store mengder tekst fra internett til å lære språklige
+  mønstre. Modellen lærer å forutsi neste ord i en setning.
+- **Fine-tuning** tilpasser modellen til å følge instruksjoner og svare som en
+  nyttig assistent, ofte med menneskelig tilbakemelding.
+- **RAG (Retrieval-Augmented Generation)** kobler modellen til eksterne
+  kunnskapskilder slik at den kan hente oppdatert eller spesialisert informasjon
+  i stedet for å stole på det den husker fra trening.
+
+Disse stegene forklarer hvorfor ulike plattformer gir ulike svar: de bruker
+forskjellige modeller, trent og tilpasset på forskjellige måter.
+
+## Kontekstvindu og forskjellen på modeller og plattformer
+
+Kontekstvinduet er modellens arbeidshukommelse — alt den kan se og bruke i en
+enkelt samtale. Jo mer relevant kontekst du gir, desto bedre svar får du.
+
+Det er viktig å skille mellom **modeller** (GPT-4, Claude, Gemini) og
+**plattformer** (ChatGPT, claude.ai, Google AI Studio). En plattform kan tilby
+flere modeller, og samme modell kan være tilgjengelig på ulike plattformer.
+
+## Hvorfor modeller hallusinerer
+
+Hallusinering skjer når modellen genererer tekst som høres troverdig ut, men som
+er feil. Dette er en naturlig konsekvens av at modellen alltid produserer det
+mest sannsynlige neste ordet — uavhengig av om resultatet er sant.
+
+Praktiske strategier for å oppdage hallusinasjoner:
+
+- Be modellen oppgi kilder og verifiser dem manuelt.
+- Sammenlign svar fra flere modeller eller plattformer.
+- Vær ekstra kritisk når modellen svarer med høy sikkerhet på nisjetemaer.
+
+::: {.teacher-only}
+Be deltakerne teste en modell med et spørsmål fra eget fagfelt der de kjenner
+riktig svar. Diskuter i plenum: Tok modellen feil? Var det lett å oppdage?
+Hvordan ville en kollega uten fagkunnskap reagert?
+:::
+
+## Hvor dette emnet passer i `BIK 2551`
+
+Generativ KI og store spraakmodeller er utgangspunktet for hele kurset. Uten en
+grunnleggende forståelse av hvordan modellene fungerer, er det vanskelig å bruke
+dem effektivt eller vurdere begrensningene deres.
+
+Denne modulen legger grunnlaget for prompt engineering (neste tema), etikk og
+jus, og de mer avanserte emnene som KI-agenter og automatisering senere i kurset.
+
+## Praktiske poeng å ta med videre
+
+- Spraakmodeller forutsier tekst, de forstår ikke innholdet.
+- Velg plattform og modell ut fra oppgaven — ingen modell er best på alt.
+- Hallusinasjoner er normalt, ikke et tegn på feil bruk. Sjekk alltid viktige påstander.
+- Kontekstvinduet er ditt viktigste verktøy for å få bedre svar.

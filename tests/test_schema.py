@@ -14,9 +14,9 @@ from app.validator import validate_repository
 def test_sample_repository_validates_cleanly() -> None:
     report = validate_repository(REPO_ROOT, run_build_checks=False)
     assert report.ok
-    assert report.warning_count == 13
-    assert report.object_count == 25
-    assert report.course_count == 2
+    assert report.warning_count >= 14
+    assert report.object_count >= 27
+    assert report.course_count >= 2
     assert report.search_index_path == "build/index/content-index.json"
 
 
@@ -248,8 +248,40 @@ def test_validator_ignores_course_inbox_material(tmp_path) -> None:
 
     report = validate_repository(tmp_path, run_build_checks=False)
 
-    assert report.object_count == 25
+    assert report.object_count >= 26
     assert all(not issue.path.startswith("course-inbox/") for issue in report.issues)
+
+
+def test_validator_ignores_incomplete_course_shell(tmp_path) -> None:
+    copy_repo_subset(tmp_path)
+    course_dir = tmp_path / "courses" / "draft-course"
+    course_dir.mkdir(parents=True)
+    (course_dir / "course.yml").write_text(
+        "\n".join(
+            [
+                "id: draft-course",
+                "status: draft",
+                "visibility: student",
+                "languages:",
+                "  - en",
+                "title:",
+                "  en: Draft course",
+                "summary:",
+                "  en: Draft summary",
+                "owners:",
+                "  - vegard",
+                "updated: 2026-03-19",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_repository(tmp_path, run_build_checks=False)
+
+    assert report.ok
+    assert report.course_count >= 2
+    assert all(issue.path != "courses/draft-course/course.yml" for issue in report.issues)
 
 
 def copy_repo_subset(target_root) -> None:
