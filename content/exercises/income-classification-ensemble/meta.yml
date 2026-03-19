@@ -1,0 +1,45 @@
+id: income-classification-ensemble
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Income classification with ensembles
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - ensemble-methods
+  - tree-based-methods
+  - model-selection
+tags:
+  - exercise
+  - scikit-learn
+  - ensemble
+  - random-forest
+  - adaboost
+  - adult-dataset
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 75
+concepts:
+  - decision-tree-learning
+  - ensemble-methods-introduction
+  - random-forests
+  - model-selection-cross-validation
+  - bias-variance-tradeoff
+solution_storage: separate-file
+solution_visibility: teacher

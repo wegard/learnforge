@@ -27,6 +27,7 @@ reusable concepts, figures, and exercises with moderate rewriting.
 
 | Legacy source | Action | Target kind | Proposed target id |
 | --- | --- | --- | --- |
+| `notebooks/01_Working_with_data_in_jupyter_notebooks.ipynb` | Rewrite around leakage-safe preprocessing, scaling, and reusable pipelines | concept | `ml-preprocessing-pipelines` |
 | `notebooks/02_OLS.ipynb` | Rewrite into reusable exposition | concept | `linear-regression-prediction` |
 | `notebooks/03_Supervised_learning_with_kNN.ipynb` | Rewrite and trim notebook-specific workflow | concept | `knn-supervised-learning` |
 | `notebooks/05_Regularised_regressions.ipynb` | Rewrite around ridge/lasso/elastic-net | concept | `penalized-linear-models` |
@@ -38,6 +39,7 @@ reusable concepts, figures, and exercises with moderate rewriting.
 | `notebooks/11_K_means.ipynb` | Rewrite | concept | `k-means-clustering` |
 | `notebooks/12_Introducing_ensemble_methods.ipynb` | Rewrite | concept | `ensemble-methods-introduction` |
 | `notebooks/13_Random_forests.ipynb` | Rewrite | concept | `random-forests` |
+| `exercises/to_students/01_Data_preprocessing_titanic.ipynb` | Convert into a reproducible preprocessing and baseline-model lab | exercise | `titanic-data-preprocessing` |
 | `exercises/to_students/02_Spam_filtering_with_naive_bayes.ipynb` | Convert to student exercise + teacher solution | exercise | `spam-filtering-naive-bayes` |
 | `exercises/to_students/03_Predicting_house_prices.ipynb` | Convert to student exercise + teacher solution | exercise | `house-prices-regression` |
 | `exercises/to_students/05_Model_selection_evaluation_and_assessment.ipynb` | Convert and simplify | exercise | `model-assessment-lab` |
@@ -91,6 +93,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 - Concept: `bias-variance-tradeoff`
 - Concept: `model-selection-cross-validation`
+- Concept: `ml-preprocessing-pipelines`
 - Concept: `knn-supervised-learning`
 - Concept: `naive-bayes-classification`
 - Concept: `decision-tree-learning`
@@ -102,10 +105,14 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Concept: `principal-component-analysis`
 - Concept: `k-means-clustering`
 - Exercise: `model-assessment-lab`
+- Exercise: `titanic-data-preprocessing`
 - Exercise: `house-prices-regression`
 - Exercise: `spam-filtering-naive-bayes`
+- Exercise: `income-classification-ensemble`
+- Lecture collection: `tem0052-lecture-01`
 - Lecture collection: `tem0052-lecture-02`
 - Lecture collection: `tem0052-lecture-03`
+- Lecture collection: `tem0052-lecture-04`
 - Lecture collection: `tem0052-lecture-05`
 - Lecture collection: `tem0052-lecture-06`
 - Lecture collection: `tem0052-lecture-07`
@@ -127,6 +134,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 ### First exercise candidates
 
+- `titanic-data-preprocessing`
 - `spam-filtering-naive-bayes`
 - `model-assessment-lab`
 
@@ -141,13 +149,9 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 ## Next Migration Actions
 
-1. Convert `income-classification-ensemble` once the ensemble block is stable enough
-   to support another exercise promotion.
-2. Decide whether the next lecture assembly target should be
-   `tem0052-lecture-04` or an earlier foundations/preprocessing slice.
-3. Extract 1-2 reusable figures from the remaining legacy notebooks or slide decks,
+1. Extract 1-2 reusable figures from the remaining legacy notebooks or slide decks,
    especially if the unsupervised block needs a better visual explanation.
-4. Draft the first fresh-authored concept from the redesign-only queue, likely
+2. Draft the first fresh-authored concept from the redesign-only queue, likely
    support vector machines, gradient boosting, or hierarchical clustering.
-5. Leave the neural-network bridge material in the inbox until the classical-ML core
+3. Leave the neural-network bridge material in the inbox until the classical-ML core
    is more complete.

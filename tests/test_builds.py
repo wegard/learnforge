@@ -91,26 +91,44 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "TEM 0052 - Predictive Modelling with Machine Learning" in html
     assert "Browse by Course" not in html
     assert "Course Overview" in html
+    assert "../../collection/tem0052-lecture-01/tem0052-lecture-01.html" in html
     assert "../../collection/tem0052-lecture-02/tem0052-lecture-02.html" in html
     assert "../../collection/tem0052-lecture-03/tem0052-lecture-03.html" in html
+    assert "../../collection/tem0052-lecture-04/tem0052-lecture-04.html" in html
     assert "../../collection/tem0052-lecture-05/tem0052-lecture-05.html" in html
     assert "../../collection/tem0052-lecture-07/tem0052-lecture-07.html" in html
+    assert "../../exercise/titanic-data-preprocessing/titanic-data-preprocessing.html" in html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in html
     assert "../../exercise/house-prices-regression/house-prices-regression.html" in html
     assert "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html" in html
+    assert (
+        "../../exercise/income-classification-ensemble/income-classification-ensemble.html"
+        in html
+    )
+    assert "Lecture 1 - Foundations and preprocessing pipelines" in html
     assert "Lecture 2 - Linear prediction and regularization" in html
     assert "Lecture 3 - Classification methods" in html
+    assert "Lecture 4 - Model assessment and the bias-variance trade-off" in html
     assert "Lecture 5 - Model selection, evaluation, and assessment" in html
     assert "Lecture 7 - Ensemble methods and random forests" in html
+    assert "Titanic data preprocessing lab" in html
     assert "Model assessment lab" in html
     assert "House-price prediction" in html
     assert "Spam filtering with naive Bayes" in html
+    assert "Income classification with ensembles" in html
     assert "No entries." in html
     assert "resources-tem0052" not in html
     assert "Search LearnForge" in html
 
 
 def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
+    preprocessing_concept_artifact = build_target(
+        "ml-preprocessing-pipelines",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     concept_artifact = build_target(
         "bias-variance-tradeoff",
         audience="student",
@@ -181,6 +199,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    preprocessing_exercise_artifact = build_target(
+        "titanic-data-preprocessing",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     exercise_artifact = build_target(
         "model-assessment-lab",
         audience="student",
@@ -202,7 +227,17 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    fourth_exercise_artifact = build_target(
+        "income-classification-ensemble",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
 
+    preprocessing_concept_html = preprocessing_concept_artifact.output_path.read_text(
+        encoding="utf-8"
+    )
     concept_html = concept_artifact.output_path.read_text(encoding="utf-8")
     second_concept_html = second_concept_artifact.output_path.read_text(encoding="utf-8")
     third_concept_html = third_concept_artifact.output_path.read_text(encoding="utf-8")
@@ -213,9 +248,21 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     eighth_concept_html = eighth_concept_artifact.output_path.read_text(encoding="utf-8")
     ninth_concept_html = ninth_concept_artifact.output_path.read_text(encoding="utf-8")
     tenth_concept_html = tenth_concept_artifact.output_path.read_text(encoding="utf-8")
+    preprocessing_exercise_html = preprocessing_exercise_artifact.output_path.read_text(
+        encoding="utf-8"
+    )
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
     third_exercise_html = third_exercise_artifact.output_path.read_text(encoding="utf-8")
+    fourth_exercise_html = fourth_exercise_artifact.output_path.read_text(encoding="utf-8")
+
+    assert "Preprocessing pipelines for machine learning" in preprocessing_concept_html
+    assert (
+        "../../exercise/titanic-data-preprocessing/titanic-data-preprocessing.html"
+        in preprocessing_concept_html
+    )
+    assert "../../course/tem0052/tem0052.html" in preprocessing_concept_html
+    assert "teacher-only" not in preprocessing_concept_html
 
     assert "Bias-variance trade-off" in concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
@@ -399,6 +446,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in tenth_concept_html
     assert "teacher-only" not in tenth_concept_html
 
+    assert "Titanic data preprocessing lab" in preprocessing_exercise_html
+    assert "Preprocessing pipelines for machine learning" in preprocessing_exercise_html
+    assert "Logistic regression for classification" in preprocessing_exercise_html
+    assert "k-nearest neighbors for supervised learning" in preprocessing_exercise_html
+    assert "The safest teacher solution" not in preprocessing_exercise_html
+    assert "lf-solution-block" not in preprocessing_exercise_html
+
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html
     assert "k-nearest neighbors for supervised learning" in exercise_html
@@ -424,6 +478,14 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "Logistic regression for classification" in third_exercise_html
     assert "The safest teacher solution" not in third_exercise_html
     assert "lf-solution-block" not in third_exercise_html
+
+    assert "Income classification with ensembles" in fourth_exercise_html
+    assert "Decision tree learning" in fourth_exercise_html
+    assert "Introduction to ensemble methods" in fourth_exercise_html
+    assert "Random forests" in fourth_exercise_html
+    assert "Bias-variance trade-off" in fourth_exercise_html
+    assert "The safest teacher solution" not in fourth_exercise_html
+    assert "lf-solution-block" not in fourth_exercise_html
 
 
 def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
@@ -455,6 +517,82 @@ def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
         "model-selection-cross-validation",
         "bias-variance-tradeoff",
         "model-assessment-lab",
+    ]
+
+
+def test_tem0052_lecture_04_build_contains_assessment_block() -> None:
+    student_artifact = build_target(
+        "tem0052-lecture-04",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    teacher_artifact = build_target(
+        "tem0052-lecture-04",
+        audience="teacher",
+        language="en",
+        output_format="revealjs",
+        root=REPO_ROOT,
+    )
+
+    student_html = student_artifact.output_path.read_text(encoding="utf-8")
+    teacher_html = teacher_artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        student_artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Course context" in student_html
+    assert "This lecture includes" in student_html
+    assert "Bias-variance trade-off" in student_html
+    assert "Model assessment lab" in student_html
+    assert "Model selection and cross-validation" not in student_html
+    assert "Lecture 4 - Model assessment and the bias-variance trade-off" in teacher_html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "bias-variance-tradeoff",
+        "model-assessment-lab",
+    ]
+
+
+def test_tem0052_lecture_01_build_contains_preprocessing_block() -> None:
+    student_artifact = build_target(
+        "tem0052-lecture-01",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    teacher_artifact = build_target(
+        "tem0052-lecture-01",
+        audience="teacher",
+        language="en",
+        output_format="revealjs",
+        root=REPO_ROOT,
+    )
+
+    student_html = student_artifact.output_path.read_text(encoding="utf-8")
+    teacher_html = teacher_artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        student_artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Course context" in student_html
+    assert "This lecture includes" in student_html
+    assert "Preprocessing pipelines for machine learning" in student_html
+    assert "Titanic data preprocessing lab" in student_html
+    assert "Random forests" not in student_html
+    assert "Lecture 1 - Foundations and preprocessing pipelines" in teacher_html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "ml-preprocessing-pipelines",
+        "titanic-data-preprocessing",
     ]
 
 
@@ -568,6 +706,7 @@ def test_tem0052_lecture_07_build_contains_tree_ensemble_block() -> None:
     assert "Decision tree learning" in student_html
     assert "Introduction to ensemble methods" in student_html
     assert "Random forests" in student_html
+    assert "Income classification with ensembles" in student_html
     assert "Model assessment lab" not in student_html
     assert "Lecture 7 - Ensemble methods and random forests" in teacher_html
     assert [
@@ -578,6 +717,7 @@ def test_tem0052_lecture_07_build_contains_tree_ensemble_block() -> None:
         "decision-tree-learning",
         "ensemble-methods-introduction",
         "random-forests",
+        "income-classification-ensemble",
     ]
 
 

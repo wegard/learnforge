@@ -1,0 +1,62 @@
+## Lab brief
+
+Use the Adult income dataset to compare a single decision tree with ensemble-based
+classifiers on mixed tabular data.
+The point of the lab is not to chase the best possible score.
+The point is to build a reproducible workflow that handles preprocessing honestly and
+shows what bagging or boosting changes relative to one unstable tree.
+
+Write the exercise as a normal script, for example
+`income_classification_ensemble.py`, plus a short results note.
+Use the public UCI or OpenML version of the dataset, or an equivalent local course
+copy.
+Do not label-encode the full dataframe before the split.
+Keep imputation and categorical encoding inside the modelling workflow.
+
+## Tasks
+
+1. Load the Adult income data, clean obvious missing markers such as `?`, and define
+   the binary target with a documented rule such as `income > 50K`.
+2. Create one deterministic, stratified train/test split and keep it fixed for the
+   full exercise.
+3. Build a preprocessing workflow with `ColumnTransformer` so numerical and
+   categorical predictors are handled separately inside the pipeline.
+4. Fit a baseline `DecisionTreeClassifier` and report at least:
+   - training ROC-AUC,
+   - test ROC-AUC,
+   - test accuracy,
+   - test precision,
+   - test recall.
+5. Fit a `RandomForestClassifier` under the same preprocessing and evaluation rule.
+   Tune at least `n_estimators` and one tree-complexity control with a documented
+   search rule.
+6. Fit one boosting workflow, for example `AdaBoostClassifier` or
+   `GradientBoostingClassifier`, under the same split and metric logic.
+7. Compare the three workflows in one short table and explain whether the ensemble
+   gains look meaningful or merely cosmetic.
+8. Inspect the best ensemble model with feature importance or permutation importance.
+   Report the five predictors that look most influential and explain why that is not
+   the same thing as a causal effect.
+9. Write one short interpretation section covering:
+   - whether bagging or boosting improved on the single tree,
+   - which metric you trust most for this task and why,
+   - whether the performance gain is worth the loss in interpretability,
+   - one change you would try next.
+
+## Starter outline
+
+```python
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
+```
+
+Keep the workflow deterministic.
+Use a fixed `random_state` anywhere randomness enters the workflow, and keep the
+preprocessing fit strictly inside the training pipeline.

@@ -99,6 +99,54 @@ def test_tem0052_lecture_assembly_expands_only_promoted_objects() -> None:
     assert "iv-intuition" not in assembly.markdown
 
 
+def test_tem0052_lecture_01_assembly_expands_preprocessing_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "ml-preprocessing-pipelines",
+        "titanic-data-preprocessing",
+    ]
+    assert "## Preprocessing is part of the model, not a cleanup prelude" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "random-forests" not in assembly.markdown
+
+
+def test_tem0052_lecture_04_assembly_expands_assessment_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-04",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "bias-variance-tradeoff",
+        "model-assessment-lab",
+    ]
+    assert "## Why the trade-off matters" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "Model selection is a workflow choice" not in assembly.markdown
+
+
 def test_tem0052_lecture_02_assembly_expands_regression_block() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -174,6 +222,7 @@ def test_tem0052_lecture_07_assembly_expands_tree_ensemble_block() -> None:
         "decision-tree-learning",
         "ensemble-methods-introduction",
         "random-forests",
+        "income-classification-ensemble",
     ]
     assert "## Decision trees turn prediction into a sequence of splits" in assembly.markdown
     assert (
@@ -181,6 +230,7 @@ def test_tem0052_lecture_07_assembly_expands_tree_ensemble_block() -> None:
         in assembly.markdown
     )
     assert "## Random forests make trees less fragile" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
     assert "model-assessment-lab" not in assembly.markdown
 
 
@@ -539,6 +589,47 @@ def test_model_assessment_exercise_links_tem0052_classification_concepts() -> No
     assert "## Related links" in assembly.markdown
 
 
+def test_ml_preprocessing_concept_links_tem0052_foundations_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "ml-preprocessing-pipelines",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "titanic-data-preprocessing" in related_ids
+    assert "knn-supervised-learning" in related_ids
+    assert "logistic-regression-classification" in related_ids
+    assert "model-selection-cross-validation" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
+def test_titanic_preprocessing_exercise_links_tem0052_foundations_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "titanic-data-preprocessing",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "ml-preprocessing-pipelines" in related_ids
+    assert "knn-supervised-learning" in related_ids
+    assert "logistic-regression-classification" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
 def test_spam_filtering_exercise_links_tem0052_classification_concepts() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -557,6 +648,28 @@ def test_spam_filtering_exercise_links_tem0052_classification_concepts() -> None
     assert "naive-bayes-classification" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "logistic-regression-classification" in related_ids
+    assert "tem0052" in related_ids
+    assert "## Related links" in assembly.markdown
+
+
+def test_income_classification_exercise_links_tem0052_ensemble_concepts() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "income-classification-ensemble",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "bias-variance-tradeoff" in related_ids
+    assert "decision-tree-learning" in related_ids
+    assert "ensemble-methods-introduction" in related_ids
+    assert "random-forests" in related_ids
+    assert "model-selection-cross-validation" in related_ids
     assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 

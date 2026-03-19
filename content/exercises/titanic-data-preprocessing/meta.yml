@@ -1,0 +1,42 @@
+id: titanic-data-preprocessing
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Titanic data preprocessing lab
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - preprocessing
+  - feature-engineering
+  - classification
+tags:
+  - exercise
+  - pandas
+  - scikit-learn
+  - titanic
+  - imputation
+  - one-hot-encoding
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - ml-preprocessing-pipelines
+  - logistic-regression-classification
+  - knn-supervised-learning
+solution_storage: separate-file
+solution_visibility: teacher

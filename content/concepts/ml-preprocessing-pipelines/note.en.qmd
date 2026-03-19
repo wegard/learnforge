@@ -1,0 +1,102 @@
+## Preprocessing is part of the model, not a cleanup prelude
+
+Raw tabular data is rarely ready for modelling.
+Missing values, categorical variables, inconsistent scales, and rare or extreme
+values all change how a model behaves.
+That means preprocessing is not a cosmetic step before the "real" machine-learning
+work starts.
+It is part of the modelling workflow itself.
+
+In `TEM 0052`, students should treat preprocessing choices as assumptions that can
+change both predictive performance and interpretability.
+
+## Split first, then fit preprocessing
+
+The most important preprocessing rule is chronological rather than mathematical:
+split the data before you fit anything that learns from the feature distribution.
+
+That includes:
+
+- imputers that estimate replacement values,
+- encoders that learn category sets,
+- scalers that estimate means and standard deviations,
+- dimensionality-reduction steps such as PCA.
+
+If those steps are fit on the full dataset before the split, the workflow leaks test
+information into training.
+The code may still run, but the evaluation becomes too optimistic.
+
+## The common preprocessing tasks solve different problems
+
+The usual preprocessing tasks are not interchangeable.
+Each one answers a different question:
+
+- imputation handles missing information,
+- encoding converts categorical structure into numeric form a model can use,
+- scaling keeps large-unit variables from dominating distance- or variance-based
+  methods,
+- outlier handling decides whether extreme values are signal, noise, or a data-quality
+  issue.
+
+The important teaching point is that there is no universal checklist that should be
+applied blindly.
+Students should be able to justify why a step is needed for a given dataset and a
+given downstream model.
+
+## Pipelines make the workflow reproducible
+
+Manual preprocessing done column by column in scattered notebook cells is difficult to
+audit and easy to break.
+`Pipeline` and `ColumnTransformer` from scikit-learn are useful because they keep the
+workflow explicit:
+
+- which columns are numerical or categorical,
+- how each branch is transformed,
+- and which estimator receives the transformed design matrix.
+
+That structure matters in this course because it keeps preprocessing aligned with the
+evaluation rule.
+A train/test split or cross-validation fold should carry the preprocessing with it,
+not rely on a separately edited dataframe.
+
+::: {.teacher-only}
+Ask students whether a model score should be trusted if the preprocessing was done
+once on the full dataset "just for convenience."
+:::
+
+## Model choice changes the preprocessing pressure
+
+Different algorithms react differently to the same raw data.
+
+- kNN is sensitive to scale because distances drive prediction,
+- logistic regression needs numeric inputs and often benefits from well-behaved
+  feature scaling,
+- tree-based models are less sensitive to monotone rescaling but still depend on
+  sensible handling of missing or categorical variables,
+- PCA and k-means can be dominated by unit differences if scaling is ignored.
+
+So preprocessing is not a detached data-cleaning topic.
+It is the bridge between the raw dataset and the assumptions built into each model
+family.
+
+## Where preprocessing fits in `TEM 0052`
+
+This concept belongs at the start of the course because many later topics assume it
+without repeating it in full.
+
+Students need preprocessing logic before they can:
+
+- compare regression and classification baselines fairly,
+- trust cross-validation results,
+- interpret PCA or clustering outputs,
+- and build end-to-end scripts that are reproducible outside the notebook.
+
+## What students should report
+
+When students describe preprocessing in `TEM 0052`, they should usually report:
+
+- which variables were kept, dropped, or grouped,
+- how missing values were handled and why,
+- how categorical variables were encoded,
+- whether scaling was applied and which models required it,
+- and how the preprocessing was tied to the train/test or validation workflow.

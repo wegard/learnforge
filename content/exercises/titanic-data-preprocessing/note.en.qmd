@@ -1,0 +1,60 @@
+## Lab brief
+
+Use the Titanic training data to turn a messy tabular dataset into a reproducible
+machine-learning workflow.
+The point of the lab is not to chase a Kaggle score.
+The point is to practice inspection, missing-value handling, categorical encoding,
+scaling, and pipeline-based modelling in one defensible script.
+
+Write the exercise as a normal script, for example `titanic_data_preprocessing.py`,
+plus a short memo that explains your preprocessing choices.
+Use the original Kaggle Titanic training data or an equivalent local course copy.
+
+## Tasks
+
+1. Load the training data and identify:
+   - the target variable,
+   - a first set of plausible predictors,
+   - columns that look unsuitable for a first-pass model without extra work.
+2. Create one deterministic train/test split and keep it fixed for the rest of the
+   exercise.
+3. Inspect the missing-data pattern and decide how to handle at least:
+   - `Age`,
+   - `Embarked`,
+   - `Cabin`.
+   Document why you impute, drop, or simplify each case.
+4. Inspect the numerical distributions, especially `Fare` and `Age`, and explain
+   whether you keep, cap, transform, or simply document potential outliers.
+5. Build a preprocessing workflow with `ColumnTransformer` so numerical and
+   categorical columns are handled in separate branches.
+6. Fit one baseline `LogisticRegression` model on top of that preprocessing pipeline
+   and report at least:
+   - test accuracy,
+   - test ROC-AUC,
+   - a confusion matrix.
+7. Report what the transformed feature space looks like after encoding, for example
+   by stating the resulting number of model inputs or listing representative encoded
+   columns.
+8. Compute and comment on survival rates by passenger class and by sex as a simple
+   sanity check against the model results.
+9. Write one short reflection section covering:
+   - which preprocessing choice mattered most,
+   - which variables you would revisit in a second pass,
+   - why keeping preprocessing inside the pipeline matters for honest evaluation.
+
+## Starter outline
+
+```python
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import ConfusionMatrixDisplay, accuracy_score, roc_auc_score
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+```
+
+Keep the workflow deterministic.
+Do the split before you fit imputers, encoders, or scalers, and keep those steps
+inside the pipeline rather than modifying the full dataframe in place.

@@ -1,4 +1,4 @@
-id: tem0052-lecture-07
+id: tem0052-lecture-01
 kind: collection
 collection_kind: lecture
 status: approved
@@ -6,18 +6,18 @@ visibility: student
 languages:
   - en
 title:
-  en: Lecture 7 - Ensemble methods and random forests
+  en: Lecture 1 - Foundations and preprocessing pipelines
 courses:
   - tem0052
 topics:
   - predictive-modelling
-  - ensemble-methods
-  - tree-based-methods
-  - model-selection
+  - preprocessing
+  - feature-engineering
+  - workflows
 tags:
   - lecture
-  - ensemble-methods
-  - tree-based-methods
+  - preprocessing
+  - workflows
 outputs:
   - html
   - revealjs
@@ -31,7 +31,5 @@ translation_status:
 ai:
   generated_fields: []
 items:
-  - decision-tree-learning
-  - ensemble-methods-introduction
-  - random-forests
-  - income-classification-ensemble
+  - ml-preprocessing-pipelines
+  - titanic-data-preprocessing

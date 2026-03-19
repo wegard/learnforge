@@ -1,0 +1,42 @@
+id: ml-preprocessing-pipelines
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Preprocessing pipelines for machine learning
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - preprocessing
+  - feature-engineering
+  - workflows
+tags:
+  - preprocessing
+  - pipelines
+  - imputation
+  - encoding
+  - scaling
+level: introductory
+prerequisites: []
+related:
+  - titanic-data-preprocessing
+  - knn-supervised-learning
+  - logistic-regression-classification
+  - model-selection-cross-validation
+  - principal-component-analysis
+  - k-means-clustering
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

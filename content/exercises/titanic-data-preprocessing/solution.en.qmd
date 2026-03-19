@@ -1,0 +1,51 @@
+The safest teacher solution is a compact preprocessing-and-baseline workflow, not a
+feature-engineering competition entry.
+
+## Suggested approach
+
+1. Load the Titanic training data and define `Survived` as the target.
+2. Start with a practical first-pass feature set such as:
+   - `Pclass`
+   - `Sex`
+   - `Age`
+   - `SibSp`
+   - `Parch`
+   - `Fare`
+   - `Embarked`
+3. Create one deterministic train/test split, for example with `test_size=0.2` and
+   `random_state=42`.
+4. Use a preprocessing pipeline with:
+   - median imputation plus `StandardScaler()` for numerical columns,
+   - most-frequent imputation plus `OneHotEncoder(handle_unknown="ignore")` for
+     categorical columns.
+5. Drop `Cabin` in the first pass unless students can justify a more careful
+   treatment, because the missingness is heavy and the raw values are sparse and
+   high-cardinality.
+6. Fit `LogisticRegression(max_iter=1000)` on the preprocessed design matrix and
+   report accuracy, ROC-AUC, and a confusion matrix on the held-out test split.
+7. Use the transformed feature names or transformed matrix shape to show that the
+   categorical variables expanded into multiple model inputs.
+
+## What students should usually find
+
+- `Sex`, `Pclass`, `Fare`, and `Age` usually carry clear signal even in a simple
+  baseline workflow.
+- `Cabin` is often more useful as a teaching example about missingness and feature
+  design than as a first-pass predictor.
+- One-hot encoding increases the number of model inputs, which is expected rather
+  than a sign that the preprocessing went wrong.
+- The baseline logistic model is good enough to make preprocessing mistakes visible,
+  even if it is not the best possible Titanic classifier.
+
+## Teaching emphasis
+
+The important point is not the exact Titanic score.
+The important point is that students can explain why the preprocessing rule is
+defensible and how it is tied to the evaluation workflow.
+
+Use the debrief to stress three things:
+
+- dropping or imputing a column should be justified, not done mechanically,
+- preprocessing fit on the full dataset would leak information into the test split,
+- the pipeline object is part of the model specification, not an implementation
+  detail.

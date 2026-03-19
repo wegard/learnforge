@@ -1,0 +1,48 @@
+The safest teacher solution is a modest, fully reproducible comparison between one
+unstable baseline tree and two ensemble workflows.
+
+## Suggested approach
+
+1. Load the Adult income data into a dataframe, replace `?` with missing values, and
+   define the target as `1` for income above `50K` and `0` otherwise.
+2. Create one deterministic, stratified train/test split such as `test_size=0.2`
+   with `random_state=42`.
+3. Build a preprocessing pipeline with:
+   - median imputation for numerical columns,
+   - most-frequent imputation for categorical columns,
+   - `OneHotEncoder(handle_unknown="ignore", sparse_output=False)` for the
+     categorical branch.
+4. Compare three workflows under the same split:
+   - `DecisionTreeClassifier(random_state=42)`
+   - `RandomForestClassifier(random_state=42)`
+   - `AdaBoostClassifier(random_state=42)`
+5. Use a small, defensible hyperparameter search for the ensemble models and keep
+   the selection rule simple, for example `GridSearchCV(..., scoring="roc_auc")`.
+6. Evaluate the final selected workflows on the held-out test set with ROC-AUC,
+   accuracy, precision, and recall.
+7. Inspect the best ensemble with feature importance or permutation importance and
+   report a short list of high-signal variables.
+
+## What students should usually find
+
+- A single decision tree often looks strong on the training data and noticeably less
+  convincing on the test split.
+- A random forest usually improves stability and often improves test ROC-AUC because
+  averaging reduces the variance of the base trees.
+- AdaBoost is often competitive and can outperform the single tree, but the gain may
+  depend more strongly on the tuning choices.
+- Variables such as `age`, `education-num`, `hours-per-week`, `capital-gain`, and
+  marital or occupation categories often appear among the strongest predictors.
+
+## Teaching emphasis
+
+The important point is not whether one ensemble wins by a tiny margin.
+The important point is that students can defend the whole workflow: split,
+preprocess, fit, compare, and interpret.
+
+Use the debrief to stress three things:
+
+- preprocessing must be fit after the split, not on the full dataframe,
+- ROC-AUC is useful here because the positive class is the minority class,
+- feature importance can help with model inspection, but it does not justify causal
+  claims about income.
