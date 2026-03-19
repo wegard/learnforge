@@ -23,6 +23,7 @@ prerequisites: []
 related:
   - bias-variance-tradeoff
   - model-assessment-lab
+  - house-prices-regression
 outputs:
   - html
   - pdf

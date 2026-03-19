@@ -1,0 +1,40 @@
+The safest teacher solution is a simple, reproducible regression workflow rather than
+an aggressively tuned competition pipeline.
+
+## Suggested approach
+
+1. Load the Ames housing data and separate `SalePrice` from the predictors.
+2. Keep one fixed train/test split, for example `test_size=0.2` with
+   `random_state=42`.
+3. Start with numerical predictors only, then place imputation and scaling inside a
+   `Pipeline` so the test data is never used when fitting preprocessing steps.
+4. Compare:
+   - `LinearRegression()`
+   - `RidgeCV(...)`
+   - `LassoCV(...)`
+5. Evaluate each model with the same held-out metrics and keep the reporting table
+   simple: train/test `R^2` and train/test `MSE`.
+6. Inspect the fitted lasso coefficients by absolute size, keep the strongest
+   predictors, and refit a plain linear model on that reduced feature set.
+
+## What students should usually find
+
+- A plain linear baseline can perform reasonably well once the numerical predictors
+  are cleaned and scaled consistently.
+- Ridge often improves stability relative to the unpenalized baseline when many
+  correlated predictors are present.
+- Lasso typically drops a large share of the weaker predictors and gives a more
+  interpretable reduced model, even when it is not the absolute best on test error.
+- Variables related to overall quality, living area, basement size, garage capacity,
+  and construction year often remain influential, though the exact ranking depends on
+  the preprocessing rule.
+
+## Teaching emphasis
+
+The important point is not whether one penalty beats another by a tiny margin. The
+important point is that students can defend the full workflow: split, preprocess,
+fit, evaluate, and interpret.
+
+If you want one extension task, ask students whether predicting `log(SalePrice)`
+would make the residual pattern easier to interpret, but keep that as an optional
+teacher-side follow-up rather than a required submission rule.

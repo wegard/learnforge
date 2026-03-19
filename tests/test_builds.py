@@ -93,8 +93,10 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "Course Overview" in html
     assert "../../collection/tem0052-lecture-05/tem0052-lecture-05.html" in html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in html
+    assert "../../exercise/house-prices-regression/house-prices-regression.html" in html
     assert "Lecture 5 - Model selection, evaluation, and assessment" in html
     assert "Model assessment lab" in html
+    assert "House-price prediction" in html
     assert "No entries." in html
     assert "resources-tem0052" not in html
     assert "Search LearnForge" in html
@@ -122,10 +124,18 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    second_exercise_artifact = build_target(
+        "house-prices-regression",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
 
     concept_html = concept_artifact.output_path.read_text(encoding="utf-8")
     second_concept_html = second_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
+    second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
 
     assert "Bias-variance trade-off" in concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
@@ -142,6 +152,12 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "Model selection and cross-validation" in exercise_html
     assert "The point of the lab is not the exact winning score." not in exercise_html
     assert "lf-solution-block" not in exercise_html
+
+    assert "House-price prediction" in second_exercise_html
+    assert "Bias-variance trade-off" in second_exercise_html
+    assert "Model selection and cross-validation" in second_exercise_html
+    assert "the exact ranking depends on the preprocessing rule" not in second_exercise_html
+    assert "lf-solution-block" not in second_exercise_html
 
 
 def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:

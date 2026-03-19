@@ -1,0 +1,40 @@
+id: house-prices-regression
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: House-price prediction
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - regression
+  - model-selection
+  - regularization
+tags:
+  - exercise
+  - scikit-learn
+  - regression
+  - ridge
+  - lasso
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - bias-variance-tradeoff
+  - model-selection-cross-validation
+solution_storage: separate-file
+solution_visibility: teacher

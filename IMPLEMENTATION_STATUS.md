@@ -7,6 +7,7 @@
 - Phase 11 kickoff complete checkpoint: `tem0052` migration inventory + canonical course shell
 - Phase 11 complete checkpoint: `tem0052` first canonical promotion slice
 - Phase 11 complete checkpoint: `tem0052` second concept promotion slice
+- Phase 11 complete checkpoint: `tem0052` second exercise promotion slice
 
 ## Non-Goals For This Run
 
@@ -16,7 +17,7 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No broad `tem0052` migration beyond one additional concept and narrow metadata/lecture integration
+- No broad `tem0052` migration beyond one additional exercise and narrow metadata/navigation integration
 - Keep `tem0052` intentionally English-only in this slice
 - No Textual TUI
 - No broad redesign of existing student navigation beyond what resource workflow required
@@ -166,10 +167,14 @@
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
+- Promoted the second canonical `tem0052` exercise with teacher solution separation:
+  - `content/exercises/house-prices-regression/`
+  - `solution.en.qmd`
 - Assembled the first canonical `tem0052` lecture collection using only promoted objects:
   - `collections/lectures/tem0052-lecture-05/meta.yml`
 - Expanded `tem0052-lecture-05` to include the promoted model-selection concept
 - Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
+- Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
 - Wired the first lecture into `courses/tem0052/plan.yml`
 - Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
 - Added regression coverage for:
@@ -177,6 +182,10 @@
   - direct concept/exercise student pages
   - lecture assembly from promoted object IDs only
   - representative-target validation for `tem0052-lecture-05`
+- Expanded `tem0052` regression coverage to include:
+  - student course-page surfacing of `house-prices-regression`
+  - concept-page related links to the new exercise
+  - the new student exercise page with teacher solution exclusion
 - Hardened Quarto project/build hygiene for repeated renders by:
   - excluding `build/generated/**` and other build trees from project render discovery
   - clearing stale `build/generated/**/*_files` scratch directories before each render
@@ -191,7 +200,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - two first-wave `tem0052` concepts and one exercise/lecture are promoted so far
+  - two first-wave `tem0052` concepts and two exercises/one lecture are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -244,6 +253,9 @@
 - `content/exercises/model-assessment-lab/meta.yml`
 - `content/exercises/model-assessment-lab/note.en.qmd`
 - `content/exercises/model-assessment-lab/solution.en.qmd`
+- `content/exercises/house-prices-regression/meta.yml`
+- `content/exercises/house-prices-regression/note.en.qmd`
+- `content/exercises/house-prices-regression/solution.en.qmd`
 - `representative-targets.yml`
 - `schemas/resource.schema.json`
 - `templates/meta.yml.j2`
@@ -334,28 +346,37 @@
   - `./.venv/bin/python -m pytest -q tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly`
   - `./.venv/bin/python -m pytest -q`
   - `./.venv/bin/teach validate`
+- `tem0052` second exercise promotion:
+  - `sed -n '1,240p' courses/tem0052/MIGRATION_INVENTORY.md`
+  - `sed -n '1,240p' content/exercises/model-assessment-lab/meta.yml`
+  - `sed -n '1,260p' course-inbox/predictive-modelling-with-machine-learning/exercises/to_students/03_Predicting_house_prices.ipynb`
+  - `sed -n '1,260p' course-inbox/predictive-modelling-with-machine-learning/exercises/VHL_solutions/03_Predicting_house_prices_VHL.ipynb`
+  - `./.venv/bin/ruff check app tests`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 14 objects and 2 courses. Errors: 0. Warnings: 5.`
+  - `Validated 15 objects and 2 courses. Errors: 0. Warnings: 6.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
       - `resource-hidden-from-student-site`
       - `stale-resource`
-    - the English-only migration-stage `tem0052` concepts/exercise:
+    - the English-only migration-stage `tem0052` concepts/exercises:
       - `missing-approved-translation` for `bias-variance-tradeoff`
       - `missing-approved-translation` for `model-selection-cross-validation`
+      - `missing-approved-translation` for `house-prices-regression`
       - `missing-approved-translation` for `model-assessment-lab`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `64 passed in 184.11s (0:03:04)`
+  - `65 passed in 191.09s (0:03:11)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
-  - `teach validate` still passed with `Errors: 0. Warnings: 5. Representative targets: 13/13 passed`
+  - `teach validate` still passed with `Errors: 0. Warnings: 6. Representative targets: 13/13 passed`
 - `tem0052` migration kickoff checks passed:
   - `30 passed in 48.25s` for `tests/test_schema.py tests/test_builds.py`
   - `teach build tem0052 --audience student --lang en --format html` succeeded
@@ -399,7 +420,7 @@
   - teacher lecture slides
   - teacher figure PDF fallback
   - teacher solution sheet
-- `tem0052` first promoted outputs verified:
+- `tem0052` promoted outputs verified:
   - Student concept page:
     - `build/exports/student/en/html/concept/model-selection-cross-validation/model-selection-cross-validation.html`
     - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/build-manifest.json`
@@ -415,6 +436,11 @@
     - `build/reports/builds/student/en/html/exercise/model-assessment-lab/build-manifest.json`
     - `build/reports/builds/student/en/html/exercise/model-assessment-lab/dependency-manifest.json`
     - `build/reports/builds/student/en/html/exercise/model-assessment-lab/teacher-leakage-report.json`
+  - Student exercise page:
+    - `build/exports/student/en/html/exercise/house-prices-regression/house-prices-regression.html`
+    - `build/reports/builds/student/en/html/exercise/house-prices-regression/build-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/house-prices-regression/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/exercise/house-prices-regression/teacher-leakage-report.json`
   - Student course page:
     - `build/exports/student/en/html/course/tem0052/tem0052.html`
     - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
@@ -438,11 +464,11 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Promote the next `tem0052` object pair from the same model-assessment block:
-  - either `house-prices-regression` or `spam-filtering-naive-bayes`
+- Promote the next `tem0052` supporting concept from the regression block:
+  - either `linear-regression-prediction` or `penalized-linear-models`
 - The course can stay intentionally English-only for the next checkpoint; the resulting
   translation warnings are currently expected and non-blocking
 - Keep the next migration slice narrow:
-  - one additional exercise
-  - optionally one small supporting figure or one more concept from the same lecture block
-  - refine `tem0052-lecture-05` only if the next promoted object naturally belongs there
+  - one additional concept
+  - optionally one small supporting figure from the same block
+  - add a new lecture collection only if the promoted regression material is strong enough to stand on its own
