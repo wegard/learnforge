@@ -1,0 +1,36 @@
+id: data-analysis-with-jupyter
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Dataanalyse med Jupyter Notebooks
+courses:
+  - bik2550
+topics:
+  - tools
+  - python
+  - data-analysis
+tags:
+  - jupyter
+  - pandas
+  - visualization
+  - time-series
+  - finance
+level: introductory
+prerequisites:
+  - python-jupyter-introduction
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []

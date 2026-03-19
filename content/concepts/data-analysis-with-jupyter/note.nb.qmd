@@ -1,0 +1,91 @@
+# Dataanalyse med Jupyter Notebooks
+
+## Oversikt
+
+I dette konseptet ser vi på praktiske eksempler på dataanalyse med Python, med
+fokus på finansielle data. Vi bruker Pandas for datahåndtering, Matplotlib og
+Seaborn for visualisering, og yfinance for å hente markedsdata.
+
+## Eksempel 1: Analyse av aksjedata
+
+### Hente data
+
+```python
+import yfinance as yf
+import matplotlib.pyplot as plt
+
+# Last ned historiske data for Apple
+aapl = yf.download("AAPL", start="2020-01-01", end="2025-01-01")
+print(aapl.head())
+```
+
+### Deskriptiv statistikk
+
+```python
+print(aapl["Close"].describe())
+```
+
+Funksjonen `.describe()` gir oss gjennomsnitt, standardavvik, min, max og
+kvartiler — et raskt overblikk over dataenes fordeling.
+
+### Visualisering
+
+```python
+aapl["Close"].plot(figsize=(10, 5), title="Apple aksjekurs")
+plt.ylabel("Pris (USD)")
+plt.show()
+```
+
+## Eksempel 2: Sammenligne markedsindekser
+
+### Normaliserte avkastninger
+
+For å sammenligne ulike aksjer eller indekser normaliserer vi prisene slik at
+alle starter på 100:
+
+```python
+sp500 = yf.download("^GSPC", start="2020-01-01", end="2025-01-01")
+
+# Normaliser begge til startverdi = 100
+norm_aapl = aapl["Close"] / aapl["Close"].iloc[0] * 100
+norm_sp500 = sp500["Close"] / sp500["Close"].iloc[0] * 100
+
+plt.figure(figsize=(10, 5))
+plt.plot(norm_aapl, label="Apple")
+plt.plot(norm_sp500, label="S&P 500")
+plt.legend()
+plt.title("Normalisert kursutvikling")
+plt.show()
+```
+
+### Korrelasjon
+
+```python
+korrelasjon = aapl["Close"].pct_change().corr(sp500["Close"].pct_change())
+print(f"Korrelasjon mellom Apple og S&P 500: {korrelasjon:.2f}")
+```
+
+## Eksempel 3: Valutakurser og volatilitet
+
+### Daglige endringer
+
+```python
+eurusd = yf.download("EURUSD=X", start="2020-01-01", end="2025-01-01")
+daglig_endring = eurusd["Close"].pct_change()
+
+plt.figure(figsize=(10, 4))
+daglig_endring.plot(title="EUR/USD daglige prosentvise endringer")
+plt.ylabel("Daglig endring (%)")
+plt.show()
+```
+
+Volatilitet — målt som standardavviket til daglige endringer — viser hvor mye
+kursen svinger over tid.
+
+## Viktigheten av kvalitetsdata
+
+- Data er grunnlaget for all maskinlæring og dyp læring
+- Datakvalitet er avgjørende for gode resultater
+- Datarengjøring og forberedelse er en stor del av arbeidet
+- Data kan være skjevt, mangelfullt eller feilaktig, noe som påvirker modellene
+  som bygges
