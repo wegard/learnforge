@@ -1,0 +1,165 @@
+## Pandas organizes labeled tabular data
+
+After NumPy, the next step in `EDI 3400` is to work with data that has both values
+and labels. In practice, many course datasets are not just plain arrays. They have:
+
+- column names,
+- row labels or timestamps,
+- mixed data types,
+- and file-based sources such as CSV tables.
+
+Pandas is the Python library built for exactly that situation.
+
+It is especially useful when students need to move between:
+
+- small local files,
+- spreadsheet-like tables,
+- exploratory summaries,
+- and later SQL or visualization workflows.
+
+## `import pandas as pd` is the standard entry point
+
+The standard import pattern is:
+
+```python
+import pandas as pd
+```
+
+This follows the same idea as `import numpy as np`: the library gets a short alias
+that keeps later code readable.
+
+Students should treat this as a normal dependency declaration, then expect most
+Pandas examples to begin with that same line.
+
+## A `Series` stores one labeled sequence
+
+A Pandas `Series` is a one-dimensional labeled structure. It is a good first step
+because it looks like a column of data with an index attached:
+
+```python
+shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})
+```
+
+This matters because the labels are part of the data structure. Students can read,
+slice, and transform the values while keeping the names visible.
+
+For example:
+
+```python
+shipping_costs * 2
+shipping_costs["online"]
+```
+
+The point is not just storage. The point is that values stay aligned with their
+labels while arithmetic and lookup remain concise.
+
+## A `DataFrame` organizes aligned columns
+
+A `DataFrame` is the table-shaped structure most students will use most often:
+
+```python
+sales = pd.DataFrame(
+    [
+        ["2024-03-01", "store", 51, 816],
+        ["2024-03-15", "online", 68, 1360],
+    ],
+    columns=["date", "channel", "orders", "revenue"],
+)
+```
+
+Each column behaves like a labeled series, and the full table makes it easy to work
+with multiple variables at the same time.
+
+That makes a `DataFrame` a natural bridge between:
+
+- Python lists and dictionaries,
+- spreadsheet-style tables,
+- CSV files,
+- and database query results.
+
+## `[]`, `loc`, and `iloc` answer different selection questions
+
+Students need three basic selection patterns early:
+
+- `sales["revenue"]` for one column,
+- `sales.loc[0]` or `sales.loc["2024-03"]` for label-based access,
+- `sales.iloc[0:3, 1:3]` for position-based access.
+
+These are not interchangeable. They answer different questions:
+
+- "Which named column do I want?"
+- "Which labeled row or date range do I want?"
+- "Which numeric row/column positions do I want?"
+
+Keeping those roles separate prevents a lot of beginner confusion.
+
+## `head()`, `tail()`, and `sort_values(...)` support fast inspection
+
+Pandas is useful partly because students do not have to inspect a whole table at
+once. A few common methods already answer many exploratory questions:
+
+```python
+sales.head()
+sales.tail(3)
+sales.sort_values(by="revenue", ascending=False)
+```
+
+These methods help students verify:
+
+- whether the data loaded correctly,
+- which rows appear largest or smallest,
+- and whether a transformation produced the structure they expected.
+
+## Boolean filters and summary methods turn tables into answers
+
+Pandas also makes it straightforward to answer simple analytical questions:
+
+```python
+sales[sales["revenue"] >= 1000]
+sales["revenue"].mean()
+sales["orders"].sum()
+```
+
+This is the practical shift from "table as storage" to "table as analysis tool."
+
+Students are no longer just printing data. They are filtering rows, computing
+summaries, and checking patterns directly from the DataFrame.
+
+## `read_csv(...)` and parsed dates connect files to analysis workflows
+
+Pandas becomes especially useful when it reads a local file directly:
+
+```python
+sales = pd.read_csv("campus_store_sales.csv", parse_dates=["date"])
+sales = sales.set_index("date")
+```
+
+At that point the table is no longer disconnected from the file system. It becomes a
+reproducible workflow:
+
+- load the file,
+- inspect the columns and types,
+- parse dates intentionally,
+- and use labels to answer time-based questions.
+
+For example:
+
+```python
+sales.loc["2024-03"]
+```
+
+This is the main bridge from earlier file handling toward later data analysis and
+visualization work.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- import Pandas with the standard `pd` alias,
+- explain the difference between a `Series` and a `DataFrame`,
+- select columns and rows with `[]`, `loc`, and `iloc`,
+- inspect a table with `head()`, `tail()`, and `sort_values(...)`,
+- filter rows with a boolean condition,
+- compute simple column summaries,
+- load a CSV file with `pd.read_csv(...)`,
+- parse a date column and use it in a small time-based lookup.

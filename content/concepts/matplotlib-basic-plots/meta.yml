@@ -1,11 +1,11 @@
-id: python-standard-library-utilities
+id: matplotlib-basic-plots
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Python standard-library utilities
+  en: Matplotlib basic plots
 courses:
   - edi3400
 topics:
@@ -14,21 +14,18 @@ topics:
   - programming
 tags:
   - python
-  - modules
-  - standard-library
-  - imports
-  - statistics
+  - matplotlib
+  - plots
+  - visualization
+  - pandas
 level: introductory
 prerequisites:
-  - python-functions
-  - python-file-handling
-related:
-  - python-functions
-  - python-file-handling
-  - python-classes-and-objects
   - numpy-arrays-and-matrices
-  - python-standard-library-problem-set
-  - python-sql-integration
+  - pandas-series-and-dataframes
+related:
+  - pandas-series-and-dataframes
+  - matplotlib-sales-visualization-lab
+  - numpy-pandas-matplotlib-problem-set
 outputs:
   - html
   - pdf

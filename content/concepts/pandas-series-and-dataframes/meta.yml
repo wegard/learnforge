@@ -1,11 +1,11 @@
-id: python-standard-library-utilities
+id: pandas-series-and-dataframes
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Python standard-library utilities
+  en: Pandas series and data frames
 courses:
   - edi3400
 topics:
@@ -14,20 +14,19 @@ topics:
   - programming
 tags:
   - python
-  - modules
-  - standard-library
-  - imports
-  - statistics
+  - pandas
+  - series
+  - dataframes
+  - csv
 level: introductory
 prerequisites:
-  - python-functions
   - python-file-handling
-related:
-  - python-functions
-  - python-file-handling
-  - python-classes-and-objects
   - numpy-arrays-and-matrices
-  - python-standard-library-problem-set
+related:
+  - numpy-arrays-and-matrices
+  - matplotlib-basic-plots
+  - pandas-dataframe-analysis-lab
+  - numpy-pandas-matplotlib-problem-set
   - python-sql-integration
 outputs:
   - html

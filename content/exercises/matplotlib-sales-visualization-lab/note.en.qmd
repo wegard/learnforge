@@ -1,0 +1,64 @@
+## Lab brief
+
+Use this exercise to practice the first canonical Matplotlib workflow in `EDI 3400`:
+
+- load a small table with Pandas,
+- choose a suitable plot type,
+- label the plot clearly,
+- and save one finished figure to disk.
+
+Use the local asset in this exercise folder:
+
+- `assets/campus_store_plotting_data.csv`
+
+## Tasks
+
+1. Import the required libraries:
+   - write `import pandas as pd`,
+   - write `import matplotlib.pyplot as plt`.
+2. Load the CSV file:
+   - read `assets/campus_store_plotting_data.csv` with `pd.read_csv(...)`,
+   - parse the `date` column with `parse_dates=["date"]`,
+   - sort the rows by date,
+   - print `sales.head()`.
+3. Create a line plot of revenue over time:
+   - use the `date` column on the x-axis,
+   - use the `revenue` column on the y-axis,
+   - add markers,
+   - add a title, x-label, y-label, and grid,
+   - call `plt.tight_layout()`,
+   - show the figure.
+4. Create a scatter plot of orders versus revenue:
+   - use `orders` on the x-axis,
+   - use `revenue` on the y-axis,
+   - add a title and axis labels,
+   - show the figure.
+5. Create a bar plot from a grouped Pandas summary:
+   - compute the mean revenue for each `channel`,
+   - store the result in `avg_revenue_by_channel`,
+   - use `plt.bar(...)` to plot the grouped values,
+   - add a title and axis labels,
+   - show the figure.
+6. Save one finished figure:
+   - recreate the revenue line plot,
+   - save it as `revenue_trend.png` with `plt.savefig(...)`,
+   - then show or close the figure.
+7. Write a short reflection covering:
+   - one reason a line plot fits time-ordered data,
+   - one reason a scatter plot is better than a line plot for orders versus revenue,
+   - one place where the Pandas grouping step made the bar plot easier to build.
+
+## Starter outline
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+sales = pd.read_csv(
+    "assets/campus_store_plotting_data.csv",
+    parse_dates=["date"],
+).sort_values("date")
+```
+
+Keep each plot explicit. The point is to connect the data columns to the figure one
+step at a time, not to hide the plotting logic inside helper functions.

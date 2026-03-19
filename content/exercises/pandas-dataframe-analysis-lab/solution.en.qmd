@@ -1,0 +1,63 @@
+The strongest teacher solution keeps the table small, labeled, and inspectable. This
+checkpoint is about reading a DataFrame carefully and answering practical questions
+with a few core Pandas operations.
+
+## Suggested approach
+
+1. Keep the `Series` and the CSV table small enough that students can inspect the
+   output directly.
+2. Parse the date column immediately so later indexing uses real timestamps instead
+   of plain strings.
+3. Print intermediate results after each transformation so the selection and sorting
+   steps stay visible.
+4. Avoid advanced grouping or reshaping in this first Pandas slice.
+
+## Minimal reference implementation
+
+```python
+import pandas as pd
+
+shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})
+print(shipping_costs)
+print(shipping_costs * 2)
+print(shipping_costs["online"])
+
+sales = pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])
+print(sales.head())
+print(sales.shape)
+print(sales.dtypes)
+
+print(sales["revenue"])
+print(sales.iloc[0:3])
+print(sales.loc[:, ["date", "channel", "revenue"]])
+
+online_high_revenue = sales[
+    (sales["channel"] == "online") & (sales["revenue"] >= 1000)
+]
+print(online_high_revenue)
+
+sales["revenue_per_order"] = sales["revenue"] / sales["orders"]
+print(sales.loc[:, ["date", "channel", "revenue_per_order"]])
+
+sorted_sales = sales.sort_values(by="revenue_per_order", ascending=False)
+print(sorted_sales.head(3))
+print(sales["revenue"].mean())
+print(sales["orders"].sum())
+
+sales_by_date = sales.set_index("date")
+print(sales_by_date.loc["2024-03"])
+```
+
+## What students should notice
+
+- a `Series` is one labeled sequence, while a `DataFrame` is a full table,
+- `parse_dates` changes the date column into something more useful immediately,
+- boolean filters stay readable when each condition is explicit,
+- derived columns are easy to inspect when only a few relevant columns are printed,
+- label-based indexing becomes much more convenient once the date column is the index.
+
+## Teaching emphasis
+
+Keep the focus on first Pandas habits: load, inspect, select, filter, sort, and
+summarize. The goal is to make students comfortable with labeled tables before the
+course moves further into visualization or richer data-analysis workflows.

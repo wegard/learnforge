@@ -1,0 +1,66 @@
+## Lab brief
+
+Use this exercise to practice the first canonical Pandas workflow in `EDI 3400`:
+
+- create one small `Series`,
+- load a CSV file into a `DataFrame`,
+- inspect the table structure,
+- filter and sort the rows,
+- and answer a few simple questions from labeled data.
+
+Use the local asset in this exercise folder:
+
+- `assets/campus_store_sales.csv`
+
+## Tasks
+
+1. Import Pandas with the standard alias:
+   - write `import pandas as pd`.
+2. Create one small `Series`:
+   - create `shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})`,
+   - print the series,
+   - print `shipping_costs * 2`,
+   - print the value for `"online"`.
+3. Read the CSV file into a `DataFrame`:
+   - load `assets/campus_store_sales.csv` with `pd.read_csv(...)`,
+   - parse the `date` column with `parse_dates=["date"]`,
+   - store the result in `sales`.
+4. Inspect the loaded table:
+   - print `sales.head()`,
+   - print `sales.shape`,
+   - print `sales.dtypes`.
+5. Practice selection:
+   - print the `revenue` column,
+   - print the first three rows with `iloc`,
+   - print the `date`, `channel`, and `revenue` columns with `loc`.
+6. Filter the rows:
+   - create a new `DataFrame` containing only rows where `channel == "online"` and
+     `revenue >= 1000`,
+   - print the filtered result.
+7. Add one derived column:
+   - create `revenue_per_order = sales["revenue"] / sales["orders"]`,
+   - print the `date`, `channel`, and `revenue_per_order` columns.
+8. Sort and summarize:
+   - sort the table by `revenue_per_order` from high to low,
+   - print the top three rows,
+   - print the mean of the `revenue` column,
+   - print the total of the `orders` column.
+9. Use the date column as an index:
+   - create a version of the table with `date` as the index,
+   - print only the March 2024 rows with `sales_by_date.loc["2024-03"]`.
+10. Write a short reflection covering:
+   - one difference between a `Series` and a `DataFrame`,
+   - one reason labels make Pandas easier to inspect than plain arrays,
+   - one place where `read_csv(...)` and parsed dates improved the workflow.
+
+## Starter outline
+
+```python
+import pandas as pd
+
+shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})
+sales = pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])
+```
+
+Keep the prints explicit. The point is to see how the table changes after each step,
+not to hide the Pandas workflow inside larger helper functions.

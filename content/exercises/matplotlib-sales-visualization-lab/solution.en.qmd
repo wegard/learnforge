@@ -1,0 +1,74 @@
+The strongest teacher solution keeps the plotting steps explicit and uses a small
+table that students can inspect directly before any figure is created.
+
+## Suggested approach
+
+1. Load and sort the data first so the line plot has a clear order on the x-axis.
+2. Use separate figures for the line, scatter, and bar plots so each plot type stays
+   easy to read.
+3. Add titles and axis labels every time so students build good habits immediately.
+4. Save the final line plot before displaying it so the output file is guaranteed to
+   contain the finished figure.
+
+## Minimal reference implementation
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+sales = pd.read_csv(
+    "assets/campus_store_plotting_data.csv",
+    parse_dates=["date"],
+).sort_values("date")
+print(sales.head())
+
+plt.figure(figsize=(7, 4))
+plt.plot(sales["date"], sales["revenue"], marker="o")
+plt.title("Revenue over time")
+plt.xlabel("Date")
+plt.ylabel("Revenue")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(6, 4))
+plt.scatter(sales["orders"], sales["revenue"])
+plt.title("Orders versus revenue")
+plt.xlabel("Orders")
+plt.ylabel("Revenue")
+plt.tight_layout()
+plt.show()
+
+avg_revenue_by_channel = sales.groupby("channel")["revenue"].mean()
+plt.figure(figsize=(6, 4))
+plt.bar(avg_revenue_by_channel.index, avg_revenue_by_channel.values)
+plt.title("Average revenue by channel")
+plt.xlabel("Channel")
+plt.ylabel("Average revenue")
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(7, 4))
+plt.plot(sales["date"], sales["revenue"], marker="o")
+plt.title("Revenue over time")
+plt.xlabel("Date")
+plt.ylabel("Revenue")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("revenue_trend.png")
+plt.show()
+```
+
+## What students should notice
+
+- line plots work best when the x-axis has an order,
+- scatter plots help compare two numeric variables without implying a sequence,
+- bar plots are easier to build after a grouped Pandas summary,
+- plot titles and labels are part of the analysis, not just presentation polish,
+- the saved figure comes from the same reproducible code as the on-screen figure.
+
+## Teaching emphasis
+
+Keep the focus on choosing the plot type deliberately and making each plot readable.
+The goal of this slice is not advanced styling. It is the first stable bridge from
+tables and arrays into clear visual communication.

@@ -1,0 +1,68 @@
+## Exercise brief
+
+Use this lab to practice the lecture-9 workflow directly:
+
+- read the traceback,
+- inspect a buggy script in an IDE or editor,
+- write a few small tests,
+- and verify one AI-generated suggestion instead of accepting it blindly.
+
+Use the local asset in this exercise folder:
+
+- `assets/sales_report_debug_case.py`
+
+If you have access to an approved classroom AI assistant, use it for one bounded step
+later in the lab. If you do not have access, write the prompt you would have used and
+complete the verification steps manually.
+
+## Tasks
+
+1. Open and run the provided script:
+   - inspect `assets/sales_report_debug_case.py`,
+   - run it from your IDE or terminal,
+   - copy the exception type and the failing line into your notes.
+2. Diagnose the first bug:
+   - use the traceback, variable inspection, breakpoints, or short print statements,
+   - explain in one or two sentences what assumption the code got wrong.
+3. Fix the runtime error:
+   - edit the script so it runs to completion,
+   - print the resulting summary lines.
+4. Add unit tests for the key functions:
+   - create at least three tests for:
+     - `total_revenue(...)`,
+     - `average_order_value(...)`,
+     - `busiest_day(...)`,
+   - run them with `pytest -q`.
+5. Find and fix one additional logic bug:
+   - use the failing tests to identify the wrong behaviour,
+   - correct the code,
+   - rerun the tests until they pass.
+6. Use documentation deliberately:
+   - look up one Python or `pytest` reference that helps you write or improve the
+     tests,
+   - record the function, method, or command you looked up.
+7. Use an AI assistant for one bounded task:
+   - ask for either:
+     - one explanation of the traceback,
+     - one proposed test case,
+     - or one refactor suggestion,
+   - keep the prompt short and specific,
+   - accept the suggestion only if you can verify it by running code or tests.
+8. Write a short reflection covering:
+   - one IDE or editor feature that helped most,
+   - one thing the tests revealed that manual inspection missed,
+   - one AI suggestion you accepted or rejected and why.
+
+## Starter outline
+
+```python
+from sales_report_debug_case import (
+    sales_rows,
+    total_revenue,
+    average_order_value,
+    busiest_day,
+)
+```
+
+The goal is not to produce a large program. The goal is to practice a defensible
+debugging workflow where each change is supported by evidence.

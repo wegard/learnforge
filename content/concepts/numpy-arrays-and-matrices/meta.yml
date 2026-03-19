@@ -1,11 +1,11 @@
-id: python-standard-library-utilities
+id: numpy-arrays-and-matrices
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Python standard-library utilities
+  en: NumPy arrays and matrices
 courses:
   - edi3400
 topics:
@@ -14,21 +14,20 @@ topics:
   - programming
 tags:
   - python
-  - modules
-  - standard-library
-  - imports
-  - statistics
+  - numpy
+  - arrays
+  - matrices
+  - vectorization
 level: introductory
 prerequisites:
+  - python-basics-and-containers
   - python-functions
-  - python-file-handling
+  - python-standard-library-utilities
 related:
-  - python-functions
-  - python-file-handling
-  - python-classes-and-objects
-  - numpy-arrays-and-matrices
-  - python-standard-library-problem-set
-  - python-sql-integration
+  - python-standard-library-utilities
+  - pandas-series-and-dataframes
+  - numpy-array-and-matrix-lab
+  - numpy-pandas-matplotlib-problem-set
 outputs:
   - html
   - pdf

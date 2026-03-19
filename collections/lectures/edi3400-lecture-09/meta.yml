@@ -1,0 +1,36 @@
+id: edi3400-lecture-09
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 9 - IDEs and generative AI for programming
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - lecture
+  - python
+  - ide
+  - debugging
+  - ai-assistants
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - ide-debugging-testing-and-ai-assistants
+  - debugging-and-ai-workflow-lab

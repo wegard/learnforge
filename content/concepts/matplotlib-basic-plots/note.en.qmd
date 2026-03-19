@@ -1,0 +1,156 @@
+## Matplotlib turns numeric data into visible patterns
+
+By lecture 8 in `EDI 3400`, students have already worked with NumPy arrays and
+Pandas tables. The next step is to turn those values into plots that make patterns
+visible.
+
+Matplotlib is the core plotting library that makes that possible in Python.
+
+Its value is not just aesthetics. It helps students answer practical questions such
+as:
+
+- how values change over time,
+- whether two variables move together,
+- and how categories compare at a glance.
+
+## `import matplotlib.pyplot as plt` is the standard entry point
+
+The standard import pattern is:
+
+```python
+import matplotlib.pyplot as plt
+```
+
+This gives access to the plotting functions students will use most in the first
+visualization slice.
+
+The `plt` alias is a convention, not a Python requirement, but students should
+expect to see it in almost every introductory Matplotlib example.
+
+## `plt.plot(...)` creates a line plot for ordered data
+
+A line plot is a good default when the x-axis has an order, such as time:
+
+```python
+plt.plot(dates, revenue)
+```
+
+This kind of plot helps students see whether values rise, fall, or fluctuate over
+time.
+
+It becomes more informative once labels are explicit:
+
+```python
+plt.plot(dates, revenue, marker="o")
+plt.xlabel("Date")
+plt.ylabel("Revenue")
+plt.title("Revenue over time")
+```
+
+## `plt.scatter(...)` is useful when comparing two variables
+
+A scatter plot is a better fit when the question is about a relationship between two
+numeric variables:
+
+```python
+plt.scatter(orders, revenue)
+```
+
+This helps students inspect whether larger values on one axis tend to be associated
+with larger values on the other.
+
+That makes scatter plots especially useful when a DataFrame contains multiple numeric
+columns and the goal is to compare them directly.
+
+## `plt.bar(...)` compares grouped values clearly
+
+Bar plots work best when the x-axis is categorical rather than continuous:
+
+```python
+plt.bar(avg_revenue_by_channel.index, avg_revenue_by_channel.values)
+```
+
+This is the typical plotting pattern after a small Pandas grouping step. Students
+summarize the table first, then visualize the result.
+
+That is a good first reminder that plotting often comes after data preparation, not
+before it.
+
+## Titles, labels, legends, and grids make plots readable
+
+Matplotlib gives explicit control over the plot details:
+
+```python
+plt.title("Average revenue by channel")
+plt.xlabel("Channel")
+plt.ylabel("Average revenue")
+plt.grid(True)
+```
+
+These details are not cosmetic extras. They are part of whether another person can
+interpret the figure correctly.
+
+Students should treat missing labels as a clarity problem, not just a styling issue.
+
+## `plt.figure(...)` and `plt.subplots(...)` control the plotting canvas
+
+Matplotlib can create a figure first, then draw one or more axes inside it:
+
+```python
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.plot(dates, revenue, marker="o")
+```
+
+This pattern becomes especially useful once students want more explicit control over:
+
+- figure size,
+- multiple axes,
+- and which commands belong to which plot.
+
+For the first slice, it is enough to know that `plt.subplots(...)` creates a figure
+and returns an axis object that can be customized directly.
+
+## Pandas outputs can feed Matplotlib directly
+
+Matplotlib fits naturally after the Pandas slice because the DataFrame already holds
+named columns:
+
+```python
+sales = pd.read_csv("campus_store_plotting_data.csv", parse_dates=["date"])
+sales = sales.sort_values("date")
+plt.plot(sales["date"], sales["revenue"])
+```
+
+Students do not need a separate plotting-specific data structure. They can often:
+
+- load data with Pandas,
+- group or filter it,
+- then pass one or two columns directly into Matplotlib.
+
+That makes the plotting step more reproducible than building graphs manually in a
+spreadsheet.
+
+## `savefig(...)` turns a plot into a reusable artifact
+
+Matplotlib can write a figure to disk:
+
+```python
+plt.savefig("revenue_trend.png")
+```
+
+This matters because a plot is often not just for interactive inspection. It may
+need to be reused in notes, slides, or a report.
+
+Saving the figure should usually happen before `plt.show()` so the output file
+captures the complete plot state.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- import Matplotlib with the standard `plt` alias,
+- create a basic line plot, scatter plot, and bar plot,
+- add titles, axis labels, and a grid,
+- choose a plot type that fits the structure of the data,
+- use Pandas columns or grouped summaries as plotting inputs,
+- save a figure to disk with `savefig(...)`.

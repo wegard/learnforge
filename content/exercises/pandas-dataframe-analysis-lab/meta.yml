@@ -1,0 +1,40 @@
+id: pandas-dataframe-analysis-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Pandas dataframe analysis lab
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - exercise
+  - python
+  - pandas
+  - dataframes
+  - csv
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 75
+concepts:
+  - python-file-handling
+  - numpy-arrays-and-matrices
+  - pandas-series-and-dataframes
+solution_storage: separate-file
+solution_visibility: teacher

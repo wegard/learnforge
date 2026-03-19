@@ -1,0 +1,90 @@
+The strongest teacher solution keeps the debugging workflow evidence-based: start
+from the traceback, repair the runtime bug, write small tests, then use those tests
+to catch the remaining logic bug.
+
+## Suggested approach
+
+1. Run the supplied script before editing anything so the initial failure is visible.
+2. Fix the runtime error first, because tests are more useful once the module imports
+   and runs cleanly.
+3. Write a small test around each core function rather than one oversized end-to-end
+   check.
+4. Treat the AI assistant as optional support for explanation or draft tests, not as
+   the source of truth.
+
+## Minimal reference implementation
+
+Corrected module:
+
+```python
+sales_rows = [
+    {"date": "2024-04-01", "orders": 42, "revenue": 1680},
+    {"date": "2024-04-02", "orders": 35, "revenue": 1330},
+    {"date": "2024-04-03", "orders": 48, "revenue": 2015},
+    {"date": "2024-04-04", "orders": 29, "revenue": 1160},
+]
+
+
+def total_revenue(rows):
+    return sum(row["revenue"] for row in rows)
+
+
+def average_order_value(rows):
+    total_orders = sum(row["orders"] for row in rows)
+    return total_revenue(rows) / total_orders
+
+
+def busiest_day(rows):
+    return max(rows, key=lambda row: row["orders"])["date"]
+
+
+def summary_lines(rows):
+    return [
+        f"Total revenue: {total_revenue(rows)}",
+        f"Average order value: {average_order_value(rows):.2f}",
+        f"Busiest day: {busiest_day(rows)}",
+    ]
+```
+
+Representative tests:
+
+```python
+import pytest
+
+from sales_report_debug_case import (
+    average_order_value,
+    busiest_day,
+    sales_rows,
+    total_revenue,
+)
+
+
+def test_total_revenue():
+    assert total_revenue(sales_rows) == 6185
+
+
+def test_average_order_value():
+    assert average_order_value(sales_rows) == pytest.approx(6185 / 154)
+
+
+def test_busiest_day():
+    assert busiest_day(sales_rows) == "2024-04-03"
+```
+
+## Example bounded AI prompt
+
+`The function imports but the summary value looks wrong. Suggest one pytest test that could catch a busiest-day bug in this script.`
+
+That prompt is narrow enough to verify. A good answer should still be checked by
+running the test locally.
+
+## What students should notice
+
+- The traceback was enough to locate the first bug quickly.
+- The second bug was easier to catch once the tests expressed the expected result.
+- AI can help propose a check, but the real evidence still comes from the test run.
+
+## Teaching emphasis
+
+Keep the focus on workflow quality rather than on one specific tool vendor. The
+important outcome is that students can describe why they trusted the final fix.

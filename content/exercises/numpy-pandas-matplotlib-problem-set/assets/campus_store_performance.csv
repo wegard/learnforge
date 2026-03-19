@@ -1,0 +1,13 @@
+date,region,channel,orders,revenue,marketing_spend
+2024-04-01,North,online,42,1680,260
+2024-04-02,South,store,35,1330,170
+2024-04-03,East,online,48,2015,310
+2024-04-04,West,store,29,1160,140
+2024-04-05,North,store,38,1495,200
+2024-04-06,South,online,44,1820,290
+2024-04-07,East,store,31,1210,160
+2024-04-08,West,online,52,2140,340
+2024-04-09,North,online,46,1895,300
+2024-04-10,South,store,33,1290,155
+2024-04-11,East,online,49,2070,325
+2024-04-12,West,store,30,1185,145

@@ -40,6 +40,8 @@ course/object structure.
   `auto_dealership_database.db` as a canonical object-local asset
 - Leave `example_database.db`, `example_queries.sql`, and `isqlite3.py` in the
   inbox unless a later canonical object explicitly needs them
+- Keep Homework problem set 4 as a lecture-linked LearnForge `exercise` for now,
+  not a formal assignment collection
 - Keep Homework problem set 5 as a lecture-linked LearnForge `exercise` for now,
   not a formal assignment collection
 - `edi3400-lecture-13` is the representative regression target for the current
@@ -64,6 +66,10 @@ moderate rewriting.
 | Functions section of `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` and Topic 4 from `Homework_notebooks/Problem_set3_solution.ipynb` | Rewrite into the first lecture-5 checkpoint on defining and reusing functions | concept + exercise + lecture collection | `python-functions`, `python-functions-problem-set`, `edi3400-lecture-05a` |
 | Standard-library section of `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` and Topic 3 from `Homework_notebooks/Problem_set3_solution.ipynb` | Rewrite into a focused utilities checkpoint on imports and common modules such as `math`, `random`, `datetime`, and `statistics` | concept + exercise + lecture collection | `python-standard-library-utilities`, `python-standard-library-problem-set`, `edi3400-lecture-05b` |
 | Classes/OOP section of `Lecture_notebooks/05_The_standard_Library_functions_and_classes.ipynb` and Topic 5 from `Homework_notebooks/Problem_set3_solution.ipynb` | Rewrite into a small classes checkpoint on `__init__`, attributes, methods, and object state using a `BankAccount` example | concept + exercise + lecture collection | `python-classes-and-objects`, `python-bank-account-class-lab`, `edi3400-lecture-05c` |
+| `Lecture_notebooks/06_Linear_algebra_with_Numpy.ipynb` | Rewrite into the first NumPy checkpoint on arrays, shape, vectorized operations, summaries, and small matrix multiplication | concept + exercise + lecture collection | `numpy-arrays-and-matrices`, `numpy-array-and-matrix-lab`, `edi3400-lecture-06` |
+| `Lecture_notebooks/07_Data_analysis_with_Pandas.ipynb` | Rewrite into the first Pandas checkpoint on Series, DataFrames, selection, filtering, sorting, and CSV/date workflows | concept + exercise + lecture collection | `pandas-series-and-dataframes`, `pandas-dataframe-analysis-lab`, `edi3400-lecture-07` |
+| `Lecture_notebooks/08_Data_vizualization_with_Matplotlib.ipynb` | Rewrite into the first plotting checkpoint on line, scatter, and bar plots, labeling, saving figures, and basic Pandas integration | concept + exercise + lecture collection | `matplotlib-basic-plots`, `matplotlib-sales-visualization-lab`, `edi3400-lecture-08` |
+| `Homework_notebooks/Problem_set4_solution.ipynb` | Rewrite into the first integrated data-analysis problem set across NumPy arrays, Pandas summaries, and Matplotlib reporting | exercise | `numpy-pandas-matplotlib-problem-set` |
 | `Homework_notebooks/Problem_set5_solution.ipynb` | Convert to student coding exercise + teacher solution | exercise | `sql-python-problem-set` |
 | `Lecture_notebooks/example_database.db`, `Lecture_notebooks/auto_dealership_database.db`, `Lecture_notebooks/example_queries.sql`, `Lecture_notebooks/isqlite3.py` | Keep only if promoted objects need them as local assets | object-local assets | under promoted database concepts/exercise |
 
@@ -75,21 +81,13 @@ directly from a single notebook.
 | Topic | Reason | Planned target kind |
 | --- | --- | --- |
 | Lecture 1 course framing | The current material is mostly orientation and should live primarily in the syllabus and course shell | syllabus + lecture later |
-| Lecture 9 IDEs and generative AI | Two overlapping notebook variants suggest the framing is still in flux | concept + exercise later |
 | Lecture 10 data extraction, probability, and statistics | The current scope mixes multiple themes that should likely be split more cleanly | concept + exercise later |
 | Assessment structure | The sketch does not yet define canonical assignment or grading rules | assignment / course material |
 
 ### Defer
 
-These should stay in the inbox until the database slice establishes the promotion
-pattern for the course.
-
-| Legacy source | Reason for deferral |
-| --- | --- |
-| `Lecture_notebooks/06_Linear_algebra_with_Numpy.ipynb` | Good later third-party-library content, but not needed for the first canonical slice |
-| `Lecture_notebooks/07_Data_analysis_with_Pandas.ipynb` | Depends on how the data-analysis block is ultimately scoped |
-| `Lecture_notebooks/08_Data_vizualization_with_Matplotlib.ipynb` | Better promoted after the Pandas block exists |
-| `Homework_notebooks/Problem_set4_solution.ipynb` | Keep as reference until the NumPy/Pandas/Matplotlib block is promoted |
+No additional inbox items are deferred right now beyond the later rewrite-fresh
+topics. The earlier `Problem_set4_solution.ipynb` defer is now resolved.
 
 ### Drop Or Archive
 
@@ -113,6 +111,10 @@ foundations spine plus the database block.
 - `python-functions`
 - `python-standard-library-utilities`
 - `python-classes-and-objects`
+- `numpy-arrays-and-matrices`
+- `pandas-series-and-dataframes`
+- `matplotlib-basic-plots`
+- `ide-debugging-testing-and-ai-assistants`
 - `relational-database-fundamentals`
 - `sql-query-basics`
 - `python-sql-integration`
@@ -125,6 +127,11 @@ foundations spine plus the database block.
 - `python-functions-problem-set`
 - `python-standard-library-problem-set`
 - `python-bank-account-class-lab`
+- `numpy-array-and-matrix-lab`
+- `pandas-dataframe-analysis-lab`
+- `matplotlib-sales-visualization-lab`
+- `numpy-pandas-matplotlib-problem-set`
+- `debugging-and-ai-workflow-lab`
 - `sql-python-problem-set`
 
 ### First lecture candidates
@@ -135,14 +142,19 @@ foundations spine plus the database block.
 - `edi3400-lecture-05a` functions and reusable code
 - `edi3400-lecture-05b` standard-library utilities
 - `edi3400-lecture-05c` classes and objects
+- `edi3400-lecture-06` NumPy arrays and matrices
+- `edi3400-lecture-07` Pandas series and data frames
+- `edi3400-lecture-08` Matplotlib basic plots
+- `edi3400-lecture-09` IDEs and generative AI for programming
 - `edi3400-lecture-11` relational databases
 - `edi3400-lecture-12` SQL basics
 - `edi3400-lecture-13` Python and SQL
 
 ## Current Canonical Checkpoint
 
-The first early-Python foundations spine and the first database lecture slice are now
-scaffolded in canonical LearnForge form.
+The first early-Python foundations spine, first data-analysis and visualization
+slices, and first database lecture slice are now scaffolded in canonical LearnForge
+form.
 
 ### Implemented objects
 
@@ -152,6 +164,10 @@ scaffolded in canonical LearnForge form.
 - concept: `python-functions`
 - concept: `python-standard-library-utilities`
 - concept: `python-classes-and-objects`
+- concept: `numpy-arrays-and-matrices`
+- concept: `pandas-series-and-dataframes`
+- concept: `matplotlib-basic-plots`
+- concept: `ide-debugging-testing-and-ai-assistants`
 - concept: `relational-database-fundamentals`
 - concept: `sql-query-basics`
 - concept: `python-sql-integration`
@@ -161,6 +177,11 @@ scaffolded in canonical LearnForge form.
 - exercise: `python-functions-problem-set`
 - exercise: `python-standard-library-problem-set`
 - exercise: `python-bank-account-class-lab`
+- exercise: `numpy-array-and-matrix-lab`
+- exercise: `pandas-dataframe-analysis-lab`
+- exercise: `matplotlib-sales-visualization-lab`
+- exercise: `numpy-pandas-matplotlib-problem-set`
+- exercise: `debugging-and-ai-workflow-lab`
 - exercise: `sql-python-problem-set`
 - lecture collection: `edi3400-lecture-02`
 - lecture collection: `edi3400-lecture-04`
@@ -168,6 +189,10 @@ scaffolded in canonical LearnForge form.
 - lecture collection: `edi3400-lecture-05a`
 - lecture collection: `edi3400-lecture-05b`
 - lecture collection: `edi3400-lecture-05c`
+- lecture collection: `edi3400-lecture-06`
+- lecture collection: `edi3400-lecture-07`
+- lecture collection: `edi3400-lecture-08`
+- lecture collection: `edi3400-lecture-09`
 - lecture collection: `edi3400-lecture-11`
 - lecture collection: `edi3400-lecture-12`
 - lecture collection: `edi3400-lecture-13`
@@ -192,6 +217,24 @@ scaffolded in canonical LearnForge form.
 - `courses/edi3400/plan.yml` now includes `edi3400-lecture-05c`
 - `edi3400-lecture-05c` completes the lecture-5 split with a small classes-and-
   objects checkpoint centered on `__init__`, attributes, methods, and object state
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-06`
+- `edi3400-lecture-06` promotes the first NumPy slice around arrays, shapes,
+  vectorized arithmetic, and a small matrix workflow
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-07`
+- `edi3400-lecture-07` promotes the first Pandas slice around Series, DataFrames,
+  labeled selection, filtering, sorting, and CSV/date workflows
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-08`
+- `edi3400-lecture-08` promotes the first visualization slice around line,
+  scatter, and bar plots, explicit labels, saving figures, and basic Pandas
+  integration
+- Homework problem set 4 is now modeled as
+  `numpy-pandas-matplotlib-problem-set`, a lecture-linked exercise that turns the
+  lecture 6-8 stack into one explicit workflow from arrays to table summaries to
+  plotted output
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-09`
+- `edi3400-lecture-09` reframes the overlapping legacy lecture-9 notebooks into one
+  canonical workflow-support slice on IDE use, debugging, unit tests, documentation,
+  and bounded AI assistance for programming
 - `courses/edi3400/plan.yml` now includes `edi3400-lecture-11`
 - `courses/edi3400/plan.yml` now includes `edi3400-lecture-12`
 - `edi3400-lecture-12` is scoped to canonical SQL querying material only
@@ -208,10 +251,9 @@ scaffolded in canonical LearnForge form.
 
 ## Next Migration Actions
 
-1. Decide whether `Lecture_notebooks/06_Linear_algebra_with_Numpy.ipynb` should be
-   the next promoted technical slice, or whether the course should jump first to the
-   redesign-heavy Lecture 9 or 10 material.
-2. Reframe Lecture 9 IDE / generative-AI material only after the foundational Python
-   workflow is stable enough to support a clean concept-plus-exercise slice.
+1. Decide whether Lecture 10 data extraction, probability, and statistics should be
+   promoted as one slice or split into smaller canonical objects.
+2. Decide whether lecture 14 should remain summary-only or get a small canonical wrap-
+   up collection once lecture 10 is settled.
 3. Keep the later data-analysis block and formal assessment structure draft-level
    until more of the early Python course spine is canonical.

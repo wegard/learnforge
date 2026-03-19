@@ -1,0 +1,92 @@
+## Problem set brief
+
+Use this problem set to connect the first canonical data-analysis stack in
+`EDI 3400`:
+
+- move numeric columns into NumPy arrays,
+- use Pandas to inspect and summarize a small sales table,
+- and communicate the results with a few clear Matplotlib plots.
+
+Use the local asset in this exercise folder:
+
+- `assets/campus_store_performance.csv`
+
+Keep the workflow explicit. The point is to show how arrays, tables, and figures
+fit together, not to hide the work inside longer helper functions.
+
+## Tasks
+
+1. Import the required libraries:
+   - write `import numpy as np`,
+   - write `import pandas as pd`,
+   - write `import matplotlib.pyplot as plt`.
+2. Load the CSV file into a `DataFrame`:
+   - read `assets/campus_store_performance.csv` with `pd.read_csv(...)`,
+   - parse the `date` column with `parse_dates=["date"]`,
+   - sort the rows by `date`,
+   - print `sales.head()`,
+   - print `sales.dtypes`.
+3. Extract numeric columns into NumPy arrays:
+   - create `orders = sales["orders"].to_numpy()`,
+   - create `revenue = sales["revenue"].to_numpy()`,
+   - create `marketing = sales["marketing_spend"].to_numpy()`,
+   - print the `shape` of each array.
+4. Use vectorized NumPy calculations:
+   - create `average_order_value = revenue / orders`,
+   - print `np.round(average_order_value[:5], 2)`,
+   - print `np.mean(average_order_value)`,
+   - print `np.std(average_order_value)`,
+   - create `revenue_matrix = revenue[:6].reshape((2, 3))`,
+   - print the matrix and its row totals with `revenue_matrix.sum(axis=1)`.
+5. Return to Pandas and add the derived metric:
+   - assign `average_order_value` back to the table as a new column,
+   - print the `date`, `region`, `channel`, and `average_order_value` columns.
+6. Filter and summarize the table:
+   - create a filtered table containing only rows where `channel == "online"` and
+     `average_order_value >= 41`,
+   - print the filtered result,
+   - create `region_summary = sales.groupby("region").agg(...)` with:
+     - total revenue,
+     - total orders,
+     - mean average order value,
+   - sort `region_summary` by total revenue from high to low,
+   - print the result.
+7. Create a line plot of revenue over time:
+   - use `date` on the x-axis,
+   - use `revenue` on the y-axis,
+   - add markers, a title, axis labels, and a grid,
+   - call `plt.tight_layout()`,
+   - show the figure.
+8. Create a scatter plot of marketing spend versus revenue:
+   - use `marketing_spend` on the x-axis,
+   - use `revenue` on the y-axis,
+   - add a title and axis labels,
+   - show the figure.
+9. Create a bar plot from the grouped summary:
+   - plot `region_summary["total_revenue"]`,
+   - add a title and axis labels,
+   - show the figure.
+10. Save one finished figure:
+   - recreate the revenue-over-time line plot,
+   - save it as `campus_store_revenue_report.png`,
+   - then show or close the figure.
+11. Write a short reflection covering:
+   - one reason NumPy arrays were useful before the table summary,
+   - one reason Pandas made the grouped region summary easier to inspect,
+   - one reason the line, scatter, and bar plots answer different questions.
+
+## Starter outline
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+sales = pd.read_csv(
+    "assets/campus_store_performance.csv",
+    parse_dates=["date"],
+).sort_values("date")
+```
+
+Keep the intermediate prints visible. This checkpoint is about following one clear
+workflow from raw columns to a small report.

@@ -1,0 +1,40 @@
+id: debugging-and-ai-workflow-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Debugging and AI workflow lab
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - exercise
+  - python
+  - debugging
+  - testing
+  - ai-assistants
+  - ide
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 75
+concepts:
+  - python-functions
+  - ide-debugging-testing-and-ai-assistants
+solution_storage: separate-file
+solution_visibility: teacher

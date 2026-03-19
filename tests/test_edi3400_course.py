@@ -22,6 +22,10 @@ def test_edi3400_course_is_indexed_with_current_canonical_slices() -> None:
         "edi3400-lecture-05a",
         "edi3400-lecture-05b",
         "edi3400-lecture-05c",
+        "edi3400-lecture-06",
+        "edi3400-lecture-07",
+        "edi3400-lecture-08",
+        "edi3400-lecture-09",
         "edi3400-lecture-11",
         "edi3400-lecture-12",
         "edi3400-lecture-13",
@@ -44,23 +48,31 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
 
     assert assembly.target.kind == "course"
     assert assembly.target.identifier == "edi3400"
-    assert listing_ids[:8] == [
+    assert listing_ids[:12] == [
         "edi3400-lecture-02",
         "edi3400-lecture-04",
         "edi3400-lecture-04b",
         "edi3400-lecture-05a",
         "edi3400-lecture-05b",
         "edi3400-lecture-05c",
+        "edi3400-lecture-06",
+        "edi3400-lecture-07",
+        "edi3400-lecture-08",
+        "edi3400-lecture-09",
         "edi3400-lecture-11",
         "edi3400-lecture-12",
     ]
-    assert listing_ids[8] == "edi3400-lecture-13"
+    assert listing_ids[12] == "edi3400-lecture-13"
     assert "python-basics-problem-set" in listing_ids
     assert "python-control-flow-problem-set" in listing_ids
     assert "python-file-handling-lab" in listing_ids
     assert "python-functions-problem-set" in listing_ids
     assert "python-standard-library-problem-set" in listing_ids
     assert "python-bank-account-class-lab" in listing_ids
+    assert "numpy-array-and-matrix-lab" in listing_ids
+    assert "pandas-dataframe-analysis-lab" in listing_ids
+    assert "matplotlib-sales-visualization-lab" in listing_ids
+    assert "numpy-pandas-matplotlib-problem-set" in listing_ids
     assert "sql-python-problem-set" in listing_ids
     assert "topic-data-management" in listing_ids
     assert "topic-databases" in listing_ids
@@ -74,6 +86,10 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Lecture 5A - Functions and reusable code" in assembly.markdown
     assert "Lecture 5B - Standard-library utilities" in assembly.markdown
     assert "Lecture 5C - Classes and objects" in assembly.markdown
+    assert "Lecture 6 - NumPy arrays and matrices" in assembly.markdown
+    assert "Lecture 7 - Pandas series and data frames" in assembly.markdown
+    assert "Lecture 8 - Matplotlib basic plots" in assembly.markdown
+    assert "Lecture 9 - IDEs and generative AI for programming" in assembly.markdown
     assert "Lecture 11 - Introduction to relational databases" in assembly.markdown
     assert "Lecture 12 - SQL basics" in assembly.markdown
     assert "Lecture 13 - Python and SQL" in assembly.markdown
@@ -83,6 +99,11 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Python functions problem set" in assembly.markdown
     assert "Python standard-library utilities problem set" in assembly.markdown
     assert "Python bank-account class lab" in assembly.markdown
+    assert "NumPy array and matrix lab" in assembly.markdown
+    assert "Pandas dataframe analysis lab" in assembly.markdown
+    assert "Matplotlib sales visualization lab" in assembly.markdown
+    assert "NumPy, Pandas, and Matplotlib problem set" in assembly.markdown
+    assert "Debugging and AI workflow lab" in assembly.markdown
     assert "SQL and Python problem set" in assembly.markdown
     assert "Programming" in assembly.markdown
     assert "Python" in assembly.markdown
@@ -90,6 +111,7 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Databases" in assembly.markdown
     assert "SQL" in assembly.markdown
     assert "Part 1: Programming with basic Python" in assembly.markdown
+    assert "Part 3: Advanced topics" in assembly.markdown
     assert "Part 4: Databases with SQL and Python" in assembly.markdown
     assert "The assessment model is still draft-level" in assembly.markdown
 
@@ -253,6 +275,109 @@ def test_python_classes_and_objects_concept_links_edi3400_foundations() -> None:
     assert "edi3400" in related_ids
 
 
+def test_numpy_arrays_and_matrices_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "numpy-arrays-and-matrices",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## NumPy makes numerical data explicit and scalable" in assembly.markdown
+    assert "## `np.array(...)` creates an `ndarray`" in assembly.markdown
+    assert "## Shape and dtype describe structure" in assembly.markdown
+    assert "## Vectorized arithmetic works on whole arrays" in assembly.markdown
+    assert "## `mean`, `std`, and `dot` support common numerical workflows" in assembly.markdown
+    assert "python-standard-library-utilities" in related_ids
+    assert "numpy-array-and-matrix-lab" in related_ids
+    assert "numpy-pandas-matplotlib-problem-set" in related_ids
+    assert "edi3400-lecture-06" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_pandas_series_and_dataframes_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "pandas-series-and-dataframes",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## Pandas organizes labeled tabular data" in assembly.markdown
+    assert "## A `Series` stores one labeled sequence" in assembly.markdown
+    assert "## A `DataFrame` organizes aligned columns" in assembly.markdown
+    assert "## `[]`, `loc`, and `iloc` answer different selection questions" in assembly.markdown
+    assert "## `read_csv(...)` and parsed dates connect files to analysis workflows" in assembly.markdown
+    assert "numpy-arrays-and-matrices" in related_ids
+    assert "pandas-dataframe-analysis-lab" in related_ids
+    assert "numpy-pandas-matplotlib-problem-set" in related_ids
+    assert "edi3400-lecture-07" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_matplotlib_basic_plots_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "matplotlib-basic-plots",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## Matplotlib turns numeric data into visible patterns" in assembly.markdown
+    assert "## `plt.plot(...)` creates a line plot for ordered data" in assembly.markdown
+    assert "## `plt.scatter(...)` is useful when comparing two variables" in assembly.markdown
+    assert "## `plt.bar(...)` compares grouped values clearly" in assembly.markdown
+    assert "## `savefig(...)` turns a plot into a reusable artifact" in assembly.markdown
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "matplotlib-sales-visualization-lab" in related_ids
+    assert "numpy-pandas-matplotlib-problem-set" in related_ids
+    assert "edi3400-lecture-08" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_ide_debugging_testing_and_ai_assistants_concept_links_edi3400_workflow() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "ide-debugging-testing-and-ai-assistants",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## An IDE shortens the programming feedback loop" in assembly.markdown
+    assert "## Error messages and tracebacks are the first debugging tool" in assembly.markdown
+    assert "## Unit tests turn expectations into repeatable checks" in assembly.markdown
+    assert "## AI assistants can accelerate suggestions, not verification" in assembly.markdown
+    assert "numpy-pandas-matplotlib-problem-set" in related_ids
+    assert "debugging-and-ai-workflow-lab" in related_ids
+    assert "python-sql-integration" in related_ids
+    assert "edi3400-lecture-09" in related_ids
+    assert "edi3400" in related_ids
+
+
 def test_edi3400_lecture_02_assembly_expands_python_basics_block() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -382,6 +507,101 @@ def test_edi3400_lecture_05c_assembly_expands_classes_block() -> None:
     ]
     assert "## `__init__` sets the starting state" in assembly.markdown
     assert "## Lab brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_06_assembly_expands_numpy_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-06",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["numpy-arrays-and-matrices", "numpy-array-and-matrix-lab"]
+    assert "## `np.array(...)` creates an `ndarray`" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_07_assembly_expands_pandas_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-07",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "pandas-series-and-dataframes",
+        "pandas-dataframe-analysis-lab",
+    ]
+    assert "## A `Series` stores one labeled sequence" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_08_assembly_expands_matplotlib_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-08",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "matplotlib-basic-plots",
+        "matplotlib-sales-visualization-lab",
+        "numpy-pandas-matplotlib-problem-set",
+    ]
+    assert "## `plt.plot(...)` creates a line plot for ordered data" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "## Problem set brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_09_assembly_expands_workflow_support_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-09",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "ide-debugging-testing-and-ai-assistants",
+        "debugging-and-ai-workflow-lab",
+    ]
+    assert "## An IDE shortens the programming feedback loop" in assembly.markdown
+    assert "## Exercise brief" in assembly.markdown
     assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
 
 
@@ -528,6 +748,135 @@ def test_python_bank_account_class_lab_links_foundations_and_course() -> None:
     assert "python-functions" in related_ids
     assert "python-classes-and-objects" in related_ids
     assert "edi3400-lecture-05c" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_numpy_array_and_matrix_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "numpy-array-and-matrix-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab brief" in assembly.markdown
+    assert "np.arange(1, 13).reshape((3, 4))" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "python-functions" in related_ids
+    assert "python-standard-library-utilities" in related_ids
+    assert "numpy-arrays-and-matrices" in related_ids
+    assert "edi3400-lecture-06" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_pandas_dataframe_analysis_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "pandas-dataframe-analysis-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab brief" in assembly.markdown
+    assert "assets/campus_store_sales.csv" in assembly.markdown
+    assert "pd.read_csv(\"assets/campus_store_sales.csv\", parse_dates=[\"date\"])" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "python-file-handling" in related_ids
+    assert "numpy-arrays-and-matrices" in related_ids
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "edi3400-lecture-07" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_matplotlib_sales_visualization_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "matplotlib-sales-visualization-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab brief" in assembly.markdown
+    assert "assets/campus_store_plotting_data.csv" in assembly.markdown
+    assert "import matplotlib.pyplot as plt" in assembly.markdown
+    assert "plt.savefig(...)" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "matplotlib-basic-plots" in related_ids
+    assert "edi3400-lecture-08" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_numpy_pandas_matplotlib_problem_set_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "numpy-pandas-matplotlib-problem-set",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Problem set brief" in assembly.markdown
+    assert "assets/campus_store_performance.csv" in assembly.markdown
+    assert "np.round(average_order_value[:5], 2)" in assembly.markdown
+    assert "campus_store_revenue_report.png" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "numpy-arrays-and-matrices" in related_ids
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "matplotlib-basic-plots" in related_ids
+    assert "edi3400-lecture-08" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_debugging_and_ai_workflow_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "debugging-and-ai-workflow-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Exercise brief" in assembly.markdown
+    assert "assets/sales_report_debug_case.py" in assembly.markdown
+    assert "pytest -q" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "python-functions" in related_ids
+    assert "ide-debugging-testing-and-ai-assistants" in related_ids
+    assert "edi3400-lecture-09" in related_ids
     assert "edi3400" in related_ids
 
 
@@ -1042,6 +1391,94 @@ def test_python_classes_and_objects_student_page_builds_cleanly() -> None:
     assert leakage_report["status"] == "clean"
 
 
+def test_numpy_arrays_and_matrices_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "numpy-arrays-and-matrices",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "NumPy arrays and matrices" in html
+    assert "NumPy makes numerical data explicit and scalable" in html
+    assert "Vectorized arithmetic works on whole arrays" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "numpy-arrays-and-matrices"
+    assert leakage_report["status"] == "clean"
+
+
+def test_pandas_series_and_dataframes_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "pandas-series-and-dataframes",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Pandas series and data frames" in html
+    assert "Pandas organizes labeled tabular data" in html
+    assert "A <code>Series</code> stores one labeled sequence" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "pandas-series-and-dataframes"
+    assert leakage_report["status"] == "clean"
+
+
+def test_matplotlib_basic_plots_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "matplotlib-basic-plots",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Matplotlib basic plots" in html
+    assert "Matplotlib turns numeric data into visible patterns" in html
+    assert "savefig" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "matplotlib-basic-plots"
+    assert leakage_report["status"] == "clean"
+
+
+def test_ide_debugging_testing_and_ai_assistants_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "ide-debugging-testing-and-ai-assistants",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "IDEs, debugging, testing, and AI assistants" in html
+    assert "Error messages and tracebacks are the first debugging tool" in html
+    assert "Unit tests turn expectations into repeatable checks" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "ide-debugging-testing-and-ai-assistants"
+    assert leakage_report["status"] == "clean"
+
+
 def test_python_functions_problem_set_student_page_builds_cleanly() -> None:
     artifact = build_target(
         "python-functions-problem-set",
@@ -1083,6 +1520,124 @@ def test_python_bank_account_class_lab_student_page_builds_cleanly() -> None:
     assert "## Solution" not in html
     assert "The strongest teacher solution keeps the class small" not in html
     assert build_manifest["target"]["identifier"] == "python-bank-account-class-lab"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_numpy_array_and_matrix_lab_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "numpy-array-and-matrix-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "NumPy array and matrix lab" in html
+    assert "matrix multiplication" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the array structure visible" not in html
+    assert build_manifest["target"]["identifier"] == "numpy-array-and-matrix-lab"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_pandas_dataframe_analysis_lab_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "pandas-dataframe-analysis-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Pandas dataframe analysis lab" in html
+    assert "assets/campus_store_sales.csv" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the table small, labeled, and inspectable" not in html
+    assert build_manifest["target"]["identifier"] == "pandas-dataframe-analysis-lab"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_matplotlib_sales_visualization_lab_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "matplotlib-sales-visualization-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Matplotlib sales visualization lab" in html
+    assert "assets/campus_store_plotting_data.csv" in html
+    assert "revenue_trend.png" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the plotting steps explicit" not in html
+    assert build_manifest["target"]["identifier"] == "matplotlib-sales-visualization-lab"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_numpy_pandas_matplotlib_problem_set_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "numpy-pandas-matplotlib-problem-set",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "NumPy, Pandas, and Matplotlib problem set" in html
+    assert "assets/campus_store_performance.csv" in html
+    assert "campus_store_revenue_report.png" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the full workflow staged" not in html
+    assert build_manifest["target"]["identifier"] == "numpy-pandas-matplotlib-problem-set"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_debugging_and_ai_workflow_lab_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "debugging-and-ai-workflow-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Debugging and AI workflow lab" in html
+    assert "assets/sales_report_debug_case.py" in html
+    assert "pytest -q" in html
+    assert "## Solution" not in html
+    assert "The strongest teacher solution keeps the debugging workflow evidence-based" not in html
+    assert build_manifest["target"]["identifier"] == "debugging-and-ai-workflow-lab"
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 1
     assert leakage_report["solution_files_included"] == 0
@@ -1180,6 +1735,121 @@ def test_python_bank_account_class_lab_teacher_page_builds_with_solution() -> No
     assert leakage_report["solution_files_included"] == 1
 
 
+def test_numpy_array_and_matrix_lab_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "numpy-array-and-matrix-lab",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "NumPy array and matrix lab" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the array structure visible" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "numpy-array-and-matrix-lab"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
+def test_pandas_dataframe_analysis_lab_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "pandas-dataframe-analysis-lab",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Pandas dataframe analysis lab" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the table small, labeled, and inspectable" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "pandas-dataframe-analysis-lab"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
+def test_matplotlib_sales_visualization_lab_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "matplotlib-sales-visualization-lab",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Matplotlib sales visualization lab" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the plotting steps explicit" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "matplotlib-sales-visualization-lab"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
+def test_numpy_pandas_matplotlib_problem_set_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "numpy-pandas-matplotlib-problem-set",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "NumPy, Pandas, and Matplotlib problem set" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the full workflow staged" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "numpy-pandas-matplotlib-problem-set"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
+def test_debugging_and_ai_workflow_lab_teacher_page_builds_with_solution() -> None:
+    artifact = build_target(
+        "debugging-and-ai-workflow-lab",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Debugging and AI workflow lab" in html
+    assert "Minimal reference implementation" in html
+    assert "The strongest teacher solution keeps the debugging workflow evidence-based" in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "debugging-and-ai-workflow-lab"
+    assert leakage_report["status"] == "not_applicable"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 1
+
+
 def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     artifact = build_target(
         "edi3400",
@@ -1193,6 +1863,7 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
 
     assert "EDI 3400 - Programming and Data Management" in html
     assert "Part 1: Programming with basic Python" in html
+    assert "Part 3: Advanced topics" in html
     assert "Part 4: Databases with SQL and Python" in html
     assert "../../collection/edi3400-lecture-02/edi3400-lecture-02.html" in html
     assert "../../collection/edi3400-lecture-04/edi3400-lecture-04.html" in html
@@ -1200,6 +1871,10 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "../../collection/edi3400-lecture-05a/edi3400-lecture-05a.html" in html
     assert "../../collection/edi3400-lecture-05b/edi3400-lecture-05b.html" in html
     assert "../../collection/edi3400-lecture-05c/edi3400-lecture-05c.html" in html
+    assert "../../collection/edi3400-lecture-06/edi3400-lecture-06.html" in html
+    assert "../../collection/edi3400-lecture-07/edi3400-lecture-07.html" in html
+    assert "../../collection/edi3400-lecture-08/edi3400-lecture-08.html" in html
+    assert "../../collection/edi3400-lecture-09/edi3400-lecture-09.html" in html
     assert "../../collection/edi3400-lecture-11/edi3400-lecture-11.html" in html
     assert "../../collection/edi3400-lecture-12/edi3400-lecture-12.html" in html
     assert "../../collection/edi3400-lecture-13/edi3400-lecture-13.html" in html
@@ -1209,6 +1884,11 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "Python functions problem set" in html
     assert "Python standard-library utilities problem set" in html
     assert "Python bank-account class lab" in html
+    assert "NumPy array and matrix lab" in html
+    assert "Pandas dataframe analysis lab" in html
+    assert "Matplotlib sales visualization lab" in html
+    assert "NumPy, Pandas, and Matplotlib problem set" in html
+    assert "Debugging and AI workflow lab" in html
     assert "Assessment Status" in html
     assert "Search LearnForge" in html
     assert "Breadcrumbs:" in html
@@ -1373,6 +2053,118 @@ def test_edi3400_lecture_05c_student_page_builds_cleanly() -> None:
     ] == [
         "python-classes-and-objects",
         "python-bank-account-class-lab",
+    ]
+
+
+def test_edi3400_lecture_06_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-06",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 6 - NumPy arrays and matrices" in html
+    assert "This lecture includes" in html
+    assert "NumPy arrays and matrices" in html
+    assert "NumPy array and matrix lab" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["numpy-arrays-and-matrices", "numpy-array-and-matrix-lab"]
+
+
+def test_edi3400_lecture_07_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-07",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 7 - Pandas series and data frames" in html
+    assert "This lecture includes" in html
+    assert "Pandas series and data frames" in html
+    assert "Pandas dataframe analysis lab" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["pandas-series-and-dataframes", "pandas-dataframe-analysis-lab"]
+
+
+def test_edi3400_lecture_08_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-08",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 8 - Matplotlib basic plots" in html
+    assert "This lecture includes" in html
+    assert "Matplotlib basic plots" in html
+    assert "Matplotlib sales visualization lab" in html
+    assert "NumPy, Pandas, and Matplotlib problem set" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "matplotlib-basic-plots",
+        "matplotlib-sales-visualization-lab",
+        "numpy-pandas-matplotlib-problem-set",
+    ]
+
+
+def test_edi3400_lecture_09_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-09",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 9 - IDEs and generative AI for programming" in html
+    assert "This lecture includes" in html
+    assert "IDEs, debugging, testing, and AI assistants" in html
+    assert "Debugging and AI workflow lab" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "ide-debugging-testing-and-ai-assistants",
+        "debugging-and-ai-workflow-lab",
     ]
 
 

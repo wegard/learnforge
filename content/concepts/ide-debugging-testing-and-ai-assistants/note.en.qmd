@@ -1,0 +1,104 @@
+## An IDE shortens the programming feedback loop
+
+An integrated development environment collects editing, running, inspecting, and
+testing in one place. The point is not the brand name. The point is that students get
+faster feedback on code, errors, and file structure than they do from typing into a
+single script blindly.
+
+In practical terms, an IDE helps with:
+
+- opening several project files at once,
+- running one script repeatedly,
+- inspecting variables while the program is paused,
+- finding function definitions quickly,
+- and running tests without rebuilding the whole workflow from memory each time.
+
+## Error messages and tracebacks are the first debugging tool
+
+Debugging should start with the program's own evidence:
+
+- the exception type,
+- the traceback,
+- the line number,
+- and the values visible right before the failure.
+
+Students often treat the error message as noise and jump straight to rewriting code.
+That is usually backwards. The error message is the first clue about what assumption
+the program just violated.
+
+## Breakpoints and variable inspection show program state
+
+When code runs but gives the wrong answer, the next question is usually about state:
+
+- what values are in the variables,
+- which branch was taken,
+- how many times the loop ran,
+- and what the function returned.
+
+Breakpoints, step-through execution, and variable inspection make those questions
+concrete. This is why IDE-based debugging is useful even for small scripts: it turns
+guessing into observation.
+
+## Unit tests turn expectations into repeatable checks
+
+A unit test is a small executable claim about how code should behave. Instead of
+thinking `this function seems right`, students can state:
+
+- for this input,
+- the function should return this output,
+- and it should keep doing so after later edits.
+
+For this course, the important habit is not advanced testing architecture. The habit
+is to write a few clear checks around functions that matter and rerun them after each
+change.
+
+## Documentation is part of the workflow
+
+Debugging is easier when students read:
+
+- function docstrings,
+- library documentation,
+- error messages,
+- and short examples that match the task.
+
+This is especially important once the course moves beyond plain Python and into
+Pandas, Matplotlib, SQL connectors, and later external tools. Documentation is not a
+separate theory topic. It is part of how programmers work.
+
+## AI assistants can accelerate suggestions, not verification
+
+Tools such as GitHub Copilot or chat-based AI assistants can help with:
+
+- drafting a test case,
+- explaining an error message,
+- suggesting a refactor,
+- or summarizing what a function appears to do.
+
+But they should be treated as suggestion engines, not silent authorities. A useful
+programming workflow keeps three questions visible:
+
+1. What exactly did I ask the assistant to do?
+2. How will I verify whether the suggestion is correct?
+3. What part of the reasoning still needs my own judgment?
+
+## Verification matters more than fluency
+
+A polished AI-generated explanation can still be wrong. Good workflow habits therefore
+combine:
+
+- the IDE for inspection,
+- tests for repeatable checks,
+- documentation for authoritative reference,
+- and AI only as one optional support layer.
+
+That combination is the real lecture-9 point. Students should leave the lecture with
+a clearer process, not just a longer list of tools.
+
+## What students should be able to do next
+
+After this checkpoint, students should be able to:
+
+- read a traceback before changing code,
+- use an IDE or editor to inspect program state,
+- write a few small tests for a buggy script,
+- and verify AI suggestions against actual program behaviour.
