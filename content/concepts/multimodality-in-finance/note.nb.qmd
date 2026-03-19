@@ -1,0 +1,110 @@
+# Generativ AI og multimodalitet i finans
+
+## Generativ AI utover tekst
+
+Generativ AI refererer til modeller som kan skape nytt, originalt innhold —
+ikke bare analysere eller klassifisere. Store språkmodeller (LLMs) er én type,
+men generativ AI kan skape innhold i mange modaliteter:
+
+- **Tekst:** Artikler, e-poster, kode, rapporter
+- **Bilder:** Fotorealistiske bilder, kunst, illustrasjoner
+- **Lyd:** Musikk, stemmer, lydeffekter
+- **Video:** Korte videoklipp fra tekstbeskrivelser
+- **3D-modeller:** Objekter for spill, simulering, VR/AR
+
+## Bildegenerering (tekst-til-bilde)
+
+Diffusjonsmodeller lærer å "fjerne støy" for å skape et bilde fra et tilfeldig
+støymønster, guidet av en tekstbeskrivelse (prompt).
+
+**Kjente modeller:** Midjourney, DALL-E 3 (OpenAI), Stable Diffusion, Imagen
+(Google).
+
+**Bruksområder:** Kreativitet og kunst, design og prototyping, markedsføring,
+syntetiske data for trening av andre modeller.
+
+## Videogenerering (tekst-til-video)
+
+Mer komplekst enn bilder fordi det krever tidsmessig koherens — objekter og
+scener må bevege seg troverdig over tid.
+
+**Kjente modeller:** Sora (OpenAI), Runway Gen-2, Pika Labs, Veo (Google).
+
+**Utfordringer:** Fysikk og interaksjoner, beregningstungt, vanskelig med
+lange sekvenser.
+
+## Lydgenerering
+
+- **Talesyntese (TTS):** Konvertere tekst til naturlig klingende tale med
+  kontroll over toneleie, hastighet og følelser
+- **Stemmekloning:** Lage syntetiske versjoner av spesifikke stemmer
+- **Musikkgenerering:** Skape nye melodier og lydlandskap
+
+## 3D og verdensmodeller
+
+- **Tekst/bilde-til-3D:** Konvertere beskrivelser til tredimensjonale modeller
+- **Verdensmodeller:** Generere interaktive miljøer med regler og fysikk
+  (f.eks. Google Genie)
+
+## Hva er multimodalitet?
+
+Analyse eller modellering som samtidig bruker **flere datamodaliteter** — tekst,
+bilder, lyd, tallserier — slik at helheten gir bedre innsikt enn hver kilde
+alene.
+
+En multimodal modell ≠ ensemble. Det handler om **felles representasjon** der
+informasjon fra ulike kilder integreres: 1 + 1 > 2.
+
+### Typiske datamodaliteter i finans
+
+- Numeriske tidsserier (priser, volumer)
+- Strukturerte tabeller (regnskap)
+- Ustrukturerte tekster (nyheter, rapporter)
+- Bilder/videoer (satellittbilder, ansiktsuttrykk)
+- Tale (earnings calls, kundesamtaler)
+- Sensor-/geodata (mobilitet, klima)
+
+## Anvendelser i finans
+
+### Forbedret sentimentanalyse
+
+Kombinere tekst (nyhetsartikler), lyd (tonefall i analytikersamtaler), video
+(kroppsspråk) og markedsdata (volatilitet) for mer nyansert sentimentforståelse.
+
+### Prediksjon av aktivapriser
+
+Historiske priser + finansnyheter + satellittbilder (oljelagre, avlinger,
+parkeringsplasser) + grafdata (leverandørkjeder).
+
+### Kredittvurdering og svindeldeteksjon
+
+Tabulær data + tekstanalyse av søknadsskjemaer + dokumentverifisering (bilder)
++ transaksjonsnettverk (grafdata).
+
+### ESG-analyse
+
+Bærekraftsrapporter (tekst) + satellittbilder (utslipp, avskoging) +
+styresammensetning (tabulær) + leverandørkjeder (grafdata).
+
+### Kundeinteraksjon og robo-rådgivning
+
+Chat-dialoger (tekst) + telefonanalyse (lyd, tonefall) + skjermdeling (bilde)
+for raskere problemløsning og mer personlig rådgivning.
+
+## Teknologiske tilnærminger
+
+- **Representasjonslæring:** Transformere alle modaliteter til et felles
+  vektorrom
+- **Fusjonsstrategier:** Tidlig fusjon (kombinere rådata tidlig), sen fusjon
+  (kombinere resultater til slutt), hybrid fusjon
+- **Kryss-modal attention:** Mekanismer som lar en modalitet hente informasjon
+  fra en annen underveis i prosesseringen
+
+## Utfordringer
+
+- **Datajustering:** Sikre at ulike kilder refererer til samme hendelse/tid
+- **Manglende data:** Håndtere manglende modaliteter
+- **Modellkompleksitet:** Krever mye data og regnekraft
+- **Forklarbarhet:** Vanskelig å forstå hvorfor modellen tar en beslutning
+- **Bias:** Kan arve og forsterke skjevheter fra flere datakilder
+- **Personvern:** Bruk av video og lyd øker personvernutfordringene

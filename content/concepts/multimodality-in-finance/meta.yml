@@ -1,0 +1,36 @@
+id: multimodality-in-finance
+kind: concept
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Generativ AI og multimodalitet i finans
+courses:
+  - bik2550
+topics:
+  - generative-ai
+  - ai-in-finance
+tags:
+  - multimodality
+  - generative-ai
+  - diffusion-models
+  - image-generation
+  - video-generation
+  - finance
+level: introductory
+prerequisites:
+  - llms-deep-dive
+related: []
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-19
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
