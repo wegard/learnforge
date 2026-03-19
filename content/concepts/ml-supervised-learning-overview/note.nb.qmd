@@ -1,0 +1,80 @@
+# Veiledet maskinlæring
+
+## Hva er maskinlæring?
+
+Maskinlæring (ML) er algoritmer som lærer mønstre fra data — en undergren av AI.
+ML kan analysere enorme datamengder og ta raskere, bedre beslutninger enn
+tradisjonelle metoder. Finanssektoren bruker allerede ML i stor skala til blant
+annet svindeldeteksjon og risikostyring.
+
+## Hva er en modell?
+
+En modell er en funksjon som tar inn inngangsvariabler og produserer et utfall:
+
+$$y = f(x)$$
+
+- $y$ = utfall (f.eks. pris, sannsynlighet for svindel)
+- $x$ = inngangsvariabler (f.eks. økonomiske data, kredittscore)
+- $f$ er ukjent — maskinlæring finner en funksjonell form for $f$
+
+## Klassifisering vs. regresjon
+
+**Klassifisering** forutsier en kategori/klasse for et datapunkt.
+*Eksempel:* Klassifisere en lånesøker som "betalingsevne OK" eller "høy risiko".
+
+**Regresjon** forutsier en kontinuerlig verdi.
+*Eksempel:* Beregne forventet tap i kroner på et lån.
+
+## Lineær regresjon
+
+Enkel modell for å predikere kontinuerlige verdier gjennom en lineær sammenheng:
+
+$$y = \beta_0 + \beta_1 x$$
+
+*Eksempel:* Forutsi boligpris basert på størrelse. Med $\beta_0 = 500\,000$ kr
+og $\beta_1 = 50\,000$ kr/m² blir prisen for 60 m²:
+$f(60) = 500\,000 + 50\,000 \times 60 = 3\,500\,000$ kr.
+
+## Logistisk regresjon
+
+Klassifiseringsmodell for sannsynlighet (typisk binært utfall):
+
+$$y = \frac{1}{1 + e^{-z}} \quad \text{der} \quad z = \beta_0 + \beta_1 x$$
+
+Sigmoid-funksjonen transformerer alle reelle tall til et intervall mellom 0 og 1
+(sannsynlighet). *Eksempel:* Beregne sannsynligheten for mislighold på et lån.
+
+## Beslutningstrær
+
+If/else-regler strukturert som et tre. *Eksempel:* Splitte lånesøkere basert på
+inntekt, gjeld og betalingshistorikk for å komme til en beslutning om
+godkjenning eller avslag.
+
+## Ensemble-metoder
+
+Kombinerer flere modeller for bedre presisjon:
+
+- **Bagging:** Mange uavhengige modeller trenes parallelt og stemmer over
+  resultatet (f.eks. Random Forest).
+- **Boosting:** Modeller forbedres sekvensielt der hver ny modell fokuserer på
+  feilene til de forrige.
+
+## Random Forest
+
+Kombinerer mange beslutningstrær. Hvert tre bygges på et tilfeldig utvalg av
+data og variabler, noe som gir bedre generalisering og robusthet enn et enkelt
+tre.
+
+## Data for maskinlæring
+
+- **Inngangsdata (features):** Variablene som brukes for å forutsi (alder,
+  inntekt, kredittscore)
+- **Utfall (target/label):** Det vi ønsker å forutsi (kredittverdighet,
+  aksjekurs)
+- Data kan være strukturerte (tabeller, tall) eller ustrukturerte (tekst, bilder)
+
+### Trenings- og testdata
+
+- **Treningsdata** (typisk 80-90 %) brukes for å lære modellen
+- **Testdata** (10-20 %) brukes for å vurdere generalisering
+- Modellen må ikke se testdata før den er ferdig trent
