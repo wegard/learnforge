@@ -23,21 +23,21 @@ This file tracks the migration of legacy material from
 
 | Legacy source | Target kind | Proposed target id | Status |
 | --- | --- | --- | --- |
-| `modul_1/dag1/Hva_er_AI.tex` (AI section) | concept | `what-is-ai-overview` | pending |
-| `modul_1/dag1/AI_utvikling.tex` | concept | `ai-history-timeline` | pending |
-| `modul_1/dag1/Hva_er_AI.tex` (finance frames) | concept | `ai-in-finance-landscape` | pending |
-| `modul_1/dag1/Hva_er_AI.tex` (GenAI section) | concept | `generative-ai-introduction` | pending |
-| `modul_1/ressurser/Introduksjon_til_Python_og_Jupyter_notebooks.ipynb` | concept | `python-jupyter-introduction` | pending |
-| `modul_1/ressurser/Dataanalyse_med_jupyter_notebooks.ipynb` | concept | `data-analysis-with-jupyter` | pending |
-| `modul_1/dag2/Hva_er_maskinlæring.tex` (supervised) | concept | `ml-supervised-learning-overview` | pending |
-| `modul_1/dag2/Hva_er_maskinlæring.tex` (unsupervised) | concept | `ml-unsupervised-learning-overview` | pending |
-| `modul_1/dag2/Hva_er_maskinlæring.tex` (evaluation) | concept | `ml-model-evaluation-overview` | pending |
-| `modul_1/ressurser/Maskinlæring_for_finans.ipynb` | concept | `ml-finance-demo` | pending |
-| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (NN basics) | concept | `neural-networks-introduction` | pending |
-| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (architectures) | concept | `deep-learning-architectures-overview` | pending |
-| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (LLM section) | concept | `llms-and-next-token-prediction` | pending |
-| `modul_1/ressurser/Predikere_mislighold_kredittkort_NN.ipynb` | exercise | `credit-default-prediction-nn` | pending |
-| `modul_1/ressurser/svindeloppdagelse.ipynb` | exercise | `fraud-detection-exercise` | pending |
+| `modul_1/dag1/Hva_er_AI.tex` (AI section) | concept | `what-is-ai-overview` | **promoted** |
+| `modul_1/dag1/AI_utvikling.tex` | concept | `ai-history-timeline` | **promoted** |
+| `modul_1/dag1/Hva_er_AI.tex` (finance frames) | concept | `ai-in-finance-landscape` | **promoted** |
+| `modul_1/dag1/Hva_er_AI.tex` (GenAI section) | concept | `generative-ai-introduction` | **promoted** |
+| `modul_1/ressurser/Introduksjon_til_Python_og_Jupyter_notebooks.ipynb` | concept | `python-jupyter-introduction` | **promoted** |
+| `modul_1/ressurser/Dataanalyse_med_jupyter_notebooks.ipynb` | concept | `data-analysis-with-jupyter` | **promoted** |
+| `modul_1/dag2/Hva_er_maskinlæring.tex` (supervised) | concept | `ml-supervised-learning-overview` | **promoted** |
+| `modul_1/dag2/Hva_er_maskinlæring.tex` (unsupervised) | concept | `ml-unsupervised-learning-overview` | **promoted** |
+| `modul_1/dag2/Hva_er_maskinlæring.tex` (evaluation) | concept | `ml-model-evaluation-overview` | **promoted** |
+| `modul_1/ressurser/Maskinlæring_for_finans.ipynb` | concept | `ml-finance-demo` | **promoted** |
+| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (NN basics) | concept | `neural-networks-introduction` | **promoted** |
+| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (architectures) | concept | `deep-learning-architectures-overview` | **promoted** |
+| `modul_1/dag3/Nevrale_nettverk_og_dyp_læring.tex` (LLM section) | concept | `llms-and-next-token-prediction` | **promoted** |
+| `modul_1/ressurser/Predikere_mislighold_kredittkort_NN.ipynb` | exercise | `credit-default-prediction-nn` | **promoted** |
+| `modul_1/ressurser/svindeloppdagelse.ipynb` | exercise | `fraud-detection-exercise` | **promoted** |
 
 ### Promote Second (Module 3)
 
@@ -87,4 +87,21 @@ This file tracks the migration of legacy material from
 
 ## Promoted in the Current Checkpoint
 
-(None yet — Module 1 promotion is the first target.)
+- Concept: `what-is-ai-overview`
+- Concept: `ai-history-timeline`
+- Concept: `ai-in-finance-landscape`
+- Concept: `generative-ai-introduction`
+- Concept: `python-jupyter-introduction`
+- Concept: `data-analysis-with-jupyter`
+- Concept: `ml-supervised-learning-overview`
+- Concept: `ml-unsupervised-learning-overview`
+- Concept: `ml-model-evaluation-overview`
+- Concept: `ml-finance-demo`
+- Concept: `neural-networks-introduction`
+- Concept: `deep-learning-architectures-overview`
+- Concept: `llms-and-next-token-prediction`
+- Exercise: `credit-default-prediction-nn`
+- Exercise: `fraud-detection-exercise`
+- Lecture collection: `bik2550-m1d1`
+- Lecture collection: `bik2550-m1d2`
+- Lecture collection: `bik2550-m1d3`
