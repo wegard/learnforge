@@ -62,6 +62,7 @@ def build_target(
     output_format: RenderableFormat,
     root: Path = REPO_ROOT,
 ) -> BuildArtifact:
+    reset_generated_staging(root)
     index, errors = load_repository(root, collect_errors=False)
     if errors:
         raise BuildError("repository contains load errors")
@@ -168,6 +169,14 @@ def build_env(root: Path) -> dict[str, str]:
     env.setdefault("QUARTO_CACHE_DIR", str(cache_dir))
     env.setdefault("XDG_CACHE_HOME", str(cache_dir))
     return env
+
+
+def reset_generated_staging(root: Path) -> None:
+    generated_root = root / "build" / "generated"
+    if generated_root.exists():
+        shutil.rmtree(generated_root, ignore_errors=True)
+    generated_root.mkdir(parents=True, exist_ok=True)
+    (generated_root / ".gitkeep").write_text("", encoding="utf-8")
 
 
 def cleanup_generated_support_dirs(root: Path) -> None:

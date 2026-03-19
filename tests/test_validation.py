@@ -19,7 +19,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
 
     assert payload["status"] == "passed_with_warnings"
     assert payload["error_count"] == 0
-    assert payload["warning_count"] == 4
+    assert payload["warning_count"] == 5
     assert payload["build_summary_path"] == "build/reports/build-summary.json"
     assert "translation_coverage" in payload
     assert "resource_workflow" in payload

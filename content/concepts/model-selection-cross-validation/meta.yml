@@ -1,26 +1,27 @@
-id: bias-variance-tradeoff
+id: model-selection-cross-validation
 kind: concept
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Bias-variance trade-off
+  en: Model selection and cross-validation
 courses:
   - tem0052
 topics:
   - predictive-modelling
   - model-selection
   - cross-validation
-  - bias-variance
+  - regularization
 tags:
   - model-selection
-  - validation
-  - generalization
+  - cross-validation
+  - aic
+  - bic
 level: intermediate
 prerequisites: []
 related:
-  - model-selection-cross-validation
+  - bias-variance-tradeoff
   - model-assessment-lab
 outputs:
   - html

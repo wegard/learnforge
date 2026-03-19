@@ -1,0 +1,52 @@
+## Model selection is a workflow choice
+
+Model selection means choosing between competing modelling workflows, not just between
+two fitted coefficient tables. In `TEM 0052`, the candidate choices might differ in
+features, regularization strength, preprocessing, or even the full algorithm family.
+
+The question is therefore practical: which workflow is most likely to generalize well
+to new data?
+
+## Information criteria as a fast complexity penalty
+
+Information criteria such as AIC and BIC combine goodness of fit with a penalty for
+model complexity.
+
+- `AIC` is usually more prediction-oriented and tends to penalize complexity less
+  aggressively.
+- `BIC` applies a stronger penalty and will often prefer smaller models when sample
+  size grows.
+
+For linear or likelihood-based models, these criteria give a quick screening rule. In
+the legacy course material, lasso model selection on the diabetes data is a good
+example of how complexity penalties can shrink a large candidate set quickly.
+
+::: {.teacher-only}
+If students already know ridge and lasso, pause here and ask whether an information
+criterion is selecting coefficients directly or selecting among fitted workflows.
+:::
+
+## Cross-validation as the default course rule
+
+Cross-validation is the default selection rule when we want a direct estimate of
+out-of-sample performance.
+
+1. Split the data into repeated train/validation folds.
+2. Fit each candidate workflow inside the same resampling design.
+3. Compare mean validation performance together with variation across folds.
+
+This makes the selection rule visible and reproducible. Students can see not only
+which workflow performs best on average, but also whether that conclusion is stable.
+
+## What to report
+
+In this course, model selection reports should usually include:
+
+- the candidate workflows that were compared,
+- the resampling protocol,
+- the chosen metric,
+- the selected model or hyper-parameter,
+- and one short explanation of why the final choice is defensible.
+
+That reporting discipline matters just as much as the final score. A reproducible
+selection rule is more valuable than an opaque “best model” claim.

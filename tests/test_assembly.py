@@ -88,7 +88,12 @@ def test_tem0052_lecture_assembly_expands_only_promoted_objects() -> None:
         edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
     ]
 
-    assert edge_targets == ["bias-variance-tradeoff", "model-assessment-lab"]
+    assert edge_targets == [
+        "model-selection-cross-validation",
+        "bias-variance-tradeoff",
+        "model-assessment-lab",
+    ]
+    assert "## Model selection is a workflow choice" in assembly.markdown
     assert "## Why the trade-off matters" in assembly.markdown
     assert "## Lab brief" in assembly.markdown
     assert "iv-intuition" not in assembly.markdown
@@ -282,6 +287,25 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
 
     assert "model-assessment-lab" in related_ids
     assert "tem0052" in [entry.identifier for entry in assembly.related_entries]
+    assert "## Related links" in assembly.markdown
+
+
+def test_model_selection_concept_links_related_tem0052_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "model-selection-cross-validation",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "bias-variance-tradeoff" in related_ids
+    assert "model-assessment-lab" in related_ids
+    assert "tem0052" in related_ids
     assert "## Related links" in assembly.markdown
 
 

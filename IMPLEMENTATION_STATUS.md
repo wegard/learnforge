@@ -6,6 +6,7 @@
 - Repository maintenance: course inbox staging for legacy-course intake
 - Phase 11 kickoff complete checkpoint: `tem0052` migration inventory + canonical course shell
 - Phase 11 complete checkpoint: `tem0052` first canonical promotion slice
+- Phase 11 complete checkpoint: `tem0052` second concept promotion slice
 
 ## Non-Goals For This Run
 
@@ -15,7 +16,8 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No broad `tem0052` migration beyond one first-wave concept, one first-wave exercise, and one lecture collection
+- No broad `tem0052` migration beyond one additional concept and narrow metadata/lecture integration
+- Keep `tem0052` intentionally English-only in this slice
 - No Textual TUI
 - No broad redesign of existing student navigation beyond what resource workflow required
 
@@ -147,6 +149,8 @@
   - new canonical material should prefer `.qmd` for exposition and `.py` for reusable code
 - The first promoted `tem0052` lecture is allowed to start from the strongest migrated
   content block rather than forcing lecture-number order
+- `tem0052` remains intentionally English-only during the current migration stage; missing
+  `nb` variants are accepted as validation warnings rather than blockers
 - Hardened the Quarto/build path so `course-inbox/` is excluded from project rendering
 - Fixed single-file Quarto build handling to:
   - keep project rendering compatible with the inbox exclusion
@@ -157,11 +161,15 @@
   - `tem0052` student HTML builds without dead resource-listing links
 - Promoted the first canonical `tem0052` concept:
   - `content/concepts/bias-variance-tradeoff/`
+- Promoted the second canonical `tem0052` concept:
+  - `content/concepts/model-selection-cross-validation/`
 - Promoted the first canonical `tem0052` exercise with teacher solution separation:
   - `content/exercises/model-assessment-lab/`
   - `solution.en.qmd`
 - Assembled the first canonical `tem0052` lecture collection using only promoted objects:
   - `collections/lectures/tem0052-lecture-05/meta.yml`
+- Expanded `tem0052-lecture-05` to include the promoted model-selection concept
+- Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
 - Wired the first lecture into `courses/tem0052/plan.yml`
 - Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
 - Added regression coverage for:
@@ -183,7 +191,7 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - only one first-wave `tem0052` concept/exercise/lecture is promoted so far
+  - two first-wave `tem0052` concepts and one exercise/lecture are promoted so far
   - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
@@ -214,6 +222,8 @@
 - `app/models.py`
 - `app/resource_workflow.py`
 - `app/validator.py`
+- `content/concepts/model-selection-cross-validation/meta.yml`
+- `content/concepts/model-selection-cross-validation/note.en.qmd`
 - `content/resources/angrist-podcast-iv/meta.yml`
 - `content/resources/iv-candidate-newsletter/meta.yml`
 - `content/resources/iv-candidate-newsletter/note.en.qmd`
@@ -314,27 +324,38 @@
   - `./.venv/bin/python -m pytest -q -x`
   - `./.venv/bin/python -m pytest -q`
   - `./.venv/bin/teach validate`
+- `tem0052` second concept promotion:
+  - `python3 - <<'PY' ... inspect notebooks/08_Information_criteria_and_cross_validation.ipynb ... PY`
+  - `mkdir -p content/concepts/model-selection-cross-validation`
+  - `./.venv/bin/teach build model-selection-cross-validation --audience student --lang en --format html`
+  - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052-lecture-05 --audience student --lang en --format html`
+  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
+  - `./.venv/bin/python -m pytest -q tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly`
+  - `./.venv/bin/python -m pytest -q`
+  - `./.venv/bin/teach validate`
 
 ## Test / Build Results
 
 - Validation passed with warnings:
-  - `Validated 13 objects and 2 courses. Errors: 0. Warnings: 4.`
+  - `Validated 14 objects and 2 courses. Errors: 0. Warnings: 5.`
   - `Representative targets: 13/13 passed`
   - Warnings are expected in this checkpoint for:
     - the sample stale approved resource:
       - `resource-hidden-from-student-site`
       - `stale-resource`
-    - the English-only migration-stage `tem0052` concept/exercise:
+    - the English-only migration-stage `tem0052` concepts/exercise:
       - `missing-approved-translation` for `bias-variance-tradeoff`
+      - `missing-approved-translation` for `model-selection-cross-validation`
       - `missing-approved-translation` for `model-assessment-lab`
 - Lint passed:
   - `All checks passed!`
 - Tests passed:
-  - `63 passed in 184.01s (0:03:04)`
+  - `64 passed in 184.11s (0:03:04)`
 - Course inbox regression checks passed:
   - `11 passed in 0.31s` for `tests/test_schema.py`
   - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
-  - `teach validate` still passed with `Errors: 0. Warnings: 4. Representative targets: 13/13 passed`
+  - `teach validate` still passed with `Errors: 0. Warnings: 5. Representative targets: 13/13 passed`
 - `tem0052` migration kickoff checks passed:
   - `30 passed in 48.25s` for `tests/test_schema.py tests/test_builds.py`
   - `teach build tem0052 --audience student --lang en --format html` succeeded
@@ -380,6 +401,11 @@
   - teacher solution sheet
 - `tem0052` first promoted outputs verified:
   - Student concept page:
+    - `build/exports/student/en/html/concept/model-selection-cross-validation/model-selection-cross-validation.html`
+    - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/build-manifest.json`
+    - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/dependency-manifest.json`
+    - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/teacher-leakage-report.json`
+  - Student concept page:
     - `build/exports/student/en/html/concept/bias-variance-tradeoff/bias-variance-tradeoff.html`
     - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/build-manifest.json`
     - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/dependency-manifest.json`
@@ -413,10 +439,10 @@
 
 ## Next Recommended Step
 - Promote the next `tem0052` object pair from the same model-assessment block:
-  - `model-selection-cross-validation`
   - either `house-prices-regression` or `spam-filtering-naive-bayes`
-- Then decide whether `tem0052` stays intentionally English-only for the next checkpoint or whether `nb` placeholders/translations should start for promoted student-visible objects
+- The course can stay intentionally English-only for the next checkpoint; the resulting
+  translation warnings are currently expected and non-blocking
 - Keep the next migration slice narrow:
-  - one additional concept
   - one additional exercise
-  - one additional lecture or a refinement of `tem0052-lecture-05`
+  - optionally one small supporting figure or one more concept from the same lecture block
+  - refine `tem0052-lecture-05` only if the next promoted object naturally belongs there

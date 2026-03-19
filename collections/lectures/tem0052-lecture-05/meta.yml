@@ -31,5 +31,6 @@ translation_status:
 ai:
   generated_fields: []
 items:
+  - model-selection-cross-validation
   - bias-variance-tradeoff
   - model-assessment-lab

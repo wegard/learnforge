@@ -108,6 +108,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    second_concept_artifact = build_target(
+        "model-selection-cross-validation",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
     exercise_artifact = build_target(
         "model-assessment-lab",
         audience="student",
@@ -117,6 +124,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     )
 
     concept_html = concept_artifact.output_path.read_text(encoding="utf-8")
+    second_concept_html = second_concept_artifact.output_path.read_text(encoding="utf-8")
     exercise_html = exercise_artifact.output_path.read_text(encoding="utf-8")
 
     assert "Bias-variance trade-off" in concept_html
@@ -124,8 +132,14 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in concept_html
     assert "teacher-only" not in concept_html
 
+    assert "Model selection and cross-validation" in second_concept_html
+    assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in second_concept_html
+    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in second_concept_html
+    assert "teacher-only" not in second_concept_html
+
     assert "Model assessment lab" in exercise_html
     assert "Bias-variance trade-off" in exercise_html
+    assert "Model selection and cross-validation" in exercise_html
     assert "The point of the lab is not the exact winning score." not in exercise_html
     assert "lf-solution-block" not in exercise_html
 
@@ -146,6 +160,7 @@ def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
 
     assert "Course context" in html
     assert "This lecture includes" in html
+    assert "Model selection and cross-validation" in html
     assert "Bias-variance trade-off" in html
     assert "Model assessment lab" in html
     assert "iv-intuition" not in html
@@ -154,7 +169,11 @@ def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
         edge["target_id"]
         for edge in dependency_manifest["dependency_edges"]
         if edge["relationship"] == "item"
-    ] == ["bias-variance-tradeoff", "model-assessment-lab"]
+    ] == [
+        "model-selection-cross-validation",
+        "bias-variance-tradeoff",
+        "model-assessment-lab",
+    ]
 
 
 def test_listing_build_writes_reports() -> None:

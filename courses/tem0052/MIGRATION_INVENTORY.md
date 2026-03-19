@@ -90,6 +90,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 ### Promoted in the current checkpoint
 
 - Concept: `bias-variance-tradeoff`
+- Concept: `model-selection-cross-validation`
 - Exercise: `model-assessment-lab`
 - Lecture collection: `tem0052-lecture-05`
 

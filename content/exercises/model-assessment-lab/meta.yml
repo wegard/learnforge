@@ -33,5 +33,6 @@ difficulty: medium
 estimated_time_minutes: 45
 concepts:
   - bias-variance-tradeoff
+  - model-selection-cross-validation
 solution_storage: separate-file
 solution_visibility: teacher
