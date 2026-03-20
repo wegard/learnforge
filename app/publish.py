@@ -93,6 +93,7 @@ def publish_student_site(
         render_publish_root_index(selected_languages),
         encoding="utf-8",
     )
+    (publish_root / ".nojekyll").write_text("", encoding="utf-8")
 
     manifest_path = publish_report_dir / "publish-manifest.json"
     manifest_payload = {

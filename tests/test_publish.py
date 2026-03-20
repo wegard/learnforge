@@ -91,6 +91,7 @@ def test_publish_student_site_writes_bundle_manifest_and_excludes_teacher_output
     ]
     assert manifest["language_details"][0]["source_export_root"] == "build/exports/student/en/html"
     assert manifest["language_details"][0]["target_kind_counts"]["course"] == 1
+    assert (artifact.publish_root / ".nojekyll").exists()
     assert not (artifact.publish_root / "teacher").exists()
     assert not any("exercise-sheet" in str(path) for path in artifact.publish_root.rglob("*"))
 
@@ -126,6 +127,8 @@ def test_publish_workflow_uses_manual_dispatch_and_publish_artifacts() -> None:
     assert "teach publish" in workflow
     assert "build/publish/student-site/" in workflow
     assert "build/reports/publish/student-site/" in workflow
+    assert "upload-pages-artifact" in workflow
+    assert "deploy-pages" in workflow
 
 
 def copy_repo_subset(target_root: Path) -> None:

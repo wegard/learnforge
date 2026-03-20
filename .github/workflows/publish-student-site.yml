@@ -3,6 +3,14 @@ name: Publish Student Site
 on:
   workflow_dispatch:
 
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   publish-student-site:
     runs-on: ubuntu-latest
@@ -28,14 +36,23 @@ jobs:
       - name: Publish student site bundle
         run: teach publish
 
-      - name: Upload student site bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: student-site
-          path: build/publish/student-site/
-
-      - name: Upload publish manifest
+      - name: Upload publish report
         uses: actions/upload-artifact@v4
         with:
           name: student-site-publish-report
           path: build/reports/publish/student-site/
+
+      - name: Upload student site for Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/publish/student-site/
+
+  deploy:
+    needs: publish-student-site
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

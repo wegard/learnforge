@@ -45,3 +45,6 @@ jobs:
 
       - name: Build representative sample targets
         run: python scripts/build_representative_targets.py
+
+      - name: Publish student site (smoke test)
+        run: teach publish --lang en

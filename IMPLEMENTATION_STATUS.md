@@ -24,6 +24,7 @@
 - Phase 11 complete checkpoint: `tem0052` tenth concept promotion + lecture 3 refresh
 - Phase 11 parallel checkpoint: `edi3400` database concept block formalized through `python-sql-integration`
 - Phase 11 parallel checkpoint: `edi3400` problem-set promotion + lecture block assembly
+- GitHub Pages deployment for student site
 
 ## Non-Goals For This Run
 
@@ -58,6 +59,7 @@
 - Student-only deployment is the first-class public publishing target
 - Public student publishing is now bundled under `build/publish/student-site/`
 - The public root is a static language chooser plus `/en/` and `/nb/`
+- Student site deployment targets GitHub Pages via manual-dispatch workflow
 - Public publishing remains host-agnostic and manual through `teach publish`
 - Exercise solutions remain in separate `solution.en.qmd` / `solution.nb.qmd` files
 - Representative validation/build targets remain declared in `representative-targets.yml`
