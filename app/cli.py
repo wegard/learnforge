@@ -12,6 +12,7 @@ import typer
 from app.build import BuildError, build_target
 from app.config import AUDIENCES, LANGUAGES, OUTPUT_FORMATS, REPO_ROOT
 from app.indexer import load_repository
+from app.publish import publish_student_site
 from app.resource_workflow import transition_resource_to_state, write_stale_resource_report
 from app.scaffold import scaffold_object
 from app.search import search_repository
@@ -126,6 +127,33 @@ def build(
     typer.echo(f"Teacher leakage report: {artifact.leakage_report_path.relative_to(REPO_ROOT)}")
     if artifact.search_index_path is not None:
         typer.echo(f"Student search index: {artifact.search_index_path.relative_to(REPO_ROOT)}")
+
+
+@app.command()
+def publish(
+    lang: list[str] | None = typer.Option(
+        None,
+        "--lang",
+        case_sensitive=False,
+        help="Repeat to limit publishing to selected languages.",
+    ),
+) -> None:
+    selected_languages = lang or list(LANGUAGES)
+    if any(language not in LANGUAGES for language in selected_languages):
+        raise typer.BadParameter(f"lang must be one of {LANGUAGES}")
+
+    try:
+        artifact = publish_student_site(
+            languages=selected_languages,
+            root=REPO_ROOT,
+        )
+    except BuildError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(f"Published student site -> {artifact.publish_root.relative_to(REPO_ROOT)}")
+    typer.echo(f"Publish manifest: {artifact.manifest_path.relative_to(REPO_ROOT)}")
+    typer.echo(f"Languages: {', '.join(artifact.languages)}")
 
 
 @app.command("new")

@@ -22,7 +22,7 @@ from app.assembly import (
     student_search_index_path,
 )
 from app.config import REPO_ROOT, WEB_ASSETS_DIR, exports_dir, generated_dir, reports_dir
-from app.indexer import IndexedObject, RepositoryIndex, load_repository
+from app.indexer import IndexedCourse, IndexedObject, RepositoryIndex, load_repository
 from app.models import Collection, Resource
 from app.resource_workflow import resource_student_visibility_decision
 
@@ -63,6 +63,12 @@ class BuildArtifact:
     search_index_path: Path | None = None
 
 
+@dataclass(frozen=True, slots=True)
+class StudentSiteTarget:
+    target_id: str
+    target_kind: str
+
+
 class BuildError(RuntimeError):
     pass
 
@@ -78,22 +84,27 @@ def build_target(
     language: str,
     output_format: RenderableFormat,
     root: Path = REPO_ROOT,
+    index: RepositoryIndex | None = None,
+    sync_html_shell_assets: bool = True,
+    sync_student_search_index: bool = True,
 ) -> BuildArtifact:
     assembly: AssemblyDocument | None = None
+    build_index: RepositoryIndex | None = index
     command: list[str] = []
     commands: list[list[str]] = []
     result: subprocess.CompletedProcess[str] | None = None
     max_attempts = 4
     for attempt in range(max_attempts):
         ensure_generated_staging(root)
-        index, errors = load_repository(root, collect_errors=False)
-        if errors:
-            raise BuildError("repository contains load errors")
+        if build_index is None:
+            build_index, errors = load_repository(root, collect_errors=False)
+            if errors:
+                raise BuildError("repository contains load errors")
 
         try:
             assembly = assemble_target(
                 target_id,
-                index=index,
+                index=build_index,
                 audience=audience,
                 language=language,
                 output_format=output_format,
@@ -144,6 +155,8 @@ def build_target(
 
     if assembly is None:
         raise BuildError("assembly generation failed")
+    if build_index is None:
+        raise BuildError("repository index unavailable for build")
 
     rendered_output = locate_rendered_output(
         generated_path=assembly.generated_path,
@@ -183,12 +196,14 @@ def build_target(
         sync_site_libs(root, output_dir)
 
     search_index_path = None
-    if audience in {"student", "teacher"} and output_format == "html":
+    if audience in {"student", "teacher"} and output_format == "html" and sync_html_shell_assets:
         write_html_shell_assets(audience=audience, language=language, root=root)
     if audience == "student" and output_format == "html":
-        search_index_path = write_student_site_search_index(
-            index=index, language=language, root=root
-        )
+        search_index_path = student_search_index_path(root, language)
+        if sync_student_search_index:
+            search_index_path = write_student_site_search_index(
+                index=build_index, language=language, root=root
+            )
     build_manifest_path, dependency_manifest_path, leakage_report_path = write_build_reports(
         assembly=assembly,
         command=command,
@@ -536,40 +551,12 @@ def write_student_site_search_index(
     site_root = exports_dir(root) / "student" / language / "html"
     payload = {
         "language": language,
-        "entries": [
-            {
-                "id": "home",
-                "kind": "home",
-                "title": "LearnForge",
-                "description": (
-                    "Browse courses, topics, and featured resources."
-                    if language == "en"
-                    else "Bla gjennom kurs, temaer og utvalgte ressurser."
-                ),
-                "topics": [],
-                "tags": [],
-                "courses": [],
-                "href": str(
-                    planned_target_output_path(
-                        root,
-                        audience="student",
-                        language=language,
-                        output_format="html",
-                        target_kind="home",
-                        target_id="home",
-                    ).relative_to(site_root)
-                ),
-            },
-            *course_search_entries(index=index, language=language, root=root, site_root=site_root),
-            *object_search_entries(index=index, language=language, root=root, site_root=site_root),
-            *topic_search_entries(index=index, language=language, root=root, site_root=site_root),
-            *resource_listing_search_entries(
-                index=index,
-                language=language,
-                root=root,
-                site_root=site_root,
-            ),
-        ],
+        "entries": student_site_search_entries(
+            index=index,
+            language=language,
+            root=root,
+            site_root=site_root,
+        ),
     }
     output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return output_path
@@ -588,59 +575,145 @@ def write_html_shell_assets(*, audience: str, language: str, root: Path) -> list
     return written_paths
 
 
-def course_search_entries(
+def student_site_targets(
     *,
     index: RepositoryIndex,
     language: str,
-    root: Path,
-    site_root: Path,
-) -> list[dict[str, object]]:
-    entries: list[dict[str, object]] = []
-    for record in sorted(index.courses.values(), key=lambda item: item.model.id):
-        if record.model.visibility in {"private", "teacher"}:
-            continue
-        if record.model.status not in {"approved", "published"}:
-            continue
-        if language not in record.model.languages:
-            continue
-        entries.append(
-            {
-                "id": record.model.id,
-                "kind": "course",
-                "title": record.model.title[language],
-                "description": record.model.summary[language],
-                "topics": [],
-                "tags": [],
-                "courses": [record.model.id],
-                "href": str(
-                    planned_target_output_path(
-                        root,
-                        audience="student",
-                        language=language,
-                        output_format="html",
-                        target_kind="course",
-                        target_id=record.model.id,
-                    ).relative_to(site_root)
-                ),
-            }
+) -> list[StudentSiteTarget]:
+    visible_courses = student_visible_courses(index=index, language=language)
+    visible_objects = student_visible_objects(index=index, language=language)
+    visible_html_objects = student_visible_html_objects(index=index, language=language)
+
+    targets = [StudentSiteTarget(target_id="home", target_kind="home")]
+    targets.extend(
+        StudentSiteTarget(target_id=record.model.id, target_kind="course")
+        for record in visible_courses
+    )
+    targets.extend(
+        StudentSiteTarget(
+            target_id=record.model.id,
+            target_kind=student_target_kind_for_object(record),
         )
-    return entries
+        for record in visible_html_objects
+    )
+    targets.extend(
+        StudentSiteTarget(target_id=f"topic-{topic}", target_kind="topic-listing")
+        for topic in collect_topics(visible_objects)
+    )
+    targets.extend(
+        StudentSiteTarget(
+            target_id=f"resources-{record.model.id}",
+            target_kind="resource-listing",
+        )
+        for record in visible_courses
+        if course_has_student_visible_resources(
+            course_record=record,
+            objects=visible_objects,
+        )
+    )
+    return targets
 
 
-def object_search_entries(
+def student_site_search_entries(
     *,
     index: RepositoryIndex,
     language: str,
     root: Path,
     site_root: Path,
 ) -> list[dict[str, object]]:
+    visible_objects = student_visible_objects(index=index, language=language)
     entries: list[dict[str, object]] = []
-    for record in sorted(index.objects.values(), key=lambda item: item.model.id):
-        if not is_student_visible_in_language(record, language):
+    for target in student_site_targets(index=index, language=language):
+        href = str(
+            planned_target_output_path(
+                root,
+                audience="student",
+                language=language,
+                output_format="html",
+                target_kind=target.target_kind,
+                target_id=target.target_id,
+            ).relative_to(site_root)
+        )
+        if target.target_kind == "home":
+            entries.append(
+                {
+                    "id": "home",
+                    "kind": "home",
+                    "title": "LearnForge",
+                    "description": (
+                        "Browse courses, topics, and featured resources."
+                        if language == "en"
+                        else "Bla gjennom kurs, temaer og utvalgte ressurser."
+                    ),
+                    "topics": [],
+                    "tags": [],
+                    "courses": [],
+                    "href": href,
+                }
+            )
             continue
-        if "html" not in record.model.outputs:
+        if target.target_kind == "course":
+            record = index.courses[target.target_id]
+            entries.append(
+                {
+                    "id": record.model.id,
+                    "kind": "course",
+                    "title": record.model.title[language],
+                    "description": record.model.summary[language],
+                    "topics": [],
+                    "tags": [],
+                    "courses": [record.model.id],
+                    "href": href,
+                }
+            )
             continue
-        kind = record.model.kind if record.model.kind != "collection" else "collection"
+        if target.target_kind == "topic-listing":
+            topic = target.target_id.removeprefix("topic-")
+            entries.append(
+                {
+                    "id": target.target_id,
+                    "kind": "topic-listing",
+                    "title": humanize_slug(topic),
+                    "description": ("Topic listing" if language == "en" else "Temaoversikt"),
+                    "topics": [topic],
+                    "tags": [],
+                    "courses": sorted(
+                        {
+                            course_id
+                            for record in visible_objects
+                            if topic in record.model.topics
+                            for course_id in record.model.courses
+                        }
+                    ),
+                    "href": href,
+                }
+            )
+            continue
+        if target.target_kind == "resource-listing":
+            course_id = target.target_id.removeprefix("resources-")
+            course_record = index.courses[course_id]
+            entries.append(
+                {
+                    "id": target.target_id,
+                    "kind": "resource-listing",
+                    "title": (
+                        f"Resources for {course_record.model.title[language]}"
+                        if language == "en"
+                        else f"Ressurser for {course_record.model.title[language]}"
+                    ),
+                    "description": (
+                        "Course resource listing"
+                        if language == "en"
+                        else "Kursressursoversikt"
+                    ),
+                    "topics": [],
+                    "tags": ["resources"],
+                    "courses": [course_record.model.id],
+                    "href": href,
+                }
+            )
+            continue
+        record = index.objects[target.target_id]
         description = ""
         if record.model.kind == "resource":
             description = record.model.summary.get(language) or record.model.why_selected.get(
@@ -662,123 +735,69 @@ def object_search_entries(
         entries.append(
             {
                 "id": record.model.id,
-                "kind": kind,
+                "kind": target.target_kind,
                 "title": record.model.title[language],
                 "description": description,
                 "topics": record.model.topics,
                 "tags": record.model.tags,
                 "courses": record.model.courses,
-                "href": str(
-                    planned_target_output_path(
-                        root,
-                        audience="student",
-                        language=language,
-                        output_format="html",
-                        target_kind=kind,
-                        target_id=record.model.id,
-                    ).relative_to(site_root)
-                ),
+                "href": href,
             }
         )
     return entries
 
 
-def topic_search_entries(
+def student_visible_courses(
     *,
     index: RepositoryIndex,
     language: str,
-    root: Path,
-    site_root: Path,
-) -> list[dict[str, object]]:
-    visible_objects = [
+) -> list[IndexedCourse]:
+    return [
         record
-        for record in index.objects.values()
+        for record in sorted(index.courses.values(), key=lambda item: item.model.id)
+        if record.model.visibility not in {"private", "teacher"}
+        and record.model.status in {"approved", "published"}
+        and language in record.model.languages
+    ]
+
+
+def student_visible_objects(
+    *,
+    index: RepositoryIndex,
+    language: str,
+) -> list[IndexedObject]:
+    return [
+        record
+        for record in sorted(index.objects.values(), key=lambda item: item.model.id)
         if is_student_visible_in_language(record, language)
     ]
-    entries: list[dict[str, object]] = []
-    for topic in collect_topics(visible_objects):
-        entries.append(
-            {
-                "id": f"topic-{topic}",
-                "kind": "topic-listing",
-                "title": humanize_slug(topic),
-                "description": ("Topic listing" if language == "en" else "Temaoversikt"),
-                "topics": [topic],
-                "tags": [],
-                "courses": sorted(
-                    {
-                        course_id
-                        for record in visible_objects
-                        if topic in record.model.topics
-                        for course_id in record.model.courses
-                    }
-                ),
-                "href": str(
-                    planned_target_output_path(
-                        root,
-                        audience="student",
-                        language=language,
-                        output_format="html",
-                        target_kind="topic-listing",
-                        target_id=f"topic-{topic}",
-                    ).relative_to(site_root)
-                ),
-            }
-        )
-    return entries
 
 
-def resource_listing_search_entries(
+def student_visible_html_objects(
     *,
     index: RepositoryIndex,
     language: str,
-    root: Path,
-    site_root: Path,
-) -> list[dict[str, object]]:
-    entries: list[dict[str, object]] = []
-    for course_record in sorted(index.courses.values(), key=lambda item: item.model.id):
-        if course_record.model.visibility in {"private", "teacher"}:
-            continue
-        if course_record.model.status not in {"approved", "published"}:
-            continue
-        if language not in course_record.model.languages:
-            continue
-        has_resources = any(
-            isinstance(record.model, Resource)
-            and course_record.model.id in record.model.courses
-            and is_student_visible_in_language(record, language)
-            for record in index.objects.values()
-        )
-        if not has_resources:
-            continue
-        entries.append(
-            {
-                "id": f"resources-{course_record.model.id}",
-                "kind": "resource-listing",
-                "title": (
-                    f"Resources for {course_record.model.title[language]}"
-                    if language == "en"
-                    else f"Ressurser for {course_record.model.title[language]}"
-                ),
-                "description": (
-                    "Course resource listing" if language == "en" else "Kursressursoversikt"
-                ),
-                "topics": [],
-                "tags": ["resources"],
-                "courses": [course_record.model.id],
-                "href": str(
-                    planned_target_output_path(
-                        root,
-                        audience="student",
-                        language=language,
-                        output_format="html",
-                        target_kind="resource-listing",
-                        target_id=f"resources-{course_record.model.id}",
-                    ).relative_to(site_root)
-                ),
-            }
-        )
-    return entries
+) -> list[IndexedObject]:
+    return [
+        record
+        for record in student_visible_objects(index=index, language=language)
+        if "html" in record.model.outputs
+    ]
+
+
+def course_has_student_visible_resources(
+    *,
+    course_record: IndexedCourse,
+    objects: list[IndexedObject],
+) -> bool:
+    return any(
+        isinstance(record.model, Resource) and course_record.model.id in record.model.courses
+        for record in objects
+    )
+
+
+def student_target_kind_for_object(record: IndexedObject) -> str:
+    return record.model.kind if record.model.kind != "collection" else "collection"
 
 
 def is_student_visible_in_language(record: IndexedObject, language: str) -> bool:

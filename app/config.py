@@ -27,6 +27,7 @@ BUILD_DIR = REPO_ROOT / "build"
 EXPORTS_DIR = BUILD_DIR / "exports"
 GENERATED_DIR = BUILD_DIR / "generated"
 INDEX_DIR = BUILD_DIR / "index"
+PUBLISH_DIR = BUILD_DIR / "publish"
 REPORTS_DIR = BUILD_DIR / "reports"
 SCHEMAS_DIR = REPO_ROOT / "schemas"
 TEMPLATES_DIR = REPO_ROOT / "templates"
@@ -55,6 +56,10 @@ def generated_dir(root: Path = REPO_ROOT) -> Path:
 
 def index_dir(root: Path = REPO_ROOT) -> Path:
     return build_dir(root) / "index"
+
+
+def publish_dir(root: Path = REPO_ROOT) -> Path:
+    return build_dir(root) / "publish"
 
 
 def reports_dir(root: Path = REPO_ROOT) -> Path:

@@ -9,6 +9,7 @@ from typer.testing import CliRunner
 import app.cli as cli_module
 from app.cli import app
 from app.config import REPO_ROOT
+from app.publish import PublishArtifact
 
 runner = CliRunner()
 
@@ -108,6 +109,45 @@ def test_translation_status_command_reports_bik2551_en(tmp_path: Path, monkeypat
     assert exercise_entry["translation_status"] == "approved"
     assert exercise_entry["note_exists"] is True
     assert exercise_entry["solution_exists"] is True
+
+
+def test_publish_command_reports_bundle_paths(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(cli_module, "REPO_ROOT", tmp_path)
+
+    def fake_publish_student_site(*, languages, root):
+        assert languages == ["en"]
+        assert root == tmp_path
+        return PublishArtifact(
+            publish_root=tmp_path / "build" / "publish" / "student-site",
+            manifest_path=tmp_path
+            / "build"
+            / "reports"
+            / "publish"
+            / "student-site"
+            / "publish-manifest.json",
+            languages=("en",),
+            total_target_count=1,
+            target_counts_by_language={"en": {"home": 1}},
+        )
+
+    monkeypatch.setattr(cli_module, "publish_student_site", fake_publish_student_site)
+
+    result = runner.invoke(app, ["publish", "--lang", "en"])
+
+    assert result.exit_code == 0
+    assert "Published student site -> build/publish/student-site" in result.stdout
+    assert (
+        "Publish manifest: build/reports/publish/student-site/publish-manifest.json"
+        in result.stdout
+    )
+    assert "Languages: en" in result.stdout
+
+
+def test_publish_command_rejects_unknown_language() -> None:
+    result = runner.invoke(app, ["publish", "--lang", "sv"])
+
+    assert result.exit_code != 0
+    assert "lang must be one of" in result.output
 
 
 def copy_repo_subset(target_root: Path) -> None:

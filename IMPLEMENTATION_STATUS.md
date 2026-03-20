@@ -3,6 +3,7 @@
 ## Current Milestone
 
 - Product direction lock: responsive HTML app-shell refinement with local instructor preview/review mode
+- Stage 4 complete checkpoint: student-only deployment bundle path
 - Phase 8A complete checkpoint: resource curation workflow core
 - Repository maintenance: course inbox staging for legacy-course intake
 - Phase 11 kickoff complete checkpoint: `tem0052` migration inventory + canonical course shell
@@ -28,7 +29,7 @@
 
 - No AI-generated resource suggestion ingestion workflow
 - No translation draft workflow
-- No public deployment or publishing job
+- No live host-specific deployment step
 - No public teacher deployment target
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
@@ -55,6 +56,9 @@
 - Student/teacher visibility separation stays enforced at assembly/build level
 - HTML UI work should stay static-first and use progressive enhancement rather than a SPA/app server
 - Student-only deployment is the first-class public publishing target
+- Public student publishing is now bundled under `build/publish/student-site/`
+- The public root is a static language chooser plus `/en/` and `/nb/`
+- Public publishing remains host-agnostic and manual through `teach publish`
 - Exercise solutions remain in separate `solution.en.qmd` / `solution.nb.qmd` files
 - Representative validation/build targets remain declared in `representative-targets.yml`
 - `teach validate` remains the first-class quality-gate command and writes:
@@ -114,6 +118,13 @@
   - machine-readable validation/build summaries
   - representative target registry
   - GitHub Actions CI for lint, tests, validation, and representative builds
+- Student-site publish path:
+  - added `teach publish` for clean student-only site bundling
+  - defined `build/publish/student-site/` as the first-class public bundle root
+  - added a static language chooser page plus `/en/` and `/nb/` publish roots
+  - reused the student HTML target surface for both search-index generation and publish bundling
+  - added a manual GitHub Actions artifact workflow for the public student-site bundle
+  - kept teacher HTML, slides, PDFs, handouts, and exercise-sheet outputs outside the public bundle
 - Figure pipeline core:
   - reusable figure objects
   - local HTML interactivity with static SVG/PDF fallback
@@ -984,15 +995,15 @@
 ## CI Workflow Files Added
 
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
+- `.github/workflows/publish-student-site.yml` (manual student-only publish artifact workflow)
 
 ## Next Recommended Step
-- Start Stage 1 of the web-surface refactor locked in `ROADMAP.md`
-- Extract the current inline HTML shell CSS/JS into shared local assets/templates
-  without changing the build matrix, page URLs, or teacher/student visibility rules
-- After the shell extraction is stable, move to the responsive student-shell redesign
-  before adding any instructor preview/review affordances
+- Start Stage 5 of the web roadmap locked in `ROADMAP.md`
+- Formalize D3 as the preferred advanced interactive-figure path using object-local assets
+- Keep `figure.svg` and `figure.pdf` mandatory when interactivity exists
+- Add shared D3 helpers only after at least two figures demonstrate real reuse
 - Keep the anti-bloat guardrails explicit during this slice:
-  - no browser editing
   - no frontend framework rewrite
+  - no browser editing
   - no public teacher deployment
   - no shared D3 helper layer until reuse is proven

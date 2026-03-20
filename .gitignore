@@ -10,6 +10,8 @@ _site/
 site_libs/
 
 build/.cache/
+build/publish/*
+!build/publish/.gitkeep
 build/exports/*
 !build/exports/.gitkeep
 build/generated/*
