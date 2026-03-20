@@ -1,0 +1,47 @@
+The safest teacher solution is a modest, fully reproducible exploration of the Wine
+dataset using PCA for dimensionality reduction and k-means for clustering.
+
+## Suggested approach
+
+1. Load the Wine dataset from scikit-learn, confirm 178 observations and 13 features,
+   and set the cultivar labels aside for later comparison only.
+2. Standardize with `StandardScaler` so PCA and k-means operate on comparable scales.
+3. Fit PCA on the standardized features and inspect the explained-variance ratios.
+   Retain enough components to cross a defensible threshold such as 80% cumulative
+   variance.
+4. Plot the first two principal components colored by cultivar label to check whether
+   PCA alone separates the classes visually.
+5. Run k-means on the standardized features for `K = 2` through `K = 8`:
+   - plot the elbow curve (inertia vs. `K`),
+   - compute and plot silhouette scores.
+6. Fit k-means with the chosen `K`, assign cluster labels, and plot the data in PCA
+   space colored by cluster assignment.
+7. Compare cluster assignments to the true cultivar labels using a cross-tabulation or
+   adjusted Rand index.
+
+## What students should find
+
+- Three components typically capture roughly 65% of the total variance; two components
+  capture around 55%.
+- The elbow plot usually shows a clear bend near `K = 3`, and the silhouette score
+  tends to peak at `K = 3` as well.
+- With `K = 3`, the cluster assignments align reasonably well with the three cultivar
+  classes, though the mapping is not perfect because k-means does not use label
+  information.
+- Standardization matters visibly: without it, the proline feature (which has the
+  largest scale) dominates both the PCA projection and the k-means distances.
+
+## Teaching emphasis
+
+The important point is not whether k-means recovers the cultivar labels exactly.
+The important point is that students can defend each step: scaling, choosing components,
+choosing `K`, and interpreting the result honestly.
+
+Use the debrief to stress three things:
+
+- standardize before PCA because PCA is variance-driven and unscaled features with
+  large ranges can dominate the first components,
+- clusters discovered by k-means are not validated truth — they are a partitioning
+  that minimizes within-cluster dispersion given the chosen `K`,
+- comparing clusters to known labels is useful for sanity checking, but in real
+  unsupervised tasks those labels are not available.

@@ -32,5 +32,6 @@ ai:
   generated_fields: []
 items:
   - model-selection-cross-validation
+  - k-fold-cross-validation-figure
   - bias-variance-tradeoff
   - model-assessment-lab

@@ -25,6 +25,7 @@
 - Phase 11 complete checkpoint: `tem0052` tenth concept promotion + lecture 3 refresh
 - Phase 11 parallel checkpoint: `edi3400` database concept block formalized through `python-sql-integration`
 - Phase 11 parallel checkpoint: `edi3400` problem-set promotion + lecture block assembly
+- Phase 11 complete checkpoint: `tem0052` fourth exercise promotion + lecture 6 completion
 - GitHub Pages deployment for student site
 
 ## Non-Goals For This Run
@@ -353,10 +354,16 @@
   - `bias-variance-tradeoff`
   - `model-selection-cross-validation`
 - Wired the first lecture into `courses/tem0052/plan.yml`
+- Promoted the fourth canonical `tem0052` exercise with teacher solution separation:
+  - `content/exercises/unsupervised-learning-lab/`
+  - `solution.en.qmd`
+- Wired `unsupervised-learning-lab` into `tem0052-lecture-06` items
+- Wired `k-fold-cross-validation-figure` into `tem0052-lecture-05` items after its parent concept
 - Wired the current promoted lecture sequence into `courses/tem0052/plan.yml`:
   - `tem0052-lecture-02`
   - `tem0052-lecture-03`
   - `tem0052-lecture-05`
+  - `tem0052-lecture-06`
   - `tem0052-lecture-07`
 - Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
 - Added regression coverage for:
@@ -399,26 +406,20 @@
 - Legacy migration remains deferred beyond inbox staging:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - ten first-wave `tem0052` concepts, three exercises, and four lectures are promoted so far
+  - thirteen first-wave `tem0052` concepts, six exercises, and seven lectures are promoted so far
+  - two `tem0052` figures are promoted: `bias-variance-tradeoff-figure` and `k-fold-cross-validation-figure`
   - `edi3400` now has a canonical shell, three promoted database concepts, one
     promoted problem-set exercise, and the first lecture block for lectures 11-13
   - no `edi3400` assignment collection yet
-  - no `tem0052` figures promoted yet
   - no `tem0052` resources promoted yet
   - no `tem0052` project/assignment materials yet
-  - no broader lecture sequence for `tem0052` yet
 - Later roadmap phases remain deferred:
   - Phase 9 AI-assisted draft workflows
   - migration tooling
   - deployment/publishing targets
   - preview/release publishing jobs
   - Textual TUI work
-- The next web-surface slice should follow the staged roadmap strategy:
-  - Stage 1: shell extraction and cleanup
-  - Stage 2: responsive student app shell
-  - Stage 3: instructor preview/review HTML
-  - Stage 4: student-only deployment path
-  - Stage 5: D3 figure hardening
+- Web surface stages 1–5 are complete; future web work follows the roadmap as needed
 
 ## Blockers
 

@@ -27,7 +27,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 17
+    assert build_summary["target_count"] == 18
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -137,6 +137,7 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("bias-variance-tradeoff-figure", "student", "en", "html") in target_keys
     assert ("angrist-podcast-iv", "student", "en", "html") in target_keys
     assert ("tem0052-lecture-05", "student", "en", "html") in target_keys
+    assert ("tem0052-lecture-06", "student", "en", "html") in target_keys
     assert ("edi3400-lecture-13", "student", "en", "html") in target_keys
     assert ("resource-inbox", "teacher", "en", "html") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys

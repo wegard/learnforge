@@ -90,10 +90,12 @@ def test_tem0052_lecture_assembly_expands_only_promoted_objects() -> None:
 
     assert edge_targets == [
         "model-selection-cross-validation",
+        "k-fold-cross-validation-figure",
         "bias-variance-tradeoff",
         "model-assessment-lab",
     ]
     assert "## Model selection is a workflow choice" in assembly.markdown
+    assert 'data-figure-id="k-fold-cross-validation-figure"' in assembly.markdown
     assert "## Why the trade-off matters" in assembly.markdown
     assert "## Lab brief" in assembly.markdown
     assert "iv-intuition" not in assembly.markdown
@@ -232,6 +234,31 @@ def test_tem0052_lecture_07_assembly_expands_tree_ensemble_block() -> None:
         in assembly.markdown
     )
     assert "## Random forests make trees less fragile" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "model-assessment-lab" not in assembly.markdown
+
+
+def test_tem0052_lecture_06_assembly_expands_unsupervised_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "tem0052-lecture-06",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == [
+        "principal-component-analysis",
+        "k-means-clustering",
+        "unsupervised-learning-lab",
+    ]
+    assert "## PCA compresses variation, not meaning" in assembly.markdown
     assert "## Lab brief" in assembly.markdown
     assert "model-assessment-lab" not in assembly.markdown
 

@@ -168,6 +168,7 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "../../collection/tem0052-lecture-03/tem0052-lecture-03.html" in html
     assert "../../collection/tem0052-lecture-04/tem0052-lecture-04.html" in html
     assert "../../collection/tem0052-lecture-05/tem0052-lecture-05.html" in html
+    assert "../../collection/tem0052-lecture-06/tem0052-lecture-06.html" in html
     assert "../../collection/tem0052-lecture-07/tem0052-lecture-07.html" in html
     assert "../../exercise/titanic-data-preprocessing/titanic-data-preprocessing.html" in html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in html
@@ -177,17 +178,23 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
         "../../exercise/income-classification-ensemble/income-classification-ensemble.html"
         in html
     )
+    assert (
+        "../../exercise/unsupervised-learning-lab/unsupervised-learning-lab.html"
+        in html
+    )
     assert "Lecture 1 - Foundations and preprocessing pipelines" in html
     assert "Lecture 2 - Linear prediction and regularization" in html
     assert "Lecture 3 - Classification methods" in html
     assert "Lecture 4 - Model assessment and the bias-variance trade-off" in html
     assert "Lecture 5 - Model selection, evaluation, and assessment" in html
+    assert "Lecture 6 - Unsupervised learning with PCA and k-means" in html
     assert "Lecture 7 - Ensemble methods and random forests" in html
     assert "Titanic data preprocessing lab" in html
     assert "Model assessment lab" in html
     assert "House-price prediction" in html
     assert "Spam filtering with naive Bayes" in html
     assert "Income classification with ensembles" in html
+    assert "Unsupervised learning with PCA and k-means" in html
     assert "No entries." in html
     assert "resources-tem0052" not in html
     assert "Search LearnForge" in html
@@ -330,6 +337,13 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         output_format="html",
         root=REPO_ROOT,
     )
+    fifth_exercise_artifact = build_target(
+        "unsupervised-learning-lab",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
 
     preprocessing_concept_html = preprocessing_concept_artifact.output_path.read_text(
         encoding="utf-8"
@@ -351,6 +365,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     second_exercise_html = second_exercise_artifact.output_path.read_text(encoding="utf-8")
     third_exercise_html = third_exercise_artifact.output_path.read_text(encoding="utf-8")
     fourth_exercise_html = fourth_exercise_artifact.output_path.read_text(encoding="utf-8")
+    fifth_exercise_html = fifth_exercise_artifact.output_path.read_text(encoding="utf-8")
 
     assert "Preprocessing pipelines for machine learning" in preprocessing_concept_html
     assert (
@@ -585,6 +600,12 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "The safest teacher solution" not in fourth_exercise_html
     assert "lf-solution-block" not in fourth_exercise_html
 
+    assert "Unsupervised learning with PCA and k-means" in fifth_exercise_html
+    assert "Principal component analysis" in fifth_exercise_html
+    assert "K-means clustering" in fifth_exercise_html
+    assert "The safest teacher solution" not in fifth_exercise_html
+    assert "lf-solution-block" not in fifth_exercise_html
+
 
 def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
     artifact = build_target(
@@ -603,6 +624,7 @@ def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
     assert "Course context" in html
     assert "This lecture includes" in html
     assert "Model selection and cross-validation" in html
+    assert 'data-figure-id="k-fold-cross-validation-figure"' in html
     assert "Bias-variance trade-off" in html
     assert "Model assessment lab" in html
     assert "iv-intuition" not in html
@@ -613,6 +635,7 @@ def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
         if edge["relationship"] == "item"
     ] == [
         "model-selection-cross-validation",
+        "k-fold-cross-validation-figure",
         "bias-variance-tradeoff",
         "model-assessment-lab",
     ]
@@ -818,6 +841,46 @@ def test_tem0052_lecture_07_build_contains_tree_ensemble_block() -> None:
         "ensemble-methods-introduction",
         "random-forests",
         "income-classification-ensemble",
+    ]
+
+
+def test_tem0052_lecture_06_build_contains_unsupervised_block() -> None:
+    student_artifact = build_target(
+        "tem0052-lecture-06",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    teacher_artifact = build_target(
+        "tem0052-lecture-06",
+        audience="teacher",
+        language="en",
+        output_format="revealjs",
+        root=REPO_ROOT,
+    )
+
+    student_html = student_artifact.output_path.read_text(encoding="utf-8")
+    teacher_html = teacher_artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        student_artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Course context" in student_html
+    assert "This lecture includes" in student_html
+    assert "Principal component analysis" in student_html
+    assert "K-means clustering" in student_html
+    assert "Unsupervised learning with PCA and k-means" in student_html
+    assert "Model assessment lab" not in student_html
+    assert "Lecture 6 - Unsupervised learning with PCA and k-means" in teacher_html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == [
+        "principal-component-analysis",
+        "k-means-clustering",
+        "unsupervised-learning-lab",
     ]
 
 

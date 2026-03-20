@@ -79,6 +79,11 @@ targets:
     audience: student
     language: en
     format: html
+  - label: TEM0052 unsupervised lecture page
+    id: tem0052-lecture-06
+    audience: student
+    language: en
+    format: html
   - label: BIK2550 lecture slides
     id: bik2550-m3d1
     audience: teacher

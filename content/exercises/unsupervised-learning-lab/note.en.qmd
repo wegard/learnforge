@@ -1,0 +1,53 @@
+## Lab brief
+
+Use the Wine dataset to explore unsupervised learning with PCA for dimensionality
+reduction and k-means for clustering.
+The point of the lab is not to recover the cultivar labels perfectly.
+The point is to build a reproducible unsupervised workflow that compresses the feature
+space, discovers groupings, and visualizes both in a way that can be defended.
+
+Write the exercise as a normal script, for example
+`unsupervised_learning_lab.py`, plus a short results note.
+Use the scikit-learn built-in Wine dataset or an equivalent local course copy.
+Standardize the features before running PCA or k-means.
+
+## Tasks
+
+1. Load the Wine dataset, inspect the feature matrix, and confirm the number of
+   observations and features. Note the three cultivar classes but set the labels aside
+   — they are only used at the end for comparison, not as input to any unsupervised
+   method.
+2. Standardize all features with `StandardScaler` and fit PCA. Report the
+   explained-variance ratio for each component and decide how many components to retain
+   based on a cumulative variance threshold such as 80%.
+3. Project the standardized data into the chosen PCA space and create a scatter plot of
+   the first two components. Color the points by the true cultivar label to see whether
+   the PCA projection separates the classes visually.
+4. Run k-means on the standardized features for a range of `K` values, for example
+   `K = 2` through `K = 8`. Plot the elbow curve using within-cluster sum of squares
+   (inertia) and compute the silhouette score for each `K`.
+5. Choose the `K` suggested by the diagnostics, fit k-means with that `K`, and create a
+   scatter plot of the data in PCA space colored by cluster assignment. Compare
+   visually with the true-label plot from task 3.
+6. Write a short interpretation covering:
+   - how many components capture most of the variance and what that means for
+     compression,
+   - whether the elbow and silhouette diagnostics agree on `K`,
+   - how well the discovered clusters align with the known cultivar labels,
+   - one limitation of k-means that this dataset illustrates.
+
+## Starter outline
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.datasets import load_wine
+from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
+```
+
+Keep the workflow deterministic.
+Use a fixed `random_state` anywhere randomness enters the workflow, and standardize
+before both PCA and k-means.

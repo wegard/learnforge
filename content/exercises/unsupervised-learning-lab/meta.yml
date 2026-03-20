@@ -1,12 +1,11 @@
-id: tem0052-lecture-06
-kind: collection
-collection_kind: lecture
+id: unsupervised-learning-lab
+kind: exercise
 status: approved
 visibility: student
 languages:
   - en
 title:
-  en: Lecture 6 - Unsupervised learning with PCA and k-means
+  en: Unsupervised learning with PCA and k-means
 courses:
   - tem0052
 topics:
@@ -15,22 +14,27 @@ topics:
   - clustering
   - dimensionality-reduction
 tags:
-  - lecture
-  - unsupervised-learning
-  - clustering
+  - exercise
+  - scikit-learn
+  - pca
+  - k-means
+  - wine-dataset
 outputs:
   - html
-  - revealjs
   - pdf
-  - handout
+  - exercise-sheet
 owners:
   - vegard
-updated: 2026-03-19
+updated: 2026-03-20
 translation_status:
   en: approved
 ai:
   generated_fields: []
-items:
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
   - principal-component-analysis
   - k-means-clustering
-  - unsupervised-learning-lab
+solution_storage: separate-file
+solution_visibility: teacher
