@@ -1937,7 +1937,10 @@ class AssemblyBuilder:
         text = (
             "Instructor preview only. Edit source files in nvim and keep approvals in the CLI."
             if self.language == "en"
-            else "Kun instruktørforhåndsvisning. Rediger kildefilene i nvim og behold godkjenninger i CLI-en."
+            else (
+                "Kun instruktørforhåndsvisning. Rediger kildefilene i nvim og "
+                "behold godkjenninger i CLI-en."
+            )
         )
         return (
             '<section class="lf-preview-notice">'
@@ -3635,7 +3638,11 @@ class AssemblyBuilder:
         selected_language = language or self.language
         if self._exclude_from_audience(record.model.visibility):
             return False
-        if not self._language_available(record.model.languages, record.model.translation_status, selected_language):
+        if not self._language_available(
+            record.model.languages,
+            record.model.translation_status,
+            selected_language,
+        ):
             return False
         if require_output_format and require_output_format not in record.model.outputs:
             return False
@@ -3742,7 +3749,12 @@ class AssemblyBuilder:
         relative = os.path.relpath(target_output, current_output.parent)
         return relative.replace(os.sep, "/")
 
-    def _student_home_href(self, *, current_output: Path, language: str | None = None) -> str | None:
+    def _student_home_href(
+        self,
+        *,
+        current_output: Path,
+        language: str | None = None,
+    ) -> str | None:
         selected_language = language or self.language
         return self._page_href_for_variant(
             current_output=current_output,
@@ -3770,7 +3782,13 @@ class AssemblyBuilder:
             language=language,
         )
 
-    def _has_html_counterpart(self, *, target: BuildTargetRef, audience: str, language: str) -> bool:
+    def _has_html_counterpart(
+        self,
+        *,
+        target: BuildTargetRef,
+        audience: str,
+        language: str,
+    ) -> bool:
         if audience == "teacher":
             return self._has_teacher_html_counterpart(target=target, language=language)
         return self._has_student_html_counterpart(target=target, language=language)

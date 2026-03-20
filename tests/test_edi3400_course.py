@@ -319,7 +319,10 @@ def test_pandas_series_and_dataframes_concept_links_edi3400_foundations() -> Non
     assert "## A `Series` stores one labeled sequence" in assembly.markdown
     assert "## A `DataFrame` organizes aligned columns" in assembly.markdown
     assert "## `[]`, `loc`, and `iloc` answer different selection questions" in assembly.markdown
-    assert "## `read_csv(...)` and parsed dates connect files to analysis workflows" in assembly.markdown
+    assert (
+        "## `read_csv(...)` and parsed dates connect files to analysis workflows"
+        in assembly.markdown
+    )
     assert "numpy-arrays-and-matrices" in related_ids
     assert "pandas-dataframe-analysis-lab" in related_ids
     assert "numpy-pandas-matplotlib-problem-set" in related_ids
@@ -792,7 +795,10 @@ def test_pandas_dataframe_analysis_lab_links_foundations_and_course() -> None:
     assert assembly.target.kind == "exercise"
     assert "## Lab brief" in assembly.markdown
     assert "assets/campus_store_sales.csv" in assembly.markdown
-    assert "pd.read_csv(\"assets/campus_store_sales.csv\", parse_dates=[\"date\"])" in assembly.markdown
+    assert (
+        'pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])'
+        in assembly.markdown
+    )
     assert "## Tasks" in assembly.markdown
     assert "## Starter outline" in assembly.markdown
     assert "python-file-handling" in related_ids
@@ -1564,7 +1570,10 @@ def test_pandas_dataframe_analysis_lab_student_page_builds_cleanly() -> None:
     assert "Pandas dataframe analysis lab" in html
     assert "assets/campus_store_sales.csv" in html
     assert "## Solution" not in html
-    assert "The strongest teacher solution keeps the table small, labeled, and inspectable" not in html
+    assert (
+        "The strongest teacher solution keeps the table small, labeled, and inspectable"
+        not in html
+    )
     assert build_manifest["target"]["identifier"] == "pandas-dataframe-analysis-lab"
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 1

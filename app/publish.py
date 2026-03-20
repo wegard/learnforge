@@ -3,10 +3,10 @@ from __future__ import annotations
 import json
 import shutil
 from collections import Counter
+from collections.abc import Sequence
 from dataclasses import dataclass
 from html import escape
 from pathlib import Path
-from typing import Sequence
 
 from app.build import (
     BuildError,

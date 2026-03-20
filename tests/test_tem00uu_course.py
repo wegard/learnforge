@@ -155,7 +155,10 @@ def test_tem00uu_lecture_04_assembly_expands_block_structure_block() -> None:
         "simple-blockchain-lab",
     ]
     assert "## Blocks package transactions into an ordered hash-linked history" in assembly.markdown
-    assert "## Merkle trees compress many transaction hashes into one commitment" in assembly.markdown
+    assert (
+        "## Merkle trees compress many transaction hashes into one commitment"
+        in assembly.markdown
+    )
     assert "## Lab brief" in assembly.markdown
 
 

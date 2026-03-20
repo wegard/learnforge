@@ -433,7 +433,10 @@ def test_llm_input_output_architecture_concept_links_gra4164_sequence() -> None:
     assert assembly.target.kind == "concept"
     assert "## From tokens to model input" in assembly.markdown
     assert "## Positional information has to be added explicitly" in assembly.markdown
-    assert "## The model head turns hidden states into next-token probabilities" in assembly.markdown
+    assert (
+        "## The model head turns hidden states into next-token probabilities"
+        in assembly.markdown
+    )
     assert "## Output generation is a sampling problem" in assembly.markdown
     assert "## Encoding and decoding refer to different transformer roles" in assembly.markdown
     assert "word-embeddings-word2vec" in related_ids
@@ -488,7 +491,10 @@ def test_gra4164_lecture_09_assembly_expands_llm_architecture_training_block() -
         "llm-input-output-architecture",
         "llm-training-and-finetuning",
     ]
-    assert "## The model head turns hidden states into next-token probabilities" in assembly.markdown
+    assert (
+        "## The model head turns hidden states into next-token probabilities"
+        in assembly.markdown
+    )
     assert "## Pretraining is broad; fine-tuning is targeted" in assembly.markdown
     assert "## Lab brief" not in assembly.markdown
 
@@ -535,7 +541,10 @@ def test_prompt_engineering_for_nlp_concept_links_gra4164_sequence() -> None:
     assert "## Better prompts give the model a better problem" in assembly.markdown
     assert "## Zero-shot, one-shot, and few-shot prompting" in assembly.markdown
     assert "## Chain-of-thought style prompting" in assembly.markdown
-    assert "## Alignment explains why chatbot behaviour differs from raw prediction" in assembly.markdown
+    assert (
+        "## Alignment explains why chatbot behaviour differs from raw prediction"
+        in assembly.markdown
+    )
     assert "llm-introduction-tokenization" in related_ids
     assert "attention-and-transformers" in related_ids
     assert "llm-training-and-finetuning" in related_ids
@@ -563,7 +572,10 @@ def test_gra4164_lecture_11_assembly_expands_prompt_engineering_block() -> None:
         "prompt-engineering-reflection",
     ]
     assert "## Zero-shot, one-shot, and few-shot prompting" in assembly.markdown
-    assert "## Alignment explains why chatbot behaviour differs from raw prediction" in assembly.markdown
+    assert (
+        "## Alignment explains why chatbot behaviour differs from raw prediction"
+        in assembly.markdown
+    )
     assert "## Exercise brief" in assembly.markdown
 
 
@@ -712,8 +724,14 @@ def test_gra4164_assignment_01_student_sheet_excludes_solution_content() -> None
 
     assert assembly.target.kind == "collection"
     assert edge_targets == ["sotu-boolean-search-topic-modeling"]
-    assert "## Exercise 1: State of the Union - Boolean search and topic modelling" in assembly.markdown
-    assert "The safest teacher solution follows the assignment notebook closely" not in assembly.markdown
+    assert (
+        "## Exercise 1: State of the Union - Boolean search and topic modelling"
+        in assembly.markdown
+    )
+    assert (
+        "The safest teacher solution follows the assignment notebook closely"
+        not in assembly.markdown
+    )
     assert all(not item.included_in_output for item in assembly.solution_observations)
 
 
@@ -737,7 +755,10 @@ def test_gra4164_assignment_03_student_sheet_excludes_solution_content() -> None
     assert assembly.target.kind == "collection"
     assert edge_targets == ["bert-finetuning-text-classification"]
     assert "## Exercise 1: BERT fine-tuning for text classification" in assembly.markdown
-    assert "A strong teacher solution should frame this as a workflow and evaluation exercise" not in assembly.markdown
+    assert (
+        "A strong teacher solution should frame this as a workflow and evaluation exercise"
+        not in assembly.markdown
+    )
     assert all(not item.included_in_output for item in assembly.solution_observations)
 
 
@@ -842,7 +863,10 @@ def test_prompt_engineering_reflection_student_page_builds_cleanly() -> None:
 
     assert "Prompt engineering and marketing reflection" in html
     assert "Part 1: Prompt engineering experiment" in html
-    assert "A strong teacher solution should compare prompt variations in a disciplined way" not in html
+    assert (
+        "A strong teacher solution should compare prompt variations in a disciplined way"
+        not in html
+    )
     assert build_manifest["target"]["identifier"] == "prompt-engineering-reflection"
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 1
@@ -863,7 +887,10 @@ def test_prompt_engineering_reflection_teacher_page_builds_with_solution() -> No
     leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
 
     assert "Prompt engineering and marketing reflection" in html
-    assert "A strong teacher solution should compare prompt variations in a disciplined way" in html
+    assert (
+        "A strong teacher solution should compare prompt variations in a disciplined way"
+        in html
+    )
     assert build_manifest["target"]["identifier"] == "prompt-engineering-reflection"
     assert leakage_report["status"] == "not_applicable"
     assert leakage_report["solution_files_found"] == 1
@@ -987,7 +1014,10 @@ def test_bert_finetuning_text_classification_student_page_builds_cleanly() -> No
 
     assert "BERT fine-tuning for text classification" in html
     assert "Part 1: Benchmark fine-tuning task" in html
-    assert "A strong teacher solution should frame this as a workflow and evaluation exercise" not in html
+    assert (
+        "A strong teacher solution should frame this as a workflow and evaluation exercise"
+        not in html
+    )
     assert build_manifest["target"]["identifier"] == "bert-finetuning-text-classification"
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 1
@@ -1008,7 +1038,10 @@ def test_bert_finetuning_text_classification_teacher_page_builds_with_solution()
     leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
 
     assert "BERT fine-tuning for text classification" in html
-    assert "A strong teacher solution should frame this as a workflow and evaluation exercise" in html
+    assert (
+        "A strong teacher solution should frame this as a workflow and evaluation exercise"
+        in html
+    )
     assert build_manifest["target"]["identifier"] == "bert-finetuning-text-classification"
     assert leakage_report["status"] == "not_applicable"
     assert leakage_report["solution_files_found"] == 1

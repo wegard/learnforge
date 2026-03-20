@@ -1123,7 +1123,10 @@ def test_student_exercise_page_has_language_switch_and_related_links() -> None:
     assert "Sjekk av IV-intuisjon" not in html
     assert "strong first stage" not in html
     assert 'class="lf-view-switch"' in html
-    assert "../../../../../teacher/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html" in html
+    assert (
+        "../../../../../teacher/en/html/exercise/ex-iv-concept-check/"
+        "ex-iv-concept-check.html" in html
+    )
     assert "../../collection/assignment-01/assignment-01.html" in html
 
 

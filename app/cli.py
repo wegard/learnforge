@@ -6,6 +6,7 @@ import shlex
 import subprocess
 from dataclasses import asdict
 from datetime import date
+from typing import Annotated
 
 import typer
 
@@ -131,12 +132,14 @@ def build(
 
 @app.command()
 def publish(
-    lang: list[str] | None = typer.Option(
-        None,
-        "--lang",
-        case_sensitive=False,
-        help="Repeat to limit publishing to selected languages.",
-    ),
+    lang: Annotated[
+        list[str] | None,
+        typer.Option(
+            "--lang",
+            case_sensitive=False,
+            help="Repeat to limit publishing to selected languages.",
+        ),
+    ] = None,
 ) -> None:
     selected_languages = lang or list(LANGUAGES)
     if any(language not in LANGUAGES for language in selected_languages):

@@ -105,7 +105,10 @@ def test_validator_reports_missing_figure_fallback_asset(tmp_path: Path) -> None
     )
 
 
-def test_validator_reports_missing_d3_vendor_asset(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_validator_reports_missing_d3_vendor_asset(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     import app.validator as validator_module
 
     copy_repo_subset(tmp_path)
