@@ -1,0 +1,43 @@
+id: bias-variance-tradeoff-figure
+kind: figure
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Bias-variance trade-off
+concepts:
+  - bias-variance-tradeoff
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - model-selection
+  - bias-variance
+tags:
+  - bias-variance
+  - model-complexity
+  - overfitting
+  - underfitting
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-20
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+caption:
+  en: As model complexity increases, training error falls but test error follows a U-shape — the bias-variance trade-off determines the optimal point.
+alt_text:
+  en: A chart showing training error decreasing and test error forming a U-shape as model complexity increases, with the optimal complexity marked at the minimum of the test error curve.
+svg_path: figure.svg
+pdf_path: figure.pdf
+interactive_path: figure.js
+asset_inventory:
+  - figure.svg
+  - figure.pdf
+  - figure.js

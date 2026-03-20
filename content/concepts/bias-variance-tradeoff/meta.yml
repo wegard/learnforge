@@ -20,6 +20,7 @@ tags:
 level: intermediate
 prerequisites: []
 related:
+  - bias-variance-tradeoff-figure
   - ensemble-methods-introduction
   - knn-supervised-learning
   - naive-bayes-classification

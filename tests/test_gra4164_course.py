@@ -662,7 +662,7 @@ def test_gra4164_assignment_01_html_assembly_links_course_and_concepts() -> None
 
     assert assembly.target.kind == "collection"
     assert "## Assignment details" in assembly.markdown
-    assert "## Included exercises" in assembly.markdown
+    assert "<h2>Included exercises</h2>" in assembly.markdown
     assert "Course context" in assembly.markdown
     assert "gra4164" in related_ids
     assert "boolean-dictionary-methods-nlp" in related_ids
@@ -685,7 +685,7 @@ def test_gra4164_assignment_03_html_assembly_links_course_and_concepts() -> None
 
     assert assembly.target.kind == "collection"
     assert "## Assignment details" in assembly.markdown
-    assert "## Included exercises" in assembly.markdown
+    assert "<h2>Included exercises</h2>" in assembly.markdown
     assert "Course context" in assembly.markdown
     assert "gra4164" in related_ids
     assert "text-regression-classification" in related_ids

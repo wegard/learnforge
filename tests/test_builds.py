@@ -361,6 +361,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "teacher-only" not in preprocessing_concept_html
 
     assert "Bias-variance trade-off" in concept_html
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in concept_html
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in concept_html
     assert "../knn-supervised-learning/knn-supervised-learning.html" in concept_html
     assert "../linear-regression-prediction/linear-regression-prediction.html" in concept_html
@@ -642,6 +643,7 @@ def test_tem0052_lecture_04_build_contains_assessment_block() -> None:
     assert "Course context" in student_html
     assert "This lecture includes" in student_html
     assert "Bias-variance trade-off" in student_html
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in student_html
     assert "Model assessment lab" in student_html
     assert "Model selection and cross-validation" not in student_html
     assert "Lecture 4 - Model assessment and the bias-variance trade-off" in teacher_html
@@ -651,6 +653,7 @@ def test_tem0052_lecture_04_build_contains_assessment_block() -> None:
         if edge["relationship"] == "item"
     ] == [
         "bias-variance-tradeoff",
+        "bias-variance-tradeoff-figure",
         "model-assessment-lab",
     ]
 
@@ -1305,6 +1308,43 @@ def test_student_build_rejects_stale_resource_page() -> None:
             output_format="html",
             root=REPO_ROOT,
         )
+
+
+def test_d3_figure_student_html_build_includes_interactive_d3() -> None:
+    artifact = build_target(
+        "bias-variance-tradeoff-figure",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in html
+    assert "// @learnforge:requires d3" in html
+    assert ".select(surface)" in html
+    assert "// https://d3js.org" in html
+    assert build_manifest["figure_uses"][0]["figure_id"] == "bias-variance-tradeoff-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is True
+    assert build_manifest["figure_uses"][0]["d3_included"] is True
+
+
+def test_d3_figure_pdf_build_uses_static_fallback() -> None:
+    artifact = build_target(
+        "bias-variance-tradeoff-figure",
+        audience="student",
+        language="en",
+        output_format="pdf",
+        root=REPO_ROOT,
+    )
+
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert build_manifest["figure_uses"][0]["figure_id"] == "bias-variance-tradeoff-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["d3_included"] is False
 
 
 def copy_repo_subset(target_root: Path) -> None:

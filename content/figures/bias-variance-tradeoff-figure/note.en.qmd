@@ -1,0 +1,1 @@
+The bias-variance trade-off is the central tension in predictive modelling: simple models underfit (high bias, low variance) while complex models overfit (low bias, high variance). The optimal model complexity minimises total expected error, which is the sum of squared bias, variance, and irreducible noise.

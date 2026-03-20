@@ -359,6 +359,21 @@ def validate_repository(
                     object_id=model.id,
                     category="build",
                 )
+            if model.interactive_path and interactive_exists:
+                js_path = record.directory / model.interactive_path
+                first_line = js_path.read_text(encoding="utf-8").split("\n", 1)[0]
+                if first_line.startswith("// @learnforge:requires d3"):
+                    d3_vendor_path = Path(__file__).parent / "web_assets" / "d3.min.js"
+                    if not d3_vendor_path.exists():
+                        _add_issue(
+                            issues,
+                            code="missing-d3-vendor-asset",
+                            message="figure.js requires D3 but app/web_assets/d3.min.js is missing",
+                            path=record_path,
+                            root=root,
+                            object_id=model.id,
+                            category="assets",
+                        )
 
         if isinstance(model, Resource):
             if (

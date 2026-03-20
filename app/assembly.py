@@ -102,6 +102,7 @@ class FigureObservation:
     asset_inventory: list[str]
     interactive_included: bool
     fallback_asset_path: str
+    d3_included: bool
 
 
 @dataclass(slots=True)
@@ -231,6 +232,7 @@ class AssemblyBuilder:
         self.figure_observations: list[FigureObservation] = []
         self.referenced_listing_targets: list[str] = []
         self.resource_workflow_summary: dict[str, object] | None = None
+        self._d3_inlined: bool = False
 
     def assemble(self, target_id: str) -> AssemblyDocument:
         if target_id == HOME_TARGET_ID:
@@ -2303,6 +2305,11 @@ class AssemblyBuilder:
         if interactive and record.model.interactive_path:
             script_path = record.directory / record.model.interactive_path
             script_text = script_path.read_text(encoding="utf-8").rstrip()
+            if script_text.startswith("// @learnforge:requires d3") and not self._d3_inlined:
+                d3_path = Path(__file__).parent / "web_assets" / "d3.min.js"
+                d3_text = d3_path.read_text(encoding="utf-8").rstrip()
+                parts.extend(["<script>", d3_text, "</script>"])
+                self._d3_inlined = True
             parts.extend(["<script>", script_text, "</script>"])
         return "\n".join(parts)
 
@@ -2375,6 +2382,15 @@ class AssemblyBuilder:
             if record.model.interactive_path
             else None
         )
+        d3_included = False
+        if (
+            self.output_format == "html"
+            and record.model.interactive_path
+        ):
+            js_path = record.directory / record.model.interactive_path
+            if js_path.exists():
+                first_line = js_path.read_text(encoding="utf-8").split("\n", 1)[0]
+                d3_included = first_line.startswith("// @learnforge:requires d3")
         self.figure_observations.append(
             FigureObservation(
                 figure_id=record.model.id,
@@ -2401,6 +2417,7 @@ class AssemblyBuilder:
                         )
                     ).relative_to(self.root)
                 ),
+                d3_included=d3_included,
             )
         )
 

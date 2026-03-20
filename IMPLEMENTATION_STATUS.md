@@ -3,6 +3,7 @@
 ## Current Milestone
 
 - Product direction lock: responsive HTML app-shell refinement with local instructor preview/review mode
+- Stage 5 complete checkpoint: D3 figure path — vendored D3, convention-based detection, bias-variance trade-off figure
 - Stage 4 complete checkpoint: student-only deployment bundle path
 - Phase 8A complete checkpoint: resource curation workflow core
 - Repository maintenance: course inbox staging for legacy-course intake
@@ -68,6 +69,10 @@
   - `build/reports/build-summary.json`
 - Figure objects remain on the locked `figure.svg` / `figure.pdf` / optional `figure.js` convention with static fallback protection
 - D3 is now the preferred advanced interactive-figure path when simple inline JS is not enough
+- D3 is vendored at `app/web_assets/d3.min.js` — no CDN dependency
+- D3 figures use the `// @learnforge:requires d3` marker convention in `figure.js`
+- Assembly auto-inlines D3 before the figure script; `_d3_inlined` flag prevents double-inlining
+- No shared D3 helper layer yet — each D3 figure is self-contained
 - Resource workflow states are now explicit and validated:
   - `candidate`
   - `reviewed`
@@ -131,6 +136,15 @@
   - reusable figure objects
   - local HTML interactivity with static SVG/PDF fallback
   - figure usage reporting in manifests
+- D3 figure path (Stage 5):
+  - vendored D3 v7 at `app/web_assets/d3.min.js`
+  - convention-based D3 detection via `// @learnforge:requires d3` marker
+  - assembly auto-inlines D3 before figure scripts with double-inline prevention
+  - `d3_included` tracking in `FigureObservation` and build manifests
+  - validator check for `missing-d3-vendor-asset`
+  - canonical `bias-variance-tradeoff-figure` with interactive complexity slider and decomposition
+  - wired into `bias-variance-tradeoff` concept page and `tem0052-lecture-04`
+  - representative target for D3 figure build validation
 - Phase 8A resource curation workflow core:
   - finalized the resource workflow model around `candidate`, `reviewed`, `approved`, and `published`
   - added approval-history support with deterministic `acted_on` metadata
@@ -998,6 +1012,17 @@
 
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 - `.github/workflows/publish-student-site.yml` (manual student-only publish artifact workflow)
+
+## Test Suite Fix (post HTML shell transition)
+
+- Fixed 9 test regressions introduced by commit `1ebc886` (responsive HTML shell):
+  - Updated heading assertions in `test_assembly.py` and `test_gra4164_course.py` from
+    markdown `## Heading` to HTML `<h2>Heading</h2>` for format-dispatched sections
+  - Fixed figure snapshot fragment extraction to account for `<section>` wrapper around
+    the `<h2>Used in these courses</h2>` delimiter
+  - Updated target count assertion in `test_validation.py` from 15 to 16 (new
+    `bik2550-m3d1` representative target)
+- Zero production code changes — all fixes in test expectations
 
 ## Next Recommended Step
 - Start Stage 5 of the web roadmap locked in `ROADMAP.md`

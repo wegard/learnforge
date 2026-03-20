@@ -4,6 +4,8 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
 from app.config import REPO_ROOT
 from app.validator import load_representative_targets, validate_repository, write_validation_report
 
@@ -25,7 +27,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 15
+    assert build_summary["target_count"] == 17
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -103,6 +105,25 @@ def test_validator_reports_missing_figure_fallback_asset(tmp_path: Path) -> None
     )
 
 
+def test_validator_reports_missing_d3_vendor_asset(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import app.validator as validator_module
+
+    copy_repo_subset(tmp_path)
+    d3_path = Path(validator_module.__file__).parent / "web_assets" / "d3.min.js"
+    real_d3 = d3_path.read_bytes()
+    d3_path.unlink()
+
+    try:
+        report = validate_repository(tmp_path, run_build_checks=False)
+        assert any(
+            issue.code == "missing-d3-vendor-asset"
+            and issue.object_id == "bias-variance-tradeoff-figure"
+            for issue in report.issues
+        )
+    finally:
+        d3_path.write_bytes(real_d3)
+
+
 def test_load_representative_targets_returns_expected_registry() -> None:
     targets = load_representative_targets(REPO_ROOT)
     target_keys = {
@@ -113,6 +134,7 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("iv-intuition", "student", "en", "html") in target_keys
     assert ("iv-dag-figure", "student", "en", "html") in target_keys
     assert ("iv-dag-figure", "teacher", "en", "pdf") in target_keys
+    assert ("bias-variance-tradeoff-figure", "student", "en", "html") in target_keys
     assert ("angrist-podcast-iv", "student", "en", "html") in target_keys
     assert ("tem0052-lecture-05", "student", "en", "html") in target_keys
     assert ("edi3400-lecture-13", "student", "en", "html") in target_keys
@@ -164,6 +186,13 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         and target["format"] == "pdf"
         and target["audience"] == "teacher"
     )
+    d3_figure_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "bias-variance-tradeoff-figure"
+        and target["format"] == "html"
+        and target["audience"] == "student"
+    )
     assignment_html_target = next(
         target
         for target in report.build_summary["targets"]
@@ -196,6 +225,7 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     )
     assert figure_html_target["status"] == "passed"
     assert figure_pdf_target["status"] == "passed"
+    assert d3_figure_target["status"] == "passed"
     assert resource_page_target["status"] == "passed"
     assert resource_inbox_target["status"] == "passed"
     assert assignment_html_target["leakage_status"] == "clean"

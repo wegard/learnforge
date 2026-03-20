@@ -140,9 +140,11 @@ def test_tem0052_lecture_04_assembly_expands_assessment_block() -> None:
 
     assert edge_targets == [
         "bias-variance-tradeoff",
+        "bias-variance-tradeoff-figure",
         "model-assessment-lab",
     ]
     assert "## Why the trade-off matters" in assembly.markdown
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in assembly.markdown
     assert "## Lab brief" in assembly.markdown
     assert "Model selection is a workflow choice" not in assembly.markdown
 
@@ -308,9 +310,9 @@ def test_assignment_html_assembly_includes_course_concepts_and_resources() -> No
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
     assert "## Assignment details" in assembly.markdown
-    assert "## Included exercises" in assembly.markdown
-    assert "## Linked concepts" in assembly.markdown
-    assert "## Related resources" in assembly.markdown
+    assert "<h2>Included exercises</h2>" in assembly.markdown
+    assert "<h2>Linked concepts</h2>" in assembly.markdown
+    assert "<h2>Related resources</h2>" in assembly.markdown
     assert "Course context" in assembly.markdown
     assert "iv-intuition" in related_ids
     assert "angrist-podcast-iv" in related_ids
@@ -369,9 +371,9 @@ def test_teacher_resource_inbox_assembly_surfaces_candidate_reviewed_and_stale_r
 
     assert assembly.target.kind == "resource-inbox"
     assert "## Workflow summary" in assembly.markdown
-    assert "## Candidate resources" in assembly.markdown
-    assert "## Reviewed resources" in assembly.markdown
-    assert "## Stale resources" in assembly.markdown
+    assert "<h2>Candidate resources</h2>" in assembly.markdown
+    assert "<h2>Reviewed resources</h2>" in assembly.markdown
+    assert "<h2>Stale resources</h2>" in assembly.markdown
     assert "iv-candidate-newsletter" in listed_ids
     assert "iv-reviewed-primer" in listed_ids
     assert "iv-policy-brief-stale" in listed_ids
@@ -403,7 +405,7 @@ def test_concept_page_includes_assignment_context() -> None:
         root=REPO_ROOT,
     )
 
-    assert "## Used in assignments" in assembly.markdown
+    assert "<h2>Used in assignments</h2>" in assembly.markdown
     assert "assignment-01/assignment-01.html" in assembly.markdown
 
 
@@ -420,6 +422,7 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
 
     related_ids = [entry.identifier for entry in assembly.related_entries]
 
+    assert "bias-variance-tradeoff-figure" in related_ids
     assert "knn-supervised-learning" in related_ids
     assert "naive-bayes-classification" in related_ids
     assert "linear-regression-prediction" in related_ids
@@ -1022,6 +1025,73 @@ def test_bik2551_day_01_assembly_supports_english_content() -> None:
     assert "Dag 1 - Introduksjon til generativ KI og prompt engineering" not in assembly.markdown
 
 
+def test_d3_figure_html_assembly_includes_d3_and_script() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bias-variance-tradeoff-figure",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in assembly.markdown
+    assert "// @learnforge:requires d3" in assembly.markdown
+    assert ".select(surface)" in assembly.markdown
+    assert "// https://d3js.org" in assembly.markdown
+    assert any(
+        item.figure_id == "bias-variance-tradeoff-figure"
+        and item.interactive_included
+        and item.d3_included
+        for item in assembly.figure_observations
+    )
+
+
+def test_d3_figure_pdf_assembly_excludes_d3_and_uses_fallback() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bias-variance-tradeoff-figure",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="pdf",
+        root=REPO_ROOT,
+    )
+
+    assert ".select(surface)" not in assembly.markdown
+    assert "figure.pdf" in assembly.markdown
+    assert any(
+        item.figure_id == "bias-variance-tradeoff-figure"
+        and not item.interactive_included
+        and not item.d3_included
+        for item in assembly.figure_observations
+    )
+
+
+def test_bias_variance_concept_page_embeds_d3_figure() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bias-variance-tradeoff",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "Figures" in assembly.markdown
+    assert "### Bias-variance trade-off" in assembly.markdown
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in assembly.markdown
+    assert any(
+        item.figure_id == "bias-variance-tradeoff-figure"
+        and item.context_target_id == "bias-variance-tradeoff"
+        and item.interactive_included
+        and item.d3_included
+        for item in assembly.figure_observations
+    )
+
+
 def copy_repo_subset(target_root: Path) -> None:
     for relative_path in ("content", "collections", "courses"):
         shutil.copytree(REPO_ROOT / relative_path, target_root / relative_path)
@@ -1046,5 +1116,7 @@ def assignment_snapshot_fragment(markdown: str) -> str:
 
 def figure_snapshot_fragment(markdown: str) -> str:
     start = markdown.index("## Figure details")
-    end = markdown.index("## Used in these courses")
+    h2_pos = markdown.index("<h2>Used in these courses</h2>")
+    section_pos = markdown.rfind("\n<section", start, h2_pos)
+    end = section_pos if section_pos != -1 else h2_pos
     return markdown[start:end].rstrip()

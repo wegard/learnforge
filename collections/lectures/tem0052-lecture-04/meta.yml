@@ -32,4 +32,5 @@ ai:
   generated_fields: []
 items:
   - bias-variance-tradeoff
+  - bias-variance-tradeoff-figure
   - model-assessment-lab

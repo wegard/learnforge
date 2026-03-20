@@ -74,6 +74,11 @@ targets:
     audience: teacher
     language: en
     format: exercise-sheet
+  - label: Student D3 figure page
+    id: bias-variance-tradeoff-figure
+    audience: student
+    language: en
+    format: html
   - label: BIK2550 lecture slides
     id: bik2550-m3d1
     audience: teacher
