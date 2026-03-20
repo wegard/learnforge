@@ -351,7 +351,7 @@ def test_resource_page_generates_related_content() -> None:
 
     assert "iv-intuition" in related_ids
     assert "lecture-04" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_teacher_resource_inbox_assembly_surfaces_candidate_reviewed_and_stale_resources() -> None:
@@ -429,7 +429,7 @@ def test_tem0052_concept_page_links_promoted_exercise() -> None:
     assert "house-prices-regression" in related_ids
     assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in [entry.identifier for entry in assembly.related_entries]
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_model_selection_concept_links_related_tem0052_content() -> None:
@@ -456,7 +456,7 @@ def test_model_selection_concept_links_related_tem0052_content() -> None:
     assert "house-prices-regression" in related_ids
     assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_model_selection_concept_embeds_cross_validation_figure() -> None:
@@ -470,7 +470,7 @@ def test_model_selection_concept_embeds_cross_validation_figure() -> None:
         root=REPO_ROOT,
     )
 
-    assert "## Figures" in assembly.markdown
+    assert "Figures" in assembly.markdown
     assert "### K-fold cross-validation" in assembly.markdown
     assert 'data-figure-id="k-fold-cross-validation-figure"' in assembly.markdown
     assert any(
@@ -499,7 +499,7 @@ def test_linear_regression_concept_links_house_prices_and_course() -> None:
     assert "bias-variance-tradeoff" in related_ids
     assert "penalized-linear-models" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_penalized_models_concept_links_tem0052_regression_content() -> None:
@@ -520,7 +520,7 @@ def test_penalized_models_concept_links_tem0052_regression_content() -> None:
     assert "model-selection-cross-validation" in related_ids
     assert "bias-variance-tradeoff" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_logistic_regression_concept_links_tem0052_classification_content() -> None:
@@ -544,7 +544,7 @@ def test_logistic_regression_concept_links_tem0052_classification_content() -> N
     assert "model-assessment-lab" in related_ids
     assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_knn_concept_links_tem0052_classification_content() -> None:
@@ -567,7 +567,7 @@ def test_knn_concept_links_tem0052_classification_content() -> None:
     assert "model-assessment-lab" in related_ids
     assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_house_prices_exercise_links_tem0052_concepts_and_course() -> None:
@@ -588,7 +588,7 @@ def test_house_prices_exercise_links_tem0052_concepts_and_course() -> None:
     assert "bias-variance-tradeoff" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_model_assessment_exercise_links_tem0052_classification_concepts() -> None:
@@ -609,7 +609,7 @@ def test_model_assessment_exercise_links_tem0052_classification_concepts() -> No
     assert "model-selection-cross-validation" in related_ids
     assert "logistic-regression-classification" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_ml_preprocessing_concept_links_tem0052_foundations_content() -> None:
@@ -630,7 +630,7 @@ def test_ml_preprocessing_concept_links_tem0052_foundations_content() -> None:
     assert "logistic-regression-classification" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_titanic_preprocessing_exercise_links_tem0052_foundations_content() -> None:
@@ -650,7 +650,7 @@ def test_titanic_preprocessing_exercise_links_tem0052_foundations_content() -> N
     assert "knn-supervised-learning" in related_ids
     assert "logistic-regression-classification" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_spam_filtering_exercise_links_tem0052_classification_concepts() -> None:
@@ -672,7 +672,7 @@ def test_spam_filtering_exercise_links_tem0052_classification_concepts() -> None
     assert "model-selection-cross-validation" in related_ids
     assert "logistic-regression-classification" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_income_classification_exercise_links_tem0052_ensemble_concepts() -> None:
@@ -694,7 +694,7 @@ def test_income_classification_exercise_links_tem0052_ensemble_concepts() -> Non
     assert "random-forests" in related_ids
     assert "model-selection-cross-validation" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_naive_bayes_concept_links_tem0052_classification_content() -> None:
@@ -716,7 +716,7 @@ def test_naive_bayes_concept_links_tem0052_classification_content() -> None:
     assert "bias-variance-tradeoff" in related_ids
     assert "spam-filtering-naive-bayes" in related_ids
     assert "tem0052" in related_ids
-    assert "## Related links" in assembly.markdown
+    assert "Related links" in assembly.markdown
 
 
 def test_concept_page_embeds_reusable_figure_with_interactive_html_path() -> None:
@@ -730,7 +730,7 @@ def test_concept_page_embeds_reusable_figure_with_interactive_html_path() -> Non
         root=REPO_ROOT,
     )
 
-    assert "## Figures" in assembly.markdown
+    assert "Figures" in assembly.markdown
     assert "### IV DAG" in assembly.markdown
     assert 'data-figure-id="iv-dag-figure"' in assembly.markdown
     assert "Highlight relevance" in assembly.markdown
@@ -771,8 +771,8 @@ def test_home_page_assembly_includes_course_and_topic_navigation() -> None:
     )
 
     assert assembly.target.kind == "home"
-    assert "## Browse by Course" in assembly.markdown
-    assert "## Browse by Topic" in assembly.markdown
+    assert "Browse by Course" in assembly.markdown
+    assert "Browse by Topic" in assembly.markdown
     assert "course/ec202/ec202.html" in assembly.markdown
     assert "listing/topic-causal-inference/topic-causal-inference.html" in assembly.markdown
 
@@ -850,6 +850,149 @@ def test_nb_student_shell_uses_norwegian_letters() -> None:
     assert "AI Strategy" in assembly.markdown
 
 
+def test_student_shell_references_external_assets_on_nested_pages() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "ec202",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert '<link rel="stylesheet" href="../../assets/learnforge-shell.css" />' in assembly.markdown
+    assert '<script src="../../assets/learnforge-shell.js" defer></script>' in assembly.markdown
+    assert 'class="lf-app-shell"' in assembly.markdown
+    assert 'data-audience="student"' in assembly.markdown
+    assert 'data-page-style="explore"' in assembly.markdown
+    assert 'class="lf-shell-toggle"' in assembly.markdown
+    assert 'id="lf-shell-nav"' in assembly.markdown
+    assert 'id="lf-shell-search"' in assembly.markdown
+    assert 'class="lf-view-switch"' in assembly.markdown
+    assert "teacher/en/html/course/ec202/ec202.html" in assembly.markdown
+    assert 'data-empty-results-message="No matching pages."' in assembly.markdown
+    assert (
+        'data-search-unavailable-message="Search index is not available for this page yet."'
+        in assembly.markdown
+    )
+
+
+def test_student_shell_localizes_search_messages_for_nb() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "bik2551",
+        index=index,
+        audience="student",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert 'data-empty-results-message="Ingen treff."' in assembly.markdown
+    assert (
+        'data-search-unavailable-message="Søkeindeksen er ikke tilgjengelig for denne siden ennå."'
+        in assembly.markdown
+    )
+
+
+def test_student_document_page_uses_document_page_style_and_card_grid() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "iv-intuition",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert 'data-page-style="document"' in assembly.markdown
+    assert 'class="lf-page-content"' in assembly.markdown
+    assert 'class="lf-section lf-section--listing"' in assembly.markdown
+    assert 'class="lf-card-grid"' in assembly.markdown
+
+
+def test_student_home_shell_hides_view_switch() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "home",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert 'data-audience="student"' in assembly.markdown
+    assert 'class="lf-view-switch"' not in assembly.markdown
+
+
+def test_teacher_shell_uses_shared_wrapper_preview_notice_and_review_panel() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "iv-intuition",
+        index=index,
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert '<link rel="stylesheet" href="../../assets/learnforge-shell.css" />' in assembly.markdown
+    assert '<script src="../../assets/learnforge-shell.js" defer></script>' in assembly.markdown
+    assert 'data-audience="teacher"' in assembly.markdown
+    assert 'data-page-style="document"' in assembly.markdown
+    assert 'class="lf-preview-notice"' in assembly.markdown
+    assert "Instructor preview only." in assembly.markdown
+    assert 'class="lf-review-panel lf-meta-panel"' in assembly.markdown
+    assert "Instructor preview context" in assembly.markdown
+    assert "ID:</strong> iv-intuition" in assembly.markdown
+    assert "Audience:</strong> Instructor" in assembly.markdown
+    assert "Translation state:</strong> approved" in assembly.markdown
+    assert 'class="lf-view-switch"' in assembly.markdown
+    assert "student/en/html/concept/iv-intuition/iv-intuition.html" in assembly.markdown
+    assert 'class="lf-search-form"' not in assembly.markdown
+    assert 'class="lf-shell-toggle"' not in assembly.markdown
+
+
+def test_teacher_resource_inbox_shell_uses_explore_layout_without_switch_or_search() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "resource-inbox",
+        index=index,
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert 'data-audience="teacher"' in assembly.markdown
+    assert 'data-page-style="explore"' in assembly.markdown
+    assert 'class="lf-preview-notice"' in assembly.markdown
+    assert 'class="lf-review-panel lf-meta-panel"' in assembly.markdown
+    assert "ID:</strong> resource-inbox" in assembly.markdown
+    assert "Status:</strong> Review" in assembly.markdown
+    assert 'class="lf-view-switch"' not in assembly.markdown
+    assert 'class="lf-search-form"' not in assembly.markdown
+
+
+def test_teacher_draft_page_hides_student_view_switch() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "iv-candidate-newsletter",
+        index=index,
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert 'data-audience="teacher"' in assembly.markdown
+    assert 'class="lf-review-panel lf-meta-panel"' in assembly.markdown
+    assert 'class="lf-view-switch"' not in assembly.markdown
+
+
 def test_bik2551_day_01_assembly_supports_english_content() -> None:
     index, _ = load_repository(REPO_ROOT, collect_errors=False)
     assembly = assemble_target(
@@ -887,7 +1030,11 @@ def copy_repo_subset(target_root: Path) -> None:
 def topic_snapshot_fragment(markdown: str) -> str:
     start = markdown.index("Topic: Causal Inference")
     end = markdown.index('<footer class="lf-page-footer">')
-    return markdown[start:end].rstrip()
+    fragment = markdown[start:end].rstrip()
+    closing = "\n\n</div>\n\n</main>"
+    if fragment.endswith(closing):
+        fragment = fragment[: -len(closing)].rstrip()
+    return fragment
 
 
 def assignment_snapshot_fragment(markdown: str) -> str:

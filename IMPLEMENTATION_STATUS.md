@@ -2,6 +2,7 @@
 
 ## Current Milestone
 
+- Product direction lock: responsive HTML app-shell refinement with local instructor preview/review mode
 - Phase 8A complete checkpoint: resource curation workflow core
 - Repository maintenance: course inbox staging for legacy-course intake
 - Phase 11 kickoff complete checkpoint: `tem0052` migration inventory + canonical course shell
@@ -28,6 +29,7 @@
 - No AI-generated resource suggestion ingestion workflow
 - No translation draft workflow
 - No public deployment or publishing job
+- No public teacher deployment target
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
@@ -35,6 +37,8 @@
 - No `edi3400` assignment collection work yet
 - Keep `edi3400` intentionally English-only in this slice
 - Leave unrelated local draft courses/concepts untouched
+- No browser-based editing surface
+- No frontend framework rewrite
 - No Textual TUI
 
 ## Decisions Locked
@@ -45,15 +49,19 @@
 - Pydantic remains the schema/validation layer
 - Norwegian stays locked to `nb`
 - Quarto remains the build engine for site, slides, and PDF paths
+- Teacher workflow remains terminal-first; browser instructor mode is preview/review only
 - Source of truth remains plain-text files under git
 - One canonical object ID is shared across languages
 - Student/teacher visibility separation stays enforced at assembly/build level
+- HTML UI work should stay static-first and use progressive enhancement rather than a SPA/app server
+- Student-only deployment is the first-class public publishing target
 - Exercise solutions remain in separate `solution.en.qmd` / `solution.nb.qmd` files
 - Representative validation/build targets remain declared in `representative-targets.yml`
 - `teach validate` remains the first-class quality-gate command and writes:
   - `build/reports/validation-report.json`
   - `build/reports/build-summary.json`
 - Figure objects remain on the locked `figure.svg` / `figure.pdf` / optional `figure.js` convention with static fallback protection
+- D3 is now the preferred advanced interactive-figure path when simple inline JS is not enough
 - Resource workflow states are now explicit and validated:
   - `candidate`
   - `reviewed`
@@ -378,6 +386,12 @@
   - deployment/publishing targets
   - preview/release publishing jobs
   - Textual TUI work
+- The next web-surface slice should follow the staged roadmap strategy:
+  - Stage 1: shell extraction and cleanup
+  - Stage 2: responsive student app shell
+  - Stage 3: instructor preview/review HTML
+  - Stage 4: student-only deployment path
+  - Stage 5: D3 figure hardening
 
 ## Blockers
 
@@ -972,11 +986,13 @@
 - `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
 
 ## Next Recommended Step
-- Decide whether one of `edi3400-lecture-11`, `edi3400-lecture-12`, or
-  `edi3400-lecture-13` is now stable enough to add to `representative-targets.yml`
-- Decide which local `.db`, `.sql`, and helper `.py` files genuinely belong as
-  object-local canonical assets beyond the currently promoted dealership database
-- After that, either keep deepening the `edi3400` database block with curated
-  supporting assets or move back to the next narrow `tem0052` migration slice
-- Keep `edi3400` intentionally English-only until the database block is broader;
-  the resulting translation warnings remain expected and non-blocking
+- Start Stage 1 of the web-surface refactor locked in `ROADMAP.md`
+- Extract the current inline HTML shell CSS/JS into shared local assets/templates
+  without changing the build matrix, page URLs, or teacher/student visibility rules
+- After the shell extraction is stable, move to the responsive student-shell redesign
+  before adding any instructor preview/review affordances
+- Keep the anti-bloat guardrails explicit during this slice:
+  - no browser editing
+  - no frontend framework rewrite
+  - no public teacher deployment
+  - no shared D3 helper layer until reuse is proven

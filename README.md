@@ -17,6 +17,14 @@ LearnForge is a git-backed, markdown-first teaching publishing system. The curre
 - Representative renders for home, course, lecture, concept, exercise, resource, topic listing, slides, and PDF export paths
 - A migration-stage `tem0052` course shell and tracked inventory for promoting legacy material from `course-inbox/`
 
+## Direction Locked For Next Web Slice
+
+- Teacher workflow stays terminal-first; browser instructor mode is preview/review only
+- Authoring remains markdown/qmd/yaml-first in `nvim`
+- HTML should evolve into a responsive app shell through progressive enhancement, not a frontend framework rewrite
+- Public deployment should target student mode only by default
+- Advanced interactive figures should prefer object-local D3 with mandatory static fallbacks
+
 ## Requirements
 
 - Python 3.13+

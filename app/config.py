@@ -30,6 +30,7 @@ INDEX_DIR = BUILD_DIR / "index"
 REPORTS_DIR = BUILD_DIR / "reports"
 SCHEMAS_DIR = REPO_ROOT / "schemas"
 TEMPLATES_DIR = REPO_ROOT / "templates"
+WEB_ASSETS_DIR = REPO_ROOT / "app" / "web_assets"
 
 
 def object_note_filename(language: str) -> str:

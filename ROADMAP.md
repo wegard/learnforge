@@ -72,6 +72,7 @@ The core design rule is this:
 6. **Deterministic builds.** The same commit should produce the same site and exports.
 7. **Minimal platform surface.** Avoid adding a database, web backend, or custom frontend framework in v1.
 8. **Terminal-native authoring.** `nvim` remains the editor. The terminal interface is a control plane, not a replacement editor.
+9. **Progressive enhancement before framework.** Prefer a responsive app-like shell on top of static HTML before adding heavier frontend machinery.
 
 ---
 
@@ -162,6 +163,7 @@ Do not build a custom editor.
 - Author content in `nvim`
 - Launch `$EDITOR` from the CLI
 - Use the teacher interface for navigation, validation, and build orchestration
+- Browser-based instructor views are preview/review surfaces only; editing remains in `nvim`
 
 ### 5.5 Data storage
 Use **filesystem + YAML metadata + generated JSON index** in v1.
@@ -192,8 +194,8 @@ Do not mix them.
 Use a three-level figure strategy:
 
 1. static SVG/PDF for most figures
-2. Observable JS for light/medium interactivity
-3. D3 for cases that genuinely require bespoke interaction
+2. object-local JS for light/medium interactivity
+3. D3 for cases that genuinely require advanced responsive interaction
 
 Every interactive figure must have a static fallback.
 
@@ -661,6 +663,23 @@ Implement these first:
 - draft resources not shown
 - non-approved translation variants not shown by default
 
+## 11.5 Responsive app-shell strategy
+
+- student HTML should feel like one coherent responsive web app rather than a loose set of document pages
+- keep pages static, directly linkable, and audience-scoped; do not require a SPA router
+- use one shared HTML shell plus small local CSS/JS assets for navigation, search, and view switching
+- prefer progressive enhancement over client-side stateful application logic
+- preserve stable URLs and direct-build targets for course, lecture, object, and listing pages
+
+## 11.6 Instructor preview/review surface
+
+- teacher workflow remains terminal-first
+- browser instructor mode exists only for preview/review of generated teacher HTML
+- no browser-based editing, approval actions, or metadata mutation in v1
+- teacher preview builds are local/private by default
+- when both student and teacher HTML targets exist, the UI should offer a quick switch between them
+- deployment for v1 should support student mode only without requiring teacher artifacts to be published
+
 ---
 
 ## 12. Figure and media system
@@ -690,15 +709,17 @@ content/figures/ovb-sim/
 ### v1
 
 - static SVG/PDF
-- embedded HTML widgets only when necessary
+- embedded local JS only when necessary
 
 ### v1.1
 
-- Observable JS for reactive figures
+- D3-based figures through object-local `figure.js` plus optional `data/`
+- shared helper utilities only after repeated reuse justifies them
 
 ### later
 
-- D3 components with reusable JS modules and export pipeline
+- reusable figure modules and export helpers
+- optional Observable experiments only if they solve a specific problem better than local D3
 
 ## 12.4 PDF/export policy
 
@@ -1163,8 +1184,8 @@ Each phase below has deliverables, work packages, and exit criteria.
 
 - define figure object model
 - create static figure templates
-- add Observable JS experiment
-- add D3 packaging rule for advanced figures
+- add first D3 figure experiment
+- add packaging/documentation rule for object-local JS and D3 figures
 - document HTML/PDF fallback policy
 - test print/PDF behavior
 
@@ -1333,6 +1354,83 @@ Each phase below has deliverables, work packages, and exit criteria.
 - analytics
 - external public publishing mode
 
+## 19.1 Next staged implementation strategy
+
+The next web-surface slice should be implemented in narrow stages.
+
+Each stage keeps these anti-bloat constraints:
+
+- no browser-based editor
+- no database
+- no web backend
+- no custom frontend framework unless the static approach demonstrably fails
+- no new shared JS/CSS layer unless it clearly replaces existing duplication
+
+### Stage 1 - Shell extraction and cleanup
+
+- move the current inline student shell styling/script into shared local assets or templates
+- keep Quarto + assembly as the rendering model
+- keep the audience/language build matrix unchanged
+- remove duplication before adding any new UI behavior
+
+Exit criteria:
+
+- current student pages render through one shared shell path
+- no content-model or build-target changes are required
+- the site remains fast and fully static
+
+### Stage 2 - Responsive student app shell
+
+- redesign the student HTML shell for mobile and desktop use
+- improve navigation, page framing, listings, and search placement so the site feels app-like
+- keep page bodies server-rendered/static and URL-addressable
+- preserve PDF/export links and language switching
+
+Exit criteria:
+
+- home, course, lecture, concept, exercise, resource, and listing pages share a coherent responsive shell
+- stable URLs remain unchanged
+- no teacher-only content leaks into student output
+
+### Stage 3 - Instructor preview/review mode
+
+- add a teacher HTML shell that reuses the student shell structure where possible
+- expose instructor-only preview affordances such as quick view switching and local context panels
+- add student/instructor switch links where counterpart pages exist
+- keep editing and approvals in the terminal/CLI
+
+Exit criteria:
+
+- instructor can switch quickly between student and teacher views while authoring in `nvim`
+- teacher HTML remains a preview/review surface, not an editing surface
+- teacher outputs stay local/private by default
+
+### Stage 4 - Student-only deployment path
+
+- define the student HTML export root as the first-class publish artifact
+- add a reproducible publish path for student mode only
+- keep teacher HTML, slides, and solution artifacts outside the public deployment by default
+- document the release boundary clearly
+
+Exit criteria:
+
+- a public deployment can be produced from a clean student-only build
+- teacher artifacts are excluded from the published site by default
+- deployment remains static and reproducible
+
+### Stage 5 - D3 figure path
+
+- formalize D3 as the preferred advanced figure path using object-local assets
+- keep `figure.svg` and `figure.pdf` mandatory when interactivity exists
+- add shared D3 helpers only after at least two figures demonstrate real reuse
+- test mobile responsiveness and print/PDF fallback explicitly
+
+Exit criteria:
+
+- at least one canonical D3 figure ships cleanly in HTML
+- the same figure still degrades correctly in PDF/print modes
+- figure interactivity does not introduce external CDN/runtime dependencies
+
 ---
 
 ## 20. Immediate implementation backlog
@@ -1496,8 +1594,8 @@ Create these documents after Phase 2 or 3:
 - Should resources use embedded notes or external metadata-only entries for some types?
 - Should lectures be fully generated from collections, or can some remain hand-curated wrappers?
 - Do you want one combined site with language switchers, or separate per-language builds?
-- Do you want course-private publishing targets later, or only local teacher builds + public student site?
-- Which deployment target will host the Quarto site?
+- If private publishing is ever needed later, should it reuse teacher HTML preview outputs or stay limited to selected artifacts?
+- Which static deployment target will host the public student site?
 - How much of existing material is worth migrating versus rewriting?
 
 ---
@@ -1533,4 +1631,3 @@ Official documentation useful during implementation:
 - [Typer](https://typer.tiangolo.com/)
 - [Textual](https://textual.textualize.io/)
 - [Pydantic](https://docs.pydantic.dev/latest/)
-

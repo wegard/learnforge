@@ -411,28 +411,17 @@ class AssemblyBuilder:
 
         sections = [
             hero,
-            "\n".join(
-                [
-                    "## Browse by Course" if self.language == "en" else "## Bla etter kurs",
-                    "",
-                    *self._listing_lines(course_entries, empty_message="No entries."),
-                ]
+            self._render_listing_section(
+                title="Browse by Course" if self.language == "en" else "Bla etter kurs",
+                entries=course_entries,
             ),
-            "\n".join(
-                [
-                    "## Browse by Topic" if self.language == "en" else "## Bla etter tema",
-                    "",
-                    *self._listing_lines(topic_entries, empty_message="No entries."),
-                ]
+            self._render_listing_section(
+                title="Browse by Topic" if self.language == "en" else "Bla etter tema",
+                entries=topic_entries,
             ),
-            "\n".join(
-                [
-                    "## Featured Resources"
-                    if self.language == "en"
-                    else "## Utvalgte ressurser",
-                    "",
-                    *self._listing_lines(resource_entries, empty_message="No entries."),
-                ]
+            self._render_listing_section(
+                title="Featured Resources" if self.language == "en" else "Utvalgte ressurser",
+                entries=resource_entries,
             ),
             how_to_use_section,
         ]
@@ -1355,8 +1344,8 @@ class AssemblyBuilder:
             }
         )
         body = markdown_body.rstrip()
-        if self.audience == "student" and self.output_format == "html":
-            body = self._render_student_site_document(target=target, markdown_body=body)
+        if self.audience in {"student", "teacher"} and self.output_format == "html":
+            body = self._render_html_site_document(target=target, markdown_body=body)
         if self.output_format in {"html", "revealjs", "slides-pdf"} and self.figure_observations:
             body = "\n\n".join(
                 [
@@ -1391,32 +1380,72 @@ class AssemblyBuilder:
             resource_workflow_summary=self.resource_workflow_summary,
         )
 
-    def _render_student_site_document(
+    def _render_html_site_document(
         self,
         *,
         target: BuildTargetRef,
         markdown_body: str,
     ) -> str:
         current_output = self._planned_output_path(target.output_category, target.identifier)
+        page_style = self._html_page_style(target.kind)
+        footer = self._render_html_footer(current_output=current_output)
         shell = [
-            "<style>",
-            STUDENT_SITE_STYLE,
-            "</style>",
-            self._render_student_shell(target=target, current_output=current_output),
-            markdown_body,
-            self._render_student_footer(current_output=current_output),
-            "<script>",
-            STUDENT_SITE_SCRIPT,
-            "</script>",
+            self._render_html_shell_assets(current_output=current_output),
+            (
+                f'<div class="lf-app-shell" data-target-kind="{escape(target.kind)}" '
+                f'data-page-style="{page_style}" data-audience="{self.audience}">'
+            ),
+            self._render_html_shell(target=target, current_output=current_output),
+            '<main class="lf-page-frame">',
+            '<div class="lf-page-content">',
         ]
+        if self.audience == "teacher":
+            shell.extend(
+                [
+                    self._render_teacher_preview_notice(),
+                    self._render_teacher_review_panel(target=target),
+                ]
+            )
+        shell.extend(
+            [
+                markdown_body,
+                "</div>",
+                "</main>",
+            ]
+        )
+        if footer:
+            shell.append(footer)
+        shell.append("</div>")
         return "\n\n".join(part for part in shell if part).rstrip()
 
-    def _render_student_shell(self, *, target: BuildTargetRef, current_output: Path) -> str:
-        home_href = self._page_href(
+    def _html_page_style(self, target_kind: str) -> str:
+        if target_kind in {"home", "course", "topic-listing", "resource-listing", "resource-inbox"}:
+            return "explore"
+        return "document"
+
+    def _render_html_shell_assets(self, *, current_output: Path) -> str:
+        css_href = self._html_shell_asset_href(
             current_output=current_output,
-            target_kind="home",
-            target_id=HOME_TARGET_ID,
+            filename="learnforge-shell.css",
         )
+        script_href = self._html_shell_asset_href(
+            current_output=current_output,
+            filename="learnforge-shell.js",
+        )
+        return "\n".join(
+            [
+                f'<link rel="stylesheet" href="{css_href}" />',
+                f'<script src="{script_href}" defer></script>',
+            ]
+        )
+
+    def _render_html_shell(self, *, target: BuildTargetRef, current_output: Path) -> str:
+        if self.audience == "teacher":
+            return self._render_teacher_shell(target=target, current_output=current_output)
+        return self._render_student_shell(target=target, current_output=current_output)
+
+    def _render_student_shell(self, *, target: BuildTargetRef, current_output: Path) -> str:
+        home_href = self._student_home_href(current_output=current_output)
         courses_href = f"{home_href}#browse-by-course" if home_href else "#browse-by-course"
         topics_href = f"{home_href}#browse-by-topic" if home_href else "#browse-by-topic"
         resources_href = f"{home_href}#featured-resources" if home_href else "#featured-resources"
@@ -1428,28 +1457,139 @@ class AssemblyBuilder:
         search_label = "Search LearnForge" if self.language == "en" else "Søk i LearnForge"
         search_button = "Search" if self.language == "en" else "Søk"
         nav_label = "Student site navigation" if self.language == "en" else "Studentnavigasjon"
+        menu_label = "Menu" if self.language == "en" else "Meny"
+        search_toggle_label = "Search" if self.language == "en" else "Søk"
+        empty_results_message = "No matching pages." if self.language == "en" else "Ingen treff."
+        search_unavailable_message = (
+            "Search index is not available for this page yet."
+            if self.language == "en"
+            else "Søkeindeksen er ikke tilgjengelig for denne siden ennå."
+        )
+        nav_panel_id = "lf-shell-nav"
+        search_panel_id = "lf-shell-search"
 
         sections = [
-            f'<nav class="lf-site-shell" aria-label="{nav_label}">',
-            '<div class="lf-global-links">',
+            '<header class="lf-app-header">',
+            '<div class="lf-app-header-bar">',
             f'<a class="lf-brand" href="{home_href}">LearnForge</a>',
-            f'<a href="{home_href}">{"Home" if self.language == "en" else "Hjem"}</a>',
-            f'<a href="{courses_href}">{"Courses" if self.language == "en" else "Kurs"}</a>',
-            f'<a href="{topics_href}">{"Topics" if self.language == "en" else "Temaer"}</a>',
+            '<div class="lf-shell-toggle-row">',
             (
-                f'<a href="{resources_href}">'
-                + ("Resources" if self.language == "en" else "Ressurser")
-                + "</a>"
+                f'<button class="lf-shell-toggle" type="button" '
+                f'data-shell-toggle="{nav_panel_id}" aria-controls="{nav_panel_id}" '
+                f'aria-expanded="false">{menu_label}</button>'
+            ),
+            (
+                f'<button class="lf-shell-toggle" type="button" '
+                f'data-shell-toggle="{search_panel_id}" aria-controls="{search_panel_id}" '
+                f'aria-expanded="false">{search_toggle_label}</button>'
             ),
             "</div>",
+            "</div>",
+            f'<div id="{nav_panel_id}" class="lf-shell-panel lf-shell-nav-panel" hidden>',
+            f'<nav class="lf-primary-nav" aria-label="{nav_label}">',
+            self._render_student_nav_links(
+                home_href=home_href,
+                courses_href=courses_href,
+                topics_href=topics_href,
+                resources_href=resources_href,
+            ),
+            "</nav>",
             '<div class="lf-utility-links">',
+            self._render_shell_utility_links(target=target, current_output=current_output),
+            "</div>",
+            "</div>",
+            f'<div id="{search_panel_id}" class="lf-shell-panel lf-shell-search-panel" hidden>',
+            self._render_student_search_form(
+                current_output=current_output,
+                search_label=search_label,
+                search_button=search_button,
+                search_placeholder=search_placeholder,
+                empty_results_message=empty_results_message,
+                search_unavailable_message=search_unavailable_message,
+            ),
+            "</div>",
+            "</header>",
+        ]
+        return "\n".join(part for part in sections if part)
+
+    def _render_teacher_shell(self, *, target: BuildTargetRef, current_output: Path) -> str:
+        home_href = self._student_home_href(current_output=current_output) or "#"
+        sections = [
+            '<header class="lf-app-header">',
+            '<div class="lf-app-header-bar">',
+            f'<a class="lf-brand" href="{home_href}">LearnForge</a>',
+            "</div>",
+            '<div class="lf-shell-panel lf-shell-utility-panel">',
+            '<div class="lf-utility-links">',
+            self._render_shell_utility_links(target=target, current_output=current_output),
+            "</div>",
+            "</div>",
+            "</header>",
+        ]
+        return "\n".join(part for part in sections if part)
+
+    def _render_shell_utility_links(
+        self,
+        *,
+        target: BuildTargetRef,
+        current_output: Path,
+    ) -> str:
+        sections = [
             self._render_breadcrumbs(target=target, current_output=current_output),
+            self._render_view_switch(target=target, current_output=current_output),
             self._render_language_switch(target=target, current_output=current_output),
             self._render_export_links(target=target, current_output=current_output),
-            "</div>",
+        ]
+        return "\n".join(part for part in sections if part)
+
+    def _render_student_nav_links(
+        self,
+        *,
+        home_href: str | None,
+        courses_href: str,
+        topics_href: str,
+        resources_href: str,
+    ) -> str:
+        links = [
+            (
+                home_href,
+                "Home" if self.language == "en" else "Hjem",
+            ),
+            (
+                courses_href,
+                "Courses" if self.language == "en" else "Kurs",
+            ),
+            (
+                topics_href,
+                "Topics" if self.language == "en" else "Temaer",
+            ),
+            (
+                resources_href,
+                "Resources" if self.language == "en" else "Ressurser",
+            ),
+        ]
+        return "\n".join(
+            f'<a class="lf-primary-nav-link" href="{href}">{label}</a>'
+            for href, label in links
+            if href
+        )
+
+    def _render_student_search_form(
+        self,
+        *,
+        current_output: Path,
+        search_label: str,
+        search_button: str,
+        search_placeholder: str,
+        empty_results_message: str,
+        search_unavailable_message: str,
+    ) -> str:
+        sections = [
             (
                 f'<form class="lf-search-form" '
                 f'data-search-index="{self._search_index_href(current_output)}" '
+                f'data-empty-results-message="{escape(empty_results_message)}" '
+                f'data-search-unavailable-message="{escape(search_unavailable_message)}" '
                 'data-result-label="lf-search-results" role="search">'
             ),
             f'<label for="lf-search-input">{search_label}</label>',
@@ -1462,16 +1602,20 @@ class AssemblyBuilder:
             "</div>",
             '<div class="lf-search-results" hidden aria-live="polite"></div>',
             "</form>",
-            "</nav>",
         ]
-        return "\n".join(part for part in sections if part)
+        return "\n".join(sections)
+
+    def _html_shell_asset_href(self, *, current_output: Path, filename: str) -> str:
+        asset_path = html_shell_asset_path(self.root, self.audience, self.language, filename)
+        return os.path.relpath(asset_path, current_output.parent).replace(os.sep, "/")
+
+    def _render_html_footer(self, *, current_output: Path) -> str:
+        if self.audience != "student":
+            return ""
+        return self._render_student_footer(current_output=current_output)
 
     def _render_student_footer(self, *, current_output: Path) -> str:
-        home_href = self._page_href(
-            current_output=current_output,
-            target_kind="home",
-            target_id=HOME_TARGET_ID,
-        )
+        home_href = self._student_home_href(current_output=current_output)
         course_browse_href = f"{home_href}#browse-by-course" if home_href else "#browse-by-course"
         topic_browse_href = f"{home_href}#browse-by-topic" if home_href else "#browse-by-topic"
         text = (
@@ -1500,11 +1644,7 @@ class AssemblyBuilder:
         return f'<p class="lf-breadcrumbs"><strong>{label}:</strong> {" / ".join(parts)}</p>'
 
     def _breadcrumbs(self, *, target: BuildTargetRef, current_output: Path) -> list[str]:
-        home_href = self._page_href(
-            current_output=current_output,
-            target_kind="home",
-            target_id=HOME_TARGET_ID,
-        )
+        home_href = self._student_home_href(current_output=current_output)
         home_label = "Home" if self.language == "en" else "Hjem"
         parts = [f'<a href="{home_href}">{home_label}</a>']
 
@@ -1539,9 +1679,13 @@ class AssemblyBuilder:
                 return parts
             return parts
 
+        if target.kind == "resource-inbox":
+            parts.append(target.title)
+            return parts
+
         if target.kind in {"concept", "exercise", "figure", "resource"}:
             record = self.index.objects[target.identifier]
-            if record.model.topics:
+            if self.audience == "student" and record.model.topics:
                 topic = record.model.topics[0]
                 topic_id = f"{TOPIC_TARGET_PREFIX}{topic}"
                 topic_href = self._page_href(
@@ -1550,6 +1694,8 @@ class AssemblyBuilder:
                     target_id=topic_id,
                 )
                 parts.append(f'<a href="{topic_href}">{humanize_slug(topic)}</a>')
+            else:
+                parts.extend(self._course_breadcrumb_parts(record.model.courses, current_output))
             parts.append(target.title)
             return parts
 
@@ -1594,6 +1740,26 @@ class AssemblyBuilder:
                 options.append(f'<a href="{fallback}">{language_label} {fallback_suffix}</a>')
         return f'<p class="lf-language-switch"><strong>{label}:</strong> {" | ".join(options)}</p>'
 
+    def _render_view_switch(self, *, target: BuildTargetRef, current_output: Path) -> str:
+        if target.kind in {"home", "topic-listing", "resource-listing", "resource-inbox"}:
+            return ""
+        counterpart_audience = "teacher" if self.audience == "student" else "student"
+        href = self._audience_counterpart_href(
+            target=target,
+            current_output=current_output,
+            audience=counterpart_audience,
+            language=self.language,
+        )
+        if href is None:
+            return ""
+        label = "View" if self.language == "en" else "Visning"
+        student_label = "Student" if self.language == "en" else "Student"
+        teacher_label = "Instructor" if self.language == "en" else "Instruktør"
+        current_label = student_label if self.audience == "student" else teacher_label
+        counterpart_label = teacher_label if self.audience == "student" else student_label
+        options = [f"<strong>{current_label}</strong>", f'<a href="{href}">{counterpart_label}</a>']
+        return f'<p class="lf-view-switch"><strong>{label}:</strong> {" | ".join(options)}</p>'
+
     def _counterpart_href(
         self,
         *,
@@ -1602,10 +1768,11 @@ class AssemblyBuilder:
         language: str,
     ) -> str | None:
         if target.kind == "home":
-            return self._page_href_for_language(
+            return self._page_href_for_variant(
                 current_output=current_output,
                 target_kind="home",
                 target_id=HOME_TARGET_ID,
+                audience=self.audience,
                 language=language,
             )
 
@@ -1613,10 +1780,11 @@ class AssemblyBuilder:
             course_record = self.index.courses.get(target.identifier)
             if course_record is None or language not in course_record.model.languages:
                 return None
-            return self._page_href_for_language(
+            return self._page_href_for_variant(
                 current_output=current_output,
                 target_kind="course",
                 target_id=target.identifier,
+                audience=self.audience,
                 language=language,
             )
 
@@ -1626,10 +1794,11 @@ class AssemblyBuilder:
             )
             if not counterpart_supported:
                 return None
-            return self._page_href_for_language(
+            return self._page_href_for_variant(
                 current_output=current_output,
                 target_kind=target.kind,
                 target_id=target.identifier,
+                audience=self.audience,
                 language=language,
             )
 
@@ -1640,10 +1809,11 @@ class AssemblyBuilder:
             record.model.languages, record.model.translation_status, language
         ):
             return None
-        return self._page_href_for_language(
+        return self._page_href_for_variant(
             current_output=current_output,
             target_kind=target.kind,
             target_id=target.identifier,
+            audience=self.audience,
             language=language,
         )
 
@@ -1678,10 +1848,11 @@ class AssemblyBuilder:
 
     def _fallback_language_home_href(self, *, current_output: Path, language: str) -> str:
         return (
-            self._page_href_for_language(
+            self._page_href_for_variant(
                 current_output=current_output,
                 target_kind="home",
                 target_id=HOME_TARGET_ID,
+                audience="student",
                 language=language,
             )
             or "#"
@@ -1759,6 +1930,133 @@ class AssemblyBuilder:
             "exercise-sheet": "Exercise sheet" if self.language == "en" else "Øvingsark",
         }
         return labels.get(output_format, output_format)
+
+    def _render_teacher_preview_notice(self) -> str:
+        text = (
+            "Instructor preview only. Edit source files in nvim and keep approvals in the CLI."
+            if self.language == "en"
+            else "Kun instruktørforhåndsvisning. Rediger kildefilene i nvim og behold godkjenninger i CLI-en."
+        )
+        return (
+            '<section class="lf-preview-notice">'
+            f"<p>{escape(text)}</p>"
+            "</section>"
+        )
+
+    def _render_teacher_review_panel(self, *, target: BuildTargetRef) -> str:
+        title = (
+            "Instructor preview context"
+            if self.language == "en"
+            else "Instruktørkontekst"
+        )
+        items = "\n".join(
+            f"<li><strong>{escape(label)}:</strong> {escape(value)}</li>"
+            for label, value in self._teacher_review_panel_rows(target=target)
+        )
+        return "\n".join(
+            [
+                '<section class="lf-review-panel lf-meta-panel">',
+                f'<p class="lf-review-panel-title">{escape(title)}</p>',
+                "<ul>",
+                items,
+                "</ul>",
+                "</section>",
+            ]
+        )
+
+    def _teacher_review_panel_rows(self, *, target: BuildTargetRef) -> list[tuple[str, str]]:
+        labels = {
+            "id": "ID" if self.language == "en" else "ID",
+            "kind": "Kind" if self.language == "en" else "Type",
+            "audience": "Audience" if self.language == "en" else "Målgruppe",
+            "language": "Language" if self.language == "en" else "Språk",
+            "visibility": "Visibility" if self.language == "en" else "Synlighet",
+            "status": "Status" if self.language == "en" else "Status",
+            "updated": "Updated" if self.language == "en" else "Oppdatert",
+            "outputs": "Outputs" if self.language == "en" else "Utdata",
+            "translation_state": (
+                "Translation state" if self.language == "en" else "Oversettelsesstatus"
+            ),
+            "solution_visibility": (
+                "Solution visibility" if self.language == "en" else "Løsningssynlighet"
+            ),
+            "collection_type": (
+                "Collection type" if self.language == "en" else "Samlingstype"
+            ),
+            "review_after": "Review after" if self.language == "en" else "Gjennomgå etter",
+            "stale": "Stale" if self.language == "en" else "Utløpt",
+        }
+        rows = [
+            (labels["id"], target.identifier),
+            (labels["kind"], self._teacher_target_kind_label(target.kind)),
+            (labels["audience"], "Instructor" if self.language == "en" else "Instruktør"),
+            (labels["language"], localized_language_name(self.language, self.language)),
+        ]
+        if target.kind == "resource-inbox":
+            rows.extend(
+                [
+                    (labels["visibility"], "Teacher" if self.language == "en" else "Lærer"),
+                    (labels["status"], "Review" if self.language == "en" else "Gjennomgang"),
+                    (labels["updated"], "-"),
+                    (labels["outputs"], self._output_label("html")),
+                ]
+            )
+            return rows
+
+        if target.kind == "course":
+            course_record = self.index.courses[target.identifier]
+            rows.extend(
+                [
+                    (labels["visibility"], course_record.model.visibility),
+                    (labels["status"], course_record.model.status),
+                    (labels["updated"], course_record.model.updated.isoformat()),
+                    (
+                        labels["outputs"],
+                        ", ".join(self._output_label(item) for item in ("html", "pdf")),
+                    ),
+                ]
+            )
+            return rows
+
+        record = self.index.objects[target.identifier]
+        rows.extend(
+            [
+                (labels["visibility"], record.model.visibility),
+                (labels["status"], record.model.status),
+                (labels["updated"], record.model.updated.isoformat()),
+                (
+                    labels["outputs"],
+                    ", ".join(self._output_label(item) for item in record.model.outputs),
+                ),
+            ]
+        )
+        translation_state = record.model.translation_status.get(self.language)
+        if translation_state:
+            rows.append((labels["translation_state"], translation_state))
+        if isinstance(record.model, Exercise):
+            rows.append((labels["solution_visibility"], record.model.solution_visibility))
+        if isinstance(record.model, Collection):
+            rows.append((labels["collection_type"], record.model.collection_kind))
+        if isinstance(record.model, Resource):
+            if record.model.review_after is not None:
+                rows.append((labels["review_after"], record.model.review_after.isoformat()))
+            stale_value = "Yes" if resource_is_stale(record.model) else "No"
+            if self.language != "en":
+                stale_value = "Ja" if resource_is_stale(record.model) else "Nei"
+            rows.append((labels["stale"], stale_value))
+        return rows
+
+    def _teacher_target_kind_label(self, kind: str) -> str:
+        labels = {
+            "collection": "Collection" if self.language == "en" else "Samling",
+            "concept": "Concept" if self.language == "en" else "Begrep",
+            "course": "Course" if self.language == "en" else "Kurs",
+            "exercise": "Exercise" if self.language == "en" else "Øvelse",
+            "figure": "Figure" if self.language == "en" else "Figur",
+            "resource": "Resource" if self.language == "en" else "Ressurs",
+            "resource-inbox": "Resource inbox" if self.language == "en" else "Ressursinnboks",
+        }
+        return labels.get(kind, kind)
 
     def _object_page_context_sections(self, record: IndexedObject) -> list[str]:
         if record.model.kind == "concept":
@@ -3027,6 +3325,20 @@ class AssemblyBuilder:
         return entries
 
     def _render_related_section(self, *, title: str, entries: list[RelatedEntry]) -> str:
+        if self.output_format == "html":
+            return self._render_html_listing_section(
+                title=title,
+                entries=[
+                    ListingEntry(
+                        identifier=entry.identifier,
+                        kind=entry.kind,
+                        title=entry.title,
+                        description="",
+                        href=entry.href,
+                    )
+                    for entry in entries
+                ],
+            )
         lines = [f"## {title}", ""]
         for entry in entries:
             kind_label = self._kind_label(entry.kind, entry.identifier)
@@ -3058,11 +3370,15 @@ class AssemblyBuilder:
         entries: list[ListingEntry],
         suffix: str = "",
     ) -> str:
+        if self.output_format == "html":
+            return self._render_html_listing_section(
+                title=title,
+                entries=entries,
+                suffix=suffix,
+            )
         lines = [f"## {title}", ""]
         if not entries:
             lines.append("No entries.")
-        elif self.output_format == "html":
-            lines.extend(self._listing_cards(entries))
         else:
             for entry in entries:
                 if entry.description:
@@ -3089,11 +3405,19 @@ class AssemblyBuilder:
             for entry in entries:
                 grouped.setdefault(entry.kind, []).append(entry)
             for kind in sorted(grouped, key=lambda item: KIND_SORT_ORDER.get(item, 99)):
-                lines.append(f"## {KIND_LABELS.get(kind, kind.title())}s")
-                lines.append("")
                 if self.output_format == "html":
-                    lines.extend(self._listing_cards(grouped[kind]))
+                    lines.extend(
+                        [
+                            self._render_html_listing_section(
+                                title=f"{KIND_LABELS.get(kind, kind.title())}s",
+                                entries=grouped[kind],
+                            ),
+                            "",
+                        ]
+                    )
                 else:
+                    lines.append(f"## {KIND_LABELS.get(kind, kind.title())}s")
+                    lines.append("")
                     for entry in grouped[kind]:
                         if entry.description:
                             lines.append(f"- {entry.title} - {entry.description}")
@@ -3103,11 +3427,38 @@ class AssemblyBuilder:
             return "\n".join(lines).rstrip()
 
         if self.output_format == "html":
-            lines.extend(self._listing_cards(entries))
+            lines.append(self._render_html_listing_section(title=None, entries=entries))
         else:
             for entry in entries:
                 lines.append(f"- {entry.title} - {entry.description}")
         return "\n".join(lines).rstrip()
+
+    def _render_html_listing_section(
+        self,
+        *,
+        title: str | None,
+        entries: list[ListingEntry],
+        suffix: str = "",
+        empty_message: str = "No entries.",
+    ) -> str:
+        parts = ['<section class="lf-section lf-section--listing">']
+        if title or suffix:
+            parts.append('<div class="lf-section-header">')
+            if title:
+                parts.append(f"<h2>{escape(title)}</h2>")
+            if suffix:
+                parts.append(f'<p class="lf-section-actions">{suffix}</p>')
+            parts.append("</div>")
+
+        if entries:
+            parts.append('<div class="lf-card-grid">')
+            parts.extend(self._listing_cards(entries))
+            parts.append("</div>")
+        else:
+            parts.append(f'<p class="lf-empty-state">{escape(empty_message)}</p>')
+
+        parts.append("</section>")
+        return "\n".join(parts)
 
     def _register_object_files(
         self,
@@ -3267,11 +3618,7 @@ class AssemblyBuilder:
         selected_language = language or self.language
         if self._exclude_from_audience(record.model.visibility):
             return False
-        if not self._language_available(
-            record.model.languages,
-            record.model.translation_status,
-            selected_language,
-        ):
+        if not self._language_available(record.model.languages, record.model.translation_status, selected_language):
             return False
         if require_output_format and require_output_format not in record.model.outputs:
             return False
@@ -3293,9 +3640,24 @@ class AssemblyBuilder:
         translation_status: dict[str, str],
         language: str,
     ) -> bool:
+        return self._language_available_for_audience(
+            languages,
+            translation_status,
+            language,
+            audience=self.audience,
+        )
+
+    def _language_available_for_audience(
+        self,
+        languages: list[str],
+        translation_status: dict[str, str],
+        language: str,
+        *,
+        audience: str,
+    ) -> bool:
         if language not in languages:
             return False
-        if self.audience != "student":
+        if audience != "student":
             return True
         if not translation_status:
             return True
@@ -3333,26 +3695,28 @@ class AssemblyBuilder:
         target_kind: str,
         target_id: str,
     ) -> str | None:
-        return self._page_href_for_language(
+        return self._page_href_for_variant(
             current_output=current_output,
             target_kind=target_kind,
             target_id=target_id,
+            audience=self.audience,
             language=self.language,
         )
 
-    def _page_href_for_language(
+    def _page_href_for_variant(
         self,
         *,
         current_output: Path,
         target_kind: str,
         target_id: str,
+        audience: str,
         language: str,
     ) -> str | None:
         if self.output_format != "html":
             return None
         target_output = planned_target_output_path(
             self.root,
-            audience=self.audience,
+            audience=audience,
             language=language,
             output_format="html",
             target_kind=target_kind,
@@ -3360,6 +3724,98 @@ class AssemblyBuilder:
         )
         relative = os.path.relpath(target_output, current_output.parent)
         return relative.replace(os.sep, "/")
+
+    def _student_home_href(self, *, current_output: Path, language: str | None = None) -> str | None:
+        selected_language = language or self.language
+        return self._page_href_for_variant(
+            current_output=current_output,
+            target_kind="home",
+            target_id=HOME_TARGET_ID,
+            audience="student",
+            language=selected_language,
+        )
+
+    def _audience_counterpart_href(
+        self,
+        *,
+        target: BuildTargetRef,
+        current_output: Path,
+        audience: str,
+        language: str,
+    ) -> str | None:
+        if not self._has_html_counterpart(target=target, audience=audience, language=language):
+            return None
+        return self._page_href_for_variant(
+            current_output=current_output,
+            target_kind=target.kind,
+            target_id=target.identifier,
+            audience=audience,
+            language=language,
+        )
+
+    def _has_html_counterpart(self, *, target: BuildTargetRef, audience: str, language: str) -> bool:
+        if audience == "teacher":
+            return self._has_teacher_html_counterpart(target=target, language=language)
+        return self._has_student_html_counterpart(target=target, language=language)
+
+    def _has_teacher_html_counterpart(self, *, target: BuildTargetRef, language: str) -> bool:
+        if target.kind in {"home", "topic-listing", "resource-listing"}:
+            return False
+        if target.kind == "resource-inbox":
+            return True
+        if target.kind == "course":
+            course_record = self.index.courses.get(target.identifier)
+            if course_record is None:
+                return False
+            return (
+                course_record.model.visibility not in {"private", "teacher"}
+                and course_record.model.status in {"approved", "published"}
+                and language in course_record.model.languages
+            )
+        record = self.index.objects.get(target.identifier)
+        if record is None:
+            return False
+        return (
+            record.model.visibility != "private"
+            and language in record.model.languages
+            and "html" in record.model.outputs
+        )
+
+    def _has_student_html_counterpart(self, *, target: BuildTargetRef, language: str) -> bool:
+        if target.kind == "home":
+            return True
+        if target.kind in {"topic-listing", "resource-listing", "resource-inbox"}:
+            return False
+        if target.kind == "course":
+            course_record = self.index.courses.get(target.identifier)
+            if course_record is None:
+                return False
+            return (
+                course_record.model.visibility not in {"private", "teacher"}
+                and course_record.model.status in {"approved", "published"}
+                and language in course_record.model.languages
+            )
+        record = self.index.objects.get(target.identifier)
+        if record is None:
+            return False
+        if record.model.visibility in {"private", "teacher"}:
+            return False
+        if "html" not in record.model.outputs:
+            return False
+        if not self._language_available_for_audience(
+            record.model.languages,
+            record.model.translation_status,
+            language,
+            audience="student",
+        ):
+            return False
+        if isinstance(record.model, Resource):
+            return resource_student_visibility_decision(
+                record,
+                language=language,
+                require_output_format="html",
+            ).visible_to_student
+        return record.model.status in {"approved", "published"}
 
     def _render_link(
         self,
@@ -3507,6 +3963,14 @@ def student_search_index_path(root: Path, language: str) -> Path:
     return exports_dir(root) / "student" / language / "html" / "assets" / "search-index.json"
 
 
+def html_shell_asset_path(root: Path, audience: str, language: str, filename: str) -> Path:
+    return exports_dir(root) / audience / language / "html" / "assets" / filename
+
+
+def student_site_asset_path(root: Path, language: str, filename: str) -> Path:
+    return html_shell_asset_path(root, "student", language, filename)
+
+
 def localized_minutes(minutes: int, language: str) -> str:
     if language == "nb":
         return f"{minutes} minutter"
@@ -3562,336 +4026,6 @@ FIGURE_RENDER_STYLE = """
   color: #1e40af;
   font-weight: 600;
 }
-"""
-
-
-STUDENT_SITE_STYLE = """
-.lf-site-shell {
-  border-bottom: 2px solid #e2e8f0;
-  padding: 0.85rem 1.1rem;
-  margin: 0 0 1.75rem 0;
-  background: linear-gradient(to bottom, #f8fafc, #ffffff);
-}
-.lf-global-links,
-.lf-search-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-.lf-global-links {
-  margin-bottom: 0.6rem;
-}
-.lf-global-links a,
-.lf-utility-links a,
-.lf-page-footer a {
-  text-decoration: none;
-  transition: color 0.15s ease, background 0.15s ease;
-}
-.lf-global-links a {
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
-  color: #334155;
-  font-size: 0.92rem;
-}
-.lf-global-links a:hover,
-.lf-global-links a:focus-visible {
-  background: #e0e7ff;
-  color: #1e40af;
-}
-.lf-global-links a:focus-visible {
-  outline: 2px solid #1e40af;
-  outline-offset: 2px;
-}
-.lf-brand {
-  font-weight: 700;
-  font-size: 1.15rem;
-  letter-spacing: 0.02em;
-  color: #1e40af !important;
-  margin-right: 0.35rem;
-  padding-left: 0 !important;
-}
-.lf-brand:hover {
-  background: transparent !important;
-  color: #1e3a8a !important;
-}
-.lf-utility-links p {
-  margin: 0.25rem 0;
-}
-.lf-breadcrumbs {
-  font-size: 0.82rem;
-  color: #64748b;
-}
-.lf-breadcrumbs strong {
-  display: none;
-}
-.lf-breadcrumbs a {
-  color: #64748b;
-}
-.lf-breadcrumbs a:hover {
-  color: #1e40af;
-}
-.lf-lang-switch {
-  font-size: 0.82rem;
-  color: #64748b;
-}
-.lf-search-form {
-  margin-top: 0.75rem;
-}
-.lf-search-form label {
-  display: block;
-  font-weight: 600;
-  font-size: 0.88rem;
-  margin-bottom: 0.3rem;
-  color: #475569;
-}
-.lf-search-form input[type="search"] {
-  min-width: 16rem;
-  max-width: 30rem;
-  width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 999px;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.9rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.lf-search-form input[type="search"]:focus {
-  border-color: #1e40af;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
-  outline: none;
-}
-.lf-search-form button {
-  white-space: nowrap;
-  background: #1e40af;
-  color: #ffffff;
-  border: none;
-  border-radius: 999px;
-  padding: 0.4rem 1rem;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-.lf-search-form button:hover {
-  background: #1e3a8a;
-}
-.lf-search-results {
-  margin-top: 0.75rem;
-  padding-left: 1rem;
-}
-.lf-page-footer {
-  margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
-  color: #64748b;
-  font-size: 0.88rem;
-  text-align: center;
-}
-.lf-page-footer a {
-  color: #1e40af;
-}
-.lf-listing-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  padding: 0.65rem 0.85rem;
-  margin-bottom: 0.5rem;
-  background: #ffffff;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.lf-listing-card:hover {
-  border-color: #93c5fd;
-  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.08);
-}
-.lf-listing-link {
-  font-weight: 600;
-  color: #1e40af;
-  text-decoration: none;
-}
-.lf-listing-link:hover {
-  text-decoration: underline;
-}
-.lf-listing-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #475569;
-  background: #f1f5f9;
-  border-radius: 999px;
-  padding: 0.12rem 0.5rem;
-  margin-left: 0.4rem;
-  vertical-align: middle;
-}
-.lf-listing-desc {
-  margin: 0.3rem 0 0 0;
-  font-size: 0.88rem;
-  color: #475569;
-  line-height: 1.45;
-}
-.lf-hero {
-  padding: 1rem 0 0.5rem 0;
-}
-.lf-hero-tagline {
-  font-size: 1.1rem;
-  color: #334155;
-  line-height: 1.6;
-  max-width: 48rem;
-}
-.lf-course-header {
-  border-left: 3px solid #1e40af;
-  padding: 0.5rem 0.85rem;
-  margin-bottom: 0.5rem;
-  background: #f8fafc;
-  border-radius: 0 0.35rem 0.35rem 0;
-}
-.lf-course-header p {
-  margin: 0;
-  color: #334155;
-  line-height: 1.55;
-}
-.lf-meta-panel {
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.85rem;
-  background: #f8fafc;
-}
-.lf-meta-panel ul,
-.lf-meta-panel li {
-  margin-bottom: 0.2rem;
-}
-.lf-resource-open {
-  display: inline-block;
-  background: #1e40af;
-  color: #ffffff !important;
-  padding: 0.3rem 0.85rem;
-  border-radius: 999px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  text-decoration: none !important;
-  transition: background 0.15s ease;
-}
-.lf-resource-open:hover {
-  background: #1e3a8a;
-}
-.quarto-alternate-formats {
-  display: none;
-}
-@media (max-width: 640px) {
-  .lf-global-links {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  .lf-search-form input[type="search"] {
-    min-width: 0;
-    width: 100%;
-  }
-  .lf-search-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .lf-search-form button {
-    width: 100%;
-  }
-  .lf-listing-card {
-    padding: 0.5rem 0.65rem;
-  }
-  .lf-figure-card {
-    padding: 0.65rem;
-  }
-  .lf-figure-svg {
-    max-width: 100%;
-  }
-  .lf-course-header {
-    padding: 0.4rem 0.65rem;
-  }
-  .lf-meta-panel {
-    padding: 0.4rem 0.65rem;
-  }
-}
-"""
-
-
-STUDENT_SITE_SCRIPT = """
-window.document.addEventListener("DOMContentLoaded", () => {
-  const form = window.document.querySelector(".lf-search-form");
-  if (!form) {
-    return;
-  }
-  const input = form.querySelector('input[type="search"]');
-  const results = form.querySelector(".lf-search-results");
-  let payloadPromise;
-
-  function loadPayload() {
-    if (!payloadPromise) {
-      payloadPromise = window.fetch(form.dataset.searchIndex).then((response) => {
-        if (!response.ok) {
-          throw new Error("search-index-unavailable");
-        }
-        return response.json();
-      });
-    }
-    return payloadPromise;
-  }
-
-  function scoreEntry(entry, tokens) {
-    const haystack = [
-      entry.id,
-      entry.kind,
-      entry.title,
-      entry.description || "",
-      ...(entry.topics || []),
-      ...(entry.tags || []),
-      ...(entry.courses || []),
-    ].join(" ").toLowerCase();
-    return tokens.reduce((score, token) => score + (haystack.includes(token) ? 1 : 0), 0);
-  }
-
-  function renderResults(matches) {
-    results.hidden = false;
-    if (!matches.length) {
-      results.innerHTML = "<p>No matching pages.</p>";
-      return;
-    }
-    const items = matches
-      .map((entry) => {
-        const description = entry.description ? ` - ${entry.description}` : "";
-        return `<li><a href="${entry.href}">${entry.title}</a> [${entry.kind}]${description}</li>`;
-      })
-      .join("");
-    results.innerHTML = `<ul>${items}</ul>`;
-  }
-
-  async function handleSearch(event) {
-    event.preventDefault();
-    const query = (input.value || "").trim().toLowerCase();
-    if (!query) {
-      results.hidden = true;
-      results.innerHTML = "";
-      return;
-    }
-
-    try {
-      const payload = await loadPayload();
-      const tokens = query.split(/\\s+/).filter(Boolean);
-      const matches = (payload.entries || [])
-        .map((entry) => ({ entry, score: scoreEntry(entry, tokens) }))
-        .filter((item) => item.score > 0)
-        .sort(
-          (left, right) =>
-            right.score - left.score || left.entry.title.localeCompare(right.entry.title),
-        )
-        .slice(0, 8)
-        .map((item) => item.entry);
-      renderResults(matches);
-    } catch (_error) {
-      results.hidden = false;
-      results.innerHTML = "<p>Search index is not available for this page yet.</p>";
-    }
-  }
-
-  form.addEventListener("submit", handleSearch);
-});
 """
 
 

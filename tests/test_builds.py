@@ -70,12 +70,83 @@ def test_course_page_build_contains_generated_listings() -> None:
     assert "Resources" in html
     assert "Search LearnForge" in html
     assert "Breadcrumbs:" in html
+    assert 'data-page-style="explore"' in html
+    assert 'class="lf-shell-toggle"' in html
+    assert 'class="lf-card-grid"' in html
     assert "../../collection/assignment-01/assignment-01.html" in html
     assert "../../listing/topic-causal-inference/topic-causal-inference.html" in html
     assert "../../listing/resources-ec202/resources-ec202.html" in html
     assert "../../exercise/ex-iv-concept-check/ex-iv-concept-check.html" in html
+    assert 'class="lf-view-switch"' in html
+    assert "../../../../../teacher/en/html/course/ec202/ec202.html" in html
     assert "topic-causal-inference" in build_manifest["referenced_listing_targets"]
     assert "resources-ec202" in build_manifest["referenced_listing_targets"]
+    assert "../../assets/learnforge-shell.css" in html
+    assert "../../assets/learnforge-shell.js" in html
+
+
+def test_student_build_writes_shell_assets_and_home_uses_root_relative_paths() -> None:
+    course_artifact = build_target(
+        "ec202",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+    home_artifact = build_target(
+        "home",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    asset_dir = course_artifact.output_path.parents[2] / "assets"
+    css_path = asset_dir / "learnforge-shell.css"
+    js_path = asset_dir / "learnforge-shell.js"
+    home_html = home_artifact.output_path.read_text(encoding="utf-8")
+
+    assert css_path.exists()
+    assert js_path.exists()
+    assert css_path.read_text(encoding="utf-8")
+    assert js_path.read_text(encoding="utf-8")
+    assert "assets/learnforge-shell.css" in home_html
+    assert "assets/learnforge-shell.js" in home_html
+    assert 'class="lf-view-switch"' not in home_html
+
+
+def test_teacher_build_writes_shell_assets_and_page_uses_review_shell() -> None:
+    build_target(
+        "assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    artifact = build_target(
+        "assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    asset_dir = artifact.output_path.parents[2] / "assets"
+    css_path = asset_dir / "learnforge-shell.css"
+    js_path = asset_dir / "learnforge-shell.js"
+
+    assert css_path.exists()
+    assert js_path.exists()
+    assert "../../assets/learnforge-shell.css" in html
+    assert "../../assets/learnforge-shell.js" in html
+    assert 'data-audience="teacher"' in html
+    assert 'class="lf-preview-notice"' in html
+    assert "Instructor preview only." in html
+    assert 'class="lf-review-panel lf-meta-panel"' in html
+    assert 'class="lf-view-switch"' in html
+    assert "../../../../../student/en/html/collection/assignment-01/assignment-01.html" in html
+    assert 'class="lf-search-form"' not in html
 
 
 def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -> None:
@@ -831,6 +902,12 @@ def test_teacher_resource_inbox_build_surfaces_candidate_reviewed_and_stale_reso
     assert "Candidate resources" in html
     assert "Reviewed resources" in html
     assert "Stale resources" in html
+    assert 'data-audience="teacher"' in html
+    assert 'data-page-style="explore"' in html
+    assert 'class="lf-preview-notice"' in html
+    assert 'class="lf-review-panel lf-meta-panel"' in html
+    assert 'class="lf-view-switch"' not in html
+    assert 'class="lf-search-form"' not in html
     assert "iv-candidate-newsletter" in html
     assert "iv-reviewed-primer" in html
     assert "iv-policy-brief-stale" in html
@@ -859,6 +936,10 @@ def test_home_page_build_contains_navigation_and_search() -> None:
     assert "Featured Resources" in html
     assert "Search LearnForge" in html
     assert 'href="course/ec202/ec202.html"' in html
+    assert 'data-page-style="explore"' in html
+    assert 'class="lf-shell-toggle"' in html
+    assert 'id="lf-shell-nav"' in html
+    assert 'id="lf-shell-search"' in html
     assert any(entry["id"] == "home" for entry in search_index["entries"])
     assert any(entry["id"] == "ec202" for entry in search_index["entries"])
     assert any(entry["id"] == "assignment-01" for entry in search_index["entries"])
@@ -975,6 +1056,8 @@ def test_student_exercise_page_has_language_switch_and_related_links() -> None:
     assert "Norwegian" in html
     assert "Sjekk av IV-intuisjon" not in html
     assert "strong first stage" not in html
+    assert 'class="lf-view-switch"' in html
+    assert "../../../../../teacher/en/html/exercise/ex-iv-concept-check/ex-iv-concept-check.html" in html
     assert "../../collection/assignment-01/assignment-01.html" in html
 
 
@@ -1127,6 +1210,9 @@ def test_teacher_assignment_page_shows_teacher_export_only() -> None:
     assert "Available outputs" in html
     assert "assignment-01-solution-sheet.pdf" in html
     assert "assignment-01-exercise-sheet.pdf" not in html
+    assert 'class="lf-preview-notice"' in html
+    assert 'class="lf-review-panel lf-meta-panel"' in html
+    assert "../../../../../student/en/html/collection/assignment-01/assignment-01.html" in html
     assert build_manifest["assignment"]["included_solution_files"] == []
     assert {item["format"] for item in build_manifest["generated_artifacts"]} >= {
         "html",

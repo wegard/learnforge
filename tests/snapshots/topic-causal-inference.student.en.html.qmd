@@ -1,25 +1,59 @@
 Topic: Causal Inference
 
-## Used in courses
+<section class="lf-section lf-section--listing">
+<div class="lf-section-header">
+<h2>Used in courses</h2>
+</div>
+<div class="lf-card-grid">
+<div class="lf-listing-card"><a href="../../course/ec202/ec202.html" class="lf-listing-link">EC202 - Applied Econometrics</a> <span class="lf-listing-badge">course</span></div>
+</div>
+</section>
 
-- [EC202 - Applied Econometrics](../../course/ec202/ec202.html) [course]
-
-## Lectures
-
+<section class="lf-section lf-section--listing">
+<div class="lf-section-header">
+<h2>Lectures</h2>
+</div>
+<div class="lf-card-grid">
 <div class="lf-listing-card"><a href="../../collection/lecture-04/lecture-04.html" class="lf-listing-link">Lecture 4 - Endogeneity and IV</a> <span class="lf-listing-badge">lecture</span><p class="lf-listing-desc">ec202</p></div>
+</div>
+</section>
 
-## Concepts
 
+<section class="lf-section lf-section--listing">
+<div class="lf-section-header">
+<h2>Concepts</h2>
+</div>
+<div class="lf-card-grid">
 <div class="lf-listing-card"><a href="../../concept/iv-intuition/iv-intuition.html" class="lf-listing-link">Instrumental Variables Intuition</a> <span class="lf-listing-badge">concept</span><p class="lf-listing-desc">ec202</p></div>
+</div>
+</section>
 
-## Exercises
 
+<section class="lf-section lf-section--listing">
+<div class="lf-section-header">
+<h2>Exercises</h2>
+</div>
+<div class="lf-card-grid">
 <div class="lf-listing-card"><a href="../../exercise/ex-iv-concept-check/ex-iv-concept-check.html" class="lf-listing-link">IV intuition check</a> <span class="lf-listing-badge">exercise</span><p class="lf-listing-desc">ec202</p></div>
+</div>
+</section>
 
-## Figures
 
+<section class="lf-section lf-section--listing">
+<div class="lf-section-header">
+<h2>Figures</h2>
+</div>
+<div class="lf-card-grid">
 <div class="lf-listing-card"><a href="../../figure/iv-dag-figure/iv-dag-figure.html" class="lf-listing-link">IV DAG</a> <span class="lf-listing-badge">figure</span><p class="lf-listing-desc">ec202</p></div>
+</div>
+</section>
 
-## Resources
 
+<section class="lf-section lf-section--listing">
+<div class="lf-section-header">
+<h2>Resources</h2>
+</div>
+<div class="lf-card-grid">
 <div class="lf-listing-card"><a href="../../resource/angrist-podcast-iv/angrist-podcast-iv.html" class="lf-listing-link">Instrumental Variables Episode</a> <span class="lf-listing-badge">resource</span><p class="lf-listing-desc">ec202</p></div>
+</div>
+</section>

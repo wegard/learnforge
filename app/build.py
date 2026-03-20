@@ -16,11 +16,12 @@ from app.assembly import (
     assemble_target,
     build_output_name,
     collect_topics,
+    html_shell_asset_path,
     humanize_slug,
     planned_target_output_path,
     student_search_index_path,
 )
-from app.config import REPO_ROOT, exports_dir, generated_dir, reports_dir
+from app.config import REPO_ROOT, WEB_ASSETS_DIR, exports_dir, generated_dir, reports_dir
 from app.indexer import IndexedObject, RepositoryIndex, load_repository
 from app.models import Collection, Resource
 from app.resource_workflow import resource_student_visibility_decision
@@ -182,6 +183,8 @@ def build_target(
         sync_site_libs(root, output_dir)
 
     search_index_path = None
+    if audience in {"student", "teacher"} and output_format == "html":
+        write_html_shell_assets(audience=audience, language=language, root=root)
     if audience == "student" and output_format == "html":
         search_index_path = write_student_site_search_index(
             index=index, language=language, root=root
@@ -570,6 +573,19 @@ def write_student_site_search_index(
     }
     output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return output_path
+
+
+def write_html_shell_assets(*, audience: str, language: str, root: Path) -> list[Path]:
+    written_paths: list[Path] = []
+    for filename in ("learnforge-shell.css", "learnforge-shell.js"):
+        source_path = WEB_ASSETS_DIR / filename
+        if not source_path.exists():
+            raise BuildError(f"missing html shell asset: {source_path}")
+        destination_path = html_shell_asset_path(root, audience, language, filename)
+        destination_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_path, destination_path)
+        written_paths.append(destination_path)
+    return written_paths
 
 
 def course_search_entries(
