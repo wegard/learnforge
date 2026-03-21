@@ -1,0 +1,40 @@
+id: gradient-descent-figure
+kind: figure
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Gradientnedstigning
+concepts:
+  - ml-model-evaluation-overview
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - model-selection
+  - optimization
+tags:
+  - gradient-descent
+  - optimization
+  - loss-function
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+caption:
+  nb: Gradientnedstigning oppdaterer parametrene trinnvis i retning av lavere tap til modellen nærmer seg et minimum.
+alt_text:
+  nb: En skålformet tapskurve med flere punkter og piler som viser steg nedover mot minimumspunktet nederst i kurven.
+svg_path: figure.svg
+pdf_path: figure.pdf
+asset_inventory:
+  - figure.svg
+  - figure.pdf

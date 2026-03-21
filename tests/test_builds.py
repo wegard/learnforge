@@ -304,13 +304,16 @@ def test_bik2550_teacher_concept_page_builds_with_migrated_evaluation_figures() 
     assert "Figurer" in html
     assert "../../figure/confusion-matrix-figure/confusion-matrix-figure.html" in html
     assert "../../figure/training-test-error-figure/training-test-error-figure.html" in html
+    assert "../../figure/gradient-descent-figure/gradient-descent-figure.html" in html
     assert "Konfusjonsmatrise" in html
     assert "Trenings- og testfeil" in html
+    assert "Gradientnedstigning" in html
     assert 'class="lf-preview-notice"' in html
-    assert build_manifest["figure_observation_count"] == 2
+    assert build_manifest["figure_observation_count"] == 3
     assert {entry["figure_id"] for entry in build_manifest["figure_uses"]} == {
         "confusion-matrix-figure",
         "training-test-error-figure",
+        "gradient-descent-figure",
     }
     assert all(entry["interactive_included"] is False for entry in build_manifest["figure_uses"])
 
@@ -364,6 +367,33 @@ def test_bik2550_teacher_training_test_error_figure_page_builds_in_norwegian() -
     assert 'class="lf-preview-notice"' in html
     assert build_manifest["figure_observation_count"] == 1
     assert build_manifest["figure_uses"][0]["figure_id"] == "training-test-error-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "not_applicable"
+
+
+def test_bik2550_teacher_gradient_descent_figure_page_builds_in_norwegian() -> None:
+    artifact = build_target(
+        "gradient-descent-figure",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figurdetaljer" in html
+    assert 'data-figure-id="gradient-descent-figure"' in html
+    assert "Gradientnedstigning" in html
+    assert "ml-model-evaluation-overview/ml-model-evaluation-overview.html" in html
+    assert "Interaktiv modus" in html
+    assert "kun statisk" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "gradient-descent-figure"
     assert build_manifest["figure_uses"][0]["interactive_included"] is False
     assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
     assert leakage_report["status"] == "not_applicable"

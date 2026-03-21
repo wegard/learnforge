@@ -24,6 +24,7 @@ related:
   - model-selection-cross-validation
   - confusion-matrix-figure
   - training-test-error-figure
+  - gradient-descent-figure
 outputs:
   - html
   - pdf

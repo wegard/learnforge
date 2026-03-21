@@ -1,0 +1,1 @@
+Gradientnedstigning gjør optimering konkret: hvert steg bruker gradienten til å flytte parameterne mot lavere tap. Figuren er nyttig når du skal forklare hvorfor læringsrate og startpunkt påvirker hvor raskt modellen finner et godt minimum.

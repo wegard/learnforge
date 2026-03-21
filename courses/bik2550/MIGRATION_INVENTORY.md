@@ -112,7 +112,7 @@ Tasks that require instructor judgement and cannot be automated.
       | `confusion_matrix.png` | `ml-model-evaluation-overview` | **promoted** |
       | `training_and_test_error.png` | `ml-model-evaluation-overview` | **promoted** |
       | `my_activation_functions.png` | `neural-networks-introduction` | candidate |
-      | `gradient_descent.png` | `ml-model-evaluation-overview` | candidate |
+      | `gradient_descent.png` | `ml-model-evaluation-overview` | **promoted** |
       | `regression_example.png` | `ml-supervised-learning-overview` | candidate |
       | `sigmoid.png` | `ml-supervised-learning-overview` | candidate |
       | `dt_kreditt.png` | `ml-supervised-learning-overview` | candidate |
@@ -158,3 +158,4 @@ Tasks that require instructor judgement and cannot be automated.
 - Assignment collection: `bik2550-project-brief`
 - Figure: `confusion-matrix-figure`
 - Figure: `training-test-error-figure`
+- Figure: `gradient-descent-figure`
