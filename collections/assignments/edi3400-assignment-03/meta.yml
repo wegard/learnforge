@@ -1,0 +1,33 @@
+id: edi3400-assignment-03
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 3 - Data analysis libraries
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - assignment
+  - python
+  - numpy
+  - pandas
+  - matplotlib
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - numpy-pandas-matplotlib-problem-set

@@ -1,0 +1,36 @@
+id: edi3400-assignment-02
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 2 - Control flow, functions, and classes
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - assignment
+  - python
+  - control-flow
+  - functions
+  - classes
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - python-control-flow-problem-set
+  - python-functions-problem-set
+  - python-standard-library-problem-set
+  - python-bank-account-class-lab

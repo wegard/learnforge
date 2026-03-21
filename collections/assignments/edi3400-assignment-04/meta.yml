@@ -1,0 +1,32 @@
+id: edi3400-assignment-04
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 4 - SQL and databases
+courses:
+  - edi3400
+topics:
+  - data-management
+  - databases
+  - sql
+tags:
+  - assignment
+  - sql
+  - python
+  - databases
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - sql-python-problem-set
