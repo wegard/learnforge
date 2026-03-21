@@ -1,0 +1,62 @@
+## Oppgavesett
+
+Bruk denne øvelsen til å praktisere de første `EDI 3400` Python-vanene: lagre
+verdier i variabler, inspiser dem med innebygde funksjoner, og velg fornuftige
+beholdere for små oppgaver.
+
+Hold løsningene enkle og lesbare. En vanlig `.py`-fil eller noen notatbokceller
+er nok.
+
+## Oppgaver
+
+1. Opprett tre variabler:
+   - `student_name` som en string,
+   - `study_hours` som et heltall,
+   - `completion_rate` som et desimaltall mellom `0` og `1`.
+   Skriv ut de tre verdiene og bruk `type()` til å vise typen til hver av dem.
+2. Skriv en kort beregningsblokk med:
+   - `a = 5`,
+   - `b = 2`.
+   Skriv ut `a + b`, `a - b`, `a * b` og `a / b`. Forklar deretter i én setning
+   hvorfor `a / b` ikke returnerer et heltall.
+3. Opprett en list med minst fem tall. Bruk innebygde funksjoner til å skrive ut:
+   - lengden på listen,
+   - den minste verdien,
+   - den største verdien,
+   - totalsummen,
+   - en sortert versjon av listen.
+4. Arbeid med tekst og ordnede beholdere:
+   - start fra strengen `"Programming with Python"`,
+   - lag en list av ordene,
+   - lag en tuple med tre kursemner,
+   - bruk `list(enumerate(...))` til å vise posisjon og verdi for hvert emne.
+5. Bruk parrede data og nøkkelbasert oppslag:
+   - kombiner `names = ["Anna", "Bob", "Charlie"]` og `scores = [85, 92, 87]`
+     med `zip()`,
+   - gjør det parrede resultatet om til en dictionary,
+   - slå opp Bobs poengsum,
+   - skriv ut settet av distinkte poengsumverdier.
+6. Skriv en kort refleksjon som dekker:
+   - ett tilfelle der en list var riktig beholder,
+   - ett tilfelle der en dictionary var riktig beholder,
+   - én innebygd funksjon som hjalp deg med å inspisere eller feilsøke arbeidet.
+
+## Startmal
+
+```python
+student_name = "Ada"
+study_hours = 6
+completion_rate = 0.75
+
+a = 5
+b = 2
+
+numbers = [12, 4, 18, 7, 9]
+phrase = "Programming with Python"
+topics = ("variables", "containers", "functions")
+
+names = ["Anna", "Bob", "Charlie"]
+scores = [85, 92, 87]
+```
+
+Du kan legge til små hjelpevariabler hvis de gjør skriptet lettere å lese.

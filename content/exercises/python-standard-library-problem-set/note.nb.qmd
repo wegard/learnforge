@@ -1,0 +1,51 @@
+## Oppgavesett
+
+Bruk denne øvelsen til å praktisere en ny programmeringsvane: importer en liten
+standardbibliotek-modul når jobben allerede er godt løst, i stedet for å bygge
+hvert verktøy fra bunnen av.
+
+Hold hver oppgave eksplisitt. Poenget er å gjøre den importerte modulen synlig
+i skriptet, ikke å gjemme arbeidsflyten bak større abstraksjoner.
+
+## Oppgaver
+
+1. Bruk `datetime` til å skrive ut dagens dato:
+   - importer datoverktøyet du trenger,
+   - hent dagens dato,
+   - skriv den ut i formatet `YYYY-MM-DD`.
+2. Bruk `random` på en list med tall:
+   - start med `numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`,
+   - bland listen på stedet,
+   - skriv ut den blandede listen,
+   - skriv ut ett tilfeldig element fra den blandede listen.
+3. Bruk `math` til å beregne logaritmer:
+   - sett `number = 25`,
+   - sjekk at tallet er større enn `0`,
+   - beregn den naturlige logaritmen med `math.log(...)`,
+   - beregn base-10-logaritmen med `math.log10(...)`,
+   - avrund begge verdier til to desimaler før utskrift.
+4. Bruk `statistics` til å oppsummere et kort utvalg:
+   - bruk `values = [10, 20, 30, 40, 50]`,
+   - skriv ut gjennomsnittet,
+   - skriv ut medianen,
+   - skriv ut standardavviket.
+5. Tilleggsoppgave: bruk `re.findall(...)` til å trekke ut alle tall fra
+   strengen `"In 2024 we had 18 students and 3 project groups."`
+6. Skriv en kort refleksjon som dekker:
+   - ett tilfelle der det å importere en modul var tydeligere enn å skrive
+     verktøyet selv,
+   - én forskjell mellom `import module` og `from module import name`,
+   - én grunn til at standardbibliotek-arbeidsflyten vil ha betydning senere i
+     kurset.
+
+## Startmal
+
+```python
+import math
+import random
+from datetime import date
+import statistics
+```
+
+Legg til `import re` bare hvis du prøver tilleggsoppgaven. Hold skriptet lesbart
+nok til at en annen student kan se hvilken modul hver oppgave avhenger av.

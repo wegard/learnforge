@@ -35,6 +35,7 @@
 - Phase 11 parallel checkpoint: `edi3400` assignment collections — 4 assignment packages grouping existing exercises into graded homework
 - Representative targets expanded to 23, adding `edi3400-lecture-10a` and `edi3400-assignment-02`
 - Phase 11 parallel checkpoint: `edi3400` migration finalized — orientation concept, lecture-01 collection, course status upgraded to `approved`
+- Norwegian (nb) draft translations: `edi3400` Part 1 (Python basics, lectures 1–5) — 7 concepts, 6 exercises, 7 lectures, 2 assignments
 
 ## Non-Goals For This Run
 
@@ -460,7 +461,7 @@
   - `edi3400`: three promoted database concepts, one problem-set exercise, lectures 11-13; no assignment collections yet
   - `gra4164`: thirteen concepts, six exercises, four assignment collections, eleven lectures promoted; full "promote first" slice complete
   - `tem00uu`: fifteen concepts, seven exercises, eight lectures promoted; Part A complete
-  - No Norwegian translations for any migrated course yet
+  - `edi3400` Norwegian (nb) translations in progress — Part 1 complete as draft
   - Fresh concept authoring deferred (SVM, gradient boosting, etc.)
 - Later roadmap phases remain deferred:
   - Phase 9 AI-assisted draft workflows

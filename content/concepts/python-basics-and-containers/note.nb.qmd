@@ -1,0 +1,142 @@
+## Navn lar Python gjenbruke verdier
+
+I den tidlige delen av `EDI 3400` trenger studentene én stabil mental modell
+før de berører databaser, filer eller tredjepartsbiblioteker: Python-programmer
+er bygd av navn, verdier og operasjoner.
+
+Når vi skriver:
+
+```python
+study_hours = 6
+course_name = "EDI 3400"
+```
+
+binder vi navn til verdier. Det lar senere setninger gjenbruke disse verdiene i
+stedet for å gjenta dem manuelt. Uttrykk kombinerer deretter disse verdiene:
+
+```python
+study_hours + 2
+course_name.upper()
+```
+
+Dette er den første programmeringsvanen kurset bør forsterke: skriv verdier én
+gang, gi dem tydelige navn, og bygg senere steg fra disse navnene.
+
+## Typer bestemmer hvilke operasjoner som gir mening
+
+Python behandler ikke alle verdier likt. Et tall, en streng og en boolsk verdi
+kan alle delta i uttrykk, men de støtter ulike operasjoner.
+
+De grunnleggende nybegynnervennlige typene for dette kurset er:
+
+- heltall som `5`,
+- desimaltall som `3.14`,
+- strenger som `"Oslo"`,
+- boolske verdier som `True` og `False`.
+
+Det betyr noe fordi det samme symbolet kan oppføre seg ulikt avhengig av typen:
+
+```python
+2 + 3
+"data" + "base"
+```
+
+Begge bruker `+`, men det ene utfører aritmetikk mens det andre setter sammen
+tekst.
+
+Studentene trenger ikke hele typesystemet på dette stadiet. De trenger vanen med
+å spørre: hva slags verdi jobber jeg med, og hva innebærer det for gyldige
+operasjoner?
+
+## Innebygde funksjoner gir rask tilbakemelding
+
+Python inkluderer allerede flere funksjoner som er nyttige i nesten alle
+nybegynner-arbeidsflyter:
+
+- `print()` viser hva et program gjør,
+- `type()` avslører gjeldende type for en verdi,
+- `len()` teller elementer i en beholder,
+- `round()` forenkler numerisk visning,
+- `int()`, `float()` og `str()` konverterer verdier mellom vanlige typer.
+
+For eksempel:
+
+```python
+city = "Tromso"
+temperatures = [3.4, 4.1, 2.8]
+
+print(type(city))
+print(len(temperatures))
+print(round(sum(temperatures) / len(temperatures), 1))
+```
+
+Disse funksjonene er viktige fordi de reduserer gjetting. De hjelper studentene
+med å inspisere dataene sine, sjekke antakelser og feilsøke små skript uten å
+trenge avansert verktøy.
+
+## Lister, tupler og strenger er ordnede beholdere
+
+Mye av innledende programmering handler egentlig om å lagre og hente ut
+samlinger av verdier.
+
+Tre ordnede beholdere er umiddelbart viktige:
+
+- lister er ordnede og muterbare,
+- tupler er ordnede og uforanderlige,
+- strenger er ordnede sekvenser av tegn.
+
+Lister er arbeidshesten:
+
+```python
+scores = [82, 91, 88]
+scores.append(95)
+```
+
+De støtter indeksering, slicing og endring på stedet. Tupler er nyttige når
+verdiene skal forbli faste, og strenger oppfører seg som tekstfokuserte
+sekvenser med nyttige metoder som `.upper()`, `.lower()` og `.split()`.
+
+Det praktiske skillet er enkelt:
+
+- bruk en list når samlingen vil endre seg,
+- bruk en tuple når de grupperte verdiene skal forbli faste,
+- bruk en string når dataene er tekst.
+
+## Dictionaries og sets løser ulike oppslagsproblemer
+
+Ikke alle samlinger håndteres best etter posisjon.
+
+En dictionary mapper nøkler til verdier:
+
+```python
+student = {"name": "Ada", "grade": "A", "credits": 10}
+student["grade"]
+```
+
+Dette er riktig mental modell når studentene vet hvilken etikett de vil bruke
+for oppslag.
+
+Et set lagrer unike elementer:
+
+```python
+tags = {"python", "sql", "python", "data"}
+```
+
+Duplikatet `"python"` forsvinner automatisk. Det gjør sets nyttige for
+medlemskapssjekker og distinkt-verdi-logikk.
+
+Så spørsmålet er ikke «hvilken beholder er best generelt?» Spørsmålet er
+«hvilken beholder passer oppgaven?»
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- tilordne verdier til velnavngitte variabler,
+- forklare forskjellen mellom tall, strenger, boolske verdier og beholdere,
+- inspisere verdier med innebygde funksjoner som `print()`, `type()` og `len()`,
+- velge mellom lister, tupler, strenger, dictionaries og sets for en liten oppgave,
+- lese korte Python-uttrykk uten å behandle dem som svart-boks-syntaks.
+
+Neste grunnleggende steg bør utvide dette til kontrollflyt: betingelser, løkker
+og grunnleggende feilsøkingsvaner.

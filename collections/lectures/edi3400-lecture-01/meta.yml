@@ -5,8 +5,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Lecture 1 - Course orientation and the Python ecosystem
+  nb: Forelesning 1 – Kursorientering og Python-økosystemet
 courses:
   - edi3400
 topics:
@@ -28,6 +30,7 @@ owners:
 updated: 2026-03-21
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 items:

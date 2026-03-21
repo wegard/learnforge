@@ -1,0 +1,97 @@
+## Dette kurset underviser i databehandling gjennom Python
+
+`EDI 3400 Programmering og databehandling` forutsetter ingen tidligere
+programmeringserfaring. Kurset starter med grunnleggende Python og bygger mot
+praktiske dataarbeidsflyter som kombinerer programmering, analysebiblioteker og
+relasjonsdatabaser.
+
+Etter endt kurs skal studentene kunne skrive små til mellomstore
+Python-programmer, arbeide med tabelldata ved hjelp av bransjestandard
+biblioteker, spørre mot databaser med SQL og presentere reproduserbare
+analyseresultater.
+
+Målet er ikke å utdanne programvareutviklere. Målet er å gi studentene nok
+flyt i Python og dataverktøy til at de kan løse reelle dataoppgaver selvstendig
+og kommunisere arbeidet sitt tydelig.
+
+## Python er et generelt programmeringsspråk med et datavennlig økosystem
+
+Python er et høynivå, tolket programmeringsspråk. Det ligner på vanlig engelsk
+og krever konsekvent innrykk, noe som gjør korte programmer lette å følge selv
+for nybegynnere.
+
+Det som gjør Python spesielt nyttig for databehandling er ikke språket alene,
+men økosystemet rundt det. En stor samling tredjepartsbiblioteker utvider Python
+til numerisk beregning, dataanalyse, visualisering, nettskraping og
+databasetilgang. Det betyr at studentene lærer ett språk og kan bruke det på
+mange ulike dataoppgaver.
+
+Python er mye brukt i næringsliv, forskning og utdanning. Ved å velge det for
+dette kurset lærer studentene et språk de sannsynligvis vil møte igjen.
+
+## Standardbiblioteket dekker vanlige oppgaver uten ekstra installasjon
+
+Python leveres med et standardbibliotek som inneholder moduler for mange
+dagligdagse oppgaver. For eksempel:
+
+- `math` tilbyr matematiske funksjoner utover grunnleggende aritmetikk.
+- `os` og `pathlib` hjelper med å arbeide med filer og mapper.
+- `re` støtter mønstergjenkjenning i tekst.
+- `sqlite3` kobler Python til lette relasjonsdatabaser.
+- `random` genererer tilfeldige tall for utvalg og simulering.
+- `statistics` beregner grunnleggende deskriptiv statistikk.
+
+Disse modulene er tilgjengelige uten å installere noe ekstra. De dekker nok
+til at mange små programmer ikke trenger noe utover det Python allerede tilbyr.
+
+## Tredjepartsbiblioteker utvider Python til spesialiserte arbeidsflyter
+
+Utover standardbiblioteket utgjør tre tredjepartspakker ryggraden i
+dataanalyse-arbeidsflyten i dette kurset:
+
+- **NumPy** tilbyr raske array-operasjoner og lineær algebra. Det erstatter
+  trege Python-løkker med vektorisert beregning over store numeriske datasett.
+- **Pandas** organiserer tabelldata i merkede rader og kolonner. Det håndterer
+  lesing av CSV-filer, filtrering, gruppering og oppsummering av data på en
+  måte som ligner regnearkarbeid, men som skalerer bedre og er fullt
+  skriptbart.
+- **Matplotlib** gjør numeriske resultater om til diagrammer. Linjediagrammer,
+  punktdiagrammer og søylediagrammer gjør mønstre synlige og støtter skriftlig
+  analyse.
+
+Disse bibliotekene fungerer godt sammen. En typisk arbeidsflyt leser data med
+Pandas, transformerer dem med NumPy og visualiserer resultatet med Matplotlib.
+
+## Kursarbeidsflyten kombinerer skriving, kjøring og inspeksjon
+
+Programmering i dette kurset følger en skriv-kjør-inspiser-syklus:
+
+1. **Skriv** et lite stykke kode som gjør én tydelig ting.
+2. **Kjør** det for å se resultatet.
+3. **Inspiser** utdataene for å avgjøre om det gir mening.
+
+Denne syklusen gjentas gjennom hver forelesning og øvelse. Studentene bør
+forvente å kjøre kode ofte, undersøke mellomresultater og justere tilnærmingen
+basert på det de ser.
+
+Miljøet som brukes for denne arbeidsflyten er et notatbok-grensesnitt der kode,
+utdata og forklarende tekst lever sammen. Dette gjør det lett å dokumentere hvert
+steg og gå tilbake til tidligere resultater uten å kjøre alt på nytt.
+
+## Hva studentene bør kunne etterpå
+
+Etter denne orienteringen bør studentene kunne:
+
+- beskrive omfanget av kurset i én eller to setninger,
+- forklare hvorfor Python er et praktisk valg for databehandlingsoppgaver,
+- nevne minst tre standardbibliotek-moduler og hva de gjør,
+- nevne de tre viktigste tredjepartsbibliotekene som brukes i kurset,
+- beskrive skriv-kjør-inspiser-syklusen som strukturerer programmeringsarbeidsflyten.
+
+::: {.teacher-only}
+Den første økten setter forventninger mer enn den lærer nye ferdigheter.
+Studentene bør gå derfra med kunnskap om hva kurset dekker, hvilke verktøy de
+skal bruke, og omtrent hvordan programmeringsarbeid er strukturert. Unngå å gå
+dypt inn i noe enkelt bibliotek eller syntaksemne. Målet er orientering, ikke
+mestring.
+:::

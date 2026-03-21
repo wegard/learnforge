@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 
-from app.assembly import assemble_target
+import pytest
+
+from app.assembly import AssemblyError, assemble_target
 from app.build import build_target
 from app.config import REPO_ROOT
 from app.indexer import load_repository
@@ -14,7 +16,7 @@ def test_edi3400_course_is_indexed_with_current_canonical_slices() -> None:
     course = index.courses["edi3400"]
 
     assert course.model.id == "edi3400"
-    assert course.model.languages == ["en"]
+    assert course.model.languages == ["en", "nb"]
     assert course.plan.lectures == [
         "edi3400-lecture-01",
         "edi3400-lecture-02",
@@ -2757,3 +2759,70 @@ def test_edi3400_lecture_01_student_page_builds_cleanly() -> None:
         for edge in dependency_manifest["dependency_edges"]
         if edge["relationship"] == "item"
     ] == ["course-orientation-and-python-ecosystem"]
+
+
+# --- Norwegian (nb) draft translation tests ---
+
+
+def test_python_basics_and_containers_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "python-basics-and-containers",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "concept"
+    assert "## Navn lar Python gjenbruke verdier" in assembly.markdown
+    assert "## Typer bestemmer hvilke operasjoner som gir mening" in assembly.markdown
+    assert "## Innebygde funksjoner gir rask tilbakemelding" in assembly.markdown
+    assert "## Lister, tupler og strenger er ordnede beholdere" in assembly.markdown
+    assert "## Dictionaries og sets løser ulike oppslagsproblemer" in assembly.markdown
+
+
+def test_python_basics_problem_set_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "python-basics-problem-set",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "exercise"
+    assert "## Oppgavesett" in assembly.markdown
+    assert "## Oppgaver" in assembly.markdown
+    assert "## Startmal" in assembly.markdown
+
+
+def test_edi3400_lecture_02_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-02",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## Navn lar Python gjenbruke verdier" in assembly.markdown
+    assert "## Oppgavesett" in assembly.markdown
+
+
+def test_python_basics_and_containers_nb_student_blocked() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    with pytest.raises(AssemblyError):
+        assemble_target(
+            "python-basics-and-containers",
+            index=index,
+            audience="student",
+            language="nb",
+            output_format="html",
+            root=REPO_ROOT,
+        )

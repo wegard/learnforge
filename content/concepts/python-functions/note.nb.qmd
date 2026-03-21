@@ -1,0 +1,159 @@
+## Funksjoner pakker logikk slik at den kan gjenbrukes
+
+Når studentene når dette punktet i `EDI 3400`, kan de allerede skrive
+betingelser, løkker og filarbeidsflyter. Neste steg er å slutte å kopiere den
+logikken hver gang en lignende oppgave dukker opp.
+
+Det er hva en funksjon gjør. Den gir en gjentatt oppgave:
+
+- et navn,
+- eksplisitte inndata,
+- et definert resultat,
+- ett sted å vedlikeholde logikken.
+
+Dette er det første virkelige steget fra «et skript som fungerer én gang» til
+«kode som kan gjenbrukes bevisst.»
+
+## `def` oppretter en navngitt arbeidsenhet
+
+En Python-funksjon defineres med nøkkelordet `def`:
+
+```python
+def fahrenheit_to_celsius(temp_f):
+    return (temp_f - 32) * 5 / 9
+```
+
+Navnet bør beskrive hva funksjonen gjør, ikke hvor den først ble brukt.
+
+Det er viktig fordi funksjonsnavnet blir en del av hvordan andre leser skriptet.
+Et godt funksjonsnavn bør gjøre kallstedet nesten selvforklarende.
+
+## Parametere er inndataene til funksjonen
+
+Parametere gjør funksjonen fleksibel:
+
+```python
+def circle_area(radius):
+    return 3.1415 * radius ** 2
+```
+
+`radius` er ikke en fast verdi hardkodet i funksjonskroppen. Det er en inndata
+som endrer seg fra kall til kall.
+
+Dette er nøkkelideen studentene bør internalisere:
+
+- funksjonsdefinisjonen beskriver regelen,
+- argumentene som oppgis ved kallstedet gir de faktiske verdiene.
+
+Uten parametere skriver studentene ofte den samme logikken flere ganger for
+litt ulike inndata. Parametere fjerner den dupliseringen.
+
+## `return` sender resultatet tilbake til den som kaller
+
+Funksjoner er mest nyttige når de returnerer en verdi som senere kode kan
+gjenbruke:
+
+```python
+def average(values):
+    return sum(values) / len(values)
+```
+
+Den returnerte verdien kan skrives ut, lagres, sammenlignes eller sendes inn i
+en annen funksjon.
+
+Studentene bør tydelig skille mellom:
+
+- å skrive ut et resultat for inspeksjon,
+- å returnere et resultat for senere bruk.
+
+En funksjon kan gjøre begge deler, men det er retur som gjør den komponerbar.
+
+## Lokale variabler forblir inne i funksjonskroppen
+
+Variabler som opprettes inne i en funksjon tilhører den funksjonens lokale
+skop:
+
+```python
+def full_name(first_name, last_name):
+    combined = first_name + " " + last_name
+    return combined
+```
+
+Her er `combined` nyttig inne i funksjonen, men den bør ikke forventes å
+eksistere andre steder i skriptet.
+
+Den separasjonen er nyttig. Det betyr at funksjoner kan håndtere sine egne
+interne steg uten å fylle det ytre skriptet med midlertidige navn.
+
+## Funksjoner inneholder ofte kontrollflyt
+
+Funksjoner er ikke separate fra tidligere Python-emner. De inneholder dem
+vanligvis.
+
+For eksempel:
+
+```python
+def is_prime(n):
+    if n < 2:
+        return False
+
+    for divisor in range(2, n):
+        if n % divisor == 0:
+            return False
+
+    return True
+```
+
+Dette eksempelet kombinerer:
+
+- parametere,
+- betingelser,
+- løkker,
+- returverdier.
+
+Det er derfor funksjoner er så viktige. De pakker flere programmeringsideer inn
+i en enkelt gjenbrukbar regel.
+
+## Funksjoner bør gjøre én tydelig jobb
+
+En innledende funksjon bør vanligvis svare på ett spørsmål eller utføre én
+liten oppgave.
+
+Gode eksempler:
+
+- konvertere én enhet til en annen,
+- telle vokaler i en streng,
+- beregne gjennomsnittet av en liste,
+- teste om et tall er et primtall.
+
+Mindre gode eksempler på dette stadiet:
+
+- én gigantisk funksjon som leser filer, transformerer data, plotter resultater
+  og skriver utdata alt på én gang.
+
+Små, spesifikke funksjoner er lettere å teste, forklare og gjenbruke i senere
+kursarbeidsflyter.
+
+## Funksjoner gjør senere fil- og dataarbeidsflyter lettere å strukturere
+
+Når studentene kan definere funksjoner, kan de slutte å gjenta
+filbehandlings- eller analysesteg manuelt.
+
+For eksempel kan et senere skript bruke én funksjon til å laste en CSV-fil,
+en annen til å beregne en oppsummeringsstatistikk, og en tredje til å skrive
+ut en ryddig rapport. Det viktige skiftet er organisatorisk: skriptet blir
+lettere å lese fordi oppgavene har navn.
+
+Dette er én grunn til at funksjoner bør læres før kurset utvides videre til
+større moduler og mer avanserte dataarbeidsflyter.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- definere en funksjon med `def`,
+- velge beskrivende funksjonsnavn,
+- bruke parametere til å generalisere gjentatt logikk,
+- returnere verdier i stedet for bare å skrive dem ut,
+- forklare forskjellen mellom lokale variabler og variabler i ytre skop,
+- kombinere løkker og betingelser inne i små gjenbrukbare funksjoner.

@@ -1,0 +1,83 @@
+Den sterkeste lærerløsningen holder logikken synlig. Studentene bør kunne
+spore hver gren og løkke uten å gjette hvor utdataene kom fra.
+
+## Foreslått tilnærming
+
+1. Hold oppgavene separate i stedet for å bygge ett overdimensjonert skript med
+   delt tilstand.
+2. Bruk enkle print-setninger slik at veien gjennom hver gren er åpenbar.
+3. Gjør `while`-løkkens avslutningsregel eksplisitt.
+4. Behandle unntakshåndtering som en del av kjerneløsningen, ikke som valgfri
+   siste finpuss.
+
+## Minimal referanseimplementasjon
+
+```python
+numbers = [3, 8, 11, 14]
+for number in numbers:
+    if number % 2 == 0:
+        print(number, "is even")
+    else:
+        print(number, "is odd")
+
+    if number > 10:
+        print(number, "is greater than 10")
+
+for value in range(1, 6):
+    print(value)
+
+scores = [72, 88, 91]
+running_total = 0
+for idx, score in enumerate(scores, start=1):
+    running_total += score
+    print(idx, score, running_total)
+
+divisible_by_three = [n for n in range(1, 51) if n % 3 == 0]
+print(divisible_by_three)
+
+secret_number = 7
+guess_sequence = [3, 9, 7]
+guess_index = 0
+attempts = 0
+
+while guess_index < len(guess_sequence):
+    guess = guess_sequence[guess_index]
+    attempts += 1
+
+    if guess < secret_number:
+        print("too low")
+    elif guess > secret_number:
+        print("too high")
+    else:
+        print("correct")
+        break
+
+    guess_index += 1
+
+print("attempts:", attempts)
+
+raw_pairs = [("12", "3"), ("9", "0"), ("hello", "5")]
+for left_raw, right_raw in raw_pairs:
+    try:
+        left = int(left_raw)
+        right = int(right_raw)
+        print(left / right)
+    except ValueError:
+        print("invalid integer input:", left_raw, right_raw)
+    except ZeroDivisionError:
+        print("cannot divide by zero:", left_raw, right_raw)
+```
+
+## Hva studentene bør legge merke til
+
+- betingelser gjør grenlogikken lesbar når hver betingelse har en tydelig rolle,
+- `for`-løkker passer kjente sekvenser godt,
+- `while`-løkker krever en eksplisitt stoppregel,
+- list comprehensions er kompakte, men de representerer fortsatt løkkelogikk,
+- unntakshåndtering gjør feiltilfeller synlige i stedet for tilfeldige.
+
+## Undervisningsvekt
+
+Ikke la denne øvelsen gli over i filhåndtering, standardbibliotek-utforsking
+eller eget funksjonsdesign ennå. Poenget med dette sjekkpunktet er å gjøre
+forgrening, iterasjon og enkel feilhåndtering stabil før neste Python-del.

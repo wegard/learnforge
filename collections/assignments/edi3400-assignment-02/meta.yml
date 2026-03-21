@@ -5,8 +5,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Assignment 2 - Control flow, functions, and classes
+  nb: Innlevering 2 – Kontrollflyt, funksjoner og klasser
 courses:
   - edi3400
 topics:
@@ -27,6 +29,7 @@ owners:
 updated: 2026-03-21
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 items:

@@ -3,10 +3,13 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: EDI 3400 - Programming and Data Management
+  nb: EDI 3400 - Programmering og databehandling
 summary:
   en: A complete LearnForge course covering Python programming, data analysis with NumPy/Pandas/Matplotlib, and relational databases with SQL.
+  nb: Et komplett LearnForge-kurs som dekker Python-programmering, dataanalyse med NumPy/Pandas/Matplotlib og relasjonsdatabaser med SQL.
 owners:
   - vegard
 updated: 2026-03-21

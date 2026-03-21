@@ -4,8 +4,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Python functions problem set
+  nb: Oppgavesett i funksjoner
 courses:
   - edi3400
 topics:
@@ -27,6 +29,7 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 exercise_type: coding

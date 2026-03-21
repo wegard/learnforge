@@ -1,0 +1,53 @@
+## Lab-oppgave
+
+Bruk denne øvelsen til å praktisere trygg filhåndtering med små lokale
+ressurser. Målet er å gå fra «jeg kan åpne en fil» til «jeg kan lese,
+oppsummere og skrive strukturert utdata bevisst.»
+
+Bruk de to lokale ressursene i denne øvelsesmappen:
+
+- `assets/study_log.txt`
+- `assets/media_consumption_sample.csv`
+
+## Oppgaver
+
+1. Les tekstfilen:
+   - åpne `assets/study_log.txt` med `with open(...)`,
+   - last linjene inn i en list,
+   - skriv ut antall linjer,
+   - skriv ut første linje uten etterfølgende linjeskift.
+2. Skriv en kort oppsummeringsfil kalt `study_log_summary.txt` som inneholder:
+   - en tittellinje,
+   - antall linjer i loggen,
+   - siste linje fra den opprinnelige tekstfilen.
+3. Legg til en sjekk for manglende fil:
+   - prøv å åpne `assets/does_not_exist.txt`,
+   - fang `FileNotFoundError`,
+   - skriv ut en kort melding som forklarer hva som skjedde.
+4. Les CSV-filen med Pythons `csv`-modul:
+   - bruk `delimiter=";"`,
+   - skill overskriftsraden fra dataradene,
+   - konverter de numeriske verdiene til heltall,
+   - lagre radene i en struktur du kan inspisere senere.
+5. Bruk CSV-radene til å svare på tre spørsmål:
+   - hva er gjennomsnittlig internett-forbruk i prosent over utvalgsårene,
+   - i hvilke år er internettforbruket større enn TV-forbruket,
+   - hva er den samlede radio-pluss-TV-prosenten for hvert år.
+6. Skriv en kort refleksjon som dekker:
+   - hvorfor `with open(...)` er tryggere enn manuell åpne/lukke-håndtering,
+   - ett sted der unntakshåndtering forbedret skriptet,
+   - én grunn til at CSV-filer er lettere å analysere enn ustrukturerte
+     tekstfiler.
+
+## Startmal
+
+```python
+import csv
+
+text_path = "assets/study_log.txt"
+csv_path = "assets/media_consumption_sample.csv"
+```
+
+Hold arbeidsflyten enkel og reproduserbar. Poenget er å gjøre
+filhåndteringsstegene synlige, ikke å gjemme dem inne i avanserte
+abstraksjoner.

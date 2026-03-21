@@ -1,0 +1,149 @@
+## Klasser samler relaterte data og atferd
+
+På dette punktet i `EDI 3400` har studentene allerede lært tre måter å
+organisere kode på:
+
+- variabler og beholdere lagrer data,
+- funksjoner pakker gjenbrukbar logikk,
+- moduler grupperer gjenbrukbare verktøy.
+
+En klasse er neste steg når et program trenger å holde data og operasjonene på
+disse dataene sammen.
+
+Det er nøkkelideen bak objektorientert programmering i dette kurset. En klasse
+er ikke et avansert magisk triks. Det er en strukturert måte å modellere én type
+ting i kode.
+
+## En klasse er en mal og et objekt er én instans
+
+En klasse definerer strukturen. Et objekt er én konkret instans opprettet fra
+den definisjonen:
+
+```python
+class User:
+    pass
+
+vegard = User()
+anne = User()
+```
+
+Det er én klassedefinisjon her, men to separate objekter. Det skillet er viktig
+fordi hvert objekt senere kan lagre ulike attributtverdier.
+
+## `__init__` setter starttilstanden
+
+`__init__`-metoden kjøres når et objekt opprettes:
+
+```python
+class User:
+    def __init__(self, name):
+        self.user_name = name
+```
+
+Når skriptet kaller `User("Vegard")`, oppretter Python et nytt objekt og bruker
+deretter `__init__` til å tilordne startverdiene for attributtene.
+
+Dette er den første klassevanen studentene trenger å forstå: objektoppretting
+betyr vanligvis «lag en ny instans, og initialiser deretter tilstanden.»
+
+## Attributter tilhører hvert objekt
+
+Et attributt er en variabel lagret på selve objektet:
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+```
+
+Her er `owner` og `balance` attributter. De tilhører hvert kontoobjekt, ikke
+klassen i det abstrakte.
+
+Det betyr at to objekter kan dele den samme klassedefinisjonen mens de beholder
+ulike data:
+
+```python
+account_a = BankAccount("Alice", 100)
+account_b = BankAccount("Bob", 40)
+```
+
+`account_a.balance` og `account_b.balance` kan nå endres uavhengig av hverandre.
+
+## Metoder er funksjoner knyttet til klassen
+
+En metode er bare en funksjon definert inne i klassen:
+
+```python
+class BankAccount:
+    def deposit(self, amount):
+        self.balance += amount
+        return self.balance
+```
+
+Forskjellen fra tidligere funksjoner er ikke den grunnleggende Python-logikken.
+Forskjellen er at metoden arbeider med ett objekts tilstand gjennom `self`.
+
+Det er derfor metoder er nyttige: atferden forblir knyttet til dataene den
+endrer.
+
+## `self` refererer til det gjeldende objektet
+
+Når studentene kaller:
+
+```python
+account.deposit(50)
+```
+
+sender Python automatisk `account` inn i metoden som det første argumentet. Det
+er derfor metodesignaturen begynner med `self`.
+
+Nybegynnerklasser blir mye tydeligere når studentene internaliserer denne
+regelen:
+
+- `self.owner` betyr «dette objektets eier»,
+- `self.balance` betyr «dette objektets saldo»,
+- `self.deposit(...)` betyr «bruk dette objektets metode.»
+
+## Små klasser bør modellere én konkret idé
+
+De første nyttige klassene i dette kurset bør være smale og konkrete:
+
+- en bruker,
+- en bankkonto,
+- en post for én observasjon,
+- eller et annet objekt med et lite antall attributter og metoder.
+
+Det er et bedre utgangspunkt enn å prøve å introdusere arv, store
+klassehierarkier eller abstrakte designmønstre umiddelbart.
+
+For dette sjekkpunktet er målet ganske enkelt å modellere én reell ting rent og
+la objektet holde styr på sin egen tilstand over tid.
+
+## Klasser er nyttige når tilstand endres mellom metodekall
+
+Det er dette som skiller et enkelt klasseeksempel fra en vanlig
+funksjonsøvelse.
+
+En funksjon tar vanligvis inndata og returnerer et resultat for det ene kallet.
+Et objekt kan huske tilstanden sin mellom kall:
+
+```python
+account = BankAccount("Alice", 100)
+account.deposit(50)
+account.withdraw(20)
+```
+
+Etter disse kallene «vet» objektet fortsatt sin nåværende saldo. Den vedvarende
+tilstanden er én av hovedgrunnene til å introdusere klasser i det hele tatt.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- forklare forskjellen mellom en klasse og et objekt,
+- definere en klasse med `class`,
+- bruke `__init__` til å opprette startattributter,
+- beskrive hva `self` refererer til,
+- skrive én eller to små metoder som oppdaterer objekttilstand,
+- forklare hvorfor separate objekter kan beholde ulike attributtverdier.

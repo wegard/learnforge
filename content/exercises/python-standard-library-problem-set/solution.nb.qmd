@@ -1,0 +1,65 @@
+Den sterkeste lærerløsningen holder importene eksplisitte og oppgavene
+separate. Målet er ikke å kartlegge alle mulige moduler. Målet er å vise at et
+lite antall velvalgte importer kan løse vanlige problemer rent.
+
+## Foreslått tilnærming
+
+1. Hold én importblokk nær toppen slik at modulavhengigheter er åpenbare.
+2. Bruk faste eksempelverdier i referanseløsningen slik at arbeidsflyten er
+   lett å sammenligne på tvers av studenter.
+3. Seed tilfeldig-eksempelet før blanding slik at demonstrasjonen forblir
+   reproduserbar.
+4. Behandle `re`-oppgaven som valgfritt tilleggsarbeid, ikke som kjernen i
+   sjekkpunktet.
+
+## Minimal referanseimplementasjon
+
+```python
+import math
+import random
+from datetime import date
+import statistics
+import re
+
+today = date.today()
+print(today.strftime("%Y-%m-%d"))
+
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+random.seed(42)
+random.shuffle(numbers)
+print(numbers)
+print(random.choice(numbers))
+
+number = 25
+if number > 0:
+    print(round(math.log(number), 2))
+    print(round(math.log10(number), 2))
+else:
+    print("Please enter a positive number.")
+
+values = [10, 20, 30, 40, 50]
+print(statistics.mean(values))
+print(statistics.median(values))
+print(round(statistics.stdev(values), 2))
+
+text = "In 2024 we had 18 students and 3 project groups."
+print(re.findall(r"\\d+", text))
+```
+
+## Hva studentene bør legge merke til
+
+- importer angir avhengigheter øverst i skriptet,
+- ulike moduler løser ulike problemtyper,
+- funksjonskallmønsteret er likt på tvers av moduler selv når domenene er
+  forskjellige,
+- standardbibliotek-verktøy sparer tid, men studentene trenger fortsatt å lese
+  koden rundt dem nøye,
+- reproduserbarhet er viktig når man bruker tilfeldige arbeidsflyter i
+  undervisningsmateriale.
+
+## Undervisningsvekt
+
+Ikke la dette sjekkpunktet bli en full tur gjennom hele standardbiblioteket.
+Hold det sentrert rundt å importere noen få vanlige moduler og bruke dem
+bevisst. Det gjenværende klasser/OOP-materialet fra forelesning 5 bør forbli
+en separat beslutning.

@@ -1,0 +1,171 @@
+## Filer er en av Pythons enkleste eksterne datakilder
+
+Frem til dette punktet har de fleste `EDI 3400`-eksemplene brukt verdier skrevet
+direkte inn i skriptet. Filhåndtering endrer det. Nå må programmet nå utenfor
+seg selv, finne en fil, lese eller skrive innhold og lukke ressursen trygt.
+
+Det er et viktig steg fordi senere kursarbeidsflyter også avhenger av eksterne
+data:
+
+- tekstfiler,
+- CSV-filer,
+- notatbøker og skript,
+- databasefiler.
+
+Så filhåndtering er ikke bare et verktøyemne. Det er det første rene eksempelet
+på at Python samhandler med data lagret utenfor selve programmet.
+
+## En filsti forteller Python hvor det skal lete
+
+Python kan ikke åpne en fil med mindre vi forteller det hvor filen befinner seg.
+
+I praksis har en filsti tre deler:
+
+- mappeplasseringen,
+- filnavnet,
+- filtypen som `.txt`, `.csv`, `.py` eller `.db`.
+
+For eksempel:
+
+```python
+path = "assets/media_consumption_sample.csv"
+```
+
+Poenget er ikke å pugge operativsystem-detaljer. Poenget er å forstå at
+filhåndtering feiler raskt når stien er feil, selv om Python-syntaksen ellers
+er korrekt.
+
+Det er derfor de kanoniske LearnForge-øvelsene foretrekker eksplisitte
+objekt-lokale stier som `assets/...` fremfor notatbok-spesifikke
+arbeidskatalog-triks.
+
+## `open()` oppretter et filobjekt
+
+Den innebygde `open()`-funksjonen gir Python en aktiv kobling til en fil:
+
+```python
+reader = open("assets/study_log.txt", mode="rt", encoding="utf-8")
+```
+
+På det tidspunktet er `reader` ikke selve teksten. Det er filobjektet som lar
+programmet lese fra filen.
+
+Vanlige moduser for innledende arbeid er:
+
+- `"r"` eller `"rt"` for å lese tekst,
+- `"w"` eller `"wt"` for å skrive tekst og overskrive eksisterende innhold,
+- `"a"` for å legge til ny tekst på slutten av en fil.
+
+Studentene bør lære én enkel regel tidlig: å åpne en fil gir tilgang til filen,
+ikke til et ferdig prosessert resultat.
+
+## `with open(...)` er det tryggeste standardmønsteret
+
+Det beste nybegynnermønsteret er:
+
+```python
+with open("assets/study_log.txt", mode="rt", encoding="utf-8") as reader:
+    lines = reader.readlines()
+```
+
+`with`-setningen er viktig fordi den lukker filen automatisk når blokken er
+ferdig, selv om noe går galt under behandlingen.
+
+Det gjør koden kortere, tryggere og lettere å gjennomgå enn å åpne og lukke
+filen manuelt på separate steder.
+
+For dette kurset bør `with open(...)` være standarden, ikke et avansert tillegg.
+
+## Lesing av tekstfiler gir strenger og linjer
+
+Når en fil er åpen, er de viktigste nybegynnermønstrene:
+
+- `read()` for å laste hele innholdet som én streng,
+- `readlines()` for å laste en liste med linjer,
+- å iterere over filobjektet linje for linje.
+
+For eksempel:
+
+```python
+with open("assets/study_log.txt", encoding="utf-8") as reader:
+    lines = reader.readlines()
+```
+
+Etter det blir filinnholdet vanlige Python-data. Studentene kan telle linjer,
+fjerne mellomrom, inspisere første linje eller søke etter nøkkelord ved hjelp
+av de samme string- og list-ferdighetene de allerede kan.
+
+## Skriving av filer bør gjøre utdataene eksplisitte
+
+Skriving er den motsatte retningen:
+
+```python
+summary_lines = [
+    "Study log summary\n",
+    "Total entries: 4\n",
+]
+
+with open("study_log_summary.txt", mode="wt", encoding="utf-8") as writer:
+    writer.writelines(summary_lines)
+```
+
+Dette bør kjennes bevisst. Skriptet velger:
+
+- hvilket innhold som skal skrives,
+- hvilken fil som skal motta det,
+- om det gamle innholdet skal overskrives.
+
+Det er derfor skrivemodus fortjener forsiktighet. `"w"` er nyttig, men den
+erstatter det tidligere innholdet i målfilen.
+
+## Filhåndtering og unntak hører sammen
+
+Arbeid med eksterne filer øker sjansen for kjøretidsproblemer:
+
+- filen finnes kanskje ikke,
+- stien kan være feil,
+- innholdet har kanskje ikke den strukturen vi forventet.
+
+Det er derfor filhåndtering kobles naturlig til den tidligere
+kontrollflyt-delen:
+
+```python
+try:
+    with open("missing.txt", encoding="utf-8") as reader:
+        text = reader.read()
+except FileNotFoundError:
+    print("The file could not be found.")
+```
+
+Studentene trenger ikke fange opp alle mulige feil umiddelbart. De trenger å se
+at filarbeidsflyter er tryggere når feiltilfeller navngis eksplisitt.
+
+## CSV er fortsatt bare en fil, men med struktur
+
+En CSV-fil er ikke magi. Den er en tekstfil med en gjentatt radstruktur.
+
+Pythons `csv`-modul er en enkel bro:
+
+```python
+import csv
+
+with open("assets/media_consumption_sample.csv", newline="", encoding="utf-8") as csvfile:
+    rows = list(csv.reader(csvfile, delimiter=";"))
+```
+
+Dette er fortsatt filhåndtering. Den eneste forskjellen er at teksten
+analyseres til radstrukturer i stedet for å behandles som ren prosa.
+
+Det gjør CSV til et godt mellomsteg før kurset går videre til Pandas og
+database-arbeidsflyter.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- forklare hva en filsti gjør,
+- bruke `with open(...)` til å lese tekst trygt,
+- skille mellom lese- og skrivemoduser,
+- skrive en liten utdatafil bevisst,
+- håndtere et manglende-fil-tilfelle med `try` / `except`,
+- lese en liten CSV-fil inn i rader med `csv`-modulen.

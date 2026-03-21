@@ -1,0 +1,48 @@
+## Lab-oppgave
+
+Bruk denne øvelsen til å bygge én liten klasse som modellerer en reell ting med
+tilstand som endrer seg over tid.
+
+Målet er ikke å dekke alt innen objektorientert programmering. Målet er å
+praktisere den første klasse-arbeidsflyten tydelig:
+
+- definer attributter i `__init__`,
+- skriv metoder som bruker `self`,
+- opprett objekter,
+- inspiser hvordan ett objekts tilstand endres etter metodekall.
+
+## Oppgaver
+
+1. Opprett en klasse `BankAccount`:
+   - legg til en `__init__(self, owner, balance=0)`-metode,
+   - lagre verdiene i `self.owner` og `self.balance`.
+2. Legg til en `deposit(self, amount)`-metode:
+   - øk saldoen,
+   - returner en kort melding som viser den nye saldoen.
+3. Legg til en `withdraw(self, amount)`-metode:
+   - hvis `amount` er større enn gjeldende saldo, returner `"Funds unavailable"`,
+   - ellers trekk fra beløpet og returner en kort statusmelding.
+4. Utvid `withdraw(self, amount)` med lav-saldo-håndtering:
+   - hvis gjenværende saldo er `10` eller lavere, inkluder en advarsel.
+5. Legg til en `display(self)`-metode:
+   - returner eier og saldo i en lesbar to-linjers streng.
+6. Opprett minst to kontoobjekter og test dem:
+   - én konto bør starte med en positiv saldo,
+   - utfør minst ett innskudd og ett uttak,
+   - vis at ett objekts saldo endres uten å endre det andre objektets tilstand.
+7. Skriv en kort refleksjon som dekker:
+   - én grunn til at dette problemet er lettere å uttrykke som en klasse enn
+     som separate løse variabler,
+   - hva `self` refererer til i metodene dine,
+   - én måte klasser skiller seg fra den tidligere funksjoner-bare-delen.
+
+## Startmal
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        ...
+```
+
+Legg til metodene under initializeren, og opprett deretter noen korte testkall
+på slutten av skriptet slik at den endrede objekttilstanden er synlig.

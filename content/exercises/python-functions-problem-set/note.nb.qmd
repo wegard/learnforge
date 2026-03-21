@@ -1,0 +1,56 @@
+## Oppgavesett
+
+Bruk denne øvelsen til å praktisere neste `EDI 3400`-steg: pakk logikk inn i
+gjenbrukbare funksjoner i stedet for å skrive om den samme kodeblokken hver
+gang.
+
+Hold hver funksjon liten og fokusert. Et tydelig navn, eksplisitte parametere
+og en ren returverdi betyr mer enn smarte snarveier.
+
+## Oppgaver
+
+1. Skriv `reverse_string(text)`:
+   - inndata: én streng,
+   - utdata: den reverserte strengen.
+   Test den på `"Python"` og `"Data management"`.
+2. Skriv `average(values)`:
+   - inndata: en list med tall,
+   - utdata: det aritmetiske gjennomsnittet.
+   Test den på `[4, 7, 9, 10]`.
+3. Skriv `circle_area(radius)`:
+   - bruk `3.1415` for `pi`,
+   - returner arealet,
+   - test den på `radius = 3`.
+4. Skriv `count_vowels(text)`:
+   - tell både store og små bokstavvokaler,
+   - returner antall vokaler i strengen.
+   Test den på `"Programming and Data Management"`.
+5. Skriv `is_prime(n)`:
+   - returner `True` når `n` er et primtall,
+   - returner `False` ellers.
+   Test den på `2`, `9` og `17`.
+6. Tilleggsoppgave: skriv `factorial(n)` ved hjelp av en løkke i stedet for
+   rekursjon. Test den på `5`.
+7. Skriv en kort refleksjon som dekker:
+   - hvilken funksjon var lettest å uttrykke,
+   - hvilken funksjon trengte mest kontrollflyt,
+   - én grunn til at det å returnere en verdi er mer nyttig enn å skrive ut
+     inne i hver funksjon.
+
+## Startmal
+
+```python
+def reverse_string(text):
+    ...
+
+
+def average(values):
+    ...
+
+
+def circle_area(radius):
+    ...
+```
+
+Legg til de gjenværende funksjonene under startmalen. Bruk korte testkall under
+hver funksjon slik at du kan inspisere de returnerte verdiene.

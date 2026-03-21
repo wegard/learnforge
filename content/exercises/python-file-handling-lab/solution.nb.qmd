@@ -1,0 +1,89 @@
+Den sterkeste lærerløsningen holder filarbeidsflyten eksplisitt: åpne
+ressursen, konverter innholdet til vanlige Python-strukturer, og skriv eller
+oppsummer resultater på en måte som studentene kan granske linje for linje.
+
+## Foreslått tilnærming
+
+1. Bruk `with open(...)` for hver vanlig filoperasjon.
+2. Hold tekstfil- og CSV-fil-behandling separate slik at transformasjonsstegene
+   forblir lesbare.
+3. Fang `FileNotFoundError` i et lite dedikert eksempel i stedet for å pakke
+   hele skriptet i én stor `try`-blokk.
+4. Konverter CSV-tall tidlig slik at senere beregninger bruker heltall i stedet
+   for strenger.
+
+## Minimal referanseimplementasjon
+
+```python
+import csv
+
+text_path = "assets/study_log.txt"
+csv_path = "assets/media_consumption_sample.csv"
+
+with open(text_path, encoding="utf-8") as reader:
+    lines = reader.readlines()
+
+print("line count:", len(lines))
+print("first line:", lines[0].strip())
+
+summary_lines = [
+    "Study log summary\n",
+    f"Number of lines: {len(lines)}\n",
+    f"Last line: {lines[-1].strip()}\n",
+]
+
+with open("study_log_summary.txt", mode="wt", encoding="utf-8") as writer:
+    writer.writelines(summary_lines)
+
+try:
+    with open("assets/does_not_exist.txt", encoding="utf-8") as missing_reader:
+        missing_reader.read()
+except FileNotFoundError:
+    print("The file assets/does_not_exist.txt was not found.")
+
+with open(csv_path, newline="", encoding="utf-8") as csvfile:
+    raw_rows = list(csv.reader(csvfile, delimiter=";"))
+
+header = raw_rows[0]
+data_rows = []
+for year, radio, tv, internet in raw_rows[1:]:
+    data_rows.append(
+        {
+            "year": int(year),
+            "radio": int(radio),
+            "tv": int(tv),
+            "internet": int(internet),
+        }
+    )
+
+mean_internet = sum(row["internet"] for row in data_rows) / len(data_rows)
+internet_gt_tv = [row["year"] for row in data_rows if row["internet"] > row["tv"]]
+radio_plus_tv = {
+    row["year"]: row["radio"] + row["tv"] for row in data_rows
+}
+
+print(header)
+print(mean_internet)
+print(internet_gt_tv)
+print(radio_plus_tv)
+```
+
+## Hva studentene bør legge merke til
+
+- lesing av en tekstfil produserer strenger som kan håndteres med vanlige list-
+  og string-metoder,
+- skriving av en fil er lettere å gjennomgå når utdatalinjene er definert
+  eksplisitt,
+- `FileNotFoundError` er et normalt, forventet tilfelle når man arbeider med
+  stier,
+- CSV-håndtering blir enklere når rader er konvertert fra strenger til numeriske
+  verdier,
+- filhåndtering er allerede en databehandlingsarbeidsflyt, selv før Pandas
+  eller SQL.
+
+## Undervisningsvekt
+
+Ikke la denne delen bli en generell standardbibliotek-gjennomgang. Formålet her
+er å gjøre lokale filstier, trygge åpne/lukke-mønstre og små
+strukturert-fil-arbeidsflyter stabile før kurset utvides til bredere moduler og
+biblioteker.

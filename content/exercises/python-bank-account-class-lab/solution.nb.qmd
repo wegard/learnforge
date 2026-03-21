@@ -1,0 +1,66 @@
+Den sterkeste lærerløsningen holder klassen liten og konkret. Dette
+sjekkpunktet handler om attributter, metoder og objekttilstand, ikke om å
+introdusere hele OOP-verktøykassen på én gang.
+
+## Foreslått tilnærming
+
+1. Start med `__init__` slik at studentene ser hvor objekttilstand kommer fra.
+2. Returner statusstrenger fra metodene slik at effekten av hvert kall er lett
+   å inspisere.
+3. Bruk to kontoobjekter i demonstrasjonen slik at objektspesifikk tilstand
+   blir synlig.
+4. Ikke introduser arv, properties eller avanserte magiske metoder her.
+
+## Minimal referanseimplementasjon
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        return f"Deposited ${amount}. New balance: ${self.balance}"
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            return "Funds unavailable"
+
+        self.balance -= amount
+        if self.balance <= 10:
+            return (
+                f"Withdrew ${amount}. Warning: Low balance. "
+                f"Current balance: ${self.balance}"
+            )
+
+        return f"Withdrew ${amount}. New balance: ${self.balance}"
+
+    def display(self):
+        return f"Owner: {self.owner}\\nBalance: ${self.balance}"
+
+
+account = BankAccount("John Doe", 100)
+backup = BankAccount("Ana", 25)
+
+print(account.deposit(50))
+print(account.withdraw(140))
+print(account.display())
+print(backup.display())
+```
+
+## Hva studentene bør legge merke til
+
+- hvert objekt har sin egen `owner` og `balance`,
+- metodekall oppdaterer ett objekts tilstand i stedet for alle objekter
+  samtidig,
+- `self` gjør det eksplisitt hvilke objekts data som oppdateres,
+- klassen holder relaterte data og atferd sammen på ett sted,
+- den samme klassedefinisjonen kan produsere flere uavhengige objekter.
+
+## Undervisningsvekt
+
+Behandle dette som en innledende modelleringsøvelse, ikke en invitasjon til å
+dekke alt innen objektorientert programmering i én økt. Det viktige resultatet
+er at studentene kan definere én liten klasse og resonnere om hvordan tilstanden
+endrer seg.

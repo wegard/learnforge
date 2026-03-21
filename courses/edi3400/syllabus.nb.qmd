@@ -1,0 +1,104 @@
+# Kursoversikt
+
+`EDI 3400 Programmering og databehandling` er representert i LearnForge som et
+komplett kurs basert på den opprinnelige kursskissen i
+`course-inbox/Programming-and-data-management/`.
+
+Kurset skal gi studentene et grunnlag i Python-programmering kombinert med en
+praktisk innføring i databehandling. Den kanoniske LearnForge-planen har vokst
+inkrementelt etter hvert som forelesningsblokker er promotert fra innboksen til
+gjenbrukbare konsepter, øvelser og forelesningssamlinger.
+
+## Kunnskapsmål
+
+- Forklare de sentrale byggesteinene i Python-programmering, inkludert variabler,
+  uttrykk, setninger, kontrollflyt, funksjoner, klasser og standardbiblioteket.
+- Forstå hvordan tredjeparts Python-biblioteker støtter numerisk beregning,
+  dataanalyse og visualiseringsarbeidsflyter.
+- Beskrive hvordan relasjonsdatabaser organiserer strukturerte data og hvordan SQL
+  støtter filtrering, aggregering og joins.
+- Forstå hvordan Python kan brukes til å laste, inspisere, spørre mot og analysere
+  eksterne datakilder, inkludert nettdata og databaser.
+
+## Ferdighetsmål
+
+- Skrive små til mellomstore Python-programmer som bruker funksjoner, løkker,
+  beholdere, filhåndtering og gjenbrukbare moduler.
+- Bruke NumPy, Pandas og Matplotlib i grunnleggende dataanalyse-arbeidsflyter.
+- Skrive og feilsøke SQL-spørringer mot enkle relasjonsdatasett.
+- Koble Python til SQLite-databaser og gjøre spørringsresultater om til
+  analyserbare datastrukturer.
+- Bruke utviklingsverktøy, dokumentasjon og KI-assistenter som arbeidsflyt-støtte
+  uten å sette bort kjerneforståelsen.
+
+## Generell kompetanse
+
+- Oversette praktiske dataoppgaver til tydelige programmerings- og
+  databehandlingsarbeidsflyter.
+- Vurdere når ren Python, tredjepartsbiblioteker eller SQL er riktig verktøy for
+  en gitt oppgave.
+- Kommunisere reproduserbart beregningsarbeid på en strukturert og etterprøvbar
+  måte.
+
+## Planlagte innholdsområder
+
+### Del 1: Programmering med grunnleggende Python
+
+- Forelesning 1: Introduksjon
+- Forelesning 2: Variabler, uttrykk og setninger
+- Forelesning 3: Innebygde funksjoner og beholdere
+- Forelesning 4: Betinget utførelse og løkker
+- Forelesning 5: Standardbiblioteket, funksjoner og klasser
+
+### Del 2: Tredjepartsbiblioteker
+
+- Forelesning 6: Lineær algebra med NumPy
+- Forelesning 7: Dataanalyse med Pandas
+- Forelesning 8: Datavisualisering med Matplotlib
+
+### Del 3: Avanserte emner
+
+- Forelesning 9: IDE-er og generativ KI for programmering
+- Forelesning 10A: Datautvinning fra nettet
+- Forelesning 10B: Tidsserieanalyse og statistikk
+
+### Del 4: Databaser med SQL og Python
+
+- Forelesning 11: Introduksjon til relasjonsdatabaser
+- Forelesning 12: Grunnleggende SQL
+- Forelesning 13: Python og SQL
+- Forelesning 14: Oppsummering og spørsmål
+
+## Undervisningsformat
+
+Kurset er strukturert rundt gjenbrukbare konseptnotater, kodeøvelser med separate
+lærerløsninger og forelesningssamlinger satt sammen av promoterte objekter. Hver
+forelesningsblokk kombinerer eksposisjon, gjennomgåtte eksempler og en praktisk
+øvelse eller oppgavesett som studentene gjennomfører selvstendig.
+
+## Verktøy og arbeidsflyt
+
+- Python er det sentrale programmeringsspråket.
+- Alt undervisningsmateriale vedlikeholdes som kanoniske LearnForge-objekter
+  (konsepter, øvelser og forelesningssamlinger).
+- Gjenbrukbar kode ligger i vanlige `.py`-filer når øvelser trenger delt
+  startkode eller lokale hjelpefunksjoner.
+- Databaseeksempler bruker SQLite-baserte lokale filer som objekt-lokale
+  ressurser for promoterte konsepter og øvelser.
+
+## Vurderingsstruktur
+
+Kurset bruker fire vurderte innleveringer som grupperer øvelser etter emne:
+
+- **Innlevering 1 — Python-grunnlag:** dekker variabler, beholdere og innebygde
+  funksjoner.
+- **Innlevering 2 — Kontrollflyt, funksjoner og klasser:** dekker betingelser,
+  løkker, funksjoner, standardbiblioteket og objektorienterte grunnprinsipper.
+- **Innlevering 3 — Dataanalysebiblioteker:** integrerer NumPy, Pandas og
+  Matplotlib i ett samlet oppgavesett.
+- **Innlevering 4 — SQL og databaser:** dekker SQL-spørringer og
+  Python/database-integrasjon.
+
+Vektingsregler og innleveringsfrister er ikke endelig fastsatt. Innleveringene
+grupperer eksisterende øvelser i oppgavepakker og vil bli raffinert etter hvert
+som kurset beveger seg forbi utkast-status.

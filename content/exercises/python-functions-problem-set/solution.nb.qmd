@@ -1,0 +1,78 @@
+Den sterkeste lærerløsningen holder hver funksjon liten, entydig og lett å
+teste fra kallstedet. Målet er å hjelpe studentene med å se hvordan parametere,
+kontrollflyt og returverdier passer sammen.
+
+## Foreslått tilnærming
+
+1. Definer én funksjon om gangen og test den umiddelbart med et kort kall.
+2. Returner verdier fra hver funksjon i stedet for å skrive ut fra innsiden av
+   funksjonskroppen med mindre utskrift eksplisitt er poenget.
+3. Hold primtall- og fakultetsoppgavene iterative slik at kontrollflyt-logikken
+   forblir synlig.
+4. Foretrekk lesbare navn og enkle løkker fremfor kompakte men vanskeligere å
+   lese enlinjer.
+
+## Minimal referanseimplementasjon
+
+```python
+def reverse_string(text):
+    return text[::-1]
+
+
+def average(values):
+    return sum(values) / len(values)
+
+
+def circle_area(radius):
+    return 3.1415 * radius ** 2
+
+
+def count_vowels(text):
+    vowels = "aeiouyAEIOUY"
+    total = 0
+    for char in text:
+        if char in vowels:
+            total += 1
+    return total
+
+
+def is_prime(n):
+    if n < 2:
+        return False
+
+    for divisor in range(2, n):
+        if n % divisor == 0:
+            return False
+
+    return True
+
+
+def factorial(n):
+    result = 1
+    for value in range(2, n + 1):
+        result *= value
+    return result
+
+
+print(reverse_string("Python"))
+print(average([4, 7, 9, 10]))
+print(circle_area(3))
+print(count_vowels("Programming and Data Management"))
+print(is_prime(2), is_prime(9), is_prime(17))
+print(factorial(5))
+```
+
+## Hva studentene bør legge merke til
+
+- en funksjonsdefinisjon er bare regelen; ingenting skjer før funksjonen kalles,
+- den samme funksjonen kan gjenbrukes med ulike argumenter,
+- kontrollflyt lever ofte inne i funksjonskroppen snarere enn utenfor den,
+- returverdier gjør funksjonene gjenbrukbare i større skript,
+- testing med korte kall hjelper med å isolere feil raskt.
+
+## Undervisningsvekt
+
+Ikke bruk denne øvelsen som en unnskyldning til å introdusere alt annet fra
+forelesning-5-notatboken på én gang. Poenget med dette sjekkpunktet er
+gjenbrukbare funksjoner, ikke en full standardbibliotek-tur eller et tidlig
+hopp inn i klasser.

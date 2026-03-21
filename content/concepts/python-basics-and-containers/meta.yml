@@ -4,8 +4,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Python basics and containers
+  nb: Grunnleggende Python og beholdere
 courses:
   - edi3400
 topics:
@@ -34,5 +36,6 @@ owners:
   - vegard
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []

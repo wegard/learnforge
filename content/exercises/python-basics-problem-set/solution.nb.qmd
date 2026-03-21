@@ -1,0 +1,76 @@
+Den sterkeste lærerløsningen holder øvelsen nær grunnprinsippene i kurset: å
+navngi verdier tydelig, sjekke typer bevisst og bruke riktig beholder for
+oppgaven.
+
+## Foreslått tilnærming
+
+1. Hold skriptet lineært og lesbart i stedet for å introdusere funksjoner for
+   tidlig.
+2. Bruk `print()` og `type()` ofte nok til at studentene kan se hva hver
+   variabel inneholder.
+3. Foretrekk vanlige innebygde funksjoner og beholdermetoder fremfor smarte
+   snarveier.
+4. Behandle refleksjonsspørsmålene som en del av løsningen, ikke som valgfritt
+   fyllstoff.
+
+## Minimal referanseimplementasjon
+
+```python
+student_name = "Ada"
+study_hours = 6
+completion_rate = 0.75
+
+print(student_name, type(student_name))
+print(study_hours, type(study_hours))
+print(completion_rate, type(completion_rate))
+
+a = 5
+b = 2
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+
+numbers = [12, 4, 18, 7, 9]
+print(len(numbers))
+print(min(numbers))
+print(max(numbers))
+print(sum(numbers))
+print(sorted(numbers))
+
+phrase = "Programming with Python"
+words = phrase.split()
+print(words)
+
+topics = ("variables", "containers", "functions")
+print(list(enumerate(topics, start=1)))
+
+names = ["Anna", "Bob", "Charlie"]
+scores = [85, 92, 87]
+pairs = list(zip(names, scores))
+score_lookup = dict(pairs)
+distinct_scores = set(scores)
+
+print(pairs)
+print(score_lookup["Bob"])
+print(distinct_scores)
+```
+
+## Hva studentene bør legge merke til
+
+- strenger, heltall og desimaltall er ulike typer selv om de alle skrives ut til
+  skjermen,
+- list-funksjoner som `len()`, `min()`, `max()`, `sum()` og `sorted()` svarer
+  på ulike spørsmål om de samme dataene,
+- `split()` er en rask bro fra rå tekst til en list av ord,
+- `enumerate()` kan legge til posisjoner til ordnede data uten å endre den
+  underliggende tuplen,
+- `zip()` er nyttig for å parre relaterte sekvenser,
+- dictionaries støtter oppslag etter nøkkel, mens sets er nyttige når duplikater
+  skal ignoreres.
+
+## Undervisningsvekt
+
+Ikke overkompliser denne øvelsen med klasser, egne funksjoner eller avansert
+kontrollflyt. Poenget er å gjøre de første beholservalgene lesbare og bevisste
+før studentene går videre til løkker, filhåndtering og database-arbeidsflyter.

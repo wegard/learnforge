@@ -1,0 +1,143 @@
+## Moduler pakker gjenbrukbare verktøy utover de innebygde
+
+På dette punktet i `EDI 3400` har studentene allerede brukt Python-innebygde
+funksjoner, kontrollflyt, filhåndtering og egne funksjoner. Neste steg er å se
+at Python også leveres med mange gjenbrukbare moduler som løser vanlige oppgaver
+uten ekstra installasjon.
+
+Det er dette standardbiblioteket er til for. Det gir et program tilgang til
+verktøy for:
+
+- numeriske beregninger,
+- tilfeldig utvalg,
+- datoer og klokkeslett,
+- oppsummeringsstatistikk,
+- og mange andre tilbakevendende oppgaver.
+
+Det er viktig fordi studentene ikke bør skrive grunnleggende verktøykode om
+igjen når en veltestet modul allerede finnes.
+
+## `import` gjør bibliotekkode tilgjengelig
+
+Standardbibliotek-kode er ikke tilgjengelig automatisk. Et skript må importere
+modulen eller navnet det vil bruke:
+
+```python
+import math
+from datetime import date
+```
+
+Disse to mønstrene gjør ulike navn tilgjengelige i det gjeldende skriptet:
+
+- `import math` betyr at senere kall ser ut som `math.log(...)`,
+- `from datetime import date` betyr at senere kall kan bruke `date(...)` direkte.
+
+Den viktige nybegynnervanen er ikke å pugge hver modul. Den er å gjenkjenne at
+Python organiserer gjenbrukbare verktøy i navngitte moduler, og at
+import-setningen gjør den avhengigheten eksplisitt.
+
+## `math` dekker vanlige numeriske funksjoner
+
+`math`-modulen er det tydeligste første eksempelet fordi den løser kjente
+numeriske oppgaver:
+
+```python
+import math
+
+print(math.cos(3 * math.pi))
+print(math.log(25))
+print(math.log10(25))
+```
+
+Uten `math` ville studentene raskt nå grensene for de innebygde operatorene
+alene. Modulen gir tilgang til konstanter og funksjoner som ellers ville vært
+vanskelige eller feilutsatte å gjenskape for hånd.
+
+## `random` støtter utvalg og blanding
+
+`random`-modulen er nyttig når et program trenger variasjon:
+
+```python
+import random
+
+cities = ["Oslo", "Bergen", "Trondheim", "Tromso"]
+random.shuffle(cities)
+print(random.choice(cities))
+```
+
+To nybegynnermønstre er viktigst:
+
+- `random.choice(...)` velger ett element,
+- `random.shuffle(...)` omorganiserer en list på stedet.
+
+Dette er nok for enkle spill, simuleringer og raske utvalgsøvelser. Det viser
+også studentene at en modul ofte eksponerer flere relaterte verktøy i stedet for
+én gigantisk funksjon.
+
+## `datetime` holder datoer eksplisitte og strukturerte
+
+Datoer bør ikke behandles som ad-hoc-strenger når Python allerede har
+strukturerte datoobjekter:
+
+```python
+from datetime import date
+
+today = date.today()
+print(today.strftime("%Y-%m-%d"))
+```
+
+`datetime`-modulen hjelper på to måter:
+
+- den representerer datoer eksplisitt,
+- den formaterer dem bevisst for utdata.
+
+Det reduserer risikoen for å blande sammen år-, måned- og dagkonvensjoner i
+senere dataarbeidsflyter.
+
+## `statistics` oppsummerer små numeriske utvalg
+
+`statistics`-modulen gir lesbare navn for vanlige oppsummeringer:
+
+```python
+import statistics
+
+numbers = [10, 20, 30, 40, 50]
+print(statistics.mean(numbers))
+print(statistics.median(numbers))
+print(statistics.stdev(numbers))
+```
+
+For innledende programmering er dette ofte tydeligere enn å la studentene
+implementere hver deskriptive statistikk fra bunnen av umiddelbart. De kan
+fortsatt lære de underliggende ideene mens de bruker stabile
+bibliotekfunksjoner for den mekaniske delen.
+
+## Standardbiblioteket utfyller dine egne funksjoner
+
+Standardbibliotek-moduler erstatter ikke funksjonene studentene lærte i
+forrige del. De fungerer sammen.
+
+En studentskrevet funksjon kan:
+
+- kalle `statistics.mean(...)` inne i en oppsummeringsarbeidsflyt,
+- bruke `datetime` til å tidsstemple en generert fil,
+- kalle `random.choice(...)` til å simulere gjentatte hendelser.
+
+Det er den bredere programmeringsvanen denne delen bør forsterke: skriv din
+egen logikk der den tilfører verdi, men importer eksisterende verktøy når
+problemet allerede er godt løst.
+
+Senere kursmateriale vil bruke det samme mønsteret med moduler som `csv` og
+`sqlite3`. Denne sjekkpunktet gjør bare den import-baserte arbeidsflyten
+eksplisitt før kurset beveger seg videre inn i dataverktøy.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- forklare hva en modul er,
+- bruke `import` og `from ... import ...` i enkle tilfeller,
+- bruke `math` for logaritmer og konstanter,
+- bruke `random` for utvalg og blanding,
+- formatere dagens dato med `datetime`,
+- beregne gjennomsnitt, median og standardavvik med `statistics`.

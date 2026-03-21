@@ -1,0 +1,55 @@
+## Oppgavesett
+
+Bruk denne øvelsen til å praktisere de neste `EDI 3400`-programmeringsvanene:
+ta beslutninger med betingelser, gjenta arbeid med løkker og håndter små
+kjøretidsfeil eksplisitt.
+
+Hold arbeidsflyten reproduserbar. Bruk de faste inndataene nedenfor i stedet
+for å bygge en interaktiv notatbok eller et inndata-tungt skript.
+
+## Oppgaver
+
+1. Arbeid med betingelser:
+   - iterer over `numbers = [3, 8, 11, 14]`,
+   - skriv ut om hvert tall er odde eller partall,
+   - legg til én ekstra melding for tall større enn `10`.
+2. Arbeid med `for`, `range()` og `enumerate()`:
+   - lag en `for`-løkke som skriver ut tallene fra `1` til `5`,
+   - bruk `enumerate()` på `scores = [72, 88, 91]` og skriv ut både posisjon
+     og poengsum,
+   - beregn den løpende totalen av disse poengsummene inne i en løkke.
+3. Bruk en list comprehension til å lage en list av alle tall fra `1` til `50`
+   som er delelige med `3`.
+4. Arbeid med en `while`-løkke:
+   - bruk `secret_number = 7`,
+   - bruk `guess_sequence = [3, 9, 7]`,
+   - behandle gjetninger én etter én til det hemmelige tallet er funnet,
+   - skriv ut om hver gjetning er for lav, for høy eller korrekt,
+   - tell hvor mange forsøk som trengtes.
+5. Håndter unntak eksplisitt ved å bruke:
+   - `raw_pairs = [("12", "3"), ("9", "0"), ("hello", "5")]`.
+   For hvert par:
+   - prøv å konvertere begge verdier til heltall,
+   - prøv å dele det første med det andre,
+   - håndter `ValueError` og `ZeroDivisionError`,
+   - skriv ut en kort melding som forklarer hva som skjedde.
+6. Skriv en kort refleksjon som dekker:
+   - når en `for`-løkke var mer naturlig enn en `while`-løkke,
+   - ett tilfelle der `try` / `except` forbedret skriptet,
+   - om list comprehension føltes tydeligere eller mindre tydelig enn en vanlig
+     løkke.
+
+## Startmal
+
+```python
+numbers = [3, 8, 11, 14]
+scores = [72, 88, 91]
+
+secret_number = 7
+guess_sequence = [3, 9, 7]
+
+raw_pairs = [("12", "3"), ("9", "0"), ("hello", "5")]
+```
+
+Hold koden enkel og lesbar. Poenget er ikke kompakthet. Poenget er å gjøre
+kontrollflyt-beslutningene lette å følge.

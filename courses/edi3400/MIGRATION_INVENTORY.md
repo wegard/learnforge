@@ -298,6 +298,15 @@ form.
 - Course status upgraded from `draft` to `approved` — all planned lectures
   (1-13) are now canonical, lecture 14 (Q&A) is skipped by design
 
+## Locked Decisions — Norwegian Translations
+
+- Norwegian (nb) translations start as `draft` (teacher-visible only) so they
+  can be reviewed before student publication
+- Technical terms stay in English (DataFrame, list comprehension, foreign key, etc.)
+- Section headings translated to Norwegian (matching existing bilingual patterns)
+- Language code: `nb` (Norwegian Bokmål)
+- Translation is batched by course part (4 batches)
+
 ## Migration Complete
 
 The `edi3400` migration is finalized. All 16 concepts, 14 exercises, 16 lecture

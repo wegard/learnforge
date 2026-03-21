@@ -1,0 +1,180 @@
+## Kontrollflyt endrer hva et program gjør videre
+
+Variabler og beholdere forteller Python hvilke verdier som finnes. Kontrollflyt
+forteller Python hva det skal gjøre med disse verdiene og i hvilken rekkefølge.
+
+Det er steget der et skript slutter å være en fast sekvens av setninger og
+begynner å reagere på betingelser, gjentatt arbeid og håndterbare feil.
+
+I `EDI 3400` betyr det at studentene bør lære å svare på spørsmål som:
+
+- skal denne blokken kjøre eller ikke,
+- skal denne oppgaven gjentas,
+- når skal løkken stoppe,
+- hva skal skje hvis inndata er ugyldige.
+
+## `if`, `elif` og `else` velger én gren
+
+Betingede setninger lar et program velge mellom alternativer.
+
+```python
+temperature = 3
+
+if temperature < 0:
+    print("freezing")
+elif temperature < 10:
+    print("cold")
+else:
+    print("mild")
+```
+
+Den viktige ideen er ikke bare syntaks. Den viktige ideen er at Python evaluerer
+en boolsk betingelse og deretter følger nøyaktig én gren av de tilgjengelige
+alternativene.
+
+Det er derfor tydelige betingelser er viktige. En god betingelse bør leses som
+en beslutningsregel, ikke som et puslespill.
+
+## `for`-løkker fungerer best når datakilden er kjent
+
+Bruk en `for`-løkke når programmet skal iterere gjennom en eksisterende sekvens
+eller et definert område med verdier.
+
+```python
+scores = [72, 88, 91]
+
+for score in scores:
+    print(score)
+```
+
+Dette er standardmønsteret for:
+
+- å behandle hvert element i en list eller tuple,
+- å gå gjennom tegn i en string,
+- å iterere over et kjent numerisk område.
+
+Poenget er ikke repetisjon for sin egen skyld. Poenget er å anvende den samme
+logikken systematisk uten å skrive om den samme kodeblokken for hånd.
+
+## `range()` og `enumerate()` gir struktur til løkker
+
+To nybegynnervennlige verktøy gjør `for`-løkker mer nyttige.
+
+`range()` lager en forutsigbar numerisk sekvens:
+
+```python
+for n in range(1, 6):
+    print(n)
+```
+
+`enumerate()` holder både posisjon og verdi synlig:
+
+```python
+topics = ["variables", "loops", "sql"]
+
+for idx, topic in enumerate(topics, start=1):
+    print(idx, topic)
+```
+
+Studentene bør ikke pugge disse som isolerte triks. De bør gjenkjenne spørsmålet
+hvert verktøy besvarer:
+
+- `range()` når jeg trenger en numerisk progresjon,
+- `enumerate()` når posisjon er like viktig som verdi.
+
+## `while`-løkker trenger en tydelig avslutningsbetingelse
+
+En `while`-løkke er nyttig når antall repetisjoner ikke er kjent på forhånd.
+
+```python
+attempts = 0
+
+while attempts < 3:
+    print("try again")
+    attempts += 1
+```
+
+Dette er kraftig, men det skaper også risikoen for en uendelig løkke hvis
+betingelsen aldri blir usann.
+
+Det er derfor enhver nybegynner bør stille to spørsmål før de skriver en
+`while`-løkke:
+
+1. hvilken betingelse holder løkken i gang,
+2. hvilken setning vil til slutt endre den betingelsen.
+
+Hvis det andre svaret mangler, er løkkedesignet sannsynligvis feil.
+
+## `break` og `continue` endrer løkkeatferd bevisst
+
+Noen ganger skal en løkke ikke bare kjøre fra topp til bunn hver gang.
+
+- `break` stopper løkken helt,
+- `continue` hopper over resten av gjeldende iterasjon og går til neste.
+
+For eksempel:
+
+```python
+for number in range(1, 8):
+    if number == 4:
+        continue
+    if number == 7:
+        break
+    print(number)
+```
+
+Disse setningene er nyttige når de gjør løkkeregelen tydeligere. De er mindre
+nyttige når de stables inn i en løkke som allerede har forvirrende logikk.
+
+## `try` og `except` gjør krasj om til håndterte tilfeller
+
+Ikke alle feil bør avslutte et nybegynnerprogram umiddelbart.
+
+```python
+raw_value = "abc"
+
+try:
+    number = int(raw_value)
+    print(number ** 2)
+except ValueError:
+    print("Please provide a valid integer.")
+```
+
+Dette er det første steget mot kontrollert feilsøking. I stedet for å late som
+feil aldri skjer, navngir programmet den risikable operasjonen og fastslår hva
+som skal skje hvis den mislykkes.
+
+For dette kurset er de mest nyttige innledende eksemplene:
+
+- `ValueError` når konvertering mislykkes,
+- `ZeroDivisionError` ved divisjon med null,
+- `IndexError` når en list-indeks er utenfor rekkevidde.
+
+## List comprehensions er kompakte løkkemønstre
+
+En list comprehension er fortsatt en løkke, men skrevet i en kompakt
+uttrykksform:
+
+```python
+divisible_by_three = [n for n in range(1, 51) if n % 3 == 0]
+```
+
+Dette er nyttig når oppgaven er grei: filtrer eller transformer verdier til en
+ny list.
+
+Studentene bør først kunne forklare den underliggende løkkelogikken med vanlige
+ord. Den korte syntaksen er nyttig bare etter at selve løkken gir mening.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- skrive lesbare `if` / `elif` / `else`-blokker,
+- velge mellom `for` og `while` basert på oppgavestrukturen,
+- bruke `range()` og `enumerate()` riktig,
+- forklare hva `break` og `continue` endrer inne i en løkke,
+- håndtere enkle kjøretidsproblemer med `try` og `except`,
+- oversette en liten gjentatt oppgave til enten en løkke eller en list comprehension.
+
+Neste grunnleggende steg utvider disse vanene til filhåndtering, der stier,
+eksterne data og manglende-fil-tilfeller gjør nøye kontrollflyt enda viktigere.
