@@ -824,10 +824,7 @@ def test_pandas_dataframe_analysis_lab_links_foundations_and_course() -> None:
     assert assembly.target.kind == "exercise"
     assert "## Lab brief" in assembly.markdown
     assert "assets/campus_store_sales.csv" in assembly.markdown
-    assert (
-        'pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])'
-        in assembly.markdown
-    )
+    assert 'pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])' in assembly.markdown
     assert "## Tasks" in assembly.markdown
     assert "## Starter outline" in assembly.markdown
     assert "python-file-handling" in related_ids
@@ -956,8 +953,7 @@ def test_edi3400_lecture_11_assembly_expands_relational_database_block() -> None
 
     assert edge_targets == ["relational-database-fundamentals"]
     assert (
-        "## Relational databases organize data by structure, not by accident"
-        in assembly.markdown
+        "## Relational databases organize data by structure, not by accident" in assembly.markdown
     )
     assert "## `SELECT` and `FROM` define the starting point" not in assembly.markdown
     assert "## Python turns SQL work into a reproducible workflow" not in assembly.markdown
@@ -1600,8 +1596,7 @@ def test_pandas_dataframe_analysis_lab_student_page_builds_cleanly() -> None:
     assert "assets/campus_store_sales.csv" in html
     assert "## Solution" not in html
     assert (
-        "The strongest teacher solution keeps the table small, labeled, and inspectable"
-        not in html
+        "The strongest teacher solution keeps the table small, labeled, and inspectable" not in html
     )
     assert build_manifest["target"]["identifier"] == "pandas-dataframe-analysis-lab"
     assert leakage_report["status"] == "clean"
@@ -1948,9 +1943,7 @@ def test_edi3400_lecture_02_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 2 - Python basics and containers" in html
     assert "This lecture includes" in html
@@ -1974,9 +1967,7 @@ def test_edi3400_lecture_04_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 4 - Control flow and loops" in html
     assert "This lecture includes" in html
@@ -2000,9 +1991,7 @@ def test_edi3400_lecture_04b_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 4B - File handling and local data" in html
     assert "This lecture includes" in html
@@ -2026,9 +2015,7 @@ def test_edi3400_lecture_05a_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 5A - Functions and reusable code" in html
     assert "This lecture includes" in html
@@ -2052,9 +2039,7 @@ def test_edi3400_lecture_05b_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 5B - Standard-library utilities" in html
     assert "This lecture includes" in html
@@ -2081,9 +2066,7 @@ def test_edi3400_lecture_05c_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 5C - Classes and objects" in html
     assert "This lecture includes" in html
@@ -2110,9 +2093,7 @@ def test_edi3400_lecture_06_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 6 - NumPy arrays and matrices" in html
     assert "This lecture includes" in html
@@ -2136,9 +2117,7 @@ def test_edi3400_lecture_07_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 7 - Pandas series and data frames" in html
     assert "This lecture includes" in html
@@ -2162,9 +2141,7 @@ def test_edi3400_lecture_08_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 8 - Matplotlib basic plots" in html
     assert "This lecture includes" in html
@@ -2193,9 +2170,7 @@ def test_edi3400_lecture_09_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 9 - IDEs and generative AI for programming" in html
     assert "This lecture includes" in html
@@ -2222,9 +2197,7 @@ def test_edi3400_lecture_11_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 11 - Introduction to relational databases" in html
     assert "This lecture includes" in html
@@ -2248,9 +2221,7 @@ def test_edi3400_lecture_12_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 12 - SQL basics" in html
     assert "This lecture includes" in html
@@ -2274,9 +2245,7 @@ def test_edi3400_lecture_13_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 13 - Python and SQL" in html
     assert "This lecture includes" in html
@@ -2520,10 +2489,7 @@ def test_edi3400_assignment_01_student_sheet_excludes_solution_content() -> None
     assert assembly.target.kind == "collection"
     assert edge_targets == ["python-basics-problem-set"]
     assert "## Exercise 1: Python basics problem set" in assembly.markdown
-    assert (
-        "The strongest teacher solution keeps the exercise close"
-        not in assembly.markdown
-    )
+    assert "The strongest teacher solution keeps the exercise close" not in assembly.markdown
     assert all(not item.included_in_output for item in assembly.solution_observations)
 
 
@@ -2581,9 +2547,7 @@ def test_edi3400_assignment_01_student_page_builds_cleanly() -> None:
     assert "edi3400-assignment-01-exercise-sheet.pdf" in html
     assert "edi3400-assignment-01-solution-sheet.pdf" not in html
     assert build_manifest["target"]["identifier"] == "edi3400-assignment-01"
-    assert build_manifest["assignment"]["included_exercise_ids"] == [
-        "python-basics-problem-set"
-    ]
+    assert build_manifest["assignment"]["included_exercise_ids"] == ["python-basics-problem-set"]
     assert leakage_report["status"] == "clean"
     assert leakage_report["solution_files_found"] == 1
     assert leakage_report["solution_files_included"] == 0
@@ -2610,9 +2574,7 @@ def test_edi3400_assignment_01_teacher_page_shows_teacher_export_only() -> None:
 
     assert "edi3400-assignment-01-solution-sheet.pdf" in html
     assert "edi3400-assignment-01-exercise-sheet.pdf" not in html
-    assert build_manifest["assignment"]["included_exercise_ids"] == [
-        "python-basics-problem-set"
-    ]
+    assert build_manifest["assignment"]["included_exercise_ids"] == ["python-basics-problem-set"]
 
 
 def test_edi3400_lecture_10a_student_page_builds_cleanly() -> None:
@@ -2625,9 +2587,7 @@ def test_edi3400_lecture_10a_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 10A - Web data extraction" in html
     assert "This lecture includes" in html
@@ -2651,9 +2611,7 @@ def test_edi3400_lecture_10b_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 10B - Time-series analysis and statistics" in html
     assert "This lecture includes" in html
@@ -2682,7 +2640,10 @@ def test_course_orientation_and_python_ecosystem_concept_links_edi3400() -> None
 
     assert assembly.target.kind == "concept"
     assert "## This course teaches data management through Python" in assembly.markdown
-    assert "## Python is a general-purpose language with a data-friendly ecosystem" in assembly.markdown
+    assert (
+        "## Python is a general-purpose language with a data-friendly ecosystem"
+        in assembly.markdown
+    )
     assert "## The standard library covers common tasks out of the box" in assembly.markdown
     assert "## Third-party libraries extend Python into specialized workflows" in assembly.markdown
     assert "## The course workflow combines writing, running, and inspecting" in assembly.markdown
@@ -2746,9 +2707,7 @@ def test_edi3400_lecture_01_student_page_builds_cleanly() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Lecture 1 - Course orientation and the Python ecosystem" in html
     assert "This lecture includes" in html
@@ -2959,7 +2918,10 @@ def test_relational_database_fundamentals_nb_teacher_assembly() -> None:
     )
 
     assert assembly.target.kind == "concept"
-    assert "## Relasjonsdatabaser organiserer data etter struktur, ikke etter tilfeldighet" in assembly.markdown
+    assert (
+        "## Relasjonsdatabaser organiserer data etter struktur, ikke etter tilfeldighet"
+        in assembly.markdown
+    )
 
 
 def test_sql_python_problem_set_nb_teacher_assembly() -> None:

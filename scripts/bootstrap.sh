@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-python3 -m pip install -e .[dev]
-pre-commit install
-teach validate
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+"${script_dir}/run-in-env.sh" python -m pip install -e ".[dev]"
+"${script_dir}/run-in-env.sh" pre-commit install
+"${script_dir}/run-in-env.sh" teach validate

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-teach build "$@"
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+"${script_dir}/run-in-env.sh" teach build "$@"

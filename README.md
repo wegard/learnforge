@@ -33,6 +33,22 @@ LearnForge is a git-backed, markdown-first teaching publishing system. The curre
 - A PDF engine available to Quarto (`pdflatex` or `tectonic`)
 - A Chromium-based browser for `--format slides-pdf`
 
+## Micromamba
+
+The repo can use a repo-local micromamba environment at `.micromamba/`.
+
+```bash
+./scripts/bootstrap_micromamba.sh
+make test
+make validate
+```
+
+After bootstrap, the repo's `Makefile` targets plus `scripts/render.sh`,
+`scripts/export_pdf.sh`, and `scripts/export_slides_pdf.sh` will run inside
+that micromamba environment automatically. Quarto, the PDF engine, and the
+browser requirement still come from your system install unless you add them to
+the environment yourself.
+
 ## Quick Start
 
 ```bash

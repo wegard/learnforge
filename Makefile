@@ -1,16 +1,21 @@
-.PHONY: install lint validate test build-samples
+.PHONY: install lint validate test build-samples mamba-bootstrap
+
+RUN_IN_ENV := ./scripts/run-in-env.sh
 
 install:
-	python3 -m pip install -e .[dev]
+	$(RUN_IN_ENV) python -m pip install -e ".[dev]"
 
 lint:
-	ruff check app tests
+	$(RUN_IN_ENV) python -m ruff check app tests
 
 validate:
-	teach validate
+	$(RUN_IN_ENV) teach validate
 
 test:
-	pytest -q
+	$(RUN_IN_ENV) python -m pytest -q
 
 build-samples:
-	python scripts/build_representative_targets.py
+	$(RUN_IN_ENV) python scripts/build_representative_targets.py
+
+mamba-bootstrap:
+	./scripts/bootstrap_micromamba.sh
