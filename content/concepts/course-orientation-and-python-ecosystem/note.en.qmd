@@ -1,0 +1,92 @@
+## This course teaches data management through Python
+
+`EDI 3400 Programming and Data Management` assumes no prior programming experience.
+The course starts from basic Python and builds toward practical data workflows that
+combine programming, analysis libraries, and relational databases.
+
+By the end of the course, students should be able to write small to medium Python
+programs, work with tabular data using industry-standard libraries, query databases
+with SQL, and present reproducible analytical results.
+
+The goal is not to train software engineers. The goal is to give students enough
+fluency in Python and data tooling that they can solve real data tasks independently
+and communicate their work clearly.
+
+## Python is a general-purpose language with a data-friendly ecosystem
+
+Python is a high-level, interpreted programming language. It reads close to English
+and enforces consistent indentation, which makes short programs easy to follow even
+for beginners.
+
+What makes Python particularly useful for data management is not the language alone,
+but the ecosystem around it. A large collection of third-party libraries extends
+Python into numerical computing, data analysis, visualization, web scraping, and
+database access. This means students learn one language and can apply it across many
+different data tasks.
+
+Python is widely used in industry, research, and education. Choosing it for this
+course means students learn a language they are likely to encounter again.
+
+## The standard library covers common tasks out of the box
+
+Python ships with a standard library that includes modules for many everyday tasks.
+For example:
+
+- `math` provides mathematical functions beyond basic arithmetic.
+- `os` and `pathlib` help work with files and directories.
+- `re` supports pattern matching in text.
+- `sqlite3` connects Python to lightweight relational databases.
+- `random` generates random numbers for sampling and simulation.
+- `statistics` computes basic descriptive statistics.
+
+These modules are available without installing anything extra. They cover enough
+ground that many small programs need nothing beyond what Python already provides.
+
+## Third-party libraries extend Python into specialized workflows
+
+Beyond the standard library, three third-party packages form the backbone of the
+data-analysis workflow in this course:
+
+- **NumPy** provides fast array operations and linear algebra. It replaces slow
+  Python loops with vectorized computation over large numerical datasets.
+- **Pandas** organizes tabular data into labeled rows and columns. It handles
+  reading CSV files, filtering, grouping, and summarizing data in a way that
+  resembles spreadsheet work but scales better and is fully scriptable.
+- **Matplotlib** turns numerical results into plots. Line charts, scatter plots,
+  and bar charts help make patterns visible and support written analysis.
+
+These libraries work well together. A typical workflow reads data with Pandas,
+transforms it with NumPy, and visualizes the result with Matplotlib.
+
+## The course workflow combines writing, running, and inspecting
+
+Programming in this course follows a write-run-inspect cycle:
+
+1. **Write** a small piece of code that does one clear thing.
+2. **Run** it to see the result.
+3. **Inspect** the output to decide whether it makes sense.
+
+This cycle repeats throughout every lecture and exercise. Students should expect to
+run code frequently, examine intermediate results, and adjust their approach based
+on what they see.
+
+The environment used for this workflow is a notebook interface where code, output,
+and explanatory text live together. This makes it easy to document each step and
+return to earlier results without re-running everything.
+
+## What students should be able to do next
+
+After this orientation, students should be able to:
+
+- describe the scope of the course in one or two sentences,
+- explain why Python is a practical choice for data management tasks,
+- name at least three standard-library modules and what they do,
+- name the three main third-party libraries used in this course,
+- describe the write-run-inspect cycle that structures their programming workflow.
+
+::: {.teacher-only}
+The first session sets expectations more than it teaches new skills. Students should
+leave knowing what the course covers, what tools they will use, and roughly how
+programming work is structured. Avoid deep-diving into any single library or
+syntax topic. The goal is orientation, not mastery.
+:::

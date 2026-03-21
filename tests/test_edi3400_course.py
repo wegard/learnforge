@@ -16,6 +16,7 @@ def test_edi3400_course_is_indexed_with_current_canonical_slices() -> None:
     assert course.model.id == "edi3400"
     assert course.model.languages == ["en"]
     assert course.plan.lectures == [
+        "edi3400-lecture-01",
         "edi3400-lecture-02",
         "edi3400-lecture-04",
         "edi3400-lecture-04b",
@@ -55,7 +56,8 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
 
     assert assembly.target.kind == "course"
     assert assembly.target.identifier == "edi3400"
-    assert listing_ids[:14] == [
+    assert listing_ids[:15] == [
+        "edi3400-lecture-01",
         "edi3400-lecture-02",
         "edi3400-lecture-04",
         "edi3400-lecture-04b",
@@ -71,7 +73,7 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
         "edi3400-lecture-11",
         "edi3400-lecture-12",
     ]
-    assert listing_ids[14] == "edi3400-lecture-13"
+    assert listing_ids[15] == "edi3400-lecture-13"
     assert "python-basics-problem-set" in listing_ids
     assert "python-control-flow-problem-set" in listing_ids
     assert "python-file-handling-lab" in listing_ids
@@ -95,6 +97,8 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "topic-programming" in listing_ids
     assert "topic-sql" in listing_ids
     assert "EDI 3400 - Programming and Data Management" in assembly.markdown
+    assert "Lecture 1 - Course orientation and the Python ecosystem" in assembly.markdown
+    assert "Course orientation and the Python ecosystem" in assembly.markdown
     assert "Lecture 2 - Python basics and containers" in assembly.markdown
     assert "Lecture 4 - Control flow and loops" in assembly.markdown
     assert "Lecture 4B - File handling and local data" in assembly.markdown
@@ -1897,6 +1901,8 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "Part 1: Programming with basic Python" in html
     assert "Part 3: Advanced topics" in html
     assert "Part 4: Databases with SQL and Python" in html
+    assert "../../collection/edi3400-lecture-01/edi3400-lecture-01.html" in html
+    assert "Course orientation and the Python ecosystem" in html
     assert "../../collection/edi3400-lecture-02/edi3400-lecture-02.html" in html
     assert "../../collection/edi3400-lecture-04/edi3400-lecture-04.html" in html
     assert "../../collection/edi3400-lecture-04b/edi3400-lecture-04b.html" in html
@@ -2657,3 +2663,97 @@ def test_edi3400_lecture_10b_student_page_builds_cleanly() -> None:
         for edge in dependency_manifest["dependency_edges"]
         if edge["relationship"] == "item"
     ] == ["time-series-analysis-with-pandas", "time-series-analysis-lab"]
+
+
+def test_course_orientation_and_python_ecosystem_concept_links_edi3400() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "course-orientation-and-python-ecosystem",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## This course teaches data management through Python" in assembly.markdown
+    assert "## Python is a general-purpose language with a data-friendly ecosystem" in assembly.markdown
+    assert "## The standard library covers common tasks out of the box" in assembly.markdown
+    assert "## Third-party libraries extend Python into specialized workflows" in assembly.markdown
+    assert "## The course workflow combines writing, running, and inspecting" in assembly.markdown
+    assert "## What students should be able to do next" in assembly.markdown
+    assert "python-basics-and-containers" in related_ids
+    assert "edi3400-lecture-01" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_edi3400_lecture_01_assembly_expands_orientation_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["course-orientation-and-python-ecosystem"]
+    assert "## This course teaches data management through Python" in assembly.markdown
+    assert "## Names let Python reuse values" not in assembly.markdown
+
+
+def test_course_orientation_and_python_ecosystem_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "course-orientation-and-python-ecosystem",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Course orientation and the Python ecosystem" in html
+    assert "Python is a general-purpose language" in html
+    assert "write-run-inspect cycle" in html
+    assert "../../course/edi3400/edi3400.html" in html
+    assert "first session sets expectations" not in html
+    assert artifact.output_path.exists()
+    assert build_manifest["target"]["identifier"] == "course-orientation-and-python-ecosystem"
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["teacher_blocks_removed"] == 1
+
+
+def test_edi3400_lecture_01_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-01",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 1 - Course orientation and the Python ecosystem" in html
+    assert "This lecture includes" in html
+    assert "Course orientation and the Python ecosystem" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["course-orientation-and-python-ecosystem"]

@@ -1,12 +1,12 @@
 id: edi3400
-status: draft
+status: approved
 visibility: student
 languages:
   - en
 title:
   en: EDI 3400 - Programming and Data Management
 summary:
-  en: A draft LearnForge course shell for the future Programming and Data Management migration.
+  en: A complete LearnForge course covering Python programming, data analysis with NumPy/Pandas/Matplotlib, and relational databases with SQL.
 owners:
   - vegard
-updated: 2026-03-19
+updated: 2026-03-21

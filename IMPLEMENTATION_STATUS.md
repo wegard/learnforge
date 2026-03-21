@@ -34,6 +34,7 @@
 - Phase 11 parallel checkpoint: `edi3400` lecture 10 split (10a web data extraction, 10b time-series analysis) — 2 concepts, 2 exercises, 2 lecture collections
 - Phase 11 parallel checkpoint: `edi3400` assignment collections — 4 assignment packages grouping existing exercises into graded homework
 - Representative targets expanded to 23, adding `edi3400-lecture-10a` and `edi3400-assignment-02`
+- Phase 11 parallel checkpoint: `edi3400` migration finalized — orientation concept, lecture-01 collection, course status upgraded to `approved`
 
 ## Non-Goals For This Run
 

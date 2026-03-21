@@ -1,0 +1,36 @@
+id: course-orientation-and-python-ecosystem
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Course orientation and the Python ecosystem
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - orientation
+  - python
+  - ecosystem
+  - tools
+level: introductory
+prerequisites: []
+related:
+  - python-basics-and-containers
+  - python-basics-problem-set
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

@@ -72,24 +72,20 @@ lecture collections.
 
 ## Teaching Format
 
-The current sketch is lecture-led and notebook-backed. As the course is migrated into
-LearnForge, the canonical format should shift toward reusable concept notes, coding
-exercises with separate teacher solutions, and lecture collections assembled from
-promoted objects only.
-
-The current migration plan starts with the database block because it is the most
-self-contained slice in the inbox material and can be promoted without first locking
-the granularity of the earlier Python-introduction lectures.
+The course is structured around reusable concept notes, coding exercises with
+separate teacher solutions, and lecture collections assembled from promoted objects.
+Each lecture block combines exposition, worked examples, and a hands-on exercise or
+problem set that students complete independently.
 
 ## Tools And Workflow
 
 - Python is the core programming language.
-- Jupyter notebooks in `course-inbox/Programming-and-data-management/` are reference
-  material, not canonical source.
-- Reusable code should move into plain `.py` files when promotion requires shared
-  starter code or local helper utilities.
-- Database examples may use SQLite-style local files when they are needed as
-  object-local assets for promoted concepts or exercises.
+- All teaching material is maintained as canonical LearnForge objects (concepts,
+  exercises, and lecture collections).
+- Reusable code lives in plain `.py` files when exercises require shared starter
+  code or local helper utilities.
+- Database examples use SQLite-style local files as object-local assets for
+  promoted concepts and exercises.
 
 ## Assessment Structure
 

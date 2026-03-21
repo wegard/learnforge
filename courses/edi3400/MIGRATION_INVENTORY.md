@@ -49,6 +49,12 @@ course/object structure.
   - Assignment 4: SQL and databases (`sql-python-problem-set`)
 - `edi3400-lecture-13` is the representative regression target for the current
   database slice
+- Lecture 1 gets a lightweight concept-only collection (`course-orientation-and-
+  python-ecosystem`) covering course scope, Python ecosystem overview, and the
+  write-run-inspect workflow — no exercise, no installation guides, no Jupyter
+  cell-mode details
+- Lecture 14 (wrap-up / Q&A) is skipped entirely — it is a live session with no
+  canonical teaching content to promote
 
 ## Migration Buckets
 
@@ -83,9 +89,10 @@ directly from a single notebook.
 
 | Topic | Reason | Planned target kind |
 | --- | --- | --- |
-| Lecture 1 course framing | The current material is mostly orientation and should live primarily in the syllabus and course shell | syllabus + lecture later |
+| ~~Lecture 1 course framing~~ | ~~Implemented as concept-only lecture-01 with course orientation and Python ecosystem overview~~ | ~~done~~ |
 | ~~Lecture 10 data extraction, probability, and statistics~~ | ~~Implemented as 10a (web data extraction) and 10b (time-series analysis)~~ | ~~done~~ |
 | ~~Assessment structure~~ | ~~Implemented as 4 assignment collections grouping existing exercises~~ | ~~done~~ |
+| ~~Lecture 14 wrap-up / Q&A~~ | ~~Skipped — live session only, no canonical content to promote~~ | ~~skipped~~ |
 
 ### Defer
 
@@ -108,6 +115,7 @@ foundations spine plus the database block.
 
 ### First concept candidates
 
+- `course-orientation-and-python-ecosystem`
 - `python-basics-and-containers`
 - `python-control-flow`
 - `python-file-handling`
@@ -143,6 +151,7 @@ foundations spine plus the database block.
 
 ### First lecture candidates
 
+- `edi3400-lecture-01` course orientation and Python ecosystem
 - `edi3400-lecture-02` Python basics and containers
 - `edi3400-lecture-04` control flow and loops
 - `edi3400-lecture-04b` file handling and local data
@@ -167,6 +176,7 @@ form.
 
 ### Implemented objects
 
+- concept: `course-orientation-and-python-ecosystem`
 - concept: `python-basics-and-containers`
 - concept: `python-control-flow`
 - concept: `python-file-handling`
@@ -196,6 +206,7 @@ form.
 - exercise: `web-data-extraction-lab`
 - exercise: `time-series-analysis-lab`
 - exercise: `sql-python-problem-set`
+- lecture collection: `edi3400-lecture-01`
 - lecture collection: `edi3400-lecture-02`
 - lecture collection: `edi3400-lecture-04`
 - lecture collection: `edi3400-lecture-04b`
@@ -281,10 +292,14 @@ form.
   - `edi3400-assignment-03`: Data analysis libraries (1 exercise)
   - `edi3400-assignment-04`: SQL and databases (1 exercise)
 
-## Next Migration Actions
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-01`
+- `edi3400-lecture-01` is a concept-only orientation collection covering course
+  scope, the Python ecosystem, and the write-run-inspect workflow
+- Course status upgraded from `draft` to `approved` — all planned lectures
+  (1-13) are now canonical, lecture 14 (Q&A) is skipped by design
 
-1. Decide whether lecture 1 (orientation) should get a small canonical collection
-   or remain represented only by the syllabus and course shell.
-2. Decide whether lecture 14 (wrap-up / Q&A) should get a small canonical wrap-up
-   collection.
-3. Upgrade course status from `draft` once remaining gaps are closed.
+## Migration Complete
+
+The `edi3400` migration is finalized. All 16 concepts, 14 exercises, 16 lecture
+collections, and 4 assignment collections are implemented, tested, and wired into
+the course plan. The course status is `approved`.

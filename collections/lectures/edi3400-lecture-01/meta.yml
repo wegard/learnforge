@@ -1,0 +1,34 @@
+id: edi3400-lecture-01
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 1 - Course orientation and the Python ecosystem
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - lecture
+  - orientation
+  - python
+  - ecosystem
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - course-orientation-and-python-ecosystem
