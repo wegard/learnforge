@@ -113,9 +113,9 @@ Tasks that require instructor judgement and cannot be automated.
       | `training_and_test_error.png` | `ml-model-evaluation-overview` | **promoted** |
       | `my_activation_functions.png` | `neural-networks-introduction` | **promoted** |
       | `gradient_descent.png` | `ml-model-evaluation-overview` | **promoted** |
-      | `regression_example.png` | `ml-supervised-learning-overview` | candidate |
+      | `regression_example.png` | `ml-supervised-learning-overview` | **promoted** |
       | `sigmoid.png` | `ml-supervised-learning-overview` | candidate |
-      | `dt_kreditt.png` | `ml-supervised-learning-overview` | candidate |
+      | `dt_kreditt.png` | `ml-supervised-learning-overview` | **promoted** |
 
       Most other images are external diagrams with attribution, screenshots,
       or decorative stock images — not suitable for figure objects.
@@ -160,3 +160,5 @@ Tasks that require instructor judgement and cannot be automated.
 - Figure: `training-test-error-figure`
 - Figure: `gradient-descent-figure`
 - Figure: `activation-functions-figure`
+- Figure: `regression-example-figure`
+- Figure: `credit-decision-tree-figure`

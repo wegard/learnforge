@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">Beslutningstre for kredittvurdering</title>
+  <desc id="desc">Et beslutningstre med rotspørsmålet om inntekt er over 650 tusen kroner. Grenene spør videre om gjeldsgrad og betalingshistorikk før de ender i bladene godkjenn, manuell vurdering eller avslag.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f4efe5; }
+      .title { font: 700 34px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; }
+      .subtitle { font: 500 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+      .edge { stroke: #7c6f57; stroke-width: 3.5; stroke-linecap: round; }
+      .edge-label { font: 600 14px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #4a5568; }
+      .node { fill: #fffaf2; stroke: #d7c8ad; stroke-width: 2.5; }
+      .leaf-good { fill: #d9ead3; stroke: #86b37f; stroke-width: 2.5; }
+      .leaf-review { fill: #fce8b2; stroke: #d8aa2f; stroke-width: 2.5; }
+      .leaf-bad { fill: #f4cccc; stroke: #c96d6d; stroke-width: 2.5; }
+      .node-title { font: 700 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .node-copy { font: 500 14px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+      .note { font: 500 15px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="620" rx="28"/>
+
+  <text class="title" x="84" y="76">Beslutningstre for kredittvurdering</text>
+  <text class="subtitle" x="84" y="108">Hver split deler kundene i mindre grupper med mer ensartet risiko og leder til en enklere beslutning.</text>
+
+  <g transform="translate(0 20)">
+    <line class="edge" x1="480" y1="150" x2="260" y2="250"/>
+    <line class="edge" x1="480" y1="150" x2="700" y2="250"/>
+    <line class="edge" x1="260" y1="332" x2="150" y2="432"/>
+    <line class="edge" x1="260" y1="332" x2="370" y2="432"/>
+    <line class="edge" x1="700" y1="332" x2="590" y2="432"/>
+    <line class="edge" x1="700" y1="332" x2="810" y2="432"/>
+
+    <text class="edge-label" x="332" y="188">Nei</text>
+    <text class="edge-label" x="618" y="188">Ja</text>
+    <text class="edge-label" x="194" y="382">Høy</text>
+    <text class="edge-label" x="316" y="382">Lav</text>
+    <text class="edge-label" x="628" y="382">Nei</text>
+    <text class="edge-label" x="756" y="382">Ja</text>
+
+    <g transform="translate(360 84)">
+      <rect class="node" width="240" height="78" rx="18"/>
+      <text class="node-title" x="120" y="30" text-anchor="middle">Inntekt over 650 000 kr?</text>
+      <text class="node-copy" x="120" y="54" text-anchor="middle">Første split deler kundene etter betalingsevne.</text>
+    </g>
+
+    <g transform="translate(140 260)">
+      <rect class="node" width="240" height="78" rx="18"/>
+      <text class="node-title" x="120" y="30" text-anchor="middle">Gjeldsgrad over 40 %?</text>
+      <text class="node-copy" x="120" y="54" text-anchor="middle">Lavere inntekt krever strengere vurdering av gjeld.</text>
+    </g>
+
+    <g transform="translate(580 260)">
+      <rect class="node" width="240" height="78" rx="18"/>
+      <text class="node-title" x="120" y="30" text-anchor="middle">Ren betalingshistorikk?</text>
+      <text class="node-copy" x="120" y="54" text-anchor="middle">Sterk historikk kan kompensere for annen risiko.</text>
+    </g>
+
+    <g transform="translate(72 444)">
+      <rect class="leaf-bad" width="156" height="72" rx="18"/>
+      <text class="node-title" x="78" y="30" text-anchor="middle">Avslag</text>
+      <text class="node-copy" x="78" y="54" text-anchor="middle">Høy gjeld, svak profil</text>
+    </g>
+
+    <g transform="translate(292 444)">
+      <rect class="leaf-review" width="156" height="72" rx="18"/>
+      <text class="node-title" x="78" y="30" text-anchor="middle">Manuell vurdering</text>
+      <text class="node-copy" x="78" y="54" text-anchor="middle">Krever mer kontekst</text>
+    </g>
+
+    <g transform="translate(512 444)">
+      <rect class="leaf-review" width="156" height="72" rx="18"/>
+      <text class="node-title" x="78" y="30" text-anchor="middle">Manuell vurdering</text>
+      <text class="node-copy" x="78" y="54" text-anchor="middle">God inntekt, men historikk svikter</text>
+    </g>
+
+    <g transform="translate(732 444)">
+      <rect class="leaf-good" width="156" height="72" rx="18"/>
+      <text class="node-title" x="78" y="30" text-anchor="middle">Godkjenn</text>
+      <text class="node-copy" x="78" y="54" text-anchor="middle">Sterk profil og lav risiko</text>
+    </g>
+  </g>
+
+  <text class="note" x="84" y="586">Bruk figuren til å diskutere hvorfor beslutningstrær er tolkbare, men også hvordan enkle terskler kan bli skjøre dersom dataene endrer seg.</text>
+</svg>

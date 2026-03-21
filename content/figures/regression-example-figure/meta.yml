@@ -1,0 +1,41 @@
+id: regression-example-figure
+kind: figure
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Regresjonseksempel
+concepts:
+  - ml-supervised-learning-overview
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - regression
+  - classification
+tags:
+  - regression
+  - linear-regression
+  - supervised-learning
+  - finance
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+caption:
+  nb: Figuren viser hvordan en lineær regresjonslinje beskriver sammenhengen mellom boligstørrelse og pris.
+alt_text:
+  nb: Et spredningsdiagram med boligstørrelse på x-aksen og pris i millioner kroner på y-aksen. Flere datapunkter ligger rundt en stigende regresjonslinje.
+svg_path: figure.svg
+pdf_path: figure.pdf
+asset_inventory:
+  - figure.svg
+  - figure.pdf

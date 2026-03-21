@@ -26,6 +26,8 @@ related:
   - knn-supervised-learning
   - logistic-regression-classification
   - linear-regression-prediction
+  - regression-example-figure
+  - credit-decision-tree-figure
 outputs:
   - html
   - pdf
@@ -33,7 +35,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-19
+updated: 2026-03-21
 translation_status:
   nb: draft
 ai:

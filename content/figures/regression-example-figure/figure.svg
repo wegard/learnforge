@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Regresjonseksempel</title>
+  <desc id="desc">Et spredningsdiagram med boligstørrelse på x-aksen og pris i millioner kroner på y-aksen. Flere datapunkter ligger rundt en stigende regresjonslinje.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f4efe5; }
+      .title { font: 700 34px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; }
+      .subtitle { font: 500 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+      .axis { stroke: #22324d; stroke-width: 4; stroke-linecap: round; }
+      .tick { stroke: #94a3b8; stroke-width: 2; }
+      .grid { stroke: #ddd2bc; stroke-width: 1.5; stroke-dasharray: 8 8; }
+      .axis-label { font: 700 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .tick-label { font: 600 14px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #4a5568; }
+      .point { fill: #0f766e; stroke: #ffffff; stroke-width: 3; }
+      .line { fill: none; stroke: #c2410c; stroke-width: 6; stroke-linecap: round; }
+      .callout { fill: #fffaf2; stroke: #d7c8ad; stroke-width: 2; }
+      .label { font: 700 17px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .note { font: 500 15px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="560" rx="28"/>
+
+  <text class="title" x="86" y="78">Regresjonseksempel</text>
+  <text class="subtitle" x="86" y="110">Lineær regresjon estimerer en jevn trend gjennom datapunkter med kontinuerlige utfall.</text>
+
+  <g transform="translate(116 150)">
+    <line class="axis" x1="0" y1="320" x2="720" y2="320"/>
+    <line class="axis" x1="0" y1="320" x2="0" y2="0"/>
+
+    <line class="grid" x1="0" y1="256" x2="720" y2="256"/>
+    <line class="grid" x1="0" y1="192" x2="720" y2="192"/>
+    <line class="grid" x1="0" y1="128" x2="720" y2="128"/>
+    <line class="grid" x1="0" y1="64" x2="720" y2="64"/>
+
+    <line class="tick" x1="120" y1="320" x2="120" y2="332"/>
+    <line class="tick" x1="260" y1="320" x2="260" y2="332"/>
+    <line class="tick" x1="400" y1="320" x2="400" y2="332"/>
+    <line class="tick" x1="540" y1="320" x2="540" y2="332"/>
+    <line class="tick" x1="680" y1="320" x2="680" y2="332"/>
+
+    <text class="tick-label" x="120" y="352" text-anchor="middle">40</text>
+    <text class="tick-label" x="260" y="352" text-anchor="middle">60</text>
+    <text class="tick-label" x="400" y="352" text-anchor="middle">80</text>
+    <text class="tick-label" x="540" y="352" text-anchor="middle">100</text>
+    <text class="tick-label" x="680" y="352" text-anchor="middle">120</text>
+
+    <text class="tick-label" x="-18" y="262" text-anchor="end">2,5</text>
+    <text class="tick-label" x="-18" y="198" text-anchor="end">3,0</text>
+    <text class="tick-label" x="-18" y="134" text-anchor="end">3,5</text>
+    <text class="tick-label" x="-18" y="70" text-anchor="end">4,0</text>
+
+    <text class="axis-label" x="360" y="390" text-anchor="middle">Boligstørrelse (m²)</text>
+    <text class="axis-label" x="-158" y="-58" transform="rotate(-90)" text-anchor="middle">Pris (mill. kr)</text>
+
+    <path class="line" d="M 72 282 L 676 82"/>
+
+    <circle class="point" cx="96" cy="276" r="10"/>
+    <circle class="point" cx="148" cy="258" r="10"/>
+    <circle class="point" cx="210" cy="238" r="10"/>
+    <circle class="point" cx="270" cy="220" r="10"/>
+    <circle class="point" cx="332" cy="206" r="10"/>
+    <circle class="point" cx="388" cy="182" r="10"/>
+    <circle class="point" cx="458" cy="166" r="10"/>
+    <circle class="point" cx="524" cy="142" r="10"/>
+    <circle class="point" cx="596" cy="116" r="10"/>
+    <circle class="point" cx="664" cy="96" r="10"/>
+
+    <g transform="translate(450 14)">
+      <rect class="callout" width="234" height="76" rx="16"/>
+      <text class="label" x="18" y="28">Regresjonslinje</text>
+      <text class="note" x="18" y="52">Oppsummerer den typiske</text>
+      <text class="note" x="18" y="70">prisveksten når størrelsen øker.</text>
+    </g>
+  </g>
+
+  <text class="note" x="86" y="514">Bruk figuren til å diskutere residualer: datapunktene ligger ikke perfekt på linjen, men modellen fanger likevel den overordnede trenden.</text>
+</svg>

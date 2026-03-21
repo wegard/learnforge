@@ -1,0 +1,40 @@
+id: credit-decision-tree-figure
+kind: figure
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Beslutningstre for kredittvurdering
+concepts:
+  - ml-supervised-learning-overview
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - classification
+  - finance
+tags:
+  - decision-tree
+  - credit-scoring
+  - supervised-learning
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+caption:
+  nb: Figuren viser hvordan et beslutningstre kan bruke enkle terskler for inntekt, gjeld og betalingshistorikk i kredittvurdering.
+alt_text:
+  nb: Et beslutningstre med rotspørsmålet om inntekt er over 650 tusen kroner. Grenene spør videre om gjeldsgrad og betalingshistorikk før de ender i bladene godkjenn, manuell vurdering eller avslag.
+svg_path: figure.svg
+pdf_path: figure.pdf
+asset_inventory:
+  - figure.svg
+  - figure.pdf

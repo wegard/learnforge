@@ -448,6 +448,87 @@ def test_bik2550_teacher_activation_functions_figure_page_builds_in_norwegian() 
     assert leakage_report["status"] == "not_applicable"
 
 
+def test_bik2550_teacher_supervised_learning_concept_page_builds_with_migrated_figures() -> None:
+    artifact = build_target(
+        "ml-supervised-learning-overview",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert "Veiledet maskinlæring" in html
+    assert "Figurer" in html
+    assert "../../figure/regression-example-figure/regression-example-figure.html" in html
+    assert "../../figure/credit-decision-tree-figure/credit-decision-tree-figure.html" in html
+    assert "Regresjonseksempel" in html
+    assert "Beslutningstre for kredittvurdering" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 2
+    assert {entry["figure_id"] for entry in build_manifest["figure_uses"]} == {
+        "regression-example-figure",
+        "credit-decision-tree-figure",
+    }
+    assert all(entry["interactive_included"] is False for entry in build_manifest["figure_uses"])
+
+
+def test_bik2550_teacher_regression_example_figure_page_builds_in_norwegian() -> None:
+    artifact = build_target(
+        "regression-example-figure",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figurdetaljer" in html
+    assert 'data-figure-id="regression-example-figure"' in html
+    assert "Regresjonseksempel" in html
+    assert "ml-supervised-learning-overview/ml-supervised-learning-overview.html" in html
+    assert "Interaktiv modus" in html
+    assert "kun statisk" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "regression-example-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "not_applicable"
+
+
+def test_bik2550_teacher_credit_decision_tree_figure_page_builds_in_norwegian() -> None:
+    artifact = build_target(
+        "credit-decision-tree-figure",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figurdetaljer" in html
+    assert 'data-figure-id="credit-decision-tree-figure"' in html
+    assert "Beslutningstre for kredittvurdering" in html
+    assert "ml-supervised-learning-overview/ml-supervised-learning-overview.html" in html
+    assert "Interaktiv modus" in html
+    assert "kun statisk" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "credit-decision-tree-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "not_applicable"
+
+
 def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     preprocessing_concept_artifact = build_target(
         "ml-preprocessing-pipelines",

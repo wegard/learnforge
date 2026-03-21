@@ -1,0 +1,1 @@
+Figuren gjør lineær regresjon konkret: datapunktene varierer, men regresjonslinjen oppsummerer den overordnede sammenhengen mellom en forklaringsvariabel og et kontinuerlig utfall. Det er nyttig når du skal forklare hva modellen faktisk lærer i en enkel regresjonsoppgave.

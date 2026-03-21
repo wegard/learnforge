@@ -1,0 +1,1 @@
+Figuren gjør beslutningstrær konkrete: modellen splitter stegvis på enkle regler og ender i tydelige beslutninger. Det er nyttig når du skal forklare hvorfor trær er lette å tolke, men også hvorfor valget av split-terskler betyr mye for resultatet.
