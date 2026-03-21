@@ -1,0 +1,66 @@
+## Lab-oppgave
+
+Bruk denne øvelsen til å praktisere den første kanoniske Matplotlib-arbeidsflyten i
+`EDI 3400`:
+
+- last inn en liten tabell med Pandas,
+- velg en passende plotttype,
+- merk plottet tydelig,
+- og lagre en ferdig figur til disk.
+
+Bruk den lokale ressursen i denne øvelsesmappen:
+
+- `assets/campus_store_plotting_data.csv`
+
+## Oppgaver
+
+1. Importer de nødvendige bibliotekene:
+   - skriv `import pandas as pd`,
+   - skriv `import matplotlib.pyplot as plt`.
+2. Last inn CSV-filen:
+   - les `assets/campus_store_plotting_data.csv` med `pd.read_csv(...)`,
+   - pars `date`-kolonnen med `parse_dates=["date"]`,
+   - sorter radene etter dato,
+   - skriv ut `sales.head()`.
+3. Lag et linjeplott av omsetning over tid:
+   - bruk `date`-kolonnen på x-aksen,
+   - bruk `revenue`-kolonnen på y-aksen,
+   - legg til markører,
+   - legg til tittel, x-merkelapp, y-merkelapp og rutenett,
+   - kall `plt.tight_layout()`,
+   - vis figuren.
+4. Lag et spredningsplott av ordrer versus omsetning:
+   - bruk `orders` på x-aksen,
+   - bruk `revenue` på y-aksen,
+   - legg til tittel og aksemerkelapper,
+   - vis figuren.
+5. Lag et søyleplott fra et gruppert Pandas-sammendrag:
+   - beregn gjennomsnittlig omsetning for hver `channel`,
+   - lagre resultatet i `avg_revenue_by_channel`,
+   - bruk `plt.bar(...)` for å plotte de grupperte verdiene,
+   - legg til tittel og aksemerkelapper,
+   - vis figuren.
+6. Lagre en ferdig figur:
+   - gjenskap linjeplottett for omsetning,
+   - lagre det som `revenue_trend.png` med `plt.savefig(...)`,
+   - deretter vis eller lukk figuren.
+7. Skriv en kort refleksjon som dekker:
+   - én grunn til at et linjeplott passer for tidssorterte data,
+   - én grunn til at et spredningsplott er bedre enn et linjeplott for ordrer versus
+     omsetning,
+   - ett sted der Pandas-grupperingssteget gjorde søyleplottet enklere å bygge.
+
+## Startmal
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+sales = pd.read_csv(
+    "assets/campus_store_plotting_data.csv",
+    parse_dates=["date"],
+).sort_values("date")
+```
+
+Hold hvert plott eksplisitt. Poenget er å koble datakolonnene til figuren ett steg om
+gangen, ikke å gjemme plottlogikken i hjelpefunksjoner.

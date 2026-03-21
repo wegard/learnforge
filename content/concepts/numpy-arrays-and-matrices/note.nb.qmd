@@ -1,0 +1,139 @@
+## NumPy gjør numeriske data eksplisitte og skalerbare
+
+På dette punktet i `EDI 3400` har studentene allerede skrevet Python-lister, funksjoner,
+filarbeidsflyter og små klasser. Neste steg er å håndtere numeriske data i et format
+som er bygget for beregning i stedet for generell skripting.
+
+Det er her NumPy kommer inn. NumPy er et tredjeparts Python-bibliotek bygget rundt
+`ndarray`, en kompakt struktur for numeriske arrayer og matriser.
+
+Dette er viktig fordi mange senere dataarbeidsflyter avhenger av nettopp dette skiftet:
+
+- verdier lagres i en strukturert numerisk array,
+- arrayen har en tydelig form (shape),
+- og operasjoner utføres på hele arrayen samtidig.
+
+## `import numpy as np` er standard inngangspunkt
+
+Standard importmønster er:
+
+```python
+import numpy as np
+```
+
+Studentene bør behandle dette som en vanlig Python-avhengighetserklæring, lik de
+tidligere modulimportene, men nå for et bibliotek utenfor standardbiblioteket.
+
+Aliaset `np` er ikke påkrevd av Python selv. Det er rett og slett den vanlige
+konvensjonen som brukes i de fleste NumPy-eksempler og dokumentasjon.
+
+## `np.array(...)` oppretter en `ndarray`
+
+Det mest direkte utgangspunktet er å konvertere en eksisterende liste til en NumPy-array:
+
+```python
+import numpy as np
+
+scores = np.array([72, 81, 65, 90, 88, 77])
+```
+
+Etter dette er `scores` ikke lenger en vanlig Python-liste. Det er en `ndarray`, noe
+som betyr at NumPy kan utføre effektive numeriske operasjoner på hele strukturen.
+
+Denne forskjellen er viktig fordi senere verktøy i kurset, som Pandas, bygger på den
+samme array-orienterte tenkemåten under overflaten.
+
+## Shape og dtype beskriver strukturen
+
+To av de første attributtene studentene bør inspisere er:
+
+- `shape`, som beskriver dimensjonene,
+- `dtype`, som beskriver den lagrede verditypen.
+
+For eksempel:
+
+```python
+scores.shape
+scores.dtype
+```
+
+Disse attributtene gjør datastrukturen eksplisitt. I stedet for å gjette hva en liste
+"sannsynligvis ser ut som," kan skriptet spørre arrayen direkte.
+
+## Vektorisert aritmetikk opererer på hele arrayer
+
+En av NumPys viktigste fordeler er at aritmetikk kan utføres på hele arrayen:
+
+```python
+scores + 5
+scores * 2
+scores ** 2
+```
+
+Dette kalles ofte vektorisert beregning. I stedet for å skrive en `for`-løkke for hver
+enkel aritmetisk transformasjon, kan NumPy uttrykke intensjonen direkte på array-nivå.
+
+Det eliminerer ikke behovet for løkker generelt. Det betyr bare at mange numeriske
+operasjoner blir kortere, tydeligere og raskere når de uttrykkes på hele arrayen.
+
+## Omforming gjør flate data til matriser
+
+NumPy gjør det også enkelt å skifte mellom endimensjonale og todimensjonale visninger
+av de samme numeriske dataene:
+
+```python
+grid = np.arange(1, 13).reshape((3, 4))
+```
+
+Nå er verdiene `1` til `12` arrangert som en `3 x 4`-matrise.
+
+Dette steget er viktig fordi studentene ofte må resonnere om:
+
+- rader versus kolonner,
+- matrisedimensjoner,
+- og om en operasjon forventer endimensjonal eller todimensjonal input.
+
+## Boolske masker filtrerer arrayer etter betingelse
+
+En NumPy-array kan også filtreres med en logisk betingelse:
+
+```python
+scores[scores >= 80]
+```
+
+Dette oppretter en ny array som kun inneholder verdiene som oppfyller betingelsen.
+
+Det mønsteret er nyttig fordi det kobler tidligere kontrollflytlogikk til en mer
+deklarativ array-arbeidsflyt. I stedet for å iterere gjennom arrayen og legge til
+verdier manuelt, blir betingelsen en del av selve indekseringsuttrykket.
+
+## `mean`, `std` og `dot` støtter vanlige numeriske arbeidsflyter
+
+NumPy inkluderer mange vanlige numeriske operasjoner direkte:
+
+```python
+np.mean(scores)
+np.std(scores)
+np.dot(A, B)
+```
+
+For dette kurset er tre ideer spesielt verdt å holde synlige:
+
+- sammendragsstatistikk kan operere direkte på arrayer,
+- matriser kan transponeres og multipliseres,
+- og disse operasjonene er lettere å kontrollere når formen på dataene allerede er
+  eksplisitt.
+
+Dette er broen fra grunnleggende Python til vitenskapelige og dataanalyse-arbeidsflyter.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- importere NumPy med standard `np`-aliaset,
+- opprette en `ndarray` fra en liste,
+- inspisere `shape` og `dtype`,
+- utføre aritmetikk på en hel array,
+- omforme en endimensjonal array til en matrise,
+- filtrere en array med en boolsk betingelse,
+- beregne enkle sammendrag og et matriseprodukt med NumPy.

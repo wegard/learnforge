@@ -1,0 +1,59 @@
+Den sterkeste lærerløsningen holder array-strukturen synlig ved hvert steg. Denne
+sjekken handler om å lese former, bruke vektoriserte operasjoner og koble små
+matrisearbeidsflyter til konkrete utdata.
+
+## Foreslått tilnærming
+
+1. Hold arrayene små nok til at studentene kan inspisere dem direkte i utskrevet
+   utdata.
+2. Bruk faste tall i stedet for tilfeldige trekk slik at referanseløsningen forblir
+   stabil.
+3. Skriv ut mellomresultater ofte slik at studentene kan koble NumPy-syntaksen til
+   de resulterende formene og verdiene.
+4. Ikke hopp videre til avansert broadcasting eller indekseringstriks i denne bolken.
+
+## Minimal referanseimplementasjon
+
+```python
+import numpy as np
+
+scores = np.array([72, 81, 65, 90, 88, 77])
+print(scores)
+print(scores.shape)
+print(scores.dtype)
+
+high_scores = scores[scores >= 80]
+print(high_scores)
+
+grid = np.arange(1, 13).reshape((3, 4))
+print(grid)
+print(grid[1])
+print(grid[:, -1])
+
+doubled_grid = grid * 2
+squared_grid = grid ** 2
+print(doubled_grid)
+print(squared_grid)
+
+print(np.mean(scores))
+print(np.std(scores))
+
+A = np.array([1, 2, 3, 4]).reshape((2, 2))
+B = np.array([2, 4, 6, 8]).reshape((2, 2))
+print(A.T)
+print(np.dot(A, B))
+```
+
+## Hva studentene bør legge merke til
+
+- arrayer bærer eksplisitt shape-informasjon,
+- filtrering med en boolsk betingelse oppretter en ny array direkte,
+- aritmetikk kan uttrykkes for hele arrayen i stedet for én verdi om gangen,
+- matrisemultiplikasjon avhenger av at dimensjonene er kompatible,
+- NumPy-kode blir mye lettere å tolke når mellomresultatene vises.
+
+## Undervisningsvekt
+
+Hold fokuset på kjerne array-vaner: opprett, inspiser, transformer og multipliser. Målet
+er å bygge et stabilt grunnlag for senere Pandas- og dataanalysebolker, ikke å dekke
+alle NumPy-funksjoner i én forelesning.

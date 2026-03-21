@@ -1,0 +1,77 @@
+Den sterkeste lærerløsningen holder plottstegene eksplisitte og bruker en liten tabell
+som studentene kan inspisere direkte før noen figur opprettes.
+
+## Foreslått tilnærming
+
+1. Last inn og sorter dataene først slik at linjeplottet har en tydelig rekkefølge på
+   x-aksen.
+2. Bruk separate figurer for linje-, sprednings- og søyleplottene slik at hver
+   plotttype forblir lett å lese.
+3. Legg til titler og aksemerkelapper hver gang slik at studentene bygger gode vaner
+   umiddelbart.
+4. Lagre det endelige linjeplottet før det vises slik at utdatafilen garantert
+   inneholder den ferdige figuren.
+
+## Minimal referanseimplementasjon
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+sales = pd.read_csv(
+    "assets/campus_store_plotting_data.csv",
+    parse_dates=["date"],
+).sort_values("date")
+print(sales.head())
+
+plt.figure(figsize=(7, 4))
+plt.plot(sales["date"], sales["revenue"], marker="o")
+plt.title("Revenue over time")
+plt.xlabel("Date")
+plt.ylabel("Revenue")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(6, 4))
+plt.scatter(sales["orders"], sales["revenue"])
+plt.title("Orders versus revenue")
+plt.xlabel("Orders")
+plt.ylabel("Revenue")
+plt.tight_layout()
+plt.show()
+
+avg_revenue_by_channel = sales.groupby("channel")["revenue"].mean()
+plt.figure(figsize=(6, 4))
+plt.bar(avg_revenue_by_channel.index, avg_revenue_by_channel.values)
+plt.title("Average revenue by channel")
+plt.xlabel("Channel")
+plt.ylabel("Average revenue")
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(7, 4))
+plt.plot(sales["date"], sales["revenue"], marker="o")
+plt.title("Revenue over time")
+plt.xlabel("Date")
+plt.ylabel("Revenue")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("revenue_trend.png")
+plt.show()
+```
+
+## Hva studentene bør legge merke til
+
+- linjeplott fungerer best når x-aksen har en rekkefølge,
+- spredningsplott hjelper med å sammenligne to numeriske variabler uten å antyde en
+  sekvens,
+- søyleplott er enklere å bygge etter et gruppert Pandas-sammendrag,
+- plotttitler og merkelapper er en del av analysen, ikke bare presentasjonspynt,
+- den lagrede figuren kommer fra den samme reproduserbare koden som figuren på skjermen.
+
+## Undervisningsvekt
+
+Hold fokuset på å velge plotttype bevisst og gjøre hvert plott lesbart. Målet med denne
+bolken er ikke avansert styling. Det er den første stabile broen fra tabeller og arrayer
+til tydelig visuell kommunikasjon.

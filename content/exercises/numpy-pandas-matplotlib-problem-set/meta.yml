@@ -4,8 +4,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: NumPy, Pandas, and Matplotlib problem set
+  nb: NumPy, Pandas og Matplotlib oppgavesett
 courses:
   - edi3400
 topics:
@@ -28,6 +30,7 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 exercise_type: coding

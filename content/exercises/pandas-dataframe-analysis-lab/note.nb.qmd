@@ -1,0 +1,67 @@
+## Lab-oppgave
+
+Bruk denne øvelsen til å praktisere den første kanoniske Pandas-arbeidsflyten i
+`EDI 3400`:
+
+- opprett en liten `Series`,
+- last inn en CSV-fil i en `DataFrame`,
+- inspiser tabellstrukturen,
+- filtrer og sorter radene,
+- og svar på noen enkle spørsmål fra merkede data.
+
+Bruk den lokale ressursen i denne øvelsesmappen:
+
+- `assets/campus_store_sales.csv`
+
+## Oppgaver
+
+1. Importer Pandas med standard alias:
+   - skriv `import pandas as pd`.
+2. Opprett en liten `Series`:
+   - opprett `shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})`,
+   - skriv ut serien,
+   - skriv ut `shipping_costs * 2`,
+   - skriv ut verdien for `"online"`.
+3. Les CSV-filen inn i en `DataFrame`:
+   - last inn `assets/campus_store_sales.csv` med `pd.read_csv(...)`,
+   - pars `date`-kolonnen med `parse_dates=["date"]`,
+   - lagre resultatet i `sales`.
+4. Inspiser den innlastede tabellen:
+   - skriv ut `sales.head()`,
+   - skriv ut `sales.shape`,
+   - skriv ut `sales.dtypes`.
+5. Øv på utvalg:
+   - skriv ut `revenue`-kolonnen,
+   - skriv ut de tre første radene med `iloc`,
+   - skriv ut kolonnene `date`, `channel` og `revenue` med `loc`.
+6. Filtrer radene:
+   - opprett en ny `DataFrame` som bare inneholder rader der `channel == "online"` og
+     `revenue >= 1000`,
+   - skriv ut det filtrerte resultatet.
+7. Legg til en utledet kolonne:
+   - opprett `revenue_per_order = sales["revenue"] / sales["orders"]`,
+   - skriv ut kolonnene `date`, `channel` og `revenue_per_order`.
+8. Sorter og oppsummer:
+   - sorter tabellen etter `revenue_per_order` fra høy til lav,
+   - skriv ut de tre øverste radene,
+   - skriv ut gjennomsnittet av `revenue`-kolonnen,
+   - skriv ut totalen av `orders`-kolonnen.
+9. Bruk datokolonnen som indeks:
+   - opprett en versjon av tabellen med `date` som indeks,
+   - skriv ut bare radene for mars 2024 med `sales_by_date.loc["2024-03"]`.
+10. Skriv en kort refleksjon som dekker:
+   - én forskjell mellom en `Series` og en `DataFrame`,
+   - én grunn til at merkelapper gjør Pandas lettere å inspisere enn enkle arrayer,
+   - ett sted der `read_csv(...)` og parsede datoer forbedret arbeidsflyten.
+
+## Startmal
+
+```python
+import pandas as pd
+
+shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})
+sales = pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])
+```
+
+Hold utskriftene eksplisitte. Poenget er å se hvordan tabellen endrer seg etter hvert
+steg, ikke å gjemme Pandas-arbeidsflyten i større hjelpefunksjoner.

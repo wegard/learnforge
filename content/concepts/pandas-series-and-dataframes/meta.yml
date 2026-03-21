@@ -4,8 +4,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Pandas series and data frames
+  nb: Pandas Series og DataFrames
 courses:
   - edi3400
 topics:
@@ -38,5 +40,6 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []

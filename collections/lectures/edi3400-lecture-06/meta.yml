@@ -5,8 +5,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Lecture 6 - NumPy arrays and matrices
+  nb: Forelesning 6 – NumPy-arrayer og matriser
 courses:
   - edi3400
 topics:
@@ -28,6 +30,7 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 items:

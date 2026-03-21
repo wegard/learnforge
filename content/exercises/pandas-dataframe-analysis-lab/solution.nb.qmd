@@ -1,0 +1,63 @@
+Den sterkeste lærerløsningen holder tabellen liten, merket og inspisérbar. Denne
+sjekken handler om å lese en DataFrame nøye og svare på praktiske spørsmål med noen
+få kjerne Pandas-operasjoner.
+
+## Foreslått tilnærming
+
+1. Hold `Series` og CSV-tabellen små nok til at studentene kan inspisere utdataene
+   direkte.
+2. Pars datokolonnen umiddelbart slik at senere indeksering bruker ekte tidsstempler
+   i stedet for vanlige strenger.
+3. Skriv ut mellomresultater etter hver transformasjon slik at utvalgs- og
+   sorteringsstegene forblir synlige.
+4. Unngå avansert gruppering eller omforming i denne første Pandas-bolken.
+
+## Minimal referanseimplementasjon
+
+```python
+import pandas as pd
+
+shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})
+print(shipping_costs)
+print(shipping_costs * 2)
+print(shipping_costs["online"])
+
+sales = pd.read_csv("assets/campus_store_sales.csv", parse_dates=["date"])
+print(sales.head())
+print(sales.shape)
+print(sales.dtypes)
+
+print(sales["revenue"])
+print(sales.iloc[0:3])
+print(sales.loc[:, ["date", "channel", "revenue"]])
+
+online_high_revenue = sales[
+    (sales["channel"] == "online") & (sales["revenue"] >= 1000)
+]
+print(online_high_revenue)
+
+sales["revenue_per_order"] = sales["revenue"] / sales["orders"]
+print(sales.loc[:, ["date", "channel", "revenue_per_order"]])
+
+sorted_sales = sales.sort_values(by="revenue_per_order", ascending=False)
+print(sorted_sales.head(3))
+print(sales["revenue"].mean())
+print(sales["orders"].sum())
+
+sales_by_date = sales.set_index("date")
+print(sales_by_date.loc["2024-03"])
+```
+
+## Hva studentene bør legge merke til
+
+- en `Series` er én merket sekvens, mens en `DataFrame` er en full tabell,
+- `parse_dates` endrer datokolonnen til noe mer nyttig umiddelbart,
+- boolske filtre forblir lesbare når hver betingelse er eksplisitt,
+- utledede kolonner er enkle å inspisere når bare noen få relevante kolonner skrives ut,
+- merkelappbasert indeksering blir mye mer praktisk når datokolonnen er indeksen.
+
+## Undervisningsvekt
+
+Hold fokuset på de første Pandas-vanene: last inn, inspiser, velg, filtrer, sorter og
+oppsummer. Målet er å gjøre studentene komfortable med merkede tabeller før kurset
+beveger seg videre til visualisering eller rikere dataanalysearbeidsflyter.

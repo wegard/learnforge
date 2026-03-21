@@ -1,0 +1,165 @@
+## Pandas organiserer merkede tabelldata
+
+Etter NumPy er neste steg i `EDI 3400` å jobbe med data som har både verdier og
+merkelapper. I praksis er mange kursdatasett ikke bare enkle arrayer. De har:
+
+- kolonnenavn,
+- radmerkelapper eller tidsstempler,
+- blandede datatyper,
+- og filbaserte kilder som CSV-tabeller.
+
+Pandas er Python-biblioteket som er bygget for akkurat denne situasjonen.
+
+Det er spesielt nyttig når studentene trenger å bevege seg mellom:
+
+- små lokale filer,
+- regneark-lignende tabeller,
+- utforskende sammendrag,
+- og senere SQL- eller visualiseringsarbeidsflyter.
+
+## `import pandas as pd` er standard inngangspunkt
+
+Standard importmønster er:
+
+```python
+import pandas as pd
+```
+
+Dette følger samme idé som `import numpy as np`: biblioteket får et kort alias som
+gjør senere kode lesbar.
+
+Studentene bør behandle dette som en vanlig avhengighetserklæring, og deretter forvente
+at de fleste Pandas-eksempler begynner med den samme linjen.
+
+## En `Series` lagrer én merket sekvens
+
+En Pandas `Series` er en endimensjonal merket struktur. Det er et godt første steg
+fordi det ser ut som en kolonne med data med en indeks knyttet til:
+
+```python
+shipping_costs = pd.Series({"store": 40, "online": 65, "pickup": 15})
+```
+
+Dette er viktig fordi merkelappene er en del av datastrukturen. Studentene kan lese,
+dele opp og transformere verdiene mens navnene forblir synlige.
+
+For eksempel:
+
+```python
+shipping_costs * 2
+shipping_costs["online"]
+```
+
+Poenget er ikke bare lagring. Poenget er at verdier forblir justert med sine
+merkelapper mens aritmetikk og oppslag forblir konsise.
+
+## En `DataFrame` organiserer justerte kolonner
+
+En `DataFrame` er den tabellformede strukturen de fleste studentene vil bruke oftest:
+
+```python
+sales = pd.DataFrame(
+    [
+        ["2024-03-01", "store", 51, 816],
+        ["2024-03-15", "online", 68, 1360],
+    ],
+    columns=["date", "channel", "orders", "revenue"],
+)
+```
+
+Hver kolonne oppfører seg som en merket Series, og hele tabellen gjør det enkelt å
+jobbe med flere variabler samtidig.
+
+Det gjør en `DataFrame` til en naturlig bro mellom:
+
+- Python-lister og dictionary-er,
+- regneark-tabeller,
+- CSV-filer,
+- og databasespørringsresultater.
+
+## `[]`, `loc` og `iloc` svarer på ulike utvalgsspørsmål
+
+Studentene trenger tre grunnleggende utvalgsmønstre tidlig:
+
+- `sales["revenue"]` for én kolonne,
+- `sales.loc[0]` eller `sales.loc["2024-03"]` for merkelappbasert tilgang,
+- `sales.iloc[0:3, 1:3]` for posisjonsbasert tilgang.
+
+Disse er ikke utbyttbare. De svarer på ulike spørsmål:
+
+- "Hvilken navngitt kolonne vil jeg ha?"
+- "Hvilken merket rad eller datoperiode vil jeg ha?"
+- "Hvilke numeriske rad-/kolonneposisjoner vil jeg ha?"
+
+Å holde disse rollene adskilt forhindrer mye nybegynnerforvirring.
+
+## `head()`, `tail()` og `sort_values(...)` støtter rask inspeksjon
+
+Pandas er nyttig delvis fordi studentene ikke trenger å inspisere en hel tabell på
+en gang. Noen få vanlige metoder svarer allerede på mange utforskende spørsmål:
+
+```python
+sales.head()
+sales.tail(3)
+sales.sort_values(by="revenue", ascending=False)
+```
+
+Disse metodene hjelper studentene med å verifisere:
+
+- om dataene ble lastet riktig,
+- hvilke rader som er størst eller minst,
+- og om en transformasjon produserte strukturen de forventet.
+
+## Boolske filtre og sammendragsmetoder gjør tabeller til svar
+
+Pandas gjør det også enkelt å svare på enkle analytiske spørsmål:
+
+```python
+sales[sales["revenue"] >= 1000]
+sales["revenue"].mean()
+sales["orders"].sum()
+```
+
+Dette er det praktiske skiftet fra "tabell som lagring" til "tabell som analyseverktøy."
+
+Studentene skriver ikke lenger bare ut data. De filtrerer rader, beregner sammendrag
+og sjekker mønstre direkte fra DataFramen.
+
+## `read_csv(...)` og parsede datoer kobler filer til analysearbeidsflyter
+
+Pandas blir spesielt nyttig når det leser en lokal fil direkte:
+
+```python
+sales = pd.read_csv("campus_store_sales.csv", parse_dates=["date"])
+sales = sales.set_index("date")
+```
+
+På det tidspunktet er tabellen ikke lenger frakoblet filsystemet. Den blir en
+reproduserbar arbeidsflyt:
+
+- last inn filen,
+- inspiser kolonnene og typene,
+- pars datoer bevisst,
+- og bruk merkelapper til å svare på tidsbaserte spørsmål.
+
+For eksempel:
+
+```python
+sales.loc["2024-03"]
+```
+
+Dette er hovedbroen fra tidligere filhåndtering mot senere dataanalyse- og
+visualiseringsarbeid.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- importere Pandas med standard `pd`-aliaset,
+- forklare forskjellen mellom en `Series` og en `DataFrame`,
+- velge kolonner og rader med `[]`, `loc` og `iloc`,
+- inspisere en tabell med `head()`, `tail()` og `sort_values(...)`,
+- filtrere rader med en boolsk betingelse,
+- beregne enkle kolonnesammendrag,
+- laste inn en CSV-fil med `pd.read_csv(...)`,
+- parse en datokolonne og bruke den i et lite tidsbasert oppslag.

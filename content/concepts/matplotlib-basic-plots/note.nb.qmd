@@ -1,0 +1,156 @@
+## Matplotlib gjør numeriske data til synlige mønstre
+
+I forelesning 8 i `EDI 3400` har studentene allerede jobbet med NumPy-arrayer og
+Pandas-tabeller. Neste steg er å gjøre disse verdiene om til plott som synliggjør
+mønstre.
+
+Matplotlib er kjernebiblioteket for plotting som gjør dette mulig i Python.
+
+Verdien handler ikke bare om estetikk. Det hjelper studentene med å svare på praktiske
+spørsmål som:
+
+- hvordan verdier endrer seg over tid,
+- om to variabler beveger seg sammen,
+- og hvordan kategorier sammenlignes med et raskt blikk.
+
+## `import matplotlib.pyplot as plt` er standard inngangspunkt
+
+Standard importmønster er:
+
+```python
+import matplotlib.pyplot as plt
+```
+
+Dette gir tilgang til plottfunksjonene studentene vil bruke mest i den første
+visualiseringsbolken.
+
+Aliaset `plt` er en konvensjon, ikke et Python-krav, men studentene bør forvente å
+se det i nesten alle innledende Matplotlib-eksempler.
+
+## `plt.plot(...)` lager et linjeplott for ordnede data
+
+Et linjeplott er et godt standardvalg når x-aksen har en rekkefølge, for eksempel tid:
+
+```python
+plt.plot(dates, revenue)
+```
+
+Denne typen plott hjelper studentene med å se om verdier stiger, faller eller svinger
+over tid.
+
+Det blir mer informativt når merkelapper er eksplisitte:
+
+```python
+plt.plot(dates, revenue, marker="o")
+plt.xlabel("Date")
+plt.ylabel("Revenue")
+plt.title("Revenue over time")
+```
+
+## `plt.scatter(...)` er nyttig for å sammenligne to variabler
+
+Et spredningsplott passer bedre når spørsmålet handler om forholdet mellom to numeriske
+variabler:
+
+```python
+plt.scatter(orders, revenue)
+```
+
+Dette hjelper studentene med å inspisere om store verdier på en akse har en tendens til
+å være forbundet med store verdier på den andre.
+
+Det gjør spredningsplott spesielt nyttige når en DataFrame inneholder flere numeriske
+kolonner og målet er å sammenligne dem direkte.
+
+## `plt.bar(...)` sammenligner grupperte verdier tydelig
+
+Søyleplott fungerer best når x-aksen er kategorisk i stedet for kontinuerlig:
+
+```python
+plt.bar(avg_revenue_by_channel.index, avg_revenue_by_channel.values)
+```
+
+Dette er det typiske plottmønsteret etter et lite Pandas-grupperingssteg. Studentene
+oppsummerer tabellen først, deretter visualiserer de resultatet.
+
+Det er en god første påminnelse om at plotting ofte kommer etter dataforberedelse, ikke
+før.
+
+## Titler, aksemerkelapper, forklaringer og rutenett gjør plott lesbare
+
+Matplotlib gir eksplisitt kontroll over plottdetaljene:
+
+```python
+plt.title("Average revenue by channel")
+plt.xlabel("Channel")
+plt.ylabel("Average revenue")
+plt.grid(True)
+```
+
+Disse detaljene er ikke kosmetiske tillegg. De er en del av om en annen person kan
+tolke figuren korrekt.
+
+Studentene bør behandle manglende merkelapper som et klarhetsproblem, ikke bare et
+stilspørsmål.
+
+## `plt.figure(...)` og `plt.subplots(...)` kontrollerer tegneflaten
+
+Matplotlib kan opprette en figur først, deretter tegne en eller flere akser inni den:
+
+```python
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.plot(dates, revenue, marker="o")
+```
+
+Dette mønsteret blir spesielt nyttig når studentene ønsker mer eksplisitt kontroll over:
+
+- figurstørrelse,
+- flere akser,
+- og hvilke kommandoer som tilhører hvilket plott.
+
+For den første bolken er det nok å vite at `plt.subplots(...)` oppretter en figur og
+returnerer et akseobjekt som kan tilpasses direkte.
+
+## Pandas-utdata kan mates direkte til Matplotlib
+
+Matplotlib passer naturlig etter Pandas-bolken fordi DataFramen allerede inneholder
+navngitte kolonner:
+
+```python
+sales = pd.read_csv("campus_store_plotting_data.csv", parse_dates=["date"])
+sales = sales.sort_values("date")
+plt.plot(sales["date"], sales["revenue"])
+```
+
+Studentene trenger ikke en egen plottspesifikk datastruktur. De kan ofte:
+
+- laste inn data med Pandas,
+- gruppere eller filtrere dem,
+- deretter sende en eller to kolonner direkte til Matplotlib.
+
+Det gjør plottesteget mer reproduserbart enn å bygge grafer manuelt i et regneark.
+
+## `savefig(...)` gjør et plott til en gjenbrukbar artefakt
+
+Matplotlib kan skrive en figur til disk:
+
+```python
+plt.savefig("revenue_trend.png")
+```
+
+Dette er viktig fordi et plott ikke alltid bare er for interaktiv inspeksjon. Det kan
+trenge å brukes på nytt i notater, presentasjoner eller en rapport.
+
+Lagring av figuren bør vanligvis skje før `plt.show()` slik at utdatafilen fanger den
+komplette plotttilstanden.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- importere Matplotlib med standard `plt`-aliaset,
+- lage et grunnleggende linjeplott, spredningsplott og søyleplott,
+- legge til titler, aksemerkelapper og et rutenett,
+- velge en plotttype som passer til dataenes struktur,
+- bruke Pandas-kolonner eller grupperte sammendrag som plottinput,
+- lagre en figur til disk med `savefig(...)`.

@@ -2826,3 +2826,63 @@ def test_python_basics_and_containers_nb_student_blocked() -> None:
             output_format="html",
             root=REPO_ROOT,
         )
+
+
+def test_numpy_arrays_and_matrices_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "numpy-arrays-and-matrices",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "concept"
+    assert "## NumPy gjør numeriske data eksplisitte og skalerbare" in assembly.markdown
+    assert "## `np.array(...)` oppretter en `ndarray`" in assembly.markdown
+
+
+def test_numpy_array_and_matrix_lab_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "numpy-array-and-matrix-lab",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab-oppgave" in assembly.markdown
+    assert "## Oppgaver" in assembly.markdown
+
+
+def test_edi3400_lecture_06_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-06",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## NumPy gjør numeriske data eksplisitte og skalerbare" in assembly.markdown
+    assert "## Lab-oppgave" in assembly.markdown
+
+
+def test_numpy_arrays_and_matrices_nb_student_blocked() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    with pytest.raises(AssemblyError):
+        assemble_target(
+            "numpy-arrays-and-matrices",
+            index=index,
+            audience="student",
+            language="nb",
+            output_format="html",
+            root=REPO_ROOT,
+        )

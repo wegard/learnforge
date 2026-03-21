@@ -1,0 +1,92 @@
+## Oppgavesett
+
+Bruk dette oppgavesettet til å koble sammen den første kanoniske dataanalysestabelen i
+`EDI 3400`:
+
+- flytt numeriske kolonner til NumPy-arrayer,
+- bruk Pandas til å inspisere og oppsummere en liten salgstabell,
+- og kommuniser resultatene med noen få tydelige Matplotlib-plott.
+
+Bruk den lokale ressursen i denne øvelsesmappen:
+
+- `assets/campus_store_performance.csv`
+
+Hold arbeidsflyten eksplisitt. Poenget er å vise hvordan arrayer, tabeller og figurer
+passer sammen, ikke å gjemme arbeidet i lengre hjelpefunksjoner.
+
+## Oppgaver
+
+1. Importer de nødvendige bibliotekene:
+   - skriv `import numpy as np`,
+   - skriv `import pandas as pd`,
+   - skriv `import matplotlib.pyplot as plt`.
+2. Last inn CSV-filen i en `DataFrame`:
+   - les `assets/campus_store_performance.csv` med `pd.read_csv(...)`,
+   - pars `date`-kolonnen med `parse_dates=["date"]`,
+   - sorter radene etter `date`,
+   - skriv ut `sales.head()`,
+   - skriv ut `sales.dtypes`.
+3. Trekk ut numeriske kolonner til NumPy-arrayer:
+   - opprett `orders = sales["orders"].to_numpy()`,
+   - opprett `revenue = sales["revenue"].to_numpy()`,
+   - opprett `marketing = sales["marketing_spend"].to_numpy()`,
+   - skriv ut `shape` for hver array.
+4. Bruk vektoriserte NumPy-beregninger:
+   - opprett `average_order_value = revenue / orders`,
+   - skriv ut `np.round(average_order_value[:5], 2)`,
+   - skriv ut `np.mean(average_order_value)`,
+   - skriv ut `np.std(average_order_value)`,
+   - opprett `revenue_matrix = revenue[:6].reshape((2, 3))`,
+   - skriv ut matrisen og dens radsummer med `revenue_matrix.sum(axis=1)`.
+5. Gå tilbake til Pandas og legg til den utledede metrikken:
+   - tilordne `average_order_value` tilbake til tabellen som en ny kolonne,
+   - skriv ut kolonnene `date`, `region`, `channel` og `average_order_value`.
+6. Filtrer og oppsummer tabellen:
+   - opprett en filtrert tabell som bare inneholder rader der `channel == "online"` og
+     `average_order_value >= 41`,
+   - skriv ut det filtrerte resultatet,
+   - opprett `region_summary = sales.groupby("region").agg(...)` med:
+     - total omsetning,
+     - totalt antall ordrer,
+     - gjennomsnittlig average order value,
+   - sorter `region_summary` etter total omsetning fra høy til lav,
+   - skriv ut resultatet.
+7. Lag et linjeplott av omsetning over tid:
+   - bruk `date` på x-aksen,
+   - bruk `revenue` på y-aksen,
+   - legg til markører, tittel, aksemerkelapper og rutenett,
+   - kall `plt.tight_layout()`,
+   - vis figuren.
+8. Lag et spredningsplott av markedsføringsutgifter versus omsetning:
+   - bruk `marketing_spend` på x-aksen,
+   - bruk `revenue` på y-aksen,
+   - legg til tittel og aksemerkelapper,
+   - vis figuren.
+9. Lag et søyleplott fra det grupperte sammendraget:
+   - plott `region_summary["total_revenue"]`,
+   - legg til tittel og aksemerkelapper,
+   - vis figuren.
+10. Lagre en ferdig figur:
+   - gjenskap linjeplottet for omsetning over tid,
+   - lagre det som `campus_store_revenue_report.png`,
+   - deretter vis eller lukk figuren.
+11. Skriv en kort refleksjon som dekker:
+   - én grunn til at NumPy-arrayer var nyttige før tabellsammendraget,
+   - én grunn til at Pandas gjorde det grupperte regionsammendraget lettere å inspisere,
+   - én grunn til at linje-, sprednings- og søyleplottene svarer på ulike spørsmål.
+
+## Startmal
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+sales = pd.read_csv(
+    "assets/campus_store_performance.csv",
+    parse_dates=["date"],
+).sort_values("date")
+```
+
+Hold de mellomliggende utskriftene synlige. Denne sjekken handler om å følge én tydelig
+arbeidsflyt fra råkolonner til en liten rapport.
