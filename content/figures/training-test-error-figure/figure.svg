@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Trenings- og testfeil</title>
+  <desc id="desc">Et linjediagram med modellkompleksitet på x-aksen og feil på y-aksen. Treningsfeilen synker jevnt, mens testfeilen danner en U-kurve med et optimalt punkt mellom underfitting og overfitting.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f6f1e7; }
+      .title { font: 700 34px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; }
+      .subtitle { font: 500 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+      .axis { stroke: #22324d; stroke-width: 4; stroke-linecap: round; }
+      .tick { stroke: #94a3b8; stroke-width: 2; }
+      .grid { stroke: #ddd2bc; stroke-width: 2; stroke-dasharray: 10 10; }
+      .axis-label { font: 700 19px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .stage-label { font: 700 16px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #4a5568; letter-spacing: 0.06em; }
+      .curve-train { fill: none; stroke: #2f855a; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+      .curve-test { fill: none; stroke: #d97706; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+      .curve-label { font: 700 18px "Source Sans 3", "DejaVu Sans", sans-serif; }
+      .train-label { fill: #2f855a; }
+      .test-label { fill: #d97706; }
+      .focus { fill: #14213d; }
+      .focus-line { stroke: #14213d; stroke-width: 3; stroke-dasharray: 8 8; }
+      .annotation { font: 600 16px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .panel { fill: #fffaf2; stroke: #d5c7ad; stroke-width: 2; }
+      .note { font: 500 15px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="560" rx="28"/>
+
+  <text class="title" x="86" y="78">Trenings- og testfeil</text>
+  <text class="subtitle" x="86" y="110">Generalisering handler om å finne kompleksiteten der testfeilen er lavest, ikke bare der treningsfeilen er lav.</text>
+
+  <g transform="translate(116 146)">
+    <line class="axis" x1="0" y1="320" x2="720" y2="320"/>
+    <line class="axis" x1="0" y1="320" x2="0" y2="0"/>
+
+    <line class="grid" x1="0" y1="240" x2="720" y2="240"/>
+    <line class="grid" x1="0" y1="160" x2="720" y2="160"/>
+    <line class="grid" x1="0" y1="80" x2="720" y2="80"/>
+
+    <line class="tick" x1="180" y1="320" x2="180" y2="332"/>
+    <line class="tick" x1="390" y1="320" x2="390" y2="332"/>
+    <line class="tick" x1="600" y1="320" x2="600" y2="332"/>
+
+    <text class="axis-label" x="360" y="372" text-anchor="middle">Modellkompleksitet</text>
+    <text class="axis-label" x="-150" y="-56" transform="rotate(-90)" text-anchor="middle">Feil</text>
+
+    <text class="stage-label" x="90" y="356" text-anchor="middle">UNDERFITTING</text>
+    <text class="stage-label" x="390" y="356" text-anchor="middle">GOD BALANSE</text>
+    <text class="stage-label" x="630" y="356" text-anchor="middle">OVERTILPASNING</text>
+
+    <path class="curve-train" d="M 24 74 C 100 102, 178 145, 248 190 C 320 235, 392 262, 476 283 C 556 300, 630 308, 704 312"/>
+    <path class="curve-test" d="M 24 182 C 110 136, 198 96, 288 74 C 344 60, 392 66, 434 92 C 492 126, 556 176, 618 236 C 654 270, 680 294, 704 314"/>
+
+    <text class="curve-label train-label" x="568" y="270">Treningsfeil</text>
+    <text class="curve-label test-label" x="518" y="126">Testfeil</text>
+
+    <line class="focus-line" x1="382" y1="320" x2="382" y2="64"/>
+    <circle class="focus" cx="382" cy="68" r="8"/>
+
+    <g transform="translate(456 28)">
+      <rect class="panel" width="230" height="72" rx="16"/>
+      <text class="annotation" x="18" y="28">Optimalt punkt</text>
+      <text class="note" x="18" y="52">Lavest testfeil før modellen</text>
+      <text class="note" x="18" y="70">begynner å lære støy.</text>
+    </g>
+  </g>
+
+  <text class="note" x="86" y="516">Bruk figuren til å diskutere hvorfor validerings- og testdata trengs når modellen virker stadig bedre på treningssettet.</text>
+</svg>

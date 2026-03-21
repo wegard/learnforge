@@ -1,0 +1,41 @@
+id: training-test-error-figure
+kind: figure
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Trenings- og testfeil
+concepts:
+  - ml-model-evaluation-overview
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - model-selection
+  - overfitting
+tags:
+  - training-error
+  - test-error
+  - overfitting
+  - model-evaluation
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+caption:
+  nb: Figuren viser at treningsfeilen faller når modellkompleksiteten øker, mens testfeilen først faller og deretter stiger når modellen overtilpasses.
+alt_text:
+  nb: Et linjediagram med modellkompleksitet på x-aksen og feil på y-aksen. Treningsfeilen synker jevnt, mens testfeilen danner en U-kurve med et optimalt punkt mellom underfitting og overfitting.
+svg_path: figure.svg
+pdf_path: figure.pdf
+asset_inventory:
+  - figure.svg
+  - figure.pdf

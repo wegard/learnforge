@@ -110,7 +110,7 @@ Tasks that require instructor judgement and cannot be automated.
       |---|---|---|
       | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` | candidate |
       | `confusion_matrix.png` | `ml-model-evaluation-overview` | **promoted** |
-      | `training_and_test_error.png` | `ml-model-evaluation-overview` | candidate |
+      | `training_and_test_error.png` | `ml-model-evaluation-overview` | **promoted** |
       | `my_activation_functions.png` | `neural-networks-introduction` | candidate |
       | `gradient_descent.png` | `ml-model-evaluation-overview` | candidate |
       | `regression_example.png` | `ml-supervised-learning-overview` | candidate |
@@ -157,3 +157,4 @@ Tasks that require instructor judgement and cannot be automated.
 - Exercise: `ai-finance-individual-reflection`
 - Assignment collection: `bik2550-project-brief`
 - Figure: `confusion-matrix-figure`
+- Figure: `training-test-error-figure`

@@ -23,6 +23,7 @@ related:
   - bias-variance-tradeoff
   - model-selection-cross-validation
   - confusion-matrix-figure
+  - training-test-error-figure
 outputs:
   - html
   - pdf

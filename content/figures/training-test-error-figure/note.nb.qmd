@@ -1,0 +1,1 @@
+Figuren gjør overtilpasning lett å se: en mer kompleks modell kan alltid presse treningsfeilen ned, men det er testfeilen som avgjør om modellen faktisk generaliserer godt til nye data.
