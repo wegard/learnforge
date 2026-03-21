@@ -4,8 +4,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Time-series analysis lab
+  nb: Lab-oppgave i tidsserieanalyse
 courses:
   - edi3400
 topics:
@@ -28,6 +30,7 @@ owners:
 updated: 2026-03-21
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 exercise_type: coding

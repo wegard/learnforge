@@ -1,0 +1,68 @@
+Den sterkeste lærerløsningen holder uttrekks- og analysestegene adskilt og
+inspiserbare. Dette sjekkpunktet handler om å lese strukturerte data fra HTML-
+og CSV-kilder, ikke om å bygge en produksjonsskraper.
+
+## Foreslått tilnærming
+
+1. Les HTML-filen med vanlig `open(...)` — ingen nettverkstilgang nødvendig.
+2. Tolk med BeautifulSoup og trekk ut celletekst rad for rad.
+3. Hopp over overskriftsraden eksplisitt slik at bare datarader kommer inn i
+   listene.
+4. Bygg DataFrame fra de to listene og konverter typer bevisst.
+5. Last CSV-en med `pd.read_csv(...)` og inspiser før beregning.
+
+## Minimal referanseimplementasjon
+
+```python
+from bs4 import BeautifulSoup
+import pandas as pd
+
+with open("assets/sample_product_page.html") as f:
+    html = f.read()
+
+print(html[:200])
+
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.find_all("tr")
+
+products = []
+prices = []
+for row in rows[1:]:
+    cells = row.find_all("td")
+    if len(cells) == 2:
+        products.append(cells[0].get_text())
+        prices.append(cells[1].get_text())
+
+print(products)
+print(prices)
+
+df = pd.DataFrame({"product": products, "price": prices})
+df["price"] = pd.to_numeric(df["price"])
+print(df)
+print(df["price"].mean())
+
+revenue = pd.read_csv("assets/quarterly_revenue.csv")
+print(revenue.head())
+print(revenue.columns.tolist())
+print(revenue.dtypes)
+print(revenue["revenue"].sum())
+```
+
+## Hva studentene bør legge merke til
+
+- Å lese en lokal HTML-fil bruker det samme `open(...)`-mønsteret som tidligere
+  lab-oppgaver,
+- `find_all("tr")` returnerer alle rader inkludert overskriften, så å hoppe
+  over den første raden unngår å blande overskrifter inn i dataene,
+- `get_text()` fjerner HTML-taggene og returnerer rene strenger,
+- priskolonnen starter som strenger og trenger eksplisitt konvertering før
+  aritmetikk fungerer,
+- `pd.read_csv(...)` håndterer CSV-struktur automatisk, mens HTML-utvinning
+  krever manuell tolking.
+
+## Undervisningsvekt
+
+Hold fokuset på to-kilde-mønsteret: én strukturert (CSV) og én
+semi-strukturert (HTML). Målet er å gjøre studentene komfortable med å trekke
+ut tabelldata fra begge formater før kurset går videre til mer komplekse
+datapipelines.

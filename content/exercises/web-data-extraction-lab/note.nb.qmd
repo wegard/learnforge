@@ -1,0 +1,58 @@
+## Lab-oppgave
+
+Bruk denne øvelsen til å praktisere den første `EDI 3400`-arbeidsflyten for
+datautvinning fra nettet:
+
+- les og dekod en lokal HTML-fil,
+- trekk ut strukturerte data fra HTML med BeautifulSoup,
+- bygg en Pandas DataFrame fra de utvunnede verdiene,
+- og last en CSV-fil for sammenligning.
+
+Bruk de lokale ressursene i denne øvelsesmappen:
+
+- `assets/sample_product_page.html`
+- `assets/quarterly_revenue.csv`
+
+## Oppgaver
+
+1. Les HTML-filen som en streng:
+   - åpne `assets/sample_product_page.html` med `open(...)` og `.read()`,
+   - skriv ut de første 200 tegnene for å verifisere at innholdet ble lastet.
+2. Tolk HTML-en og trekk ut produktdata:
+   - opprett et `BeautifulSoup`-objekt fra HTML-strengen,
+   - bruk `soup.find_all("tr")` for å hente tabellradene,
+   - for hver rad, trekk ut celleteksten med `find_all("td")`,
+   - samle produktnavnene og prisene i to separate lister,
+   - skriv ut begge listene.
+3. Bygg en DataFrame fra de utvunnede dataene:
+   - opprett en `pd.DataFrame` med kolonnene `"product"` og `"price"`,
+   - konverter `"price"`-kolonnen til en numerisk type med `pd.to_numeric(...)`,
+   - skriv ut DataFrame-en,
+   - skriv ut gjennomsnittsprisen.
+4. Last CSV-filen og sammenlign:
+   - last `assets/quarterly_revenue.csv` med `pd.read_csv(...)`,
+   - skriv ut de fem første radene,
+   - skriv ut kolonnenavnene og datatypene,
+   - beregn total omsetning og skriv den ut.
+
+## Startmal
+
+```python
+from bs4 import BeautifulSoup
+import pandas as pd
+
+with open("assets/sample_product_page.html") as f:
+    html = f.read()
+
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.find_all("tr")
+
+products = []
+prices = []
+
+revenue = pd.read_csv("assets/quarterly_revenue.csv")
+```
+
+Hold uttrekksstegene synlige. Skriv ut mellomresultater slik at du kan
+verifisere at hvert steg produserer den forventede strukturen før du går videre
+til neste.

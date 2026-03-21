@@ -1,0 +1,68 @@
+## Øvelsesoppgave
+
+Bruk denne lab-oppgaven til å øve på arbeidsflyten fra forelesning 9 direkte:
+
+- les tilbakesporingen (traceback),
+- inspiser et feilaktig skript i et IDE eller redigeringsverktøy,
+- skriv noen få små tester,
+- og verifiser ett KI-generert forslag i stedet for å akseptere det blindt.
+
+Bruk den lokale ressursen i denne øvelsesmappen:
+
+- `assets/sales_report_debug_case.py`
+
+Hvis du har tilgang til en godkjent KI-assistent i klasserommet, bruk den til ett
+avgrenset steg senere i lab-oppgaven. Hvis du ikke har tilgang, skriv prompten du
+ville ha brukt og fullfør verifiseringsstegene manuelt.
+
+## Oppgaver
+
+1. Åpne og kjør det medfølgende skriptet:
+   - inspiser `assets/sales_report_debug_case.py`,
+   - kjør det fra IDE-et eller terminalen,
+   - kopier unntakstypen og den feilende linjen til notatene dine.
+2. Diagnostiser den første feilen:
+   - bruk tilbakesporingen, variabelinspeksjon, brytepunkter eller korte print-setninger,
+   - forklar med én eller to setninger hvilken antakelse koden tok feil om.
+3. Fiks kjøretidsfeilen:
+   - rediger skriptet slik at det kjører til fullføring,
+   - skriv ut de resulterende oppsummeringslinjene.
+4. Legg til enhetstester for nøkkelfunksjonene:
+   - lag minst tre tester for:
+     - `total_revenue(...)`,
+     - `average_order_value(...)`,
+     - `busiest_day(...)`,
+   - kjør dem med `pytest -q`.
+5. Finn og fiks én ekstra logikkfeil:
+   - bruk de feilende testene til å identifisere feil oppførsel,
+   - korriger koden,
+   - kjør testene på nytt til de passerer.
+6. Bruk dokumentasjon bevisst:
+   - slå opp én Python- eller `pytest`-referanse som hjelper deg å skrive eller
+     forbedre testene,
+   - noter funksjonen, metoden eller kommandoen du slo opp.
+7. Bruk en KI-assistent til én avgrenset oppgave:
+   - be om enten:
+     - én forklaring av tilbakesporingen,
+     - én foreslått testcase,
+     - eller ett refaktoreringsforslag,
+   - hold prompten kort og spesifikk,
+   - aksepter forslaget bare hvis du kan verifisere det ved å kjøre kode eller tester.
+8. Skriv en kort refleksjon som dekker:
+   - én IDE- eller redigeringsverktøyfunksjon som hjalp mest,
+   - én ting testene avslørte som manuell inspeksjon gikk glipp av,
+   - ett KI-forslag du aksepterte eller avviste og hvorfor.
+
+## Startmal
+
+```python
+from sales_report_debug_case import (
+    sales_rows,
+    total_revenue,
+    average_order_value,
+    busiest_day,
+)
+```
+
+Målet er ikke å produsere et stort program. Målet er å øve på en forsvarlig
+feilsøkingsarbeidsflyt der hver endring er støttet av bevis.

@@ -1,0 +1,71 @@
+Den sterkeste lærerløsningen holder tidsseriearbeidsflyten lineær og
+inspiserbar. Dette sjekkpunktet handler om å laste datoindekserte data,
+resample og plotte — ikke om statistisk modellering eller prognoser.
+
+## Foreslått tilnærming
+
+1. Tolk datoer ved lasting og sett indeksen umiddelbart.
+2. Skriv ut oppsummerende statistikk før noen transformasjon.
+3. Resample til månedlig og sammenlign radantall eksplisitt.
+4. Bruk `.plot()` for raske visualiseringer med tydelige etiketter.
+5. Vis det glidende gjennomsnittet ved siden av originalen for å gjøre
+   utjevningen synlig.
+
+## Minimal referanseimplementasjon
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("assets/daily_campus_energy.csv", parse_dates=["date"])
+df = df.set_index("date")
+
+print(df.head())
+print(df.index)
+print(df.shape)
+print(df.dtypes)
+print(f"Date range: {df.index.min()} to {df.index.max()}")
+print(f"Mean kWh: {df['kwh'].mean():.1f}")
+print(f"Std kWh: {df['kwh'].std():.1f}")
+
+monthly = df.resample("ME").mean()
+print(monthly)
+print(f"Daily rows: {len(df)}, Monthly rows: {len(monthly)}")
+
+fig, ax = plt.subplots(figsize=(10, 4))
+df["kwh"].plot(ax=ax, alpha=0.5, label="Daily")
+monthly["kwh"].plot(ax=ax, linewidth=2, label="Monthly mean")
+ax.set_title("Campus energy use: daily vs. monthly")
+ax.set_ylabel("kWh")
+ax.legend()
+plt.tight_layout()
+plt.show()
+
+df["rolling_7d"] = df["kwh"].rolling(window=7).mean()
+print(df[["kwh", "rolling_7d"]].head(10))
+
+fig, ax = plt.subplots(figsize=(10, 4))
+df["kwh"].plot(ax=ax, alpha=0.4, label="Daily")
+df["rolling_7d"].plot(ax=ax, linewidth=2, label="7-day rolling mean")
+ax.set_title("Campus energy use with rolling average")
+ax.set_ylabel("kWh")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+## Hva studentene bør legge merke til
+
+- `parse_dates` og `set_index` oppretter sammen en riktig DatetimeIndex,
+- resampling reduserer 90 daglige rader til omtrent 3 månedlige rader,
+- det daglige plottet viser dag-til-dag-variasjon som den månedlige visningen
+  skjuler,
+- det glidende gjennomsnittet bevarer den daglige oppløsningen mens støy
+  jevnes ut,
+- de første seks glidende verdiene er `NaN` fordi vinduet trenger syv punkter.
+
+## Undervisningsvekt
+
+Hold fokuset på arbeidsflyten: last, inspiser, resample, plott, jevn ut. Målet
+er å gjøre studentene komfortable med datoindekserte Pandas-operasjoner før
+kurset går videre til mer avansert analyse eller databasearbeidsflyter.

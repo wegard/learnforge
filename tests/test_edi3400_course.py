@@ -2886,3 +2886,62 @@ def test_numpy_arrays_and_matrices_nb_student_blocked() -> None:
             output_format="html",
             root=REPO_ROOT,
         )
+
+
+def test_web_data_extraction_with_python_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "web-data-extraction-with-python",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "concept"
+    assert "## Nettet er en datakilde Python kan lese programmatisk" in assembly.markdown
+
+
+def test_web_data_extraction_lab_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "web-data-extraction-lab",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab-oppgave" in assembly.markdown
+    assert "## Oppgaver" in assembly.markdown
+
+
+def test_edi3400_lecture_10a_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-10a",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## Nettet er en datakilde Python kan lese programmatisk" in assembly.markdown
+    assert "## Lab-oppgave" in assembly.markdown
+
+
+def test_web_data_extraction_with_python_nb_student_blocked() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    with pytest.raises(AssemblyError):
+        assemble_target(
+            "web-data-extraction-with-python",
+            index=index,
+            audience="student",
+            language="nb",
+            output_format="html",
+            root=REPO_ROOT,
+        )

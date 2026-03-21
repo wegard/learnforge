@@ -5,8 +5,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Lecture 10B - Time-series analysis and statistics
+  nb: Forelesning 10B – Tidsserieanalyse og statistikk
 courses:
   - edi3400
 topics:
@@ -29,6 +31,7 @@ owners:
 updated: 2026-03-21
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 items:

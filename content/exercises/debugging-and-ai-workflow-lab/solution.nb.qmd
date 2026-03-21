@@ -1,0 +1,94 @@
+Den sterkeste lærerløsningen holder feilsøkingsarbeidsflyten evidensbasert:
+start fra tilbakesporingen, reparer kjøretidsfeilen, skriv små tester, og bruk
+deretter testene til å fange den gjenværende logikkfeilen.
+
+## Foreslått tilnærming
+
+1. Kjør det medfølgende skriptet før du redigerer noe, slik at den opprinnelige
+   feilen er synlig.
+2. Fiks kjøretidsfeilen først, fordi tester er mer nyttige når modulen
+   importeres og kjører rent.
+3. Skriv en liten test rundt hver kjernefunksjon i stedet for én overdimensjonert
+   ende-til-ende-sjekk.
+4. Behandle KI-assistenten som valgfri støtte for forklaring eller testutkast,
+   ikke som sannhetens kilde.
+
+## Minimal referanseimplementasjon
+
+Korrigert modul:
+
+```python
+sales_rows = [
+    {"date": "2024-04-01", "orders": 42, "revenue": 1680},
+    {"date": "2024-04-02", "orders": 35, "revenue": 1330},
+    {"date": "2024-04-03", "orders": 48, "revenue": 2015},
+    {"date": "2024-04-04", "orders": 29, "revenue": 1160},
+]
+
+
+def total_revenue(rows):
+    return sum(row["revenue"] for row in rows)
+
+
+def average_order_value(rows):
+    total_orders = sum(row["orders"] for row in rows)
+    return total_revenue(rows) / total_orders
+
+
+def busiest_day(rows):
+    return max(rows, key=lambda row: row["orders"])["date"]
+
+
+def summary_lines(rows):
+    return [
+        f"Total revenue: {total_revenue(rows)}",
+        f"Average order value: {average_order_value(rows):.2f}",
+        f"Busiest day: {busiest_day(rows)}",
+    ]
+```
+
+Representative tester:
+
+```python
+import pytest
+
+from sales_report_debug_case import (
+    average_order_value,
+    busiest_day,
+    sales_rows,
+    total_revenue,
+)
+
+
+def test_total_revenue():
+    assert total_revenue(sales_rows) == 6185
+
+
+def test_average_order_value():
+    assert average_order_value(sales_rows) == pytest.approx(6185 / 154)
+
+
+def test_busiest_day():
+    assert busiest_day(sales_rows) == "2024-04-03"
+```
+
+## Eksempel på avgrenset KI-prompt
+
+`The function imports but the summary value looks wrong. Suggest one pytest test that could catch a busiest-day bug in this script.`
+
+Den prompten er smal nok til å verifisere. Et godt svar bør likevel sjekkes ved
+å kjøre testen lokalt.
+
+## Hva studentene bør legge merke til
+
+- Tilbakesporingen var nok til å lokalisere den første feilen raskt.
+- Den andre feilen var lettere å fange da testene uttrykte det forventede
+  resultatet.
+- KI kan hjelpe med å foreslå en sjekk, men det virkelige beviset kommer
+  fortsatt fra testkjøringen.
+
+## Undervisningsvekt
+
+Hold fokuset på kvaliteten på arbeidsflyten snarere enn på én bestemt
+verktøyleverandør. Det viktige utfallet er at studentene kan beskrive hvorfor de
+stolte på den endelige fiksen.

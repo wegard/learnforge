@@ -37,6 +37,7 @@
 - Phase 11 parallel checkpoint: `edi3400` migration finalized — orientation concept, lecture-01 collection, course status upgraded to `approved`
 - Norwegian (nb) draft translations: `edi3400` Part 1 (Python basics, lectures 1–5) — 7 concepts, 6 exercises, 7 lectures, 2 assignments
 - Norwegian (nb) draft translations: `edi3400` Part 2 (third-party libraries, lectures 6–8) — 3 concepts, 4 exercises, 3 lectures, 1 assignment
+- Norwegian (nb) draft translations: `edi3400` Part 3 (advanced topics, lectures 9–10) — 3 concepts, 3 exercises, 3 lectures
 
 ## Non-Goals For This Run
 

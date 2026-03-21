@@ -1,0 +1,106 @@
+## Et IDE forkorter tilbakemeldingssløyfen i programmering
+
+Et integrert utviklingsmiljø samler redigering, kjøring, inspeksjon og testing
+på ett sted. Poenget er ikke merkenavnet. Poenget er at studentene får raskere
+tilbakemelding på kode, feil og filstruktur enn de får ved å skrive blindt i et
+enkelt skript.
+
+I praksis hjelper et IDE med:
+
+- å åpne flere prosjektfiler samtidig,
+- å kjøre ett skript gjentatte ganger,
+- å inspisere variabler mens programmet er pauset,
+- å finne funksjonsdefinisjoner raskt,
+- og å kjøre tester uten å bygge opp hele arbeidsflyten fra hukommelsen hver gang.
+
+## Feilmeldinger og tilbakesporinger er det første feilsøkingsverktøyet
+
+Feilsøking bør starte med programmets egen dokumentasjon:
+
+- unntakstypen,
+- tilbakesporingen (traceback),
+- linjenummeret,
+- og verdiene som var synlige rett før feilen oppsto.
+
+Studenter behandler ofte feilmeldingen som støy og hopper rett til å skrive om
+koden. Det er vanligvis baklengs. Feilmeldingen er det første hintet om hvilken
+antakelse programmet nettopp brøt.
+
+## Brytepunkter og variabelinspeksjon viser programmets tilstand
+
+Når koden kjører men gir feil svar, handler det neste spørsmålet vanligvis om
+tilstand:
+
+- hvilke verdier variablene har,
+- hvilken gren som ble tatt,
+- hvor mange ganger løkken kjørte,
+- og hva funksjonen returnerte.
+
+Brytepunkter, trinnvis kjøring og variabelinspeksjon gjør disse spørsmålene
+konkrete. Derfor er IDE-basert feilsøking nyttig selv for små skript: det
+forvandler gjetting til observasjon.
+
+## Enhetstester gjør forventninger til repeterbare sjekker
+
+En enhetstest er en liten kjørbar påstand om hvordan kode skal oppføre seg.
+I stedet for å tenke «denne funksjonen virker riktig», kan studentene fastslå:
+
+- for dette inputet,
+- skal funksjonen returnere dette outputet,
+- og den skal fortsette å gjøre det etter senere endringer.
+
+For dette kurset er den viktige vanen ikke avansert testarkitektur. Vanen er å
+skrive noen få tydelige sjekker rundt funksjoner som betyr noe, og kjøre dem på
+nytt etter hver endring.
+
+## Dokumentasjon er en del av arbeidsflyten
+
+Feilsøking er enklere når studenter leser:
+
+- funksjonsdokumentasjonsstrenger (docstrings),
+- bibliotekdokumentasjon,
+- feilmeldinger,
+- og korte eksempler som passer til oppgaven.
+
+Dette er spesielt viktig når kurset beveger seg forbi ren Python og inn i
+Pandas, Matplotlib, SQL-koblinger og senere eksterne verktøy. Dokumentasjon er
+ikke et eget teoritema. Det er en del av hvordan programmerere jobber.
+
+## KI-assistenter kan akselerere forslag, ikke verifisering
+
+Verktøy som GitHub Copilot eller chat-baserte KI-assistenter kan hjelpe med:
+
+- å utforme en testcase,
+- å forklare en feilmelding,
+- å foreslå en refaktorering,
+- eller å oppsummere hva en funksjon ser ut til å gjøre.
+
+Men de bør behandles som forslagsmotorer, ikke som tause autoriteter. En nyttig
+programmeringsarbeidsflyt holder tre spørsmål synlige:
+
+1. Hva ba jeg nøyaktig assistenten om å gjøre?
+2. Hvordan vil jeg verifisere om forslaget er riktig?
+3. Hvilken del av resonnementet trenger fortsatt min egen vurdering?
+
+## Verifisering er viktigere enn flyt
+
+En polert KI-generert forklaring kan fortsatt være feil. Gode arbeidsflytvaner
+kombinerer derfor:
+
+- IDE for inspeksjon,
+- tester for repeterbare sjekker,
+- dokumentasjon for autoritativ referanse,
+- og KI bare som ett valgfritt støttelag.
+
+Den kombinasjonen er det egentlige poenget i forelesning 9. Studentene bør
+forlate forelesningen med en tydeligere prosess, ikke bare en lengre liste med
+verktøy.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette sjekkpunktet bør studentene kunne:
+
+- lese en tilbakesporing (traceback) før de endrer kode,
+- bruke et IDE eller redigeringsverktøy til å inspisere programmets tilstand,
+- skrive noen få små tester for et feilaktig skript,
+- og verifisere KI-forslag mot faktisk programoppførsel.

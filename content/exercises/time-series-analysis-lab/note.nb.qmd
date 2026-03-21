@@ -1,0 +1,57 @@
+## Lab-oppgave
+
+Bruk denne øvelsen til å praktisere den første `EDI 3400`-arbeidsflyten for
+tidsserier:
+
+- last en datostemplet CSV-fil med tolkede datoer,
+- sett datokolonnen som indeks,
+- resample daglige data til månedlig oppløsning,
+- plott den daglige og månedlige serien,
+- og beregn et glidende gjennomsnitt.
+
+Bruk den lokale ressursen i denne øvelsesmappen:
+
+- `assets/daily_campus_energy.csv`
+
+## Oppgaver
+
+1. Last CSV-filen med tolkede datoer:
+   - last `assets/daily_campus_energy.csv` med `pd.read_csv(...)`,
+   - bruk `parse_dates=["date"]` for å konvertere datokolonnen,
+   - sett `date`-kolonnen som indeks med `set_index("date")`,
+   - skriv ut de fem første radene og `df.index` for å verifisere DatetimeIndex.
+2. Inspiser dataene:
+   - skriv ut formen (shape) og datatypene,
+   - skriv ut datoområdet som dekkes (første og siste indeksverdi),
+   - skriv ut gjennomsnittet og standardavviket til `kwh`-kolonnen.
+3. Resample til månedlig oppløsning:
+   - opprett `monthly = df.resample("ME").mean()`,
+   - skriv ut den månedlige tabellen,
+   - skriv ut antall rader før og etter resampling.
+4. Plott den daglige og månedlige serien:
+   - plott de daglige `kwh`-verdiene med `df["kwh"].plot(...)`,
+   - på de samme aksene, plott de månedlige resamplede verdiene,
+   - legg til en tittel, y-akseetikett og forklaring (legend),
+   - lagre eller vis figuren.
+5. Beregn et 7-dagers glidende gjennomsnitt:
+   - opprett `df["rolling_7d"] = df["kwh"].rolling(window=7).mean()`,
+   - skriv ut de 10 første radene for å vise de innledende `NaN`-verdiene,
+   - plott både originalen og det glidende gjennomsnittet i én figur.
+6. Skriv en kort refleksjon som dekker:
+   - én forskjell mellom resampling og glidende gjennomsnitt,
+   - ett mønster du la merke til i de daglige dataene som den månedlige
+     visningen skjuler,
+   - om temperaturkolonnen korrelerer visuelt med energibruk.
+
+## Startmal
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("assets/daily_campus_energy.csv", parse_dates=["date"])
+df = df.set_index("date")
+```
+
+Hold plottene enkle. Bruk `.plot()` med tydelige titler og etiketter slik at
+tidsseriemønstrene er lette å lese.

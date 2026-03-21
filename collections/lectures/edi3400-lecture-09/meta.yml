@@ -5,8 +5,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Lecture 9 - IDEs and generative AI for programming
+  nb: Forelesning 9 – IDE og generativ KI for programmering
 courses:
   - edi3400
 topics:
@@ -29,6 +31,7 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 items:

@@ -1,0 +1,136 @@
+## Nettet er en datakilde Python kan lese programmatisk
+
+Mange datasett som studenter arbeider med i `EDI 3400` starter som lokale
+CSV-filer eller databasetabeller. Men en stor andel av data i den virkelige
+verden finnes på nettet — i HTML-sider, offentlige CSV-endepunkter og
+strukturerte strømmer.
+
+Python kan hente og tolke slike data uten en nettleser. Standardbiblioteket
+tilbyr `urllib` for nedlasting, og tredjepartsbiblioteker som BeautifulSoup
+legger til strukturbevisst tolking på toppen.
+
+Dette er viktig fordi:
+
+- noen datasett bare er tilgjengelige på nettet,
+- automatisering av nedlastingssteget gjør arbeidsflyten reproduserbar,
+- og forståelse av råformatet hjelper studenter med å vurdere datakvaliteten.
+
+## URL-er fungerer som filstier for eksterne data
+
+I forelesningen om filhåndtering åpnet studentene lokale filer med `open(...)`.
+For eksterne data er det tilsvarende inngangspunktet `urlopen` fra
+standardbiblioteket:
+
+```python
+from urllib.request import urlopen
+
+response = urlopen("https://example.com/data.csv")
+raw_bytes = response.read()
+text = raw_bytes.decode("utf-8")
+print(text[:200])
+```
+
+Den viktigste forskjellen er at `urlopen` returnerer bytes, ikke en streng.
+`.decode()`-steget konverterer disse bytene til lesbar tekst — vanligvis med
+`"utf-8"`.
+
+Dette mønsteret fungerer for enhver URL som returnerer ren tekst: CSV-filer,
+HTML-sider eller enkle tekststrømmer. Resultatet er en Python-streng som kan
+behandles med de samme verktøyene studentene allerede kjenner.
+
+## BeautifulSoup gjør rå HTML om til navigerbar struktur
+
+HTML-sider er ikke rene data. De inneholder tagger, attributter og nestede
+elementer. Å trekke ut nyttige verdier fra rå HTML for hånd er feilutsatt.
+
+BeautifulSoup er et Python-bibliotek som tolker en HTML-streng og gjør den
+søkbar:
+
+```python
+from bs4 import BeautifulSoup
+
+html = """
+<html>
+<body>
+  <table>
+    <tr><th>Product</th><th>Price</th></tr>
+    <tr><td>Notebook</td><td>49</td></tr>
+    <tr><td>Pen set</td><td>29</td></tr>
+  </table>
+</body>
+</html>
+"""
+
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.find_all("tr")
+for row in rows:
+    cells = row.find_all(["th", "td"])
+    print([cell.get_text() for cell in cells])
+```
+
+Resultatet er en liste av lister — hver rad hentet rent ut fra tabellstrukturen.
+`find_all()` godtar taggnavn, CSS-klasser og andre selektorer, noe som gjør den
+fleksibel nok for de fleste enkle uttrekksoppgaver.
+
+::: {.teacher-only}
+## Forslag til live-demonstrasjon
+
+Vis en ekte offentlig side i nettleseren først, og vis deretter kildekoden. Gå
+gjennom `find_all()`-kallet for å trekke ut de samme verdiene som studentene kan
+se på skjermen. Dette gjør koblingen mellom synlig HTML og tolket data konkret.
+:::
+
+## Pandas kan lese CSV-data direkte fra en URL
+
+Når de eksterne dataene allerede er i CSV-format, kan Pandas hoppe over det
+manuelle nedlastingssteget helt:
+
+```python
+import pandas as pd
+
+url = "https://example.com/quarterly_revenue.csv"
+df = pd.read_csv(url)
+print(df.head())
+```
+
+Dette er den samme `pd.read_csv(...)` som studentene brukte med lokale filer i
+Pandas-forelesningen. Den eneste forskjellen er at sti-argumentet er en URL i
+stedet for et lokalt filnavn.
+
+Dette mønsteret er praktisk, men har begrensninger:
+
+- URL-en må peke direkte til en CSV-fil (ikke en HTML-side),
+- serveren må tillate uautentisert tilgang,
+- og filen må være liten nok til å lastes ned i ett steg.
+
+For større eller mer komplekse kilder bør studentene laste ned filen først og
+deretter laste den lokalt.
+
+## Eksterne datakilder er kraftige, men skjøre
+
+Data fra nettet er nyttig, men introduserer risikoer som lokale filer ikke har:
+
+- **Frekvensbegrensninger** — servere kan blokkere gjentatte forespørsler.
+- **Formatendringer** — en redesign av en side kan bryte uttrekkskoden stille.
+- **Tilgjengelighet** — en URL som fungerer i dag kan gi en feil i morgen.
+- **Reproduserbarhet** — hvis dataene endrer seg mellom kjøringer, blir
+  resultatene vanskeligere å verifisere.
+
+For kursarbeid er det tryggeste mønsteret:
+
+1. last ned dataene én gang,
+2. lagre en lokal kopi,
+3. arbeid fra den lokale kopien i analyseskript.
+
+Dette holder uttrekkssteget adskilt fra analysesteget og gjør arbeidsflyten
+reproduserbar selv når den opprinnelige kilden endrer seg.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- forklare hvorfor data fra nettet krever et eksplisitt nedlastings- og dekodingssteg,
+- bruke `urlopen` til å hente en ekstern tekstfil,
+- tolke en liten HTML-tabell med BeautifulSoup og `find_all()`,
+- laste en ekstern CSV-fil direkte med `pd.read_csv(url)`,
+- forklare hvorfor lagring av en lokal kopi forbedrer reproduserbarheten.

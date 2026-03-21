@@ -1,0 +1,130 @@
+## Tidsstemplede data krever eksplisitt datohåndtering
+
+Mange datasett i `EDI 3400` inneholder en dato- eller tidsstempelkolonne. Når
+Pandas leser den kolonnen som ren tekst, fungerer ikke datobaserte operasjoner
+som filtrering etter måned eller beregning av ukentlige gjennomsnitt korrekt.
+
+Løsningen er å fortelle Pandas at kolonnen inneholder datoer:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("daily_campus_energy.csv", parse_dates=["date"])
+```
+
+Argumentet `parse_dates` konverterer den navngitte kolonnen fra strenger til
+riktige `datetime`-objekter. Dette ene steget låser opp alle Pandas' datobevisste
+funksjoner.
+
+## En DatetimeIndex gjør datoer til den primære aksen
+
+Når datokolonnen er tolket, gjør det å sette den som indeks at hele tabellen
+blir datoindeksert:
+
+```python
+df = df.set_index("date")
+print(df.index)
+```
+
+En `DatetimeIndex` støtter:
+
+- utsnitt etter datoområde: `df.loc["2025-01":"2025-03"]`,
+- gruppering etter kalenderperiode,
+- og resampling til forskjellige tidsoppløsninger.
+
+Funksjonen `pd.to_datetime()` er det manuelle alternativet når `parse_dates`
+ikke er nok:
+
+```python
+df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
+```
+
+Dette er nyttig når datoformatet er ikke-standard eller når kolonnen trenger
+opprydding før konvertering.
+
+## Resampling endrer tidsoppløsningen til en tabell
+
+Daglige data er ofte for detaljerte for oppsummerende analyse. Resampling
+konverterer en tidsindeksert tabell til en grovere oppløsning:
+
+```python
+monthly = df.resample("ME").mean()
+print(monthly.head())
+```
+
+Regelen `"ME"` betyr «månedsslutt» — hver rad i resultatet representerer én
+kalendermåned. Aggregeringen `.mean()` beregner gjennomsnittet av alle daglige
+verdier innenfor hver måned.
+
+Andre vanlige regler:
+
+- `"W"` for ukentlig,
+- `"QE"` for kvartalsvis,
+- `"YE"` for årlig.
+
+Resampling er en form for nedsampling: det reduserer antall rader mens den
+overordnede trenden bevares. Dette er tidsseriens ekvivalent til grupperingen
+og aggregeringen studentene allerede kjenner fra Pandas.
+
+## Tidsserieplot avslører mønstre som oppsummerende statistikk skjuler
+
+Et enkelt gjennomsnitt eller standardavvik skjuler formen på dataene over tid.
+Å plotte verdiene på en tidsakse gjør trender, sykluser og uteliggere synlige:
+
+```python
+import matplotlib.pyplot as plt
+
+df["kwh"].plot(title="Daily campus energy use")
+plt.ylabel("kWh")
+plt.tight_layout()
+plt.show()
+```
+
+Pandas integreres direkte med Matplotlib gjennom `.plot()`-metoden. Når
+indeksen er en `DatetimeIndex`, viser x-aksen automatisk datoer.
+
+Å sammenligne det daglige plottet med et månedlig resamplet plot er en god måte
+å se hvordan aggregering jevner ut kortsiktig støy mens den underliggende
+trenden bevares.
+
+::: {.teacher-only}
+## Forslag til live-demonstrasjon
+
+Vis et daglig energi- eller temperaturplot først, og legg deretter den månedlige
+resamplede versjonen over på de samme aksene. Dette gjør utjevningseffekten
+konkret. For et mer engasjerende eksempel, bruk en aksjekurs-CSV hvis klassen er
+komfortabel med finansdata.
+:::
+
+## Glidende vinduer jevner ut kortsiktig støy
+
+Resampling grupperer data i faste kalenderperioder. Glidende vinduer beregner i
+stedet en statistikk over et skyvevindu med fast bredde:
+
+```python
+df["rolling_7d"] = df["kwh"].rolling(window=7).mean()
+df[["kwh", "rolling_7d"]].plot(title="Daily energy with 7-day rolling average")
+plt.ylabel("kWh")
+plt.tight_layout()
+plt.show()
+```
+
+Et 7-dagers glidende gjennomsnitt jevner ut dag-til-dag-variasjon mens den
+opprinnelige daglige oppløsningen beholdes. De første seks radene vil være `NaN`
+fordi vinduet trenger minst syv verdier for å beregne det første gjennomsnittet.
+
+Glidende vinduer er nyttige når:
+
+- dataene har en tydelig daglig eller ukentlig syklus,
+- studentene vil se trenden uten å miste den opprinnelige tidsoppløsningen,
+- og målet er visuell klarhet snarere enn formell statistisk modellering.
+
+## Hva studentene bør kunne etterpå
+
+Etter dette konseptet bør studentene kunne:
+
+- laste en CSV-fil med `parse_dates` og sette en datokolonne som indeks,
+- forklare forskjellen mellom en vanlig indeks og en `DatetimeIndex`,
+- resample en daglig tabell til månedlig eller ukentlig oppløsning,
+- plotte en tidsserie med `.plot()` og passende etiketter,
+- beregne et glidende gjennomsnitt og forklare hvorfor de første verdiene er `NaN`.

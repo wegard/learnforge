@@ -4,8 +4,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Debugging and AI workflow lab
+  nb: Feilsøking og KI-arbeidsflyt-lab
 courses:
   - edi3400
 topics:
@@ -28,6 +30,7 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 exercise_type: coding
