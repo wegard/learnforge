@@ -27,6 +27,10 @@
 - Phase 11 parallel checkpoint: `edi3400` problem-set promotion + lecture block assembly
 - Phase 11 complete checkpoint: `tem0052` fourth exercise promotion + lecture 6 completion
 - GitHub Pages deployment for student site
+- Phase 11 parallel checkpoint: `gra4164` full "promote first" slice — course shell, 13 concepts, 6 exercises, 4 assignment collections, 11 lectures, plan wiring
+- Phase 11 parallel checkpoint: `tem00uu` full "promote first" slice — course shell, 15 concepts, 7 exercises, 8 lectures, plan wiring, Part A complete
+- Cross-course wiring: first multi-course objects (`logistic-regression-classification`, `linear-regression-prediction`, `principal-component-analysis`) shared between `tem0052` and `gra4164`
+- Representative targets expanded to 21, covering all 3 migrated courses (`tem0052`, `gra4164`, `tem00uu`)
 
 ## Non-Goals For This Run
 
@@ -40,6 +44,9 @@
 - No `edi3400` migration beyond the first database lecture block
 - No `edi3400` assignment collection work yet
 - Keep `edi3400` intentionally English-only in this slice
+- No fresh concept authoring (SVM, gradient boosting, etc.)
+- No Norwegian translations for migrated courses
+- No new course migrations beyond `tem0052`, `edi3400`, `gra4164`, `tem00uu`
 - Leave unrelated local draft courses/concepts untouched
 - No browser-based editing surface
 - No frontend framework rewrite
@@ -395,24 +402,64 @@
 - Replaced whole-tree generated-staging resets with target-scoped cleanup under
   `build/generated/` after Quarto revealed that hidden generated paths and full-tree
   resets were unstable in repeated sequential renders
+- Formalized the `gra4164` course shell and migration inventory for the "Text as Data"
+  migration slice:
+  - `courses/gra4164/course.yml`
+  - `courses/gra4164/plan.yml`
+  - `courses/gra4164/syllabus.en.qmd`
+- Promoted 13 canonical `gra4164` concepts covering the full NLP/LLM lecture sequence:
+  - `text-as-data-introduction`, `text-preprocessing-nlp`, `bag-of-words-tfidf-cosine`,
+    `boolean-dictionary-methods-nlp`, `text-regression-classification`,
+    `topic-modeling-lsa-lda`, `ngram-language-models`, `word-embeddings-word2vec`,
+    `llm-introduction-tokenization`, `attention-and-transformers`,
+    `llm-input-output-architecture`, `llm-training-and-finetuning`,
+    `prompt-engineering-for-nlp`
+- Promoted 6 canonical `gra4164` exercises with teacher solution separation:
+  - `sotu-boolean-search-topic-modeling`, `bow-tfidf-shakespeare-lab`,
+    `bigram-language-model-lab`, `word-embeddings-sotu-analysis`,
+    `bert-finetuning-text-classification`, `prompt-engineering-reflection`
+- Assembled 4 `gra4164` assignment collections:
+  - `gra4164-assignment-01` through `gra4164-assignment-04`
+- Assembled 11 `gra4164` lecture collections:
+  - `gra4164-lecture-01` through `gra4164-lecture-11`
+- Formalized the `tem00uu` course shell and migration inventory for the "Blockchain
+  Foundations" migration slice:
+  - `courses/tem00uu/course.yml`
+  - `courses/tem00uu/plan.yml`
+  - `courses/tem00uu/syllabus.en.qmd`
+- Promoted 15 canonical `tem00uu` concepts covering Part A (blockchain foundations)
+- Promoted 7 canonical `tem00uu` exercises with teacher solution separation
+- Assembled 8 `tem00uu` lecture collections:
+  - `tem00uu-lecture-01` through `tem00uu-lecture-08`
+- Wired first cross-course object reuse between `tem0052` and `gra4164`:
+  - `logistic-regression-classification` now lists both `tem0052` and `gra4164` in `courses:`
+  - `linear-regression-prediction` now lists both `tem0052` and `gra4164` in `courses:`
+  - `principal-component-analysis` now lists both `tem0052` and `gra4164` in `courses:`
+  - Bidirectional `related:` links between `tem0052` and `gra4164` concepts
+    (`text-regression-classification` ↔ `logistic-regression-classification`,
+    `text-regression-classification` ↔ `linear-regression-prediction`,
+    `topic-modeling-lsa-lda` ↔ `principal-component-analysis`)
+- Expanded representative targets from 18 to 21 to cover all migrated courses:
+  - `gra4164-lecture-03` (student, en, html)
+  - `tem00uu` (student, en, html)
+  - `tem00uu-lecture-01` (student, en, html)
 
 ## Remaining Tasks
 
-- Stop at this clean `tem0052` first-promotion checkpoint
+- Stop at this clean consolidation checkpoint
 - Later resource-workflow work remains deferred:
   - broader course/topic filtering controls beyond the current inbox/listing path
   - richer approval workflows beyond the narrow `approve` transition command
   - any AI-assisted resource suggestion ingestion
-- Legacy migration remains deferred beyond inbox staging:
+- Legacy migration progress and remaining work:
   - no bulk import scripts/templates yet
   - no automatic conversion from `course-inbox/` into canonical objects
-  - thirteen first-wave `tem0052` concepts, six exercises, and seven lectures are promoted so far
-  - two `tem0052` figures are promoted: `bias-variance-tradeoff-figure` and `k-fold-cross-validation-figure`
-  - `edi3400` now has a canonical shell, three promoted database concepts, one
-    promoted problem-set exercise, and the first lecture block for lectures 11-13
-  - no `edi3400` assignment collection yet
-  - no `tem0052` resources promoted yet
-  - no `tem0052` project/assignment materials yet
+  - `tem0052`: thirteen concepts, four exercises, two figures, seven lectures promoted; no resources or project/assignment materials yet
+  - `edi3400`: three promoted database concepts, one problem-set exercise, lectures 11-13; no assignment collections yet
+  - `gra4164`: thirteen concepts, six exercises, four assignment collections, eleven lectures promoted; full "promote first" slice complete
+  - `tem00uu`: fifteen concepts, seven exercises, eight lectures promoted; Part A complete
+  - No Norwegian translations for any migrated course yet
+  - Fresh concept authoring deferred (SVM, gradient boosting, etc.)
 - Later roadmap phases remain deferred:
   - Phase 9 AI-assisted draft workflows
   - migration tooling
