@@ -8,6 +8,7 @@ title:
   en: Linear regression for prediction
 courses:
   - tem0052
+  - gra4164
 topics:
   - predictive-modelling
   - regression
@@ -25,6 +26,7 @@ related:
   - logistic-regression-classification
   - model-selection-cross-validation
   - bias-variance-tradeoff
+  - text-regression-classification
 outputs:
   - html
   - pdf

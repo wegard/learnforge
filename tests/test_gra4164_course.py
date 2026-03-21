@@ -1141,3 +1141,30 @@ def test_gra4164_assignment_03_teacher_page_shows_teacher_export_only() -> None:
     assert build_manifest["assignment"]["included_exercise_ids"] == [
         "bert-finetuning-text-classification"
     ]
+
+
+def test_logistic_regression_classification_is_indexed_with_both_courses() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+
+    obj = index.objects["logistic-regression-classification"]
+
+    assert "tem0052" in obj.model.courses
+    assert "gra4164" in obj.model.courses
+    assert len(obj.model.courses) == 2
+
+
+def test_text_regression_classification_assembly_includes_cross_course_related_links() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "text-regression-classification",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert "logistic-regression-classification" in related_ids
+    assert "linear-regression-prediction" in related_ids

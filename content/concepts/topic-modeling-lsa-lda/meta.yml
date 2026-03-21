@@ -26,6 +26,7 @@ related:
   - bag-of-words-tfidf-cosine
   - boolean-dictionary-methods-nlp
   - text-regression-classification
+  - principal-component-analysis
 outputs:
   - html
   - pdf

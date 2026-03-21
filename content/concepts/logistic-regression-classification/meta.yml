@@ -8,6 +8,7 @@ title:
   en: Logistic regression for classification
 courses:
   - tem0052
+  - gra4164
 topics:
   - predictive-modelling
   - classification
@@ -30,6 +31,7 @@ related:
   - bias-variance-tradeoff
   - model-assessment-lab
   - spam-filtering-naive-bayes
+  - text-regression-classification
 outputs:
   - html
   - pdf

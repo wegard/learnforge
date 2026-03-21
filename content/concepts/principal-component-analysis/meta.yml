@@ -8,6 +8,7 @@ title:
   en: Principal component analysis
 courses:
   - tem0052
+  - gra4164
 topics:
   - predictive-modelling
   - unsupervised-learning
@@ -25,6 +26,7 @@ related:
   - model-selection-cross-validation
   - linear-regression-prediction
   - penalized-linear-models
+  - topic-modeling-lsa-lda
 outputs:
   - html
   - pdf
