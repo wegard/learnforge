@@ -89,3 +89,18 @@ targets:
     audience: teacher
     language: nb
     format: revealjs
+  - label: GRA4164 lecture page
+    id: gra4164-lecture-03
+    audience: student
+    language: en
+    format: html
+  - label: TEM00UU course page
+    id: tem00uu
+    audience: student
+    language: en
+    format: html
+  - label: TEM00UU lecture page
+    id: tem00uu-lecture-01
+    audience: student
+    language: en
+    format: html

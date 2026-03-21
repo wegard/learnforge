@@ -27,7 +27,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 18
+    assert build_summary["target_count"] == 21
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
