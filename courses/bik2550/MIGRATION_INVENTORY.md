@@ -13,7 +13,8 @@ This file tracks the migration of legacy material from
 - Legacy notebooks are instructor demonstrations → convert to concept objects
   with exposition in `.qmd`; only graded student output notebooks become exercises
 - Module 2 is deferred entirely — no structured source material exists
-- Exam project is deferred to a later wave
+- The project brief is modeled canonically as an assignment collection with
+  conceptual exercises; grading guidance can remain deferred
 - No promotion of editor files, checkpoint folders, compiled LaTeX artifacts,
   branding assets, or the nested legacy git repository
 
@@ -49,11 +50,11 @@ This file tracks the migration of legacy material from
 | `modul_3/dag3/Oppsumering_AI_finans.tex` + `Anvendelser.tex` | concept | `ai-applications-finance-summary` | **promoted** |
 | `modul_3/ressurser/Predict_the_next_token_part1.ipynb` | exercise | `next-token-prediction-exercise` | **promoted** |
 
-### Rewrite Fresh (later waves)
+### Rewrite Fresh
 
-| Topic | Reason | Planned target kind |
+| Topic | Canonical coverage | Status |
 | --- | --- | --- |
-| Exam project brief + case studies | Needs fresh authoring as assignment collection | assignment |
+| Exam project brief + case studies | `bik2550-project-brief` + project exercises | draft |
 
 ### Out of Scope
 
@@ -75,7 +76,7 @@ This file tracks the migration of legacy material from
 | `modul_3/ressurser/bigram_nb_no.ipynb` | Bigram notebook, superseded by Predict_the_next_token |
 | `modul_1/ressurser/micrograd/` | Micrograd module, not core content |
 | `Course_plan/` older versions | Historical reference only |
-| `exam/` | Exam project deferred to later wave |
+| `Vurderingsveiledning BIK2550.docx` | Keep grading rubric in the inbox until the assessment language is stabilized |
 
 ### Drop or Archive
 
@@ -97,7 +98,7 @@ Tasks that require instructor judgement and cannot be automated.
 - [ ] Review all `.qmd` concept notes for accuracy and tone (17 concepts)
       — content was rewritten from LaTeX slides, check that finance examples
       and level match what you actually teach
-- [ ] Review exercise briefs and solutions (3 exercises)
+- [ ] Review exercise briefs and solutions (6 exercises)
       — verify datasets, expected outputs, and time estimates are realistic
 - [ ] Decide lecture item ordering within each lecture collection
       — current order follows the original slide deck sequence
@@ -118,8 +119,8 @@ Tasks that require instructor judgement and cannot be automated.
 
       Most other images are external diagrams with attribution, screenshots,
       or decorative stock images — not suitable for figure objects.
-- [ ] Design the exam/assignment object from `exam/` folder
-      — three semesters of project briefs exist; decide on canonical format
+- [x] Design the exam/assignment object from `exam/` folder
+      — first canonical project brief now lives in `bik2550-project-brief`
 - [ ] Promote reviewed content from `status: draft` to `status: review`
       then `status: approved` (Claude can apply the YAML changes)
 
@@ -151,3 +152,7 @@ Tasks that require instructor judgement and cannot be automated.
 - Lecture collection: `bik2550-m3d1`
 - Lecture collection: `bik2550-m3d2`
 - Lecture collection: `bik2550-m3d3`
+- Exercise: `ai-finance-project-scope`
+- Exercise: `ai-finance-solution-blueprint`
+- Exercise: `ai-finance-individual-reflection`
+- Assignment collection: `bik2550-project-brief`

@@ -1,0 +1,39 @@
+id: ai-finance-project-scope
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Prosjektutkast - case, problem og mål
+courses:
+  - bik2550
+topics:
+  - ai-in-finance
+  - ai-fundamentals
+tags:
+  - exercise
+  - project
+  - case-study
+  - scope
+  - finance
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 35
+concepts:
+  - ai-in-finance-landscape
+  - ml-finance-demo
+  - ai-applications-finance-summary
+solution_storage: separate-file
+solution_visibility: teacher

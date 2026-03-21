@@ -89,6 +89,11 @@ targets:
     audience: teacher
     language: nb
     format: revealjs
+  - label: BIK2550 assignment preview
+    id: bik2550-project-brief
+    audience: teacher
+    language: nb
+    format: html
   - label: GRA4164 lecture page
     id: gra4164-lecture-03
     audience: student

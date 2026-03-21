@@ -39,6 +39,8 @@
 - Norwegian (nb) draft translations: `edi3400` Part 2 (third-party libraries, lectures 6–8) — 3 concepts, 4 exercises, 3 lectures, 1 assignment
 - Norwegian (nb) draft translations: `edi3400` Part 3 (advanced topics, lectures 9–10) — 3 concepts, 3 exercises, 3 lectures
 - Norwegian (nb) draft translations: `edi3400` Part 4 (databases, lectures 11–13) — 3 concepts, 1 exercise, 3 lectures, 1 assignment — all 4 parts complete
+- BIK2550 assessment slice: project brief assignment collection plus 3 conceptual project exercises
+- Representative targets expanded to 24, adding `bik2550-project-brief`
 
 ## Non-Goals For This Run
 

@@ -1,0 +1,34 @@
+id: bik2550-project-brief
+kind: collection
+collection_kind: assignment
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Oppgaveark - prosjektoppgave og refleksjon i AI for finans
+courses:
+  - bik2550
+topics:
+  - ai-in-finance
+  - nlp
+  - multimodality
+tags:
+  - assignment
+  - project
+  - finance
+  - reflection
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+items:
+  - ai-finance-project-scope
+  - ai-finance-solution-blueprint
+  - ai-finance-individual-reflection

@@ -1,0 +1,36 @@
+id: ai-finance-individual-reflection
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Individuell refleksjon - læring, begrensninger og videre bruk
+courses:
+  - bik2550
+topics:
+  - ai-in-finance
+tags:
+  - exercise
+  - reflection
+  - project
+  - learning
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: easy
+estimated_time_minutes: 25
+concepts:
+  - ai-in-finance-landscape
+  - ai-applications-finance-summary
+solution_storage: separate-file
+solution_visibility: teacher

@@ -27,7 +27,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 23
+    assert build_summary["target_count"] == 24
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -65,8 +65,7 @@ def test_validator_reports_missing_translation_warning(tmp_path: Path) -> None:
     )
     assert report.translation_coverage["missing_variant_count"] >= 1
     assert any(
-        entry["id"] == "angrist-podcast-iv"
-        and "nb" in entry["missing_languages"]
+        entry["id"] == "angrist-podcast-iv" and "nb" in entry["missing_languages"]
         for entry in report.translation_coverage["missing_variants"]
     )
 
@@ -130,8 +129,7 @@ def test_validator_reports_missing_d3_vendor_asset(
 def test_load_representative_targets_returns_expected_registry() -> None:
     targets = load_representative_targets(REPO_ROOT)
     target_keys = {
-        (target.id, target.audience, target.language, target.format)
-        for target in targets
+        (target.id, target.audience, target.language, target.format) for target in targets
     }
 
     assert ("iv-intuition", "student", "en", "html") in target_keys
@@ -144,6 +142,7 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("edi3400-lecture-13", "student", "en", "html") in target_keys
     assert ("resource-inbox", "teacher", "en", "html") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys
+    assert ("bik2550-project-brief", "teacher", "nb", "html") in target_keys
     assert ("assignment-01", "student", "en", "exercise-sheet") in target_keys
     assert ("assignment-01", "teacher", "en", "exercise-sheet") in target_keys
 
@@ -218,6 +217,13 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         and target["format"] == "html"
         and target["audience"] == "teacher"
     )
+    bik2550_assignment_target = next(
+        target
+        for target in report.build_summary["targets"]
+        if target["target_id"] == "bik2550-project-brief"
+        and target["format"] == "html"
+        and target["audience"] == "teacher"
+    )
 
     assert concept_target["integrity"]["status"] == "passed"
     assert concept_target["integrity"]["broken_link_count"] == 0
@@ -232,6 +238,8 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert d3_figure_target["status"] == "passed"
     assert resource_page_target["status"] == "passed"
     assert resource_inbox_target["status"] == "passed"
+    assert bik2550_assignment_target["status"] == "passed"
+    assert bik2550_assignment_target["leakage_status"] == "clean"
     assert assignment_html_target["leakage_status"] == "clean"
     assert Path(REPO_ROOT / concept_target["output_path"]).exists()
 
@@ -248,14 +256,10 @@ def test_validation_report_tracks_resource_workflow_state() -> None:
     assert "iv-candidate-newsletter" in workflow["unpublished_candidate_ids"]
     assert "angrist-podcast-iv" in workflow["student_visible_resource_ids"]
     assert any(
-        entry["id"] == "iv-reviewed-primer"
-        and "state-reviewed" in entry["reasons"]
+        entry["id"] == "iv-reviewed-primer" and "state-reviewed" in entry["reasons"]
         for entry in workflow["student_exclusions"]
     )
-    assert any(
-        entry["id"] == "iv-policy-brief-stale"
-        for entry in workflow["stale_resources"]
-    )
+    assert any(entry["id"] == "iv-policy-brief-stale" for entry in workflow["stale_resources"])
     assert any(
         issue.code == "stale-resource" and issue.object_id == "iv-policy-brief-stale"
         for issue in report.issues

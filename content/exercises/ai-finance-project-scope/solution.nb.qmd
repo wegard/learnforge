@@ -1,0 +1,15 @@
+## Lærerveiledning
+
+Et sterkt prosjektutkast gjør tre ting tidlig:
+
+- velger ett avgrenset problem i stedet for en generell ambisjon om å
+  "forbedre AI i finans",
+- beskriver hvem som skal bruke eller påvirkes av løsningen,
+- gjør det tydelig hva gruppen skal analysere, og hva de ikke skal rekke.
+
+### Tegn på at prosjektet bør strammes inn
+
+- Caset er formulert så bredt at nesten hvilken som helst metode kunne passet.
+- Gruppen hopper rett til verktøy eller modeller uten å beskrive problemet.
+- Det er uklart hvilken verdi løsningen skal skape for en finansaktør.
+- Prosjektet blander flere delproblemer uten å prioritere ett hovedspørsmål.

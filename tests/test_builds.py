@@ -175,13 +175,9 @@ def test_tem0052_course_page_builds_with_first_promoted_lecture_and_exercise() -
     assert "../../exercise/house-prices-regression/house-prices-regression.html" in html
     assert "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html" in html
     assert (
-        "../../exercise/income-classification-ensemble/income-classification-ensemble.html"
-        in html
+        "../../exercise/income-classification-ensemble/income-classification-ensemble.html" in html
     )
-    assert (
-        "../../exercise/unsupervised-learning-lab/unsupervised-learning-lab.html"
-        in html
-    )
+    assert "../../exercise/unsupervised-learning-lab/unsupervised-learning-lab.html" in html
     assert "Lecture 1 - Foundations and preprocessing pipelines" in html
     assert "Lecture 2 - Linear prediction and regularization" in html
     assert "Lecture 3 - Classification methods" in html
@@ -222,6 +218,74 @@ def test_bik2551_course_page_builds_in_english() -> None:
     assert "NotebookLM for source-grounded work" in html
     assert "Project brief - project assignment and mini-experiment" in html
     assert "Kursoversikt" not in html
+
+
+def test_bik2550_teacher_course_page_builds_with_project_assignment() -> None:
+    artifact = build_target(
+        "bik2550",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+
+    assert "BIK 2550 - AI i finansnæringen" in html
+    assert "Forelesninger" in html
+    assert "Oppgaveark" in html
+    assert 'class="lf-preview-notice"' in html
+    assert "../../collection/bik2550-m1d1/bik2550-m1d1.html" in html
+    assert "../../collection/bik2550-project-brief/bik2550-project-brief.html" in html
+    assert "Oppgaveark - prosjektoppgave og refleksjon i AI for finans" in html
+
+
+def test_bik2550_teacher_assignment_page_builds_in_norwegian() -> None:
+    build_target(
+        "bik2550-project-brief",
+        audience="teacher",
+        language="nb",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    artifact = build_target(
+        "bik2550-project-brief",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert "Oppgavearkdetaljer" in html
+    assert "Inkluderte oppgaver" in html
+    assert "Kurskontekst" in html
+    assert "Knyttede begreper" in html
+    assert "../../course/bik2550/bik2550.html" in html
+    assert "bik2550-project-brief-solution-sheet.pdf" in html
+    assert "Relaterte ressurser" not in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["assignment"]["included_exercise_ids"] == [
+        "ai-finance-individual-reflection",
+        "ai-finance-project-scope",
+        "ai-finance-solution-blueprint",
+    ]
+    assert build_manifest["assignment"]["course_context_ids"] == ["bik2550"]
+    assert build_manifest["assignment"]["linked_concept_ids"] == [
+        "ai-applications-finance-summary",
+        "ai-in-finance-landscape",
+        "llms-deep-dive",
+        "ml-finance-demo",
+        "ml-supervised-learning-overview",
+        "ml-unsupervised-learning-overview",
+        "multimodality-in-finance",
+        "neural-networks-introduction",
+        "nlp-text-data-finance",
+    ]
+    assert build_manifest["assignment"]["linked_resource_ids"] == []
+    assert build_manifest["assignment"]["included_solution_files"] == []
 
 
 def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
@@ -388,8 +452,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../course/tem0052/tem0052.html" in concept_html
     assert "teacher-only" not in concept_html
     assert (
-        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
-        in concept_html
+        "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html" in concept_html
     )
 
     assert "Model selection and cross-validation" in second_concept_html
@@ -397,8 +460,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in second_concept_html
     assert "../knn-supervised-learning/knn-supervised-learning.html" in second_concept_html
     assert (
-        "../linear-regression-prediction/linear-regression-prediction.html"
-        in second_concept_html
+        "../linear-regression-prediction/linear-regression-prediction.html" in second_concept_html
     )
     assert "../penalized-linear-models/penalized-linear-models.html" in second_concept_html
     assert (
@@ -414,12 +476,9 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
 
     assert "Linear regression for prediction" in third_concept_html
     assert (
-        "../../exercise/house-prices-regression/house-prices-regression.html"
-        in third_concept_html
+        "../../exercise/house-prices-regression/house-prices-regression.html" in third_concept_html
     )
-    assert (
-        "../penalized-linear-models/penalized-linear-models.html" in third_concept_html
-    )
+    assert "../penalized-linear-models/penalized-linear-models.html" in third_concept_html
     assert (
         "../model-selection-cross-validation/model-selection-cross-validation.html"
         in third_concept_html
@@ -429,12 +488,10 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
 
     assert "Penalized linear models" in fourth_concept_html
     assert (
-        "../../exercise/house-prices-regression/house-prices-regression.html"
-        in fourth_concept_html
+        "../../exercise/house-prices-regression/house-prices-regression.html" in fourth_concept_html
     )
     assert (
-        "../linear-regression-prediction/linear-regression-prediction.html"
-        in fourth_concept_html
+        "../linear-regression-prediction/linear-regression-prediction.html" in fourth_concept_html
     )
     assert (
         "../model-selection-cross-validation/model-selection-cross-validation.html"
@@ -444,25 +501,14 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "teacher-only" not in fourth_concept_html
 
     assert "Logistic regression for classification" in fifth_concept_html
-    assert (
-        "../../exercise/model-assessment-lab/model-assessment-lab.html"
-        in fifth_concept_html
-    )
+    assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in fifth_concept_html
     assert (
         "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
         in fifth_concept_html
     )
-    assert (
-        "../naive-bayes-classification/naive-bayes-classification.html"
-        in fifth_concept_html
-    )
-    assert (
-        "../knn-supervised-learning/knn-supervised-learning.html" in fifth_concept_html
-    )
-    assert (
-        "../linear-regression-prediction/linear-regression-prediction.html"
-        in fifth_concept_html
-    )
+    assert "../naive-bayes-classification/naive-bayes-classification.html" in fifth_concept_html
+    assert "../knn-supervised-learning/knn-supervised-learning.html" in fifth_concept_html
+    assert "../linear-regression-prediction/linear-regression-prediction.html" in fifth_concept_html
     assert (
         "../model-selection-cross-validation/model-selection-cross-validation.html"
         in fifth_concept_html
@@ -476,10 +522,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
         in sixth_concept_html
     )
-    assert (
-        "../naive-bayes-classification/naive-bayes-classification.html"
-        in sixth_concept_html
-    )
+    assert "../naive-bayes-classification/naive-bayes-classification.html" in sixth_concept_html
     assert "../decision-tree-learning/decision-tree-learning.html" in sixth_concept_html
     assert (
         "../logistic-regression-classification/logistic-regression-classification.html"
@@ -497,9 +540,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
         "../../exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html"
         in seventh_concept_html
     )
-    assert (
-        "../knn-supervised-learning/knn-supervised-learning.html" in seventh_concept_html
-    )
+    assert "../knn-supervised-learning/knn-supervised-learning.html" in seventh_concept_html
     assert (
         "../logistic-regression-classification/logistic-regression-classification.html"
         in seventh_concept_html
@@ -515,8 +556,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     assert "../../exercise/model-assessment-lab/model-assessment-lab.html" in eighth_concept_html
     assert "../knn-supervised-learning/knn-supervised-learning.html" in eighth_concept_html
     assert (
-        "../ensemble-methods-introduction/ensemble-methods-introduction.html"
-        in eighth_concept_html
+        "../ensemble-methods-introduction/ensemble-methods-introduction.html" in eighth_concept_html
     )
     assert "../random-forests/random-forests.html" in eighth_concept_html
     assert (
@@ -532,8 +572,7 @@ def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
 
     assert "Random forests" in ninth_concept_html
     assert (
-        "../ensemble-methods-introduction/ensemble-methods-introduction.html"
-        in ninth_concept_html
+        "../ensemble-methods-introduction/ensemble-methods-introduction.html" in ninth_concept_html
     )
     assert "../decision-tree-learning/decision-tree-learning.html" in ninth_concept_html
     assert "../bias-variance-tradeoff/bias-variance-tradeoff.html" in ninth_concept_html
@@ -617,9 +656,7 @@ def test_tem0052_lecture_page_build_contains_only_promoted_objects() -> None:
     )
 
     html = artifact.output_path.read_text(encoding="utf-8")
-    dependency_manifest = json.loads(
-        artifact.dependency_manifest_path.read_text(encoding="utf-8")
-    )
+    dependency_manifest = json.loads(artifact.dependency_manifest_path.read_text(encoding="utf-8"))
 
     assert "Course context" in html
     assert "This lecture includes" in html
@@ -1314,8 +1351,7 @@ def test_student_assignment_sheet_build_excludes_solution_content_and_reports_cl
         "assignment-01-exercise-sheet.pdf"
     )
     assert any(
-        edge["relationship"] == "assignment-item"
-        and edge["target_id"] == "ex-iv-assumption-sort"
+        edge["relationship"] == "assignment-item" and edge["target_id"] == "ex-iv-assumption-sort"
         for edge in dependency_manifest["dependency_edges"]
     )
     assert leakage_report["status"] == "clean"

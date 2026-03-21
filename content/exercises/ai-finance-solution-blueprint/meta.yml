@@ -1,0 +1,43 @@
+id: ai-finance-solution-blueprint
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Prosjektplan - data, metode og risikovurdering
+courses:
+  - bik2550
+topics:
+  - ai-in-finance
+  - nlp
+  - multimodality
+tags:
+  - exercise
+  - project
+  - methods
+  - governance
+  - risk
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: medium
+estimated_time_minutes: 55
+concepts:
+  - ml-supervised-learning-overview
+  - ml-unsupervised-learning-overview
+  - neural-networks-introduction
+  - nlp-text-data-finance
+  - llms-deep-dive
+  - multimodality-in-finance
+solution_storage: separate-file
+solution_visibility: teacher

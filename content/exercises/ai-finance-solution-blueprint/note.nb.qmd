@@ -1,0 +1,55 @@
+## Beskriv en løsning som er faglig troverdig selv uten implementering
+
+Denne oppgaven er hoveddelen i prosjektbriefen. Her skal dere vise at dere
+forstår hvordan en AI- eller ML-løsning i finans kan begrunnes, vurderes og
+utfordres.
+
+### Del 1: Datagrunnlag
+
+Svar kort på disse spørsmålene:
+
+1. Hvilke data trenger dere?
+2. Hvor kan dataene komme fra?
+3. Hvilke problemer kan oppstå med kvalitet, skjevhet, tilgang eller
+   representativitet?
+
+### Del 2: Metoder og algoritmer
+
+Forklar hvilke metoder som passer best for caset:
+
+- klassifisering, regresjon eller anomalioppdagelse,
+- NLP eller språkmodeller for teksttunge case,
+- multimodale eller nevrale nettverksmetoder dersom det er relevant.
+
+Begrunn valgene. Det er viktigere å vise god metodeforståelse enn å nevne flest
+mulig modeller.
+
+### Del 3: Evaluering og realisering
+
+Beskriv hvordan løsningen kunne vært vurdert i praksis:
+
+- hvilke mål eller feiltyper som er viktigst,
+- hvordan dere ville testet om løsningen faktisk gir verdi,
+- hvilke verktøy, rammeverk eller arbeidsprosesser som trengs for å realisere
+  den.
+
+### Del 4: Risiko, juss og ansvarlighet
+
+Diskuter minst tre typer risiko eller styringsutfordringer:
+
+- personvern og databruk,
+- bias, falske positive eller falske negative,
+- sporbarhet, ansvarlighet og behov for menneskelig kontroll,
+- regulering eller compliance-krav som kan påvirke løsningen.
+
+### Del 5: Forretningsmessig verdi
+
+Avslutt med å forklare:
+
+- hvilken verdi løsningen kan gi,
+- hvilke begrensninger som kan redusere verdien,
+- hva som må være på plass før en reell implementering kan forsvares.
+
+**Suksesskriterier:** Løsningsforslaget skal være tydelig nok til at en faglig
+leser kan se sammenhengen mellom problem, data, metodevalg, evaluering og
+risiko.

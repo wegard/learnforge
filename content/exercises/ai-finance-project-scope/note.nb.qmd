@@ -1,0 +1,52 @@
+## Velg et finanscase som er konkret nok til å vurderes skikkelig
+
+Denne oppgaven er første del av prosjektoppgaven i `BIK 2550`. Målet er ikke å
+implementere en ferdig løsning, men å velge et problem som er tydelig nok til
+at resten av analysen blir troverdig.
+
+### Steg 1: Velg case
+
+Velg én av disse retningene, eller foreslå en egen variant som er like konkret:
+
+- kredittscore eller lånevurdering for personkunder,
+- NLP-støttet risikoanalyse av nyheter eller rapporter,
+- chatbot eller assistent for kundeveiledning,
+- avviks- eller anomalioppdagelse i handelsaktivitet.
+
+### Steg 2: Beskriv problemet
+
+Skriv kort om:
+
+- hvilken beslutning eller arbeidsprosess som skal forbedres,
+- hvem som påvirkes av problemet,
+- hvorfor caset er relevant i finansnæringen.
+
+### Steg 3: Avgrens leveransen
+
+Forklar hva prosjektet faktisk skal gjøre:
+
+1. Hvilket spørsmål skal besvares?
+2. Hvilken type løsning vurderer dere?
+3. Hva ligger utenfor prosjektets omfang?
+
+### Steg 4: Knytt caset til kurset
+
+Beskriv hvilke kursideer som er mest relevante:
+
+- data og datakvalitet,
+- veiledet eller uveiledet læring,
+- nevrale nettverk, språkmodeller eller multimodalitet,
+- forretningsverdi, risiko og begrensninger.
+
+### Steg 5: Sett mål for vurderingen
+
+Formuler 2-3 kriterier dere vil bruke for å vurdere løsningen, for eksempel:
+
+- bedre presisjon eller raskere beslutninger,
+- lavere operasjonell risiko,
+- bedre kundeopplevelse,
+- tydeligere dokumentasjon av begrensninger og ansvar.
+
+**Suksesskriterier:** En leser som ikke kjenner gruppen deres skal forstå både
+hva problemet er, hvorfor det er relevant, og hva dere faktisk har tenkt å
+analysere.

@@ -1,0 +1,23 @@
+## Lærerveiledning
+
+Et godt løsningsutkast viser sammenheng mellom fem ting:
+
+- problemets natur,
+- relevant datagrunnlag,
+- passende metodevalg,
+- en realistisk evalueringsidé,
+- tydelige risiko- og styringsvurderinger.
+
+### Tegn på en moden besvarelse
+
+- Metodevalget er begrunnet opp mot caset, ikke bare nevnt som buzzord.
+- Gruppen skiller mellom datatilgang, datakvalitet og datastyring.
+- Evalueringen beskriver hva som teller som en nyttig eller forsvarlig løsning.
+- Risiko diskuteres som en del av designet, ikke som et tillegg til slutt.
+
+### Tegn på at besvarelsen er for svak
+
+- Modeller eller verktøy listes opp uten begrunnelse.
+- Gruppen antar perfekt data uten å diskutere kvalitet eller skjevhet.
+- "Etikk" og "juss" nevnes, men uten kobling til casets faktiske risiko.
+- Forretningsverdi beskrives som generell innovasjon i stedet for konkret effekt.

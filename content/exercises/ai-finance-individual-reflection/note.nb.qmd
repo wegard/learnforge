@@ -1,0 +1,33 @@
+## Skriv refleksjonen som personlig læring, ikke som en kopi av gruppens tekst
+
+Den individuelle refleksjonen skal vise hva du faktisk lærte gjennom
+prosjektarbeidet, og hvordan du vurderer AI-bruk i finans etter å ha jobbet med
+ett konkret case.
+
+### Del 1: Hva lærte du?
+
+Beskriv kort:
+
+- hva du forstår bedre nå om AI eller ML i finans,
+- hvilke begreper eller metoder som ble mer konkrete gjennom caset,
+- hvordan prosjektet påvirket synet ditt på muligheter og begrensninger.
+
+### Del 2: Hva var krevende?
+
+Reflekter over utfordringer som oppsto underveis, for eksempel:
+
+- avgrensning av problemstillingen,
+- valg av data eller metode,
+- tolkning av resultater,
+- risiko, compliance eller ansvarlighet.
+
+### Del 3: Hva tar du med deg videre?
+
+Forklar hvordan innsikten kan brukes i egen arbeidshverdag:
+
+- hvilke typer beslutninger eller prosesser du vil se annerledes på,
+- hvor du ser potensial for AI-støtte,
+- hvor du ville vært forsiktig med videre bruk.
+
+**Suksesskriterier:** Refleksjonen skal vise egen forståelse og dømmekraft, ikke
+bare gjenta hva gruppen gjorde.
