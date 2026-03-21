@@ -1,0 +1,1 @@
+Figuren gjør aktiveringsfunksjoner lettere å sammenligne: sigmoid og tanh komprimerer signalet, ReLU holder bare positive verdier, og softmax oversetter output til sannsynligheter over flere klasser. Det er nyttig når du skal forklare hvorfor ulike lag og oppgaver trenger ulike funksjoner.

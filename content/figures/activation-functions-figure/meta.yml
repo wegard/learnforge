@@ -1,0 +1,42 @@
+id: activation-functions-figure
+kind: figure
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Aktiveringsfunksjoner
+concepts:
+  - neural-networks-introduction
+courses:
+  - bik2550
+topics:
+  - deep-learning
+  - neural-networks
+  - classification
+tags:
+  - activation-functions
+  - sigmoid
+  - tanh
+  - relu
+  - softmax
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+caption:
+  nb: Figuren sammenligner vanlige aktiveringsfunksjoner og viser hvordan de former signaler ulikt i et nevralt nettverk.
+alt_text:
+  nb: En firesidig figur med delpaneler for sigmoid, tanh, ReLU og softmax. De tre første er kurver, mens softmax vises som sannsynlighetsstolper for tre klasser.
+svg_path: figure.svg
+pdf_path: figure.pdf
+asset_inventory:
+  - figure.svg
+  - figure.pdf

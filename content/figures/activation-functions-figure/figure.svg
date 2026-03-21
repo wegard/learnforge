@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Aktiveringsfunksjoner</title>
+  <desc id="desc">En firesidig figur med delpaneler for sigmoid, tanh, ReLU og softmax. De tre første er kurver, mens softmax vises som sannsynlighetsstolper for tre klasser.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f5efe4; }
+      .panel { fill: #fffaf2; stroke: #d7c8ad; stroke-width: 2; }
+      .title { font: 700 34px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; }
+      .subtitle { font: 500 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+      .panel-title { font: 700 20px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .panel-note { font: 500 14px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+      .axis { stroke: #22324d; stroke-width: 3; stroke-linecap: round; }
+      .guide { stroke: #d8ccb8; stroke-width: 1.5; stroke-dasharray: 8 8; }
+      .curve-sigmoid { fill: none; stroke: #c2410c; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .curve-tanh { fill: none; stroke: #1d4ed8; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .curve-relu { fill: none; stroke: #15803d; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .bar-a { fill: #c2410c; }
+      .bar-b { fill: #1d4ed8; }
+      .bar-c { fill: #15803d; }
+      .label { font: 600 14px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #22324d; }
+      .note { font: 500 15px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="640" rx="28"/>
+
+  <text class="title" x="88" y="76">Aktiveringsfunksjoner</text>
+  <text class="subtitle" x="88" y="108">Ulike funksjoner former signalene ulikt og passer derfor til forskjellige typer lag og prediksjonsoppgaver.</text>
+
+  <g transform="translate(80 150)">
+    <rect class="panel" x="0" y="0" width="380" height="190" rx="20"/>
+    <rect class="panel" x="420" y="0" width="380" height="190" rx="20"/>
+    <rect class="panel" x="0" y="220" width="380" height="190" rx="20"/>
+    <rect class="panel" x="420" y="220" width="380" height="190" rx="20"/>
+
+    <g transform="translate(28 22)">
+      <text class="panel-title" x="0" y="0">Sigmoid</text>
+      <text class="panel-note" x="0" y="22">Komprimerer signalet til intervallet 0 til 1.</text>
+      <g transform="translate(16 128)">
+        <line class="axis" x1="0" y1="0" x2="280" y2="0"/>
+        <line class="axis" x1="140" y1="34" x2="140" y2="-104"/>
+        <line class="guide" x1="0" y1="-74" x2="280" y2="-74"/>
+        <path class="curve-sigmoid" d="M 20 -8 C 60 -10, 92 -18, 116 -34 C 130 -44, 138 -56, 140 -70 C 142 -84, 150 -96, 164 -106 C 188 -122, 220 -128, 260 -130"/>
+      </g>
+    </g>
+
+    <g transform="translate(448 22)">
+      <text class="panel-title" x="0" y="0">Tanh</text>
+      <text class="panel-note" x="0" y="22">Sentraliserer rundt 0 og kan gi sterkere signaler.</text>
+      <g transform="translate(16 128)">
+        <line class="axis" x1="0" y1="0" x2="280" y2="0"/>
+        <line class="axis" x1="140" y1="34" x2="140" y2="-104"/>
+        <line class="guide" x1="0" y1="-92" x2="280" y2="-92"/>
+        <line class="guide" x1="0" y1="18" x2="280" y2="18"/>
+        <path class="curve-tanh" d="M 20 10 C 70 12, 100 0, 122 -28 C 132 -42, 138 -60, 140 -74 C 142 -88, 148 -106, 158 -120 C 180 -148, 210 -160, 260 -162"/>
+      </g>
+    </g>
+
+    <g transform="translate(28 242)">
+      <text class="panel-title" x="0" y="0">ReLU</text>
+      <text class="panel-note" x="0" y="22">Setter negative verdier til 0 og lar positive slippe gjennom.</text>
+      <g transform="translate(16 128)">
+        <line class="axis" x1="0" y1="0" x2="280" y2="0"/>
+        <line class="axis" x1="140" y1="34" x2="140" y2="-104"/>
+        <path class="curve-relu" d="M 24 0 L 140 0 L 250 -110"/>
+      </g>
+    </g>
+
+    <g transform="translate(448 242)">
+      <text class="panel-title" x="0" y="0">Softmax</text>
+      <text class="panel-note" x="0" y="22">Gjør output om til en sannsynlighetsfordeling over klasser.</text>
+      <g transform="translate(30 130)">
+        <line class="axis" x1="0" y1="0" x2="260" y2="0"/>
+        <line class="axis" x1="0" y1="10" x2="0" y2="-116"/>
+        <rect class="bar-a" x="34" y="-46" width="44" height="46" rx="8"/>
+        <rect class="bar-b" x="108" y="-92" width="44" height="92" rx="8"/>
+        <rect class="bar-c" x="182" y="-28" width="44" height="28" rx="8"/>
+        <text class="label" x="56" y="24" text-anchor="middle">Klasse A</text>
+        <text class="label" x="130" y="24" text-anchor="middle">Klasse B</text>
+        <text class="label" x="204" y="24" text-anchor="middle">Klasse C</text>
+      </g>
+    </g>
+  </g>
+
+  <text class="note" x="88" y="594">Bruk figuren til å diskutere hvorfor skjulte lag ofte bruker ReLU, mens output-laget må velge funksjon ut fra om oppgaven er binær, multiklasse eller regresjon.</text>
+</svg>

@@ -111,7 +111,7 @@ Tasks that require instructor judgement and cannot be automated.
       | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` | candidate |
       | `confusion_matrix.png` | `ml-model-evaluation-overview` | **promoted** |
       | `training_and_test_error.png` | `ml-model-evaluation-overview` | **promoted** |
-      | `my_activation_functions.png` | `neural-networks-introduction` | candidate |
+      | `my_activation_functions.png` | `neural-networks-introduction` | **promoted** |
       | `gradient_descent.png` | `ml-model-evaluation-overview` | **promoted** |
       | `regression_example.png` | `ml-supervised-learning-overview` | candidate |
       | `sigmoid.png` | `ml-supervised-learning-overview` | candidate |
@@ -159,3 +159,4 @@ Tasks that require instructor judgement and cannot be automated.
 - Figure: `confusion-matrix-figure`
 - Figure: `training-test-error-figure`
 - Figure: `gradient-descent-figure`
+- Figure: `activation-functions-figure`

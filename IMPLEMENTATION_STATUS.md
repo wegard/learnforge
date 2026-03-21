@@ -42,6 +42,7 @@
 - BIK2550 assessment slice: project brief assignment collection plus 3 conceptual project exercises
 - Representative targets expanded to 24, adding `bik2550-project-brief`
 - BIK2550 figure slices: `confusion-matrix-figure`, `training-test-error-figure`, and `gradient-descent-figure` promoted for `ml-model-evaluation-overview`
+- BIK2550 figure slice: `activation-functions-figure` promoted for `neural-networks-introduction`
 - Representative targets expanded to 25, adding `confusion-matrix-figure`
 
 ## Non-Goals For This Run
