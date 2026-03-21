@@ -28,11 +28,11 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
 
-      - name: Show tool versions
+      - name: Show tool versions and Quarto environment
         run: |
           python --version
           quarto --version
-          pdflatex --version
+          quarto check
 
       - name: Lint
         run: python -m ruff check app tests
