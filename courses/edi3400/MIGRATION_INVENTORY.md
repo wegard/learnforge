@@ -40,10 +40,13 @@ course/object structure.
   `auto_dealership_database.db` as a canonical object-local asset
 - Leave `example_database.db`, `example_queries.sql`, and `isqlite3.py` in the
   inbox unless a later canonical object explicitly needs them
-- Keep Homework problem set 4 as a lecture-linked LearnForge `exercise` for now,
-  not a formal assignment collection
-- Keep Homework problem set 5 as a lecture-linked LearnForge `exercise` for now,
-  not a formal assignment collection
+- Split lecture 10 into two slices: web data extraction (10a) and time-series
+  analysis (10b), each with a concept and a lab exercise
+- Group existing exercises into 4 assignment collections:
+  - Assignment 1: Python foundations (`python-basics-problem-set`)
+  - Assignment 2: Control flow, functions, and classes (4 exercises)
+  - Assignment 3: Data analysis libraries (`numpy-pandas-matplotlib-problem-set`)
+  - Assignment 4: SQL and databases (`sql-python-problem-set`)
 - `edi3400-lecture-13` is the representative regression target for the current
   database slice
 
@@ -81,8 +84,8 @@ directly from a single notebook.
 | Topic | Reason | Planned target kind |
 | --- | --- | --- |
 | Lecture 1 course framing | The current material is mostly orientation and should live primarily in the syllabus and course shell | syllabus + lecture later |
-| Lecture 10 data extraction, probability, and statistics | The current scope mixes multiple themes that should likely be split more cleanly | concept + exercise later |
-| Assessment structure | The sketch does not yet define canonical assignment or grading rules | assignment / course material |
+| ~~Lecture 10 data extraction, probability, and statistics~~ | ~~Implemented as 10a (web data extraction) and 10b (time-series analysis)~~ | ~~done~~ |
+| ~~Assessment structure~~ | ~~Implemented as 4 assignment collections grouping existing exercises~~ | ~~done~~ |
 
 ### Defer
 
@@ -115,6 +118,8 @@ foundations spine plus the database block.
 - `pandas-series-and-dataframes`
 - `matplotlib-basic-plots`
 - `ide-debugging-testing-and-ai-assistants`
+- `web-data-extraction-with-python`
+- `time-series-analysis-with-pandas`
 - `relational-database-fundamentals`
 - `sql-query-basics`
 - `python-sql-integration`
@@ -132,6 +137,8 @@ foundations spine plus the database block.
 - `matplotlib-sales-visualization-lab`
 - `numpy-pandas-matplotlib-problem-set`
 - `debugging-and-ai-workflow-lab`
+- `web-data-extraction-lab`
+- `time-series-analysis-lab`
 - `sql-python-problem-set`
 
 ### First lecture candidates
@@ -146,6 +153,8 @@ foundations spine plus the database block.
 - `edi3400-lecture-07` Pandas series and data frames
 - `edi3400-lecture-08` Matplotlib basic plots
 - `edi3400-lecture-09` IDEs and generative AI for programming
+- `edi3400-lecture-10a` web data extraction
+- `edi3400-lecture-10b` time-series analysis and statistics
 - `edi3400-lecture-11` relational databases
 - `edi3400-lecture-12` SQL basics
 - `edi3400-lecture-13` Python and SQL
@@ -170,6 +179,8 @@ form.
 - concept: `ide-debugging-testing-and-ai-assistants`
 - concept: `relational-database-fundamentals`
 - concept: `sql-query-basics`
+- concept: `web-data-extraction-with-python`
+- concept: `time-series-analysis-with-pandas`
 - concept: `python-sql-integration`
 - exercise: `python-basics-problem-set`
 - exercise: `python-control-flow-problem-set`
@@ -182,6 +193,8 @@ form.
 - exercise: `matplotlib-sales-visualization-lab`
 - exercise: `numpy-pandas-matplotlib-problem-set`
 - exercise: `debugging-and-ai-workflow-lab`
+- exercise: `web-data-extraction-lab`
+- exercise: `time-series-analysis-lab`
 - exercise: `sql-python-problem-set`
 - lecture collection: `edi3400-lecture-02`
 - lecture collection: `edi3400-lecture-04`
@@ -195,7 +208,13 @@ form.
 - lecture collection: `edi3400-lecture-09`
 - lecture collection: `edi3400-lecture-11`
 - lecture collection: `edi3400-lecture-12`
+- lecture collection: `edi3400-lecture-10a`
+- lecture collection: `edi3400-lecture-10b`
 - lecture collection: `edi3400-lecture-13`
+- assignment collection: `edi3400-assignment-01`
+- assignment collection: `edi3400-assignment-02`
+- assignment collection: `edi3400-assignment-03`
+- assignment collection: `edi3400-assignment-04`
 
 ### Course plan status
 
@@ -248,12 +267,24 @@ form.
   `representative-targets.yml` as the regression target for the slice
 - Homework problem set 5 remains modeled as `sql-python-problem-set`, a lecture-linked
   exercise rather than a formal assignment collection
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-10a`
+- `edi3400-lecture-10a` promotes the web data extraction slice with a concept on
+  `urlopen`, BeautifulSoup, and `pd.read_csv(url)` patterns, plus a lab exercise
+  using local HTML and CSV assets
+- `courses/edi3400/plan.yml` now includes `edi3400-lecture-10b`
+- `edi3400-lecture-10b` promotes the time-series analysis slice with a concept on
+  `DatetimeIndex`, resampling, rolling windows, and time-series plotting, plus a
+  lab exercise using a synthetic daily campus energy CSV
+- Existing exercises are now grouped into 4 assignment collections:
+  - `edi3400-assignment-01`: Python foundations (1 exercise)
+  - `edi3400-assignment-02`: Control flow, functions, and classes (4 exercises)
+  - `edi3400-assignment-03`: Data analysis libraries (1 exercise)
+  - `edi3400-assignment-04`: SQL and databases (1 exercise)
 
 ## Next Migration Actions
 
-1. Decide whether Lecture 10 data extraction, probability, and statistics should be
-   promoted as one slice or split into smaller canonical objects.
-2. Decide whether lecture 14 should remain summary-only or get a small canonical wrap-
-   up collection once lecture 10 is settled.
-3. Keep the later data-analysis block and formal assessment structure draft-level
-   until more of the early Python course spine is canonical.
+1. Decide whether lecture 1 (orientation) should get a small canonical collection
+   or remain represented only by the syllabus and course shell.
+2. Decide whether lecture 14 (wrap-up / Q&A) should get a small canonical wrap-up
+   collection.
+3. Upgrade course status from `draft` once remaining gaps are closed.

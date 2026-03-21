@@ -9,7 +9,13 @@ lectures:
   - edi3400-lecture-07
   - edi3400-lecture-08
   - edi3400-lecture-09
+  - edi3400-lecture-10a
+  - edi3400-lecture-10b
   - edi3400-lecture-11
   - edi3400-lecture-12
   - edi3400-lecture-13
-assignments: []
+assignments:
+  - edi3400-assignment-01
+  - edi3400-assignment-02
+  - edi3400-assignment-03
+  - edi3400-assignment-04

@@ -31,6 +31,9 @@
 - Phase 11 parallel checkpoint: `tem00uu` full "promote first" slice — course shell, 15 concepts, 7 exercises, 8 lectures, plan wiring, Part A complete
 - Cross-course wiring: first multi-course objects (`logistic-regression-classification`, `linear-regression-prediction`, `principal-component-analysis`) shared between `tem0052` and `gra4164`
 - Representative targets expanded to 21, covering all 3 migrated courses (`tem0052`, `gra4164`, `tem00uu`)
+- Phase 11 parallel checkpoint: `edi3400` lecture 10 split (10a web data extraction, 10b time-series analysis) — 2 concepts, 2 exercises, 2 lecture collections
+- Phase 11 parallel checkpoint: `edi3400` assignment collections — 4 assignment packages grouping existing exercises into graded homework
+- Representative targets expanded to 23, adding `edi3400-lecture-10a` and `edi3400-assignment-02`
 
 ## Non-Goals For This Run
 
@@ -41,8 +44,6 @@
 - No bulk migration tooling
 - No notebook auto-conversion pipeline
 - No mass import from `course-inbox/`
-- No `edi3400` migration beyond the first database lecture block
-- No `edi3400` assignment collection work yet
 - Keep `edi3400` intentionally English-only in this slice
 - No fresh concept authoring (SVM, gradient boosting, etc.)
 - No Norwegian translations for migrated courses

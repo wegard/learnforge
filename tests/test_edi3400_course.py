@@ -26,11 +26,18 @@ def test_edi3400_course_is_indexed_with_current_canonical_slices() -> None:
         "edi3400-lecture-07",
         "edi3400-lecture-08",
         "edi3400-lecture-09",
+        "edi3400-lecture-10a",
+        "edi3400-lecture-10b",
         "edi3400-lecture-11",
         "edi3400-lecture-12",
         "edi3400-lecture-13",
     ]
-    assert course.plan.assignments == []
+    assert course.plan.assignments == [
+        "edi3400-assignment-01",
+        "edi3400-assignment-02",
+        "edi3400-assignment-03",
+        "edi3400-assignment-04",
+    ]
 
 
 def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
@@ -48,7 +55,7 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
 
     assert assembly.target.kind == "course"
     assert assembly.target.identifier == "edi3400"
-    assert listing_ids[:12] == [
+    assert listing_ids[:14] == [
         "edi3400-lecture-02",
         "edi3400-lecture-04",
         "edi3400-lecture-04b",
@@ -59,10 +66,12 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
         "edi3400-lecture-07",
         "edi3400-lecture-08",
         "edi3400-lecture-09",
+        "edi3400-lecture-10a",
+        "edi3400-lecture-10b",
         "edi3400-lecture-11",
         "edi3400-lecture-12",
     ]
-    assert listing_ids[12] == "edi3400-lecture-13"
+    assert listing_ids[14] == "edi3400-lecture-13"
     assert "python-basics-problem-set" in listing_ids
     assert "python-control-flow-problem-set" in listing_ids
     assert "python-file-handling-lab" in listing_ids
@@ -73,7 +82,13 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "pandas-dataframe-analysis-lab" in listing_ids
     assert "matplotlib-sales-visualization-lab" in listing_ids
     assert "numpy-pandas-matplotlib-problem-set" in listing_ids
+    assert "web-data-extraction-lab" in listing_ids
+    assert "time-series-analysis-lab" in listing_ids
     assert "sql-python-problem-set" in listing_ids
+    assert "edi3400-assignment-01" in listing_ids
+    assert "edi3400-assignment-02" in listing_ids
+    assert "edi3400-assignment-03" in listing_ids
+    assert "edi3400-assignment-04" in listing_ids
     assert "topic-data-management" in listing_ids
     assert "topic-databases" in listing_ids
     assert "topic-python" in listing_ids
@@ -90,6 +105,8 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Lecture 7 - Pandas series and data frames" in assembly.markdown
     assert "Lecture 8 - Matplotlib basic plots" in assembly.markdown
     assert "Lecture 9 - IDEs and generative AI for programming" in assembly.markdown
+    assert "Lecture 10A - Web data extraction" in assembly.markdown
+    assert "Lecture 10B - Time-series analysis and statistics" in assembly.markdown
     assert "Lecture 11 - Introduction to relational databases" in assembly.markdown
     assert "Lecture 12 - SQL basics" in assembly.markdown
     assert "Lecture 13 - Python and SQL" in assembly.markdown
@@ -103,8 +120,14 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Pandas dataframe analysis lab" in assembly.markdown
     assert "Matplotlib sales visualization lab" in assembly.markdown
     assert "NumPy, Pandas, and Matplotlib problem set" in assembly.markdown
+    assert "Web data extraction lab" in assembly.markdown
+    assert "Time-series analysis lab" in assembly.markdown
     assert "Debugging and AI workflow lab" in assembly.markdown
     assert "SQL and Python problem set" in assembly.markdown
+    assert "Assignment 1" in assembly.markdown
+    assert "Assignment 2" in assembly.markdown
+    assert "Assignment 3" in assembly.markdown
+    assert "Assignment 4" in assembly.markdown
     assert "Programming" in assembly.markdown
     assert "Python" in assembly.markdown
     assert "Data Management" in assembly.markdown
@@ -113,7 +136,7 @@ def test_edi3400_course_assembles_with_current_canonical_slices() -> None:
     assert "Part 1: Programming with basic Python" in assembly.markdown
     assert "Part 3: Advanced topics" in assembly.markdown
     assert "Part 4: Databases with SQL and Python" in assembly.markdown
-    assert "The assessment model is still draft-level" in assembly.markdown
+    assert "Assignment 1" in assembly.markdown
 
 
 def test_python_basics_and_containers_concept_links_edi3400_foundations() -> None:
@@ -1884,6 +1907,8 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "../../collection/edi3400-lecture-07/edi3400-lecture-07.html" in html
     assert "../../collection/edi3400-lecture-08/edi3400-lecture-08.html" in html
     assert "../../collection/edi3400-lecture-09/edi3400-lecture-09.html" in html
+    assert "../../collection/edi3400-lecture-10a/edi3400-lecture-10a.html" in html
+    assert "../../collection/edi3400-lecture-10b/edi3400-lecture-10b.html" in html
     assert "../../collection/edi3400-lecture-11/edi3400-lecture-11.html" in html
     assert "../../collection/edi3400-lecture-12/edi3400-lecture-12.html" in html
     assert "../../collection/edi3400-lecture-13/edi3400-lecture-13.html" in html
@@ -1897,8 +1922,10 @@ def test_edi3400_course_student_page_builds_with_database_slice() -> None:
     assert "Pandas dataframe analysis lab" in html
     assert "Matplotlib sales visualization lab" in html
     assert "NumPy, Pandas, and Matplotlib problem set" in html
+    assert "Web data extraction lab" in html
+    assert "Time-series analysis lab" in html
     assert "Debugging and AI workflow lab" in html
-    assert "Assessment Status" in html
+    assert "Assessment Structure" in html
     assert "Search LearnForge" in html
     assert "Breadcrumbs:" in html
 
@@ -2253,3 +2280,380 @@ def test_edi3400_lecture_13_student_page_builds_cleanly() -> None:
         for edge in dependency_manifest["dependency_edges"]
         if edge["relationship"] == "item"
     ] == ["python-sql-integration", "sql-python-problem-set"]
+
+
+def test_web_data_extraction_with_python_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "web-data-extraction-with-python",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## The web is a data source Python can read programmatically" in assembly.markdown
+    assert "## URLs behave like file paths for remote data" in assembly.markdown
+    assert "## BeautifulSoup turns raw HTML into navigable structure" in assembly.markdown
+    assert "## Pandas can read CSV data directly from a URL" in assembly.markdown
+    assert "## External data sources are powerful but fragile" in assembly.markdown
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "matplotlib-basic-plots" in related_ids
+    assert "web-data-extraction-lab" in related_ids
+    assert "time-series-analysis-with-pandas" in related_ids
+    assert "edi3400-lecture-10a" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_time_series_analysis_with_pandas_concept_links_edi3400_foundations() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "time-series-analysis-with-pandas",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "concept"
+    assert "## Time-stamped data needs explicit date handling" in assembly.markdown
+    assert "## A DatetimeIndex turns dates into the primary axis" in assembly.markdown
+    assert "## Resampling changes the time resolution of a table" in assembly.markdown
+    assert "## Time-series plots reveal patterns that summary statistics miss" in assembly.markdown
+    assert "## Rolling windows smooth short-term noise" in assembly.markdown
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "matplotlib-basic-plots" in related_ids
+    assert "web-data-extraction-with-python" in related_ids
+    assert "time-series-analysis-lab" in related_ids
+    assert "edi3400-lecture-10b" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_web_data_extraction_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "web-data-extraction-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab brief" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "assets/sample_product_page.html" in assembly.markdown
+    assert "assets/quarterly_revenue.csv" in assembly.markdown
+    assert "python-file-handling" in related_ids
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "web-data-extraction-with-python" in related_ids
+    assert "edi3400-lecture-10a" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_time_series_analysis_lab_links_foundations_and_course() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "time-series-analysis-lab",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab brief" in assembly.markdown
+    assert "## Tasks" in assembly.markdown
+    assert "## Starter outline" in assembly.markdown
+    assert "assets/daily_campus_energy.csv" in assembly.markdown
+    assert "pandas-series-and-dataframes" in related_ids
+    assert "matplotlib-basic-plots" in related_ids
+    assert "time-series-analysis-with-pandas" in related_ids
+    assert "edi3400-lecture-10b" in related_ids
+    assert "edi3400" in related_ids
+
+
+def test_edi3400_lecture_10a_assembly_expands_web_data_extraction_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-10a",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["web-data-extraction-with-python", "web-data-extraction-lab"]
+    assert "## The web is a data source Python can read programmatically" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_lecture_10b_assembly_expands_time_series_analysis_block() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-10b",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id for edge in assembly.dependency_edges if edge.relationship == "item"
+    ]
+
+    assert edge_targets == ["time-series-analysis-with-pandas", "time-series-analysis-lab"]
+    assert "## Time-stamped data needs explicit date handling" in assembly.markdown
+    assert "## Lab brief" in assembly.markdown
+    assert "## `sqlite3` is the simplest bridge" not in assembly.markdown
+
+
+def test_edi3400_assignment_collections_are_indexed_with_current_packaging() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+
+    assignment_01 = index.objects["edi3400-assignment-01"].model
+    assignment_02 = index.objects["edi3400-assignment-02"].model
+    assignment_03 = index.objects["edi3400-assignment-03"].model
+    assignment_04 = index.objects["edi3400-assignment-04"].model
+
+    assert assignment_01.items == ["python-basics-problem-set"]
+    assert assignment_02.items == [
+        "python-control-flow-problem-set",
+        "python-functions-problem-set",
+        "python-standard-library-problem-set",
+        "python-bank-account-class-lab",
+    ]
+    assert assignment_03.items == ["numpy-pandas-matplotlib-problem-set"]
+    assert assignment_04.items == ["sql-python-problem-set"]
+
+
+def test_edi3400_assignment_01_html_assembly_links_course_and_concepts() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-assignment-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "collection"
+    assert "## Assignment details" in assembly.markdown
+    assert "<h2>Included exercises</h2>" in assembly.markdown
+    assert "Course context" in assembly.markdown
+    assert "edi3400" in related_ids
+    assert "python-basics-and-containers" in related_ids
+
+
+def test_edi3400_assignment_02_html_assembly_links_course_and_concepts() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-assignment-02",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    related_ids = [entry.identifier for entry in assembly.related_entries]
+
+    assert assembly.target.kind == "collection"
+    assert "## Assignment details" in assembly.markdown
+    assert "<h2>Included exercises</h2>" in assembly.markdown
+    assert "Course context" in assembly.markdown
+    assert "edi3400" in related_ids
+    assert "python-control-flow" in related_ids
+    assert "python-functions" in related_ids
+    assert "python-classes-and-objects" in related_ids
+
+
+def test_edi3400_assignment_01_student_sheet_excludes_solution_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-assignment-01",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id
+        for edge in assembly.dependency_edges
+        if edge.relationship == "assignment-item"
+    ]
+
+    assert assembly.target.kind == "collection"
+    assert edge_targets == ["python-basics-problem-set"]
+    assert "## Exercise 1: Python basics problem set" in assembly.markdown
+    assert (
+        "The strongest teacher solution keeps the exercise close"
+        not in assembly.markdown
+    )
+    assert all(not item.included_in_output for item in assembly.solution_observations)
+
+
+def test_edi3400_assignment_02_student_sheet_excludes_solution_content() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-assignment-02",
+        index=index,
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+
+    edge_targets = [
+        edge.target_id
+        for edge in assembly.dependency_edges
+        if edge.relationship == "assignment-item"
+    ]
+
+    assert assembly.target.kind == "collection"
+    assert edge_targets == [
+        "python-control-flow-problem-set",
+        "python-functions-problem-set",
+        "python-standard-library-problem-set",
+        "python-bank-account-class-lab",
+    ]
+    assert "## Exercise 1: Python control flow problem set" in assembly.markdown
+    assert "## Exercise 4: Python bank-account class lab" in assembly.markdown
+    assert all(not item.included_in_output for item in assembly.solution_observations)
+
+
+def test_edi3400_assignment_01_student_page_builds_cleanly() -> None:
+    build_target(
+        "edi3400-assignment-01",
+        audience="student",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    artifact = build_target(
+        "edi3400-assignment-01",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Assignment 1 - Python foundations" in html
+    assert "Included exercises" in html
+    assert "edi3400-assignment-01-exercise-sheet.pdf" in html
+    assert "edi3400-assignment-01-solution-sheet.pdf" not in html
+    assert build_manifest["target"]["identifier"] == "edi3400-assignment-01"
+    assert build_manifest["assignment"]["included_exercise_ids"] == [
+        "python-basics-problem-set"
+    ]
+    assert leakage_report["status"] == "clean"
+    assert leakage_report["solution_files_found"] == 1
+    assert leakage_report["solution_files_included"] == 0
+
+
+def test_edi3400_assignment_01_teacher_page_shows_teacher_export_only() -> None:
+    build_target(
+        "edi3400-assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="exercise-sheet",
+        root=REPO_ROOT,
+    )
+    artifact = build_target(
+        "edi3400-assignment-01",
+        audience="teacher",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert "edi3400-assignment-01-solution-sheet.pdf" in html
+    assert "edi3400-assignment-01-exercise-sheet.pdf" not in html
+    assert build_manifest["assignment"]["included_exercise_ids"] == [
+        "python-basics-problem-set"
+    ]
+
+
+def test_edi3400_lecture_10a_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-10a",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 10A - Web data extraction" in html
+    assert "This lecture includes" in html
+    assert "Web data extraction with Python" in html
+    assert "Web data extraction lab" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["web-data-extraction-with-python", "web-data-extraction-lab"]
+
+
+def test_edi3400_lecture_10b_student_page_builds_cleanly() -> None:
+    artifact = build_target(
+        "edi3400-lecture-10b",
+        audience="student",
+        language="en",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    dependency_manifest = json.loads(
+        artifact.dependency_manifest_path.read_text(encoding="utf-8")
+    )
+
+    assert "Lecture 10B - Time-series analysis and statistics" in html
+    assert "This lecture includes" in html
+    assert "Time-series analysis with Pandas" in html
+    assert "Time-series analysis lab" in html
+    assert "sqlite3 is the simplest bridge" not in html
+    assert [
+        edge["target_id"]
+        for edge in dependency_manifest["dependency_edges"]
+        if edge["relationship"] == "item"
+    ] == ["time-series-analysis-with-pandas", "time-series-analysis-lab"]

@@ -60,7 +60,8 @@ lecture collections.
 ### Part 3: Advanced topics
 
 - Lecture 9: IDEs and generative AI for programming
-- Lecture 10: Analyzing data, probability, and statistics
+- Lecture 10A: Web data extraction
+- Lecture 10B: Time-series analysis and statistics
 
 ### Part 4: Databases with SQL and Python
 
@@ -90,10 +91,19 @@ the granularity of the earlier Python-introduction lectures.
 - Database examples may use SQLite-style local files when they are needed as
   object-local assets for promoted concepts or exercises.
 
-## Assessment Status
+## Assessment Structure
 
-The assessment model is still draft-level in the current course sketch.
+The course uses four graded assignments that group exercises by topic:
 
-Canonical assignment collections, submission rules, and grading guidance should be
-authored later, once the course scope is stable enough to treat those decisions as
-source of truth.
+- **Assignment 1 — Python foundations:** covers variables, containers, and built-in
+  functions.
+- **Assignment 2 — Control flow, functions, and classes:** covers conditionals, loops,
+  functions, the standard library, and object-oriented basics.
+- **Assignment 3 — Data analysis libraries:** integrates NumPy, Pandas, and
+  Matplotlib in a single problem set.
+- **Assignment 4 — SQL and databases:** covers SQL queries and Python/database
+  integration.
+
+Grading weights and submission deadlines are not yet locked. The assignment
+collections group existing exercises into homework packages and will be refined as
+the course moves past draft status.

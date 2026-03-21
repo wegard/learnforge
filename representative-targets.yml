@@ -94,6 +94,16 @@ targets:
     audience: student
     language: en
     format: html
+  - label: EDI3400 lecture 10a page
+    id: edi3400-lecture-10a
+    audience: student
+    language: en
+    format: html
+  - label: EDI3400 assignment page
+    id: edi3400-assignment-02
+    audience: student
+    language: en
+    format: html
   - label: TEM00UU course page
     id: tem00uu
     audience: student
