@@ -288,7 +288,7 @@ def test_bik2550_teacher_assignment_page_builds_in_norwegian() -> None:
     assert build_manifest["assignment"]["included_solution_files"] == []
 
 
-def test_bik2550_teacher_concept_page_builds_with_migrated_evaluation_figures() -> None:
+def test_bik2550_teacher_concept_page_builds_with_migrated_and_reused_evaluation_figures() -> None:
     artifact = build_target(
         "ml-model-evaluation-overview",
         audience="teacher",
@@ -302,20 +302,33 @@ def test_bik2550_teacher_concept_page_builds_with_migrated_evaluation_figures() 
 
     assert "Evaluering av maskinlæringsmodeller" in html
     assert "Figurer" in html
+    assert "../../figure/bias-variance-tradeoff-figure/bias-variance-tradeoff-figure.html" in html
     assert "../../figure/confusion-matrix-figure/confusion-matrix-figure.html" in html
     assert "../../figure/training-test-error-figure/training-test-error-figure.html" in html
     assert "../../figure/gradient-descent-figure/gradient-descent-figure.html" in html
+    assert "Bias-variance-avveining" in html
     assert "Konfusjonsmatrise" in html
     assert "Trenings- og testfeil" in html
     assert "Gradientnedstigning" in html
     assert 'class="lf-preview-notice"' in html
-    assert build_manifest["figure_observation_count"] == 3
+    assert build_manifest["figure_observation_count"] == 4
     assert {entry["figure_id"] for entry in build_manifest["figure_uses"]} == {
+        "bias-variance-tradeoff-figure",
         "confusion-matrix-figure",
         "training-test-error-figure",
         "gradient-descent-figure",
     }
-    assert all(entry["interactive_included"] is False for entry in build_manifest["figure_uses"])
+    assert any(
+        entry["figure_id"] == "bias-variance-tradeoff-figure"
+        and entry["interactive_included"] is True
+        and entry["d3_included"] is True
+        for entry in build_manifest["figure_uses"]
+    )
+    assert all(
+        entry["interactive_included"] is False
+        for entry in build_manifest["figure_uses"]
+        if entry["figure_id"] != "bias-variance-tradeoff-figure"
+    )
 
 
 def test_bik2550_teacher_figure_page_builds_in_norwegian() -> None:
@@ -396,6 +409,34 @@ def test_bik2550_teacher_gradient_descent_figure_page_builds_in_norwegian() -> N
     assert build_manifest["figure_uses"][0]["figure_id"] == "gradient-descent-figure"
     assert build_manifest["figure_uses"][0]["interactive_included"] is False
     assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "not_applicable"
+
+
+def test_bik2550_teacher_bias_variance_figure_page_builds_in_norwegian() -> None:
+    artifact = build_target(
+        "bias-variance-tradeoff-figure",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figurdetaljer" in html
+    assert 'data-figure-id="bias-variance-tradeoff-figure"' in html
+    assert "Bias-variance-avveining" in html
+    assert "ml-model-evaluation-overview/ml-model-evaluation-overview.html" in html
+    assert "Interaktiv modus" in html
+    assert "lokal JS-forbedring med statisk fallback" in html
+    assert "// @learnforge:requires d3" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "bias-variance-tradeoff-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is True
+    assert build_manifest["figure_uses"][0]["d3_included"] is True
     assert leakage_report["status"] == "not_applicable"
 
 

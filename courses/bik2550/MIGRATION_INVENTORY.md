@@ -108,7 +108,7 @@ Tasks that require instructor judgement and cannot be automated.
 
       | Image | Concept it supports | Status |
       |---|---|---|
-      | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` | candidate |
+      | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` | **promoted via reuse** |
       | `confusion_matrix.png` | `ml-model-evaluation-overview` | **promoted** |
       | `training_and_test_error.png` | `ml-model-evaluation-overview` | **promoted** |
       | `my_activation_functions.png` | `neural-networks-introduction` | **promoted** |
@@ -162,3 +162,4 @@ Tasks that require instructor judgement and cannot be automated.
 - Figure: `activation-functions-figure`
 - Figure: `regression-example-figure`
 - Figure: `credit-decision-tree-figure`
+- Figure reuse: `bias-variance-tradeoff-figure`

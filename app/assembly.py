@@ -385,18 +385,14 @@ class AssemblyBuilder:
         )
 
         if self.output_format == "html":
-            hero = (
-                '<div class="lf-hero">'
-                f'<p class="lf-hero-tagline">{escape(intro)}</p>'
-                "</div>"
-            )
+            hero = f'<div class="lf-hero"><p class="lf-hero-tagline">{escape(intro)}</p></div>'
             how_to_use_section = "\n".join(
                 [
                     "## How to Use This Site"
                     if self.language == "en"
                     else "## Slik bruker du siden",
                     "",
-                    f'::: {{.callout-tip}}\n{how_to_use}\n:::',
+                    f"::: {{.callout-tip}}\n{how_to_use}\n:::",
                 ]
             )
         else:
@@ -511,9 +507,7 @@ class AssemblyBuilder:
         if assignment_entries:
             content_parts.append(
                 self._render_related_section(
-                    title="Used in assignments"
-                    if self.language == "en"
-                    else "Brukt i oppgaveark",
+                    title="Used in assignments" if self.language == "en" else "Brukt i oppgaveark",
                     entries=assignment_entries,
                 )
             )
@@ -667,9 +661,7 @@ class AssemblyBuilder:
         if resource_entries:
             parts.append(
                 self._render_related_section(
-                    title="Related resources"
-                    if self.language == "en"
-                    else "Relaterte ressurser",
+                    title="Related resources" if self.language == "en" else "Relaterte ressurser",
                     entries=resource_entries,
                 )
             )
@@ -947,11 +939,7 @@ class AssemblyBuilder:
 
         summary_text = record.model.summary[self.language]
         if self.output_format == "html":
-            course_summary = (
-                '<div class="lf-course-header">'
-                f'<p>{escape(summary_text)}</p>'
-                "</div>"
-            )
+            course_summary = f'<div class="lf-course-header"><p>{escape(summary_text)}</p></div>'
         else:
             course_summary = summary_text
 
@@ -1129,8 +1117,7 @@ class AssemblyBuilder:
         all_resources = [
             item
             for item in self.index.objects.values()
-            if isinstance(item.model, Resource)
-            and course_id in item.model.courses
+            if isinstance(item.model, Resource) and course_id in item.model.courses
         ]
         included_resources: list[IndexedObject] = []
         excluded_resources: list[dict[str, object]] = []
@@ -1293,23 +1280,17 @@ class AssemblyBuilder:
             ),
             "",
             self._render_listing_section(
-                title="Candidate resources"
-                if self.language == "en"
-                else "Kandidatressurser",
+                title="Candidate resources" if self.language == "en" else "Kandidatressurser",
                 entries=candidate_entries,
             ),
             "",
             self._render_listing_section(
-                title="Reviewed resources"
-                if self.language == "en"
-                else "Gjennomgaatte ressurser",
+                title="Reviewed resources" if self.language == "en" else "Gjennomgaatte ressurser",
                 entries=reviewed_entries,
             ),
             "",
             self._render_listing_section(
-                title="Stale resources"
-                if self.language == "en"
-                else "Utløpende ressurser",
+                title="Stale resources" if self.language == "en" else "Utløpende ressurser",
                 entries=stale_entries,
             ),
         ]
@@ -1707,8 +1688,15 @@ class AssemblyBuilder:
     def _course_breadcrumb_parts(self, course_ids: list[str], current_output: Path) -> list[str]:
         if not course_ids:
             return []
-        course_id = course_ids[0]
-        course_record = self.index.courses.get(course_id)
+        course_record = next(
+            (
+                self.index.courses[course_id]
+                for course_id in course_ids
+                if course_id in self.index.courses
+                and self.language in self.index.courses[course_id].model.title
+            ),
+            None,
+        )
         if course_record is None:
             return []
         course_href = self._page_href(
@@ -1889,7 +1877,7 @@ class AssemblyBuilder:
             "slides-pdf": "Slide PDF" if self.language == "en" else "Lysbilder PDF",
             "handout": "Handout" if self.language == "en" else "Handout",
             "exercise-sheet": (
-                    "Solution sheet"
+                "Solution sheet"
                 if self.audience == "teacher" and self.language == "en"
                 else (
                     "Løsningsark"
@@ -1942,18 +1930,10 @@ class AssemblyBuilder:
                 "behold godkjenninger i CLI-en."
             )
         )
-        return (
-            '<section class="lf-preview-notice">'
-            f"<p>{escape(text)}</p>"
-            "</section>"
-        )
+        return f'<section class="lf-preview-notice"><p>{escape(text)}</p></section>'
 
     def _render_teacher_review_panel(self, *, target: BuildTargetRef) -> str:
-        title = (
-            "Instructor preview context"
-            if self.language == "en"
-            else "Instruktørkontekst"
-        )
+        title = "Instructor preview context" if self.language == "en" else "Instruktørkontekst"
         items = "\n".join(
             f"<li><strong>{escape(label)}:</strong> {escape(value)}</li>"
             for label, value in self._teacher_review_panel_rows(target=target)
@@ -1985,9 +1965,7 @@ class AssemblyBuilder:
             "solution_visibility": (
                 "Solution visibility" if self.language == "en" else "Løsningssynlighet"
             ),
-            "collection_type": (
-                "Collection type" if self.language == "en" else "Samlingstype"
-            ),
+            "collection_type": ("Collection type" if self.language == "en" else "Samlingstype"),
             "review_after": "Review after" if self.language == "en" else "Gjennomgå etter",
             "stale": "Stale" if self.language == "en" else "Utløpt",
         }
@@ -2386,10 +2364,7 @@ class AssemblyBuilder:
             else None
         )
         d3_included = False
-        if (
-            self.output_format == "html"
-            and record.model.interactive_path
-        ):
+        if self.output_format == "html" and record.model.interactive_path:
             js_path = record.directory / record.model.interactive_path
             if js_path.exists():
                 first_line = js_path.read_text(encoding="utf-8").split("\n", 1)[0]
@@ -2414,7 +2389,7 @@ class AssemblyBuilder:
                     (
                         record.directory
                         / (
-                        record.model.pdf_path
+                            record.model.pdf_path
                             if self.output_format in {"pdf", "handout", "exercise-sheet"}
                             else record.model.svg_path
                         )
@@ -2619,9 +2594,8 @@ class AssemblyBuilder:
                 self._planned_output_path("collection", record.model.id),
             )
             for concept_id in concept_ids
-            if concept_id in self.index.objects and self._is_listable(
-                self.index.objects[concept_id], require_output_format="html"
-            )
+            if concept_id in self.index.objects
+            and self._is_listable(self.index.objects[concept_id], require_output_format="html")
         ]
         if concept_links:
             lines.append(
@@ -2701,9 +2675,7 @@ class AssemblyBuilder:
         )
 
     def _render_resource_summary(self, record: IndexedObject) -> str:
-        why_label = (
-            "Why this matters" if self.language == "en" else "Hvorfor dette er nyttig"
-        )
+        why_label = "Why this matters" if self.language == "en" else "Hvorfor dette er nyttig"
         summary_label = "Summary" if self.language == "en" else "Sammendrag"
         heading = "## Resource details" if self.language == "en" else "## Ressursdetaljer"
         items = [
@@ -2743,9 +2715,7 @@ class AssemblyBuilder:
         if self.audience == "teacher":
             stale_label = "yes" if self.language == "en" else "ja"
             fresh_label = "no" if self.language == "en" else "nei"
-            instructor_label = (
-                "Instructor note" if self.language == "en" else "Faglærermerknad"
-            )
+            instructor_label = "Instructor note" if self.language == "en" else "Faglærermerknad"
             approval_history_label = (
                 "Approval history" if self.language == "en" else "Godkjenningshistorikk"
             )
@@ -2766,9 +2736,7 @@ class AssemblyBuilder:
                     f"{item.action}:{item.by}@{item.acted_on.isoformat()}"
                     for item in record.model.approval_history
                 )
-                items.append(
-                    f"- {approval_history_label}: {history_entries}"
-                )
+                items.append(f"- {approval_history_label}: {history_entries}")
             if record.model.ai.source or record.model.ai.generated_fields:
                 items.append(
                     f"- {('AI provenance' if self.language == 'en' else 'AI-opphav')}: "
@@ -3038,8 +3006,7 @@ class AssemblyBuilder:
         for entry in entries:
             kind_label = self._kind_label(entry.kind, entry.identifier)
             link = (
-                f'<a href="{entry.href}" class="lf-listing-link">'
-                f"{escape(entry.title)}</a>"
+                f'<a href="{entry.href}" class="lf-listing-link">{escape(entry.title)}</a>'
                 if entry.href
                 else f'<span class="lf-listing-link">{escape(entry.title)}</span>'
             )
@@ -3049,9 +3016,7 @@ class AssemblyBuilder:
                 if entry.description
                 else ""
             )
-            cards.append(
-                f'<div class="lf-listing-card">{link} {badge}{desc}</div>'
-            )
+            cards.append(f'<div class="lf-listing-card">{link} {badge}{desc}</div>')
         return cards
 
     def _course_objects(self, course_id: str) -> list[IndexedObject]:
@@ -3968,10 +3933,15 @@ def planned_output_path(
     base = exports_dir(root) / audience / language / output_format
     if output_category == "home" and output_format == "html":
         return base / "index.html"
-    return base / output_category / identifier / build_output_name(
-        identifier,
-        output_format,
-        audience=audience,
+    return (
+        base
+        / output_category
+        / identifier
+        / build_output_name(
+            identifier,
+            output_format,
+            audience=audience,
+        )
     )
 
 

@@ -4,12 +4,16 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Bias-variance trade-off
+  nb: Bias-variance-avveining
 concepts:
   - bias-variance-tradeoff
+  - ml-model-evaluation-overview
 courses:
   - tem0052
+  - bik2550
 topics:
   - predictive-modelling
   - model-selection
@@ -25,15 +29,18 @@ outputs:
   - revealjs
 owners:
   - vegard
-updated: 2026-03-20
+updated: 2026-03-21
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 caption:
   en: As model complexity increases, training error falls but test error follows a U-shape — the bias-variance trade-off determines the optimal point.
+  nb: Når modellkompleksiteten øker, faller treningsfeilen mens testfeilen følger en U-form. Bias-variance-avveiningen peker mot et optimalt kompleksitetsnivå.
 alt_text:
   en: A chart showing training error decreasing and test error forming a U-shape as model complexity increases, with the optimal complexity marked at the minimum of the test error curve.
+  nb: Et diagram der treningsfeilen synker og testfeilen danner en U-kurve når modellkompleksiteten øker, med optimal kompleksitet markert ved minimumspunktet på testfeilkurven.
 svg_path: figure.svg
 pdf_path: figure.pdf
 interactive_path: figure.js

@@ -21,6 +21,7 @@ level: introductory
 prerequisites: []
 related:
   - bias-variance-tradeoff
+  - bias-variance-tradeoff-figure
   - model-selection-cross-validation
   - confusion-matrix-figure
   - training-test-error-figure

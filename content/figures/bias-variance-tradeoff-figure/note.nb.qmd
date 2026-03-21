@@ -1,0 +1,1 @@
+Bias-variance-avveiningen er den sentrale spenningen i prediktiv modellering: enkle modeller undertilpasser med høy bias og lav varians, mens komplekse modeller overtilpasser med lav bias og høy varians. Den beste modellkompleksiteten er punktet der forventet totalfeil er lavest.

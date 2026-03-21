@@ -45,6 +45,7 @@
 - BIK2550 figure slice: `activation-functions-figure` promoted for `neural-networks-introduction`
 - BIK2550 figure slice: `regression-example-figure` promoted for `ml-supervised-learning-overview`
 - BIK2550 figure slice: `credit-decision-tree-figure` promoted for `ml-supervised-learning-overview`
+- BIK2550 figure reuse slice: `bias-variance-tradeoff-figure` extended with `nb` and linked into `ml-model-evaluation-overview`
 - Representative targets expanded to 25, adding `confusion-matrix-figure`
 
 ## Non-Goals For This Run
