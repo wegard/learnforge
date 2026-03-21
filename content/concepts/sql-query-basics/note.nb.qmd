@@ -1,0 +1,168 @@
+## SQL er språket for å stille strukturerte spørsmål
+
+Når en relasjonsdatabase har et fornuftig tabelldesign, gir SQL oss en kompakt måte
+å stille presise spørsmål om dataene. I `EDI 3400` er det viktige skiftet fra
+«hva finnes i denne tabellen?» til «hva ønsker jeg å hente, filtrere, sortere,
+kombinere eller oppsummere?»
+
+Derfor er SQL ikke bare syntaksmemorering. En spørring er en strukturert
+intensjonserklæring.
+
+## `SELECT` og `FROM` definerer utgangspunktet
+
+De fleste introduksjonsspørringer begynner med to ideer:
+
+- `SELECT` velger kolonnene vi ønsker å se,
+- `FROM` velger tabellen vi ønsker å lese fra.
+
+For eksempel:
+
+```sql
+SELECT id, name, salary
+FROM Employees
+```
+
+Dette er allerede bedre enn `SELECT *` for de fleste undervisningsformål. Det
+forteller leseren nøyaktig hvilke variabler som er viktige for oppgaven.
+
+I en innledende databasearbeidsflyt bør studentene lære å spørre:
+
+1. hvilke kolonner trenger jeg,
+2. hvilken tabell er den naturlige kilden,
+3. om resultatet er ment for inspeksjon, filtrering eller aggregering.
+
+## `WHERE` filtrerer rader
+
+`WHERE` begrenser radene som vises i resultatet.
+
+```sql
+SELECT id, price
+FROM Sales
+WHERE price > 10000
+```
+
+Dette er det første steget fra blaing til analyse. I stedet for å lese hver rad,
+angir vi en betingelse som de returnerte radene må oppfylle.
+
+Typiske introduksjonsfiltre inkluderer:
+
+- numeriske sammenligninger som `>`, `<`, `>=`,
+- likhetssjekker,
+- datobetingelser,
+- kombinering av betingelser med `AND` og `OR`.
+
+Den viktige ideen er at filtrering skjer på radnivå før vi tenker på
+gruppeoppsummeringer.
+
+## `ORDER BY` gjør resultater lesbare
+
+Mange korrekte spørringer er fortsatt vanskelige å tolke til resultatene er
+sortert.
+
+```sql
+SELECT id, name, salary
+FROM Employees
+ORDER BY salary DESC
+```
+
+`ORDER BY` endrer ikke hvilke rader som returneres. Den endrer hvordan resultatet
+presenteres. Det er viktig når vi ønsker å inspisere de høyeste lønningene, de
+tidligste salgene eller de største transaksjonene først.
+
+Dette er også en nyttig påminnelse om at en spørring ofte har to mål:
+
+- hente de riktige radene,
+- presentere dem i en nyttig rekkefølge.
+
+## Joins gjenforener tabeller gjennom nøkler
+
+En relasjonsdatabase sprer informasjon over flere tabeller. Joins er måten vi
+samler den informasjonen igjen.
+
+```sql
+SELECT Customers.first_name, Customers.last_name, Sales.date, Sales.price
+FROM Customers
+JOIN Sales ON Customers.id = Sales.customer_id
+WHERE Sales.price > 90000
+```
+
+Dette fungerer fordi tabellene ble designet med nøkler og relasjoner i tankene.
+SQL oppfinner ikke relasjonen. Den bruker relasjonen som allerede er kodet inn i
+skjemaet.
+
+Derfor kommer `relational-database-fundamentals` først: hvis studentene ikke vet
+hvilken nøkkel som kobler hvilken tabell, føles joins som magi i stedet for logikk.
+
+::: {.teacher-only}
+La studentene si joinen med vanlig språk før de kjører den: «match hvert salg med
+kunden hvis `id` er lik `Sales.customer_id`.»
+:::
+
+## Aggregeringsfunksjoner oppsummerer data
+
+Noen ganger ønsker vi ikke individuelle rader. Vi ønsker en oppsummering:
+
+- `COUNT(*)`
+- `MIN(price)`
+- `MAX(price)`
+- `AVG(salary)`
+- `SUM(...)`
+
+Disse funksjonene kollapser mange rader til ett svar med mindre vi også forteller
+SQL å opprette grupper.
+
+For eksempel:
+
+```sql
+SELECT MIN(price) AS min_sale_price
+FROM Sales
+```
+
+Dette lister ikke alle salgspriser. Det spør etter én oppsummeringsverdi over
+tabellen.
+
+## `GROUP BY` endrer nivået på spørsmålet
+
+`GROUP BY` er der mange studenter først kjenner forskjellen mellom radnivå- og
+gruppenivåtenkning.
+
+```sql
+SELECT employee_id, COUNT(*) AS number_of_sales
+FROM Sales
+GROUP BY employee_id
+```
+
+Uten `GROUP BY` ville `COUNT(*)` returnert én telling for hele tabellen. Med
+`GROUP BY` returnerer SQL én telling per ansatt.
+
+Det er en endring i analytisk granularitet. Vi spør ikke lenger om individuelle
+salg. Vi spør om salg per ansatt.
+
+## Hvordan lese en spørring før du kjører den
+
+Studentene bør øve på å lese SQL-spørringer med vanlig språk:
+
+1. Hvilken tabell eller hvilke tabeller starter spørringen fra?
+2. Hvilke kolonner returnerer den?
+3. Hvilke rader filtreres bort?
+4. Er resultatene sortert?
+5. Oppsummerer eller grupperer spørringen?
+
+Hvis de kan svare på disse spørsmålene, forstår de vanligvis spørringen godt nok
+til å feilsøke den eller tilpasse den.
+
+## Hva som hører til senere i kurset
+
+Dette konseptet dekker kjerneflyten for spørringer:
+
+- `SELECT`
+- `FROM`
+- `WHERE`
+- `ORDER BY`
+- `JOIN`
+- aggregeringsfunksjoner
+- `GROUP BY`
+
+Det neste steget i `EDI 3400` er ikke mer syntaks for syntaksens skyld. Det neste
+steget er å bruke disse ideene fra Python i en reproduserbar arbeidsflyt, som hører
+til i `python-sql-integration`.

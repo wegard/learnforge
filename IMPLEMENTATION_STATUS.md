@@ -38,6 +38,7 @@
 - Norwegian (nb) draft translations: `edi3400` Part 1 (Python basics, lectures 1–5) — 7 concepts, 6 exercises, 7 lectures, 2 assignments
 - Norwegian (nb) draft translations: `edi3400` Part 2 (third-party libraries, lectures 6–8) — 3 concepts, 4 exercises, 3 lectures, 1 assignment
 - Norwegian (nb) draft translations: `edi3400` Part 3 (advanced topics, lectures 9–10) — 3 concepts, 3 exercises, 3 lectures
+- Norwegian (nb) draft translations: `edi3400` Part 4 (databases, lectures 11–13) — 3 concepts, 1 exercise, 3 lectures, 1 assignment — all 4 parts complete
 
 ## Non-Goals For This Run
 
@@ -463,7 +464,7 @@
   - `edi3400`: three promoted database concepts, one problem-set exercise, lectures 11-13; no assignment collections yet
   - `gra4164`: thirteen concepts, six exercises, four assignment collections, eleven lectures promoted; full "promote first" slice complete
   - `tem00uu`: fifteen concepts, seven exercises, eight lectures promoted; Part A complete
-  - `edi3400` Norwegian (nb) translations in progress — Part 1 complete as draft
+  - `edi3400` Norwegian (nb) draft translations complete — all 4 parts, 16 concepts, 14 exercises, 16 lectures, 4 assignments
   - Fresh concept authoring deferred (SVM, gradient boosting, etc.)
 - Later roadmap phases remain deferred:
   - Phase 9 AI-assisted draft workflows

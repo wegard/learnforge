@@ -1,0 +1,134 @@
+Den tryggeste lærerløsningen er et lite sett med representative SQL-spørringer pluss
+én ren Python-arbeidsflyt som laster spørringsresultater inn i Pandas og produserer
+de forespurte plottene.
+
+## Foreslått tilnærming
+
+1. Start med å identifisere skjemaet:
+   - `Employees.id`
+   - `Cars.id`
+   - `Customers.id`
+   - `Sales.id`
+   - `Sales.customer_id`, `Sales.car_id` og `Sales.employee_id` er de sentrale
+     brokolonnene for joins.
+2. Hold enkelttabell-SQL-spørringene enkle og eksplisitte.
+3. Bruk eksplisitt `JOIN ... ON ...`-syntaks i stedet for komma-joins.
+4. Flytt resultattabeller inn i Pandas med `pd.read_sql(...)` når SQL-logikken er
+   korrekt.
+5. Parse datoverdier i Pandas før du bygger plottet for årlig gjennomsnittlig
+   salgspris.
+6. Lukk tilkoblingen til slutt med `con.close()`.
+
+## Representative SQL-svar
+
+Enkelttabelleksempler:
+
+```sql
+SELECT make, year, color
+FROM Cars;
+
+SELECT phone, birth_year
+FROM Customers
+WHERE first_name = 'Lanay' AND last_name = 'Holt';
+
+SELECT DISTINCT make
+FROM Cars
+ORDER BY make ASC;
+
+SELECT id, name, salary
+FROM Employees
+WHERE department = 'Sales'
+ORDER BY salary DESC;
+```
+
+Join-eksempler:
+
+```sql
+SELECT Customers.first_name, Customers.last_name, Sales.date, Sales.price
+FROM Customers
+JOIN Sales ON Customers.id = Sales.customer_id;
+
+SELECT Sales.date, Sales.price, Employees.name
+FROM Sales
+JOIN Employees ON Sales.employee_id = Employees.id
+WHERE Sales.price = 5000;
+
+SELECT Customers.first_name, Customers.last_name, Cars.make, Cars.type, Sales.price
+FROM Sales
+JOIN Customers ON Sales.customer_id = Customers.id
+JOIN Cars ON Sales.car_id = Cars.id;
+```
+
+Aggregeringseksempler:
+
+```sql
+SELECT employee_id, COUNT(*) AS number_of_sales
+FROM Sales
+GROUP BY employee_id;
+
+SELECT MIN(price) AS min_sale_price, MAX(price) AS max_sale_price
+FROM Sales;
+
+SELECT department, AVG(salary) AS average_salary
+FROM Employees
+GROUP BY department;
+```
+
+## Representativ Python-arbeidsflyt
+
+```python
+import sqlite3
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+con = sqlite3.connect("assets/auto_dealership_database.db")
+
+hondas = pd.read_sql(
+    "SELECT * FROM Cars WHERE make = ?",
+    con,
+    params=("Honda",),
+)
+
+service_employees = pd.read_sql(
+    "SELECT * FROM Employees WHERE department = ?",
+    con,
+    params=("Service",),
+)
+
+sales = pd.read_sql("SELECT date, price FROM Sales", con)
+sales["date"] = pd.to_datetime(sales["date"])
+yearly_sales_price = sales.groupby(sales["date"].dt.year)["price"].mean()
+
+mercedes = pd.read_sql(
+    "SELECT year, msrp FROM Cars WHERE make = ?",
+    con,
+    params=("Mercedes",),
+)
+yearly_mercedes_msrp = mercedes.groupby("year")["msrp"].mean()
+
+yearly_sales_price.plot(title="Yearly mean sales price")
+plt.show()
+
+yearly_mercedes_msrp.plot(title="Yearly mean Mercedes MSRP")
+plt.show()
+
+con.close()
+```
+
+## Hva studentene vanligvis bør finne
+
+- `Sales`-tabellen fungerer som den sentrale broen for de fleste interessante joins.
+- SQL er det naturlige stedet å filtrere rader, joine tabeller og beregne
+  grupperte oppsummeringsverdier.
+- Pandas er det naturlige stedet å inspisere returnerte tabeller, parse datoer og
+  produsere plott.
+- De vanligste feilene er å joine på feil nøkkel, glemme `GROUP BY`, eller
+  behandle datostrenger som om de allerede var datetime-verdier.
+
+## Undervisningsvekt
+
+Det viktige poenget er ikke at hver student skriver nøyaktig de samme spørringene.
+Det viktige poenget er at de kan forsvare hvorfor et steg hører til i SQL eller i
+Python, og at hele arbeidsflyten deres er reproduserbar fra tilkobling til
+konklusjon.

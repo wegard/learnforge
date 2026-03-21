@@ -1,0 +1,116 @@
+## Relasjonsdatabaser organiserer data etter struktur, ikke etter tilfeldighet
+
+I `EDI 3400` er en relasjonsdatabase det første stedet der databehandling slutter
+å være et abstrakt lagringsproblem og blir et designproblem. Vi lagrer ikke bare
+verdier. Vi bestemmer hvordan enheter forholder seg til hverandre, hvilke felt som
+skal være unike, og hvordan senere spørringer skal rekonstruere informasjonen vi
+bryr oss om.
+
+Derfor kommer relasjonell tenkning før SQL-syntaks. Hvis strukturen er svak, blir
+spørringene skjøre, repetitive eller misvisende.
+
+## Tabeller modellerer enheter
+
+En relasjonsdatabase lagrer data i tabeller. Hver tabell representerer vanligvis
+én type enhet:
+
+- `customers`
+- `orders`
+- `products`
+- `employees`
+
+Hver rad er én post. Hver kolonne er én variabel om den posten.
+
+Poenget er ikke bare ryddig formatering. Poenget er at hver tabell bør svare på
+ett sammenhengende spørsmål: «hva slags ting representerer hver rad?»
+
+Når det spørsmålet er uklart, forringes datakvaliteten vanligvis raskt.
+
+## Primary keys gjør rader identifiserbare
+
+En primary key er en kolonne, eller et lite sett med kolonner, som unikt
+identifiserer hver rad i en tabell.
+
+For eksempel:
+
+- `customer_id` i `customers`
+- `order_id` i `orders`
+- `employee_id` i `employees`
+
+Uten en stabil nøkkel blir oppdateringer tvetydige. Du kan ikke trygt avgjøre om
+to rader beskriver det samme virkelige objektet eller to forskjellige objekter med
+lignende egenskaper.
+
+I praksis er primary keys det som lar databasen håndheve identitet i stedet for å
+overlate identitet til gjetning.
+
+## Foreign keys gjør relasjoner eksplisitte
+
+Relasjonsdatabaser er kraftige fordi tabeller ikke lever alene. En foreign key er
+en kolonne i én tabell som peker til en primary key i en annen tabell.
+
+For eksempel kan en `orders`-tabell inneholde `customer_id`, som betyr:
+
+- hver bestilling tilhører én kunde,
+- én kunde kan forekomme i mange bestillinger.
+
+Det er en klassisk en-til-mange-relasjon.
+
+Ved å lagre relasjonen eksplisitt kan databasen koble poster på tvers av tabeller
+uten å kopiere full kundeinformasjon inn i hver bestillingsrad.
+
+Dette reduserer duplisering og gjør oppdateringer tryggere.
+
+## God relasjonell design reduserer redundans
+
+Anta at en bilforhandler lagrer ansattinformasjon direkte i hver
+reparasjonspost:
+
+- ansattnavn
+- ansattavdeling
+- ansattlønn
+
+Det kan se praktisk ut i starten, men det skaper gjentatte kopier av de samme
+faktaene. Hvis én ansatt bytter avdeling, kan mange rader trenge korrigering.
+
+Et bedre design separerer:
+
+- `employees`
+- `customers`
+- `cars`
+- `sales`
+- `service_records`
+
+Deretter kobler relasjoner dem gjennom nøkler.
+
+Dette er den praktiske ideen bak normalisering i et introduksjonskurs: hold hvert
+faktum i riktig tabell, og koble tabeller gjennom eksplisitte relasjoner i stedet
+for å skrive den samme informasjonen overalt.
+
+::: {.teacher-only}
+Be studentene identifisere rad-nivå-enheten for hver tabell før dere diskuterer
+joins. Mange SQL-feil er egentlig modelleringsfeil som starter tidligere enn
+spørringen.
+:::
+
+## Hvorfor dette konseptet kommer før SQL
+
+SQL er språket vi bruker for å hente og manipulere relasjonsdata. Men SQL gir bare
+mening etter at vi vet:
+
+1. hva hver tabell representerer,
+2. hvilken kolonne som unikt identifiserer hver rad,
+3. hvordan tabeller henger sammen,
+4. hvilke gjentatte verdier som er akseptable og hvilke som indikerer dårlig design.
+
+Derfor bør `sql-query-basics` bygge på dette konseptet i stedet for å erstatte det.
+
+## Hva studentene bør kunne etter dette konseptet
+
+Studentene bør kunne:
+
+- forklare forskjellen mellom rader, kolonner, nøkler og relasjoner,
+- beskrive en en-til-mange-relasjon med vanlig språk,
+- identifisere en rimelig primary key for en enkel tabell,
+- gjenkjenne hvorfor dupliserte fakta skaper vedlikeholdsproblemer,
+- skissere et lite relasjonelt skjema før de skriver SQL-spørringer mot det.

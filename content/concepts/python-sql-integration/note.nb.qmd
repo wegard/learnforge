@@ -1,0 +1,181 @@
+## Python gjør SQL-arbeid til en reproduserbar arbeidsflyt
+
+Når studentene kan lese et relasjonelt skjema og skrive grunnleggende SQL, er neste
+steg i `EDI 3400` å kjøre den databasearbeidsflyten fra Python. Det endrer
+oppgaven fra «kjør en spørring én gang» til «bygg et skript som kobler til,
+spør, transformerer og avslutter ryddig.»
+
+Det er her databasearbeid blir del av en bredere programmeringsarbeidsflyt.
+
+## `sqlite3` er den enkleste broen
+
+For dette kurset er `sqlite3` det rette utgangspunktet fordi det er lettvekts,
+lokalt og allerede del av Pythons standardbibliotek.
+
+Det grunnleggende mønsteret er:
+
+```python
+import sqlite3
+
+con = sqlite3.connect("auto_dealership_database.db")
+cur = con.cursor()
+```
+
+I den nåværende kanoniske `EDI 3400`-databaseutklippet kan det lokale eksempelet
+være den samme `auto_dealership_database.db` som brukes i
+`sql-python-problem-set`.
+
+På det tidspunktet:
+
+- tilkoblingen representerer den aktive lenken til databasen,
+- markøren er objektet som sender SQL-setninger for utførelse.
+
+Dette er bevisst enkelt. Studentene trenger ikke klient-server-databaseoppsett for
+å forstå den grunnleggende ideen om Python-drevet databaseinteraksjon.
+
+## Å utføre en spørring returnerer rader, ikke en ferdig analyse
+
+Etter å ha opprettet en tilkobling og markør kan Python utføre en spørring og
+hente resultater:
+
+```python
+cur.execute("SELECT id, name, salary FROM Employees")
+rows = cur.fetchall()
+```
+
+Det returnerer vanligvis tupler eller radlignende poster. Resultatet er nyttig,
+men det er ennå ikke den endelige formen de fleste studenter ønsker for analyse
+eller rapportering.
+
+Dette er den første konseptuelle broen:
+
+- SQL uttrykker dataforespørselen,
+- Python bestemmer hva som skal gjøres med det returnerte resultatet.
+
+## Pandas er ofte det reneste neste steget
+
+For innledende dataarbeidsflyter er det ofte enklere å flytte spørringsresultater
+direkte inn i en DataFrame:
+
+```python
+import pandas as pd
+
+employees = pd.read_sql("SELECT * FROM Employees", con)
+```
+
+Det gir studentene et kjent analyseobjekt for:
+
+- kolonnenavngivning,
+- filtrering,
+- oppsummerende statistikk,
+- plotting,
+- eksport.
+
+Det viktige poenget er ikke at Pandas erstatter SQL. Det viktige poenget er at SQL
+og Pandas løser forskjellige deler av arbeidsflyten:
+
+- SQL er godt for å velge, joine og aggregere inne i databasen,
+- Pandas er godt for nedstrøms inspeksjon og analyse i Python.
+
+## Hold SQL lesbar inne i Python
+
+En vanlig nybegynnerfeil er å gjøre SQL vanskeligere å lese når det er innebygd i
+en Python-streng. Studentene bør fortsatt skrive spørringer slik at strukturen er
+synlig:
+
+```python
+query = """
+SELECT customer_id, COUNT(*) AS number_of_sales
+FROM Sales
+GROUP BY customer_id
+"""
+
+result = pd.read_sql(query, con)
+```
+
+Lesbare SQL-strenger gjør feilsøking enklere og holder spørringslogikken atskilt
+fra resten av Python-skriptet.
+
+## Parametriserte spørringer er tryggere enn strengsammensetning
+
+Når Python-verdier må påvirke en spørring, bør studentene unngå å manuelt sette
+sammen SQL med strengkonkatenering. Parametrisert utførelse er tryggere og
+tydeligere:
+
+```python
+threshold = 10000
+cur.execute(
+    "SELECT id, price FROM Sales WHERE price > ?",
+    (threshold,),
+)
+```
+
+Dette er viktig for både korrekthet og sikkerhet. Selv i et lite undervisnings-
+eksempel bør studentene lære at SQL-inndata skal sendes som data, ikke limes inn
+i spørringsteksten.
+
+::: {.teacher-only}
+Presenter dette som en arbeidsflyt-vane, ikke bare som en sikkerhetsforelesning.
+Parametriserte spørringer reduserer også sitatfeil og gjør kode enklere å
+gjenbruke.
+:::
+
+## Python kan også opprette og fylle en database
+
+Integrasjonshistorien går også i den andre retningen. Python er ikke begrenset til
+å lese fra en database. Det kan opprette tabeller og sette inn rader:
+
+```python
+cur.execute(
+    """
+    CREATE TABLE Employees(
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        salary REAL
+    )
+    """
+)
+```
+
+og senere:
+
+```python
+cur.executemany(
+    "INSERT INTO Employees VALUES(?, ?, ?)",
+    employee_rows,
+)
+con.commit()
+```
+
+Det er nyttig i innledende undervisning fordi studentene ser at en database ikke er
+en svart boks. Python kan definere skjemaet, fylle inn eksempeldata og deretter
+spørre mot resultatet.
+
+## Å avslutte arbeidsflyten er viktig
+
+Databasearbeid bør avsluttes ryddig:
+
+```python
+con.close()
+```
+
+Hvis skriptet endret databasen, bør studentene også forstå hvorfor `commit()`
+er viktig før lukking. Dette er del av den bredere programmeringsvanen kurset
+prøver å lære: ressurser bør åpnes, brukes med hensikt og lukkes bevisst.
+
+## Hva studentene bør kunne etter dette konseptet
+
+Studentene bør kunne:
+
+- koble til en lokal SQLite-database fra Python,
+- utføre en spørring med `sqlite3`,
+- laste spørringsresultater inn i en Pandas DataFrame,
+- forklare når SQL bør skje inne i databasen versus i Python,
+- opprette en enkel tabell og sette inn rader fra Python,
+- bruke parametriserte spørringer i stedet for manuell strengsammensetning.
+
+## Hva som kommer neste
+
+Dette konseptet er broen til den første databaseøvelsen. Øvelsen bør be studentene
+jobbe med en liten lokal database, skrive SQL-spørringer fra Python, inspisere de
+returnerte resultatene og begrunne arbeidsflyten de valgte.

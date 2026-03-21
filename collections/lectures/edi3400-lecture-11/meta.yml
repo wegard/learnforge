@@ -5,8 +5,10 @@ status: approved
 visibility: student
 languages:
   - en
+  - nb
 title:
   en: Lecture 11 - Introduction to relational databases
+  nb: Forelesning 11 – Introduksjon til relasjonsdatabaser
 courses:
   - edi3400
 topics:
@@ -27,6 +29,7 @@ owners:
 updated: 2026-03-19
 translation_status:
   en: approved
+  nb: draft
 ai:
   generated_fields: []
 items:

@@ -2945,3 +2945,61 @@ def test_web_data_extraction_with_python_nb_student_blocked() -> None:
             output_format="html",
             root=REPO_ROOT,
         )
+
+
+def test_relational_database_fundamentals_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "relational-database-fundamentals",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "concept"
+    assert "## Relasjonsdatabaser organiserer data etter struktur, ikke etter tilfeldighet" in assembly.markdown
+
+
+def test_sql_python_problem_set_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "sql-python-problem-set",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert assembly.target.kind == "exercise"
+    assert "## Lab-oppgave" in assembly.markdown
+    assert "## Oppgaver" in assembly.markdown
+
+
+def test_edi3400_lecture_13_nb_teacher_assembly() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    assembly = assemble_target(
+        "edi3400-lecture-13",
+        index=index,
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    assert "## Lab-oppgave" in assembly.markdown
+
+
+def test_relational_database_fundamentals_nb_student_blocked() -> None:
+    index, _ = load_repository(REPO_ROOT, collect_errors=False)
+    with pytest.raises(AssemblyError):
+        assemble_target(
+            "relational-database-fundamentals",
+            index=index,
+            audience="student",
+            language="nb",
+            output_format="html",
+            root=REPO_ROOT,
+        )

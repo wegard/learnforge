@@ -1,0 +1,69 @@
+## Lab-oppgave
+
+Bruk den lokale kursdatabasen `auto_dealership_database.db` fra denne øvelsens
+`assets/`-mappe for å øve på den fullstendige databasearbeidsflyten i `EDI 3400`:
+forstå skjemaet, skriv SQL-spørringer, og hent resultater inn i Python for videre
+analyse.
+
+Poenget med labben er ikke å memorere isolerte SQL-kommandoer. Poenget er å bevege
+seg fra relasjonell struktur til spørringslogikk og deretter inn i en reproduserbar
+Python-arbeidsflyt.
+
+## Datasettoversikt
+
+Databasen inneholder fire kjernetabeller:
+
+- `Employees`
+- `Cars`
+- `Customers`
+- `Sales`
+
+Les skjemaet nøye før du skriver spørringer. Identifiser spesielt hvilke kolonner
+som kobler `Sales`-tabellen til de andre tabellene.
+
+## Oppgaver
+
+1. Inspiser skjemaet og skriv et kort notat som identifiserer:
+   - primary key for hver tabell,
+   - hvordan `Sales` kobles til `Customers`, `Cars` og `Employees`.
+2. Skriv minst fire enkelttabell-SQL-spørringer, inkludert:
+   - én `SELECT`/`FROM`-spørring,
+   - ett `WHERE`-filter,
+   - én `ORDER BY`-spørring,
+   - én spørring som bruker `DISTINCT`.
+3. Skriv minst tre flertabell-SQL-spørringer med joins, inkludert:
+   - én spørring som kombinerer kunder og salg,
+   - én spørring som kombinerer salg og ansatte,
+   - én spørring som kombinerer salg, kunder og biler.
+4. Skriv minst tre oppsummeringsspørringer med aggregeringsfunksjoner og `GROUP BY`
+   der det er passende. Inkluder eksempler som:
+   - telling av salg per ansatt,
+   - å finne minimum eller maksimum salgspriser,
+   - å beregne gjennomsnittlig lønn eller gjennomsnittlig salgspris per gruppe.
+5. Fra Python, opprett:
+   - én Pandas DataFrame som inneholder alle Honda-biler,
+   - én Pandas DataFrame som inneholder alle ansatte i serviceavdelingen.
+6. Fra Python, lag to små plott:
+   - årlig gjennomsnittlig salgs-`price` basert på salgsdatoen,
+   - årlig gjennomsnittlig `msrp` for Mercedes-biler basert på bilåret.
+7. Skriv en kort konklusjon som dekker:
+   - hvilke spørringer som var enklest å uttrykke i SQL,
+   - hvilke transformasjoner som føltes mer naturlige i Python eller Pandas,
+   - én skjemaegenskap som gjorde joins mulig,
+   - én feil eller feilsøkingssteg du måtte løse.
+
+## Startmal
+
+```python
+import sqlite3
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+con = sqlite3.connect("assets/auto_dealership_database.db")
+cur = con.cursor()
+```
+
+Hold SQL lesbar inne i Python-strenger. Bruk parametriserte spørringer når en
+Python-variabel skal påvirke SQL-setningen. Lukk databasetilkoblingen når
+arbeidsflyten er fullført.
