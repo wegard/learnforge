@@ -1,0 +1,66 @@
+The strongest teacher solution keeps the extraction and analysis steps separate
+and inspectable. This checkpoint is about reading structured data from HTML and
+CSV sources, not about building a production scraper.
+
+## Suggested approach
+
+1. Read the HTML file with plain `open(...)` — no network access needed.
+2. Parse with BeautifulSoup and extract cell text row by row.
+3. Skip the header row explicitly so only data rows enter the lists.
+4. Build the DataFrame from the two lists and convert types deliberately.
+5. Load the CSV with `pd.read_csv(...)` and inspect before computing.
+
+## Minimal reference implementation
+
+```python
+from bs4 import BeautifulSoup
+import pandas as pd
+
+with open("assets/sample_product_page.html") as f:
+    html = f.read()
+
+print(html[:200])
+
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.find_all("tr")
+
+products = []
+prices = []
+for row in rows[1:]:
+    cells = row.find_all("td")
+    if len(cells) == 2:
+        products.append(cells[0].get_text())
+        prices.append(cells[1].get_text())
+
+print(products)
+print(prices)
+
+df = pd.DataFrame({"product": products, "price": prices})
+df["price"] = pd.to_numeric(df["price"])
+print(df)
+print(df["price"].mean())
+
+revenue = pd.read_csv("assets/quarterly_revenue.csv")
+print(revenue.head())
+print(revenue.columns.tolist())
+print(revenue.dtypes)
+print(revenue["revenue"].sum())
+```
+
+## What students should notice
+
+- reading a local HTML file uses the same `open(...)` pattern as earlier labs,
+- `find_all("tr")` returns all rows including the header, so skipping the first
+  row avoids mixing headers into the data,
+- `get_text()` strips the HTML tags and returns plain strings,
+- the price column starts as strings and needs explicit conversion before
+  arithmetic works,
+- `pd.read_csv(...)` handles CSV structure automatically, while HTML extraction
+  requires manual parsing.
+
+## Teaching emphasis
+
+Keep the focus on the two-source pattern: one structured (CSV) and one
+semi-structured (HTML). The goal is to make students comfortable extracting
+tabular data from both formats before the course moves to more complex data
+pipelines.

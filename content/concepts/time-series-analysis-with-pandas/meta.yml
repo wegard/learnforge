@@ -1,0 +1,42 @@
+id: time-series-analysis-with-pandas
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Time-series analysis with Pandas
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - python
+  - pandas
+  - time-series
+  - resampling
+  - dates
+  - matplotlib
+level: introductory
+prerequisites:
+  - pandas-series-and-dataframes
+  - matplotlib-basic-plots
+related:
+  - pandas-series-and-dataframes
+  - matplotlib-basic-plots
+  - web-data-extraction-with-python
+  - time-series-analysis-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

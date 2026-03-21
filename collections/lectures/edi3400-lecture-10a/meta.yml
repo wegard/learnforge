@@ -1,0 +1,35 @@
+id: edi3400-lecture-10a
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 10A - Web data extraction
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - lecture
+  - python
+  - web-scraping
+  - beautifulsoup
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - web-data-extraction-with-python
+  - web-data-extraction-lab

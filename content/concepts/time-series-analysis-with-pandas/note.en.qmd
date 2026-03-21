@@ -1,0 +1,128 @@
+## Time-stamped data needs explicit date handling
+
+Many datasets in `EDI 3400` include a date or timestamp column. When Pandas reads
+that column as plain text, date-based operations like filtering by month or
+computing weekly averages do not work correctly.
+
+The fix is to tell Pandas that the column contains dates:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("daily_campus_energy.csv", parse_dates=["date"])
+```
+
+The `parse_dates` argument converts the named column from strings into proper
+`datetime` objects. This one step unlocks all of Pandas' date-aware features.
+
+## A DatetimeIndex turns dates into the primary axis
+
+Once the date column is parsed, setting it as the index makes the entire table
+date-indexed:
+
+```python
+df = df.set_index("date")
+print(df.index)
+```
+
+A `DatetimeIndex` supports:
+
+- slicing by date range: `df.loc["2025-01":"2025-03"]`,
+- grouping by calendar period,
+- and resampling to different time resolutions.
+
+The `pd.to_datetime()` function is the manual equivalent when `parse_dates` is
+not enough:
+
+```python
+df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
+```
+
+This is useful when the date format is non-standard or when the column needs
+cleaning before conversion.
+
+## Resampling changes the time resolution of a table
+
+Daily data is often too granular for summary analysis. Resampling converts a
+time-indexed table to a coarser resolution:
+
+```python
+monthly = df.resample("ME").mean()
+print(monthly.head())
+```
+
+The `"ME"` rule means "month end" — each row in the result represents one
+calendar month. The `.mean()` aggregation computes the average of all daily
+values within each month.
+
+Other common rules:
+
+- `"W"` for weekly,
+- `"QE"` for quarterly,
+- `"YE"` for yearly.
+
+Resampling is a form of downsampling: it reduces the number of rows while
+preserving the overall trend. This is the time-series equivalent of the grouping
+and aggregation students already know from Pandas.
+
+## Time-series plots reveal patterns that summary statistics miss
+
+A single mean or standard deviation hides the shape of the data over time.
+Plotting the values on a time axis makes trends, cycles, and outliers visible:
+
+```python
+import matplotlib.pyplot as plt
+
+df["kwh"].plot(title="Daily campus energy use")
+plt.ylabel("kWh")
+plt.tight_layout()
+plt.show()
+```
+
+Pandas integrates directly with Matplotlib through the `.plot()` method. When
+the index is a `DatetimeIndex`, the x-axis automatically shows dates.
+
+Comparing the daily plot to a monthly resampled plot is a good way to see how
+aggregation smooths out short-term noise while preserving the underlying trend.
+
+::: {.teacher-only}
+## Live demo suggestion
+
+Show a daily energy or temperature plot first, then overlay the monthly
+resampled version on the same axes. This makes the smoothing effect concrete.
+For a more engaging example, use a stock price CSV if the class is comfortable
+with financial data.
+:::
+
+## Rolling windows smooth short-term noise
+
+Resampling groups data into fixed calendar periods. Rolling windows instead
+compute a statistic over a sliding window of fixed width:
+
+```python
+df["rolling_7d"] = df["kwh"].rolling(window=7).mean()
+df[["kwh", "rolling_7d"]].plot(title="Daily energy with 7-day rolling average")
+plt.ylabel("kWh")
+plt.tight_layout()
+plt.show()
+```
+
+A 7-day rolling mean smooths out day-to-day variation while keeping the original
+daily resolution. The first six rows will be `NaN` because the window needs at
+least seven values to compute the first average.
+
+Rolling windows are useful when:
+
+- the data has a clear daily or weekly cycle,
+- students want to see the trend without losing the original time resolution,
+- and the goal is visual clarity rather than formal statistical modeling.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- load a CSV file with `parse_dates` and set a date column as the index,
+- explain the difference between a plain index and a `DatetimeIndex`,
+- resample a daily table to monthly or weekly resolution,
+- plot a time series with `.plot()` and appropriate labels,
+- compute a rolling average and explain why the first few values are `NaN`.

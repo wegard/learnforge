@@ -1,0 +1,42 @@
+id: web-data-extraction-with-python
+kind: concept
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Web data extraction with Python
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - python
+  - web-scraping
+  - beautifulsoup
+  - urllib
+  - csv
+  - pandas
+level: introductory
+prerequisites:
+  - python-file-handling
+  - pandas-series-and-dataframes
+related:
+  - pandas-series-and-dataframes
+  - matplotlib-basic-plots
+  - web-data-extraction-lab
+  - time-series-analysis-with-pandas
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []

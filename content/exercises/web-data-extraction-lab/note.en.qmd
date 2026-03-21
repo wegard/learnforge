@@ -1,0 +1,56 @@
+## Lab brief
+
+Use this exercise to practice the first `EDI 3400` web data extraction workflow:
+
+- read and decode a local HTML file,
+- extract structured data from HTML with BeautifulSoup,
+- build a Pandas DataFrame from the extracted values,
+- and load a CSV file for comparison.
+
+Use the local assets in this exercise folder:
+
+- `assets/sample_product_page.html`
+- `assets/quarterly_revenue.csv`
+
+## Tasks
+
+1. Read the HTML file as a string:
+   - open `assets/sample_product_page.html` with `open(...)` and `.read()`,
+   - print the first 200 characters to verify the content loaded.
+2. Parse the HTML and extract product data:
+   - create a `BeautifulSoup` object from the HTML string,
+   - use `soup.find_all("tr")` to get the table rows,
+   - for each row, extract the cell text with `find_all("td")`,
+   - collect the product names and prices into two separate lists,
+   - print both lists.
+3. Build a DataFrame from the extracted data:
+   - create a `pd.DataFrame` with columns `"product"` and `"price"`,
+   - convert the `"price"` column to a numeric type with `pd.to_numeric(...)`,
+   - print the DataFrame,
+   - print the mean price.
+4. Load the CSV file and compare:
+   - load `assets/quarterly_revenue.csv` with `pd.read_csv(...)`,
+   - print the first five rows,
+   - print the column names and dtypes,
+   - compute the total revenue and print it.
+
+## Starter outline
+
+```python
+from bs4 import BeautifulSoup
+import pandas as pd
+
+with open("assets/sample_product_page.html") as f:
+    html = f.read()
+
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.find_all("tr")
+
+products = []
+prices = []
+
+revenue = pd.read_csv("assets/quarterly_revenue.csv")
+```
+
+Keep the extraction steps visible. Print intermediate results so you can verify
+that each step produces the expected structure before moving to the next.

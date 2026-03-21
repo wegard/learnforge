@@ -1,0 +1,133 @@
+## The web is a data source Python can read programmatically
+
+Many datasets that students work with in `EDI 3400` start as local CSV files or
+database tables. But a large share of real-world data lives on the web — in HTML
+pages, public CSV endpoints, and structured feeds.
+
+Python can fetch and parse that data without a browser. The standard library
+provides `urllib` for downloading, and third-party libraries like BeautifulSoup
+add structure-aware parsing on top.
+
+This matters because:
+
+- some datasets are only available online,
+- automating the download step makes the workflow reproducible,
+- and understanding the raw format helps students evaluate data quality.
+
+## URLs behave like file paths for remote data
+
+In the file-handling lecture, students opened local files with `open(...)`. For
+remote data, the equivalent entry point is `urlopen` from the standard library:
+
+```python
+from urllib.request import urlopen
+
+response = urlopen("https://example.com/data.csv")
+raw_bytes = response.read()
+text = raw_bytes.decode("utf-8")
+print(text[:200])
+```
+
+The key difference is that `urlopen` returns bytes, not a string. The `.decode()`
+step converts those bytes into readable text — usually with `"utf-8"`.
+
+This pattern works for any URL that returns plain text: CSV files, HTML pages, or
+simple text feeds. The result is a Python string that can be processed with the
+same tools students already know.
+
+## BeautifulSoup turns raw HTML into navigable structure
+
+HTML pages are not plain data. They contain tags, attributes, and nested
+elements. Extracting useful values from raw HTML by hand is error-prone.
+
+BeautifulSoup is a Python library that parses an HTML string and makes it
+searchable:
+
+```python
+from bs4 import BeautifulSoup
+
+html = """
+<html>
+<body>
+  <table>
+    <tr><th>Product</th><th>Price</th></tr>
+    <tr><td>Notebook</td><td>49</td></tr>
+    <tr><td>Pen set</td><td>29</td></tr>
+  </table>
+</body>
+</html>
+"""
+
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.find_all("tr")
+for row in rows:
+    cells = row.find_all(["th", "td"])
+    print([cell.get_text() for cell in cells])
+```
+
+The result is a list of lists — each row extracted cleanly from the table
+structure. `find_all()` accepts tag names, CSS classes, and other selectors,
+which makes it flexible enough for most simple extraction tasks.
+
+::: {.teacher-only}
+## Live demo suggestion
+
+Show a real public page in the browser first, then view its source. Walk through
+the `find_all()` call to extract the same values that students can see on screen.
+This makes the connection between visible HTML and parsed data concrete.
+:::
+
+## Pandas can read CSV data directly from a URL
+
+When the remote data is already in CSV format, Pandas can skip the manual
+download step entirely:
+
+```python
+import pandas as pd
+
+url = "https://example.com/quarterly_revenue.csv"
+df = pd.read_csv(url)
+print(df.head())
+```
+
+This is the same `pd.read_csv(...)` that students used with local files in the
+Pandas lecture. The only difference is that the path argument is a URL instead
+of a local file name.
+
+This pattern is convenient but has limits:
+
+- the URL must point directly to a CSV file (not an HTML page),
+- the server must allow unauthenticated access,
+- and the file must be small enough to download in one step.
+
+For larger or more complex sources, students should download the file first and
+then load it locally.
+
+## External data sources are powerful but fragile
+
+Web data is useful but introduces risks that local files do not:
+
+- **Rate limits** — servers may block repeated requests.
+- **Format changes** — a page redesign can break extraction code silently.
+- **Availability** — a URL that works today may return an error tomorrow.
+- **Reproducibility** — if the data changes between runs, results become harder
+  to verify.
+
+For coursework, the safest pattern is:
+
+1. download the data once,
+2. save a local copy,
+3. work from the local copy in analysis scripts.
+
+This keeps the extraction step separate from the analysis step and makes the
+workflow reproducible even when the original source changes.
+
+## What students should be able to do next
+
+After this concept, students should be able to:
+
+- explain why web data requires an explicit download and decode step,
+- use `urlopen` to fetch a remote text file,
+- parse a small HTML table with BeautifulSoup and `find_all()`,
+- load a remote CSV file directly with `pd.read_csv(url)`,
+- explain why saving a local copy improves reproducibility.

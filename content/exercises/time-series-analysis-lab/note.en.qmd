@@ -1,0 +1,55 @@
+## Lab brief
+
+Use this exercise to practice the first `EDI 3400` time-series workflow:
+
+- load a date-stamped CSV file with parsed dates,
+- set the date column as the index,
+- resample daily data to monthly resolution,
+- plot the daily and monthly series,
+- and compute a rolling average.
+
+Use the local asset in this exercise folder:
+
+- `assets/daily_campus_energy.csv`
+
+## Tasks
+
+1. Load the CSV file with parsed dates:
+   - load `assets/daily_campus_energy.csv` with `pd.read_csv(...)`,
+   - use `parse_dates=["date"]` to convert the date column,
+   - set the `date` column as the index with `set_index("date")`,
+   - print the first five rows and `df.index` to verify the DatetimeIndex.
+2. Inspect the data:
+   - print the shape and dtypes,
+   - print the date range covered (first and last index value),
+   - print the mean and standard deviation of the `kwh` column.
+3. Resample to monthly resolution:
+   - create `monthly = df.resample("ME").mean()`,
+   - print the monthly table,
+   - print the number of rows before and after resampling.
+4. Plot the daily and monthly series:
+   - plot the daily `kwh` values with `df["kwh"].plot(...)`,
+   - on the same axes, plot the monthly resampled values,
+   - add a title, y-axis label, and legend,
+   - save or display the figure.
+5. Compute a 7-day rolling average:
+   - create `df["rolling_7d"] = df["kwh"].rolling(window=7).mean()`,
+   - print the first 10 rows to show the initial `NaN` values,
+   - plot both the original and rolling average on one figure.
+6. Write a short reflection covering:
+   - one difference between resampling and rolling averages,
+   - one pattern you noticed in the daily data that the monthly view hides,
+   - whether the temperature column correlates visually with energy use.
+
+## Starter outline
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("assets/daily_campus_energy.csv", parse_dates=["date"])
+df = df.set_index("date")
+```
+
+Keep the plots simple. Use `.plot()` with clear titles and labels so the
+time-series patterns are easy to read.

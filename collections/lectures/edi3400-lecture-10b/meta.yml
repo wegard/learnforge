@@ -1,0 +1,36 @@
+id: edi3400-lecture-10b
+kind: collection
+collection_kind: lecture
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 10B - Time-series analysis and statistics
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - lecture
+  - python
+  - pandas
+  - time-series
+  - matplotlib
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - time-series-analysis-with-pandas
+  - time-series-analysis-lab

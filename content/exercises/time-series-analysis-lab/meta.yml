@@ -1,0 +1,41 @@
+id: time-series-analysis-lab
+kind: exercise
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Time-series analysis lab
+courses:
+  - edi3400
+topics:
+  - data-management
+  - python
+  - programming
+tags:
+  - exercise
+  - python
+  - pandas
+  - time-series
+  - resampling
+  - matplotlib
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - pandas-series-and-dataframes
+  - matplotlib-basic-plots
+  - time-series-analysis-with-pandas
+solution_storage: separate-file
+solution_visibility: teacher

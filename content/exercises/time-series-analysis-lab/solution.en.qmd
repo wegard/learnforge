@@ -1,0 +1,68 @@
+The strongest teacher solution keeps the time-series workflow linear and
+inspectable. This checkpoint is about loading date-indexed data, resampling,
+and plotting — not about statistical modeling or forecasting.
+
+## Suggested approach
+
+1. Parse dates at load time and set the index immediately.
+2. Print summary statistics before any transformation.
+3. Resample to monthly and compare row counts explicitly.
+4. Use `.plot()` for quick visualizations with clear labels.
+5. Show the rolling average alongside the original to make smoothing visible.
+
+## Minimal reference implementation
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("assets/daily_campus_energy.csv", parse_dates=["date"])
+df = df.set_index("date")
+
+print(df.head())
+print(df.index)
+print(df.shape)
+print(df.dtypes)
+print(f"Date range: {df.index.min()} to {df.index.max()}")
+print(f"Mean kWh: {df['kwh'].mean():.1f}")
+print(f"Std kWh: {df['kwh'].std():.1f}")
+
+monthly = df.resample("ME").mean()
+print(monthly)
+print(f"Daily rows: {len(df)}, Monthly rows: {len(monthly)}")
+
+fig, ax = plt.subplots(figsize=(10, 4))
+df["kwh"].plot(ax=ax, alpha=0.5, label="Daily")
+monthly["kwh"].plot(ax=ax, linewidth=2, label="Monthly mean")
+ax.set_title("Campus energy use: daily vs. monthly")
+ax.set_ylabel("kWh")
+ax.legend()
+plt.tight_layout()
+plt.show()
+
+df["rolling_7d"] = df["kwh"].rolling(window=7).mean()
+print(df[["kwh", "rolling_7d"]].head(10))
+
+fig, ax = plt.subplots(figsize=(10, 4))
+df["kwh"].plot(ax=ax, alpha=0.4, label="Daily")
+df["rolling_7d"].plot(ax=ax, linewidth=2, label="7-day rolling mean")
+ax.set_title("Campus energy use with rolling average")
+ax.set_ylabel("kWh")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+## What students should notice
+
+- `parse_dates` and `set_index` together create a proper DatetimeIndex,
+- resampling reduces 90 daily rows to about 3 monthly rows,
+- the daily plot shows day-to-day variation that the monthly view hides,
+- the rolling average preserves the daily resolution while smoothing noise,
+- the first six rolling values are `NaN` because the window needs seven points.
+
+## Teaching emphasis
+
+Keep the focus on the workflow: load, inspect, resample, plot, smooth. The goal
+is to make students comfortable with date-indexed Pandas operations before the
+course moves into more advanced analysis or database workflows.
