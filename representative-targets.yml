@@ -94,6 +94,11 @@ targets:
     audience: teacher
     language: nb
     format: html
+  - label: BIK2550 figure preview
+    id: confusion-matrix-figure
+    audience: teacher
+    language: nb
+    format: html
   - label: GRA4164 lecture page
     id: gra4164-lecture-03
     audience: student

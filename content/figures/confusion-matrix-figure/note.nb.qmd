@@ -1,0 +1,1 @@
+Konfusjonsmatrisen gjør klassifikasjonsfeil konkrete: den viser ikke bare hvor ofte modellen treffer, men hvilke typer feil den gjør. I finans er dette viktig fordi en falsk negativ og en falsk positiv ofte har veldig ulik kostnad.

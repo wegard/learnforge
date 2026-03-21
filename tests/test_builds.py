@@ -288,6 +288,55 @@ def test_bik2550_teacher_assignment_page_builds_in_norwegian() -> None:
     assert build_manifest["assignment"]["included_solution_files"] == []
 
 
+def test_bik2550_teacher_concept_page_builds_with_confusion_matrix_figure() -> None:
+    artifact = build_target(
+        "ml-model-evaluation-overview",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+
+    assert "Evaluering av maskinlæringsmodeller" in html
+    assert "Figurer" in html
+    assert "../../figure/confusion-matrix-figure/confusion-matrix-figure.html" in html
+    assert "Konfusjonsmatrise" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "confusion-matrix-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+
+
+def test_bik2550_teacher_figure_page_builds_in_norwegian() -> None:
+    artifact = build_target(
+        "confusion-matrix-figure",
+        audience="teacher",
+        language="nb",
+        output_format="html",
+        root=REPO_ROOT,
+    )
+
+    html = artifact.output_path.read_text(encoding="utf-8")
+    build_manifest = json.loads(artifact.build_manifest_path.read_text(encoding="utf-8"))
+    leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
+
+    assert "Figurdetaljer" in html
+    assert 'data-figure-id="confusion-matrix-figure"' in html
+    assert "Konfusjonsmatrise" in html
+    assert "ml-model-evaluation-overview/ml-model-evaluation-overview.html" in html
+    assert "Interaktiv modus" in html
+    assert "kun statisk" in html
+    assert 'class="lf-preview-notice"' in html
+    assert build_manifest["figure_observation_count"] == 1
+    assert build_manifest["figure_uses"][0]["figure_id"] == "confusion-matrix-figure"
+    assert build_manifest["figure_uses"][0]["interactive_included"] is False
+    assert build_manifest["figure_uses"][0]["fallback_asset_path"].endswith("figure.svg")
+    assert leakage_report["status"] == "not_applicable"
+
+
 def test_tem0052_concept_and_exercise_student_pages_build_cleanly() -> None:
     preprocessing_concept_artifact = build_target(
         "ml-preprocessing-pipelines",

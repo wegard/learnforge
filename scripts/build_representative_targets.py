@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import sys
-
 from app.build import BuildError, build_target
 from app.config import REPO_ROOT
 from app.validator import load_representative_targets
@@ -19,10 +17,11 @@ def main() -> int:
                 root=REPO_ROOT,
             )
         except BuildError as exc:
-            print(
-                "Representative build failed: "
-                f"{target.label} ({target.id}, {target.audience}, {target.language}, {target.format})"
+            target_descriptor = (
+                f"{target.label} ({target.id}, {target.audience}, "
+                f"{target.language}, {target.format})"
             )
+            print(f"Representative build failed: {target_descriptor}")
             print(str(exc))
             return 1
 

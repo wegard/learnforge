@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Konfusjonsmatrise</title>
+  <desc id="desc">En 2x2 matrise med faktiske klasser på radene og predikerte klasser på kolonnene. Cellene viser sanne positive, falske negative, falske positive og sanne negative.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f3eb; }
+      .title { font: 700 34px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; }
+      .subtitle { font: 500 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #4f5d75; }
+      .axis { font: 700 20px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; letter-spacing: 0.04em; }
+      .label { font: 600 18px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #253247; }
+      .cell-title { font: 700 21px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #14213d; }
+      .cell-copy { font: 500 16px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #253247; }
+      .cell-copy tspan { x: 0; dy: 1.25em; }
+      .accent-line { stroke: #d57a2a; stroke-width: 4; stroke-linecap: round; }
+      .matrix-border { stroke: #d5c7ad; stroke-width: 3; fill: none; }
+      .diag-good { fill: #cfe8d2; }
+      .diag-risk { fill: #f7d9a6; }
+      .corner { fill: #fffaf2; stroke: #d5c7ad; stroke-width: 3; }
+      .footnote { font: 500 15px "Source Sans 3", "DejaVu Sans", sans-serif; fill: #5c677d; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="560" rx="28"/>
+
+  <text class="title" x="90" y="82">Konfusjonsmatrise</text>
+  <text class="subtitle" x="90" y="114">Klassifikasjonsresultatet brytes ned i fire utfall, ikke bare en samlet accuracy.</text>
+
+  <g transform="translate(280 170)">
+    <rect class="corner" x="-140" y="-52" width="140" height="52" rx="14"/>
+    <text class="axis" x="-70" y="-20" text-anchor="middle">Faktisk klasse</text>
+
+    <rect class="corner" x="0" y="-52" width="240" height="52" rx="14"/>
+    <rect class="corner" x="240" y="-52" width="240" height="52" rx="14"/>
+    <text class="axis" x="240" y="-90" text-anchor="middle">Predikert klasse</text>
+    <text class="label" x="120" y="-20" text-anchor="middle">Positiv</text>
+    <text class="label" x="360" y="-20" text-anchor="middle">Negativ</text>
+
+    <rect class="corner" x="-140" y="0" width="140" height="150" rx="14"/>
+    <rect class="corner" x="-140" y="150" width="140" height="150" rx="14"/>
+    <text class="label" x="-70" y="82" text-anchor="middle">Positiv</text>
+    <text class="label" x="-70" y="232" text-anchor="middle">Negativ</text>
+
+    <rect class="diag-good" x="0" y="0" width="240" height="150" rx="18"/>
+    <rect class="diag-risk" x="240" y="0" width="240" height="150" rx="18"/>
+    <rect class="diag-risk" x="0" y="150" width="240" height="150" rx="18"/>
+    <rect class="diag-good" x="240" y="150" width="240" height="150" rx="18"/>
+    <rect class="matrix-border" x="0" y="0" width="480" height="300" rx="18"/>
+    <line class="accent-line" x1="240" y1="12" x2="240" y2="288"/>
+    <line class="accent-line" x1="12" y1="150" x2="468" y2="150"/>
+
+    <g transform="translate(32 42)">
+      <text class="cell-title" x="0" y="0">Sanne positive</text>
+      <text class="cell-copy" x="0" y="28">
+        <tspan>Modellen flagger</tspan>
+        <tspan>tilfellene korrekt.</tspan>
+      </text>
+    </g>
+
+    <g transform="translate(272 42)">
+      <text class="cell-title" x="0" y="0">Falske negative</text>
+      <text class="cell-copy" x="0" y="28">
+        <tspan>Faktisk positiv,</tspan>
+        <tspan>men ikke fanget opp.</tspan>
+      </text>
+    </g>
+
+    <g transform="translate(32 192)">
+      <text class="cell-title" x="0" y="0">Falske positive</text>
+      <text class="cell-copy" x="0" y="28">
+        <tspan>Unødig alarm på</tspan>
+        <tspan>faktisk negative data.</tspan>
+      </text>
+    </g>
+
+    <g transform="translate(272 192)">
+      <text class="cell-title" x="0" y="0">Sanne negative</text>
+      <text class="cell-copy" x="0" y="28">
+        <tspan>Korrekt frikjente</tspan>
+        <tspan>negative tilfeller.</tspan>
+      </text>
+    </g>
+  </g>
+
+  <text class="footnote" x="90" y="504">Bruk figuren til å diskutere precision, recall og hvilke feil som er dyrest i kredittscoring eller svindeldeteksjon.</text>
+</svg>

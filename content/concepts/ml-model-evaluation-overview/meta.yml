@@ -22,6 +22,7 @@ prerequisites: []
 related:
   - bias-variance-tradeoff
   - model-selection-cross-validation
+  - confusion-matrix-figure
 outputs:
   - html
   - pdf
@@ -29,7 +30,7 @@ outputs:
   - handout
 owners:
   - vegard
-updated: 2026-03-19
+updated: 2026-03-21
 translation_status:
   nb: draft
 ai:

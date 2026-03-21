@@ -106,16 +106,16 @@ Tasks that require instructor judgement and cannot be automated.
       — the raster images in `course-inbox/BIK2550/images/` cannot be imported
       directly (figure objects require SVG + PDF). Candidates worth recreating:
 
-      | Image | Concept it supports |
-      |---|---|
-      | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` |
-      | `confusion_matrix.png` | `ml-model-evaluation-overview` |
-      | `training_and_test_error.png` | `ml-model-evaluation-overview` |
-      | `my_activation_functions.png` | `neural-networks-introduction` |
-      | `gradient_descent.png` | `ml-model-evaluation-overview` |
-      | `regression_example.png` | `ml-supervised-learning-overview` |
-      | `sigmoid.png` | `ml-supervised-learning-overview` |
-      | `dt_kreditt.png` | `ml-supervised-learning-overview` |
+      | Image | Concept it supports | Status |
+      |---|---|---|
+      | `bias_variance_tradeoff_4.png` | `ml-model-evaluation-overview` | candidate |
+      | `confusion_matrix.png` | `ml-model-evaluation-overview` | **promoted** |
+      | `training_and_test_error.png` | `ml-model-evaluation-overview` | candidate |
+      | `my_activation_functions.png` | `neural-networks-introduction` | candidate |
+      | `gradient_descent.png` | `ml-model-evaluation-overview` | candidate |
+      | `regression_example.png` | `ml-supervised-learning-overview` | candidate |
+      | `sigmoid.png` | `ml-supervised-learning-overview` | candidate |
+      | `dt_kreditt.png` | `ml-supervised-learning-overview` | candidate |
 
       Most other images are external diagrams with attribution, screenshots,
       or decorative stock images — not suitable for figure objects.
@@ -156,3 +156,4 @@ Tasks that require instructor judgement and cannot be automated.
 - Exercise: `ai-finance-solution-blueprint`
 - Exercise: `ai-finance-individual-reflection`
 - Assignment collection: `bik2550-project-brief`
+- Figure: `confusion-matrix-figure`

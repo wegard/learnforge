@@ -1,0 +1,40 @@
+id: confusion-matrix-figure
+kind: figure
+status: draft
+visibility: student
+languages:
+  - nb
+title:
+  nb: Konfusjonsmatrise
+concepts:
+  - ml-model-evaluation-overview
+courses:
+  - bik2550
+topics:
+  - machine-learning
+  - model-selection
+  - classification
+tags:
+  - confusion-matrix
+  - classification
+  - model-evaluation
+outputs:
+  - html
+  - pdf
+  - revealjs
+owners:
+  - vegard
+updated: 2026-03-21
+translation_status:
+  nb: draft
+ai:
+  generated_fields: []
+caption:
+  nb: Konfusjonsmatrisen viser hvordan en klassifikasjonsmodell fordeler prediksjoner på sanne og falske positive og negative.
+alt_text:
+  nb: En 2x2 matrise med faktiske klasser på radene og predikerte klasser på kolonnene. Cellene er sanne positive, falske negative, falske positive og sanne negative.
+svg_path: figure.svg
+pdf_path: figure.pdf
+asset_inventory:
+  - figure.svg
+  - figure.pdf
