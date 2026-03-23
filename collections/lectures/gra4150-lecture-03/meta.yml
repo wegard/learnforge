@@ -1,0 +1,37 @@
+id: gra4150-lecture-03
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 3 — Regression and Gradient Descent
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - regression
+  - optimization
+tags:
+  - lecture
+  - linear-regression
+  - gradient-descent
+  - regularization
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - linear-regression-prediction
+  - gradient-descent-optimization
+  - penalized-linear-models
+  - house-prices-regression

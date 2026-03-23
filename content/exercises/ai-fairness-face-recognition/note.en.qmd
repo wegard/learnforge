@@ -1,0 +1,39 @@
+## Exercise brief
+
+A company deploys an AI face recognition system to automatically open building doors
+for employees. The system must distinguish employees from non-employees.
+
+**Setup:**
+
+- The company has 500 employees: 100 women and 400 men.
+- A test set of 500 non-employees is collected: 100 women and 400 men.
+- The company considers the system acceptable if the overall error rate is at most
+  10% for both false positives (admitting non-employees) and false negatives
+  (rejecting employees).
+
+## Questions
+
+**Question 1.** The system incorrectly admits 10 out of 100 female non-employees and
+10 out of 400 male non-employees. Compute the false positive rate for each gender.
+Is the system fair by this metric?
+
+**Question 2.** Now look at the full picture. The system admits a total of 105 women
+(95 employees + 10 non-employees) and 400 men (390 employees + 10 non-employees).
+Compute the sensitivity (true positive rate) and specificity (true negative rate) for
+each gender. What do these numbers tell you about the system that the false positive
+rate alone does not?
+
+**Question 3.** Among employees, 5 out of 100 female employees are incorrectly
+rejected (false negative rate 5%) and 10 out of 400 male employees are incorrectly
+rejected (false negative rate 2.5%). Is the system biased against women, men, or
+neither by this metric? How does this compare to your answer in Question 1?
+
+**Question 4.** A new version of the system achieves equal error rates across
+genders: 10% false positive rate and 5% false negative rate for both men and women.
+Is this system fair? Can you think of a scenario where equal error rates are still
+not enough?
+
+**Question 5.** Suppose data shows that men are 10 times more likely than women to
+attempt unauthorized entry. Should this prior information affect the design of the
+system? What are the ethical implications of using demographic base rates in a
+security system?

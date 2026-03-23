@@ -30,21 +30,21 @@ wired into `gra4150` by adding the course to their `courses:` list.
 
 | Existing object id | Lecture mapping | Current courses |
 | --- | --- | --- |
-| `linear-regression-prediction` | L3 | tem0052, gra4164 |
-| `penalized-linear-models` | L3–4 | tem0052 |
-| `logistic-regression-classification` | L5 | tem0052, gra4164 |
-| `bias-variance-tradeoff` | L4 | tem0052 |
-| `model-selection-cross-validation` | L4 | tem0052 |
-| `ml-preprocessing-pipelines` | L2 | tem0052 |
-| `principal-component-analysis` | L8 (unsupervised context) | tem0052, gra4164 |
-| `k-means-clustering` | L8 (unsupervised context) | tem0052 |
+| `linear-regression-prediction` | L3 | tem0052, gra4164, gra4150 | **cross-linked** |
+| `penalized-linear-models` | L3–4 | tem0052, gra4150 | **cross-linked** |
+| `logistic-regression-classification` | L5 | tem0052, gra4164, gra4150 | **cross-linked** |
+| `bias-variance-tradeoff` | L4 | tem0052, gra4150 | **cross-linked** |
+| `model-selection-cross-validation` | L4 | tem0052, gra4150 | **cross-linked** |
+| `ml-preprocessing-pipelines` | L2 | tem0052, gra4150 | **cross-linked** |
+| `principal-component-analysis` | L8 (unsupervised context) | tem0052, gra4164, gra4150 | **cross-linked** |
+| `k-means-clustering` | L8 (unsupervised context) | tem0052, gra4150 | **cross-linked** |
 
 ### Exercises (from tem0052)
 
 | Existing object id | Lecture mapping | Current courses |
 | --- | --- | --- |
-| `house-prices-regression` | L3 | tem0052 |
-| `titanic-data-preprocessing` | L2 | tem0052 |
+| `house-prices-regression` | L3 | tem0052, gra4150 | **cross-linked** |
+| `titanic-data-preprocessing` | L2 | tem0052, gra4150 | **cross-linked** |
 
 ## Migration Buckets
 
@@ -52,21 +52,21 @@ wired into `gra4150` by adding the course to their `courses:` list.
 
 | Legacy source | Target kind | Proposed target id | Lecture | Status |
 | --- | --- | --- | --- | --- |
-| `GRA4150_Lecture1/GRA4150_Lecture1.tex` | concept | `ai-and-ml-introduction` | L1 | |
-| `GRA4150_Lecture3/GRA4150_Lecture3.tex` (gradient descent section) | concept | `gradient-descent-optimization` | L3 | |
-| `GRA4150_Lecture4/GRA4150_Lecture4.tex` + `Adaline.ipynb` | concept | `adaline-and-perceptron` | L4 | |
-| `GRA4150_Lecture7/GRA4150_Lecture7.tex` | concept | `multi-layer-perceptron` | L7 | |
-| `GRA4150_Lecture8/GRA4150_Lecture8.tex` | concept | `ai-ethics-bias-explainability` | L8 | |
-| `GRA4150_Lecture11/GRA4150_Lecture11.tex` | concept | `convolutional-neural-networks` | L11 | |
+| `GRA4150_Lecture1/GRA4150_Lecture1.tex` | concept | `ai-and-ml-introduction` | L1 | **promoted** |
+| `GRA4150_Lecture3/GRA4150_Lecture3.tex` (gradient descent section) | concept | `gradient-descent-optimization` | L3 | **promoted** |
+| `GRA4150_Lecture4/GRA4150_Lecture4.tex` + `Adaline.ipynb` | concept | `adaline-and-perceptron` | L4 | **promoted** |
+| `GRA4150_Lecture7/GRA4150_Lecture7.tex` | concept | `multi-layer-perceptron` | L7 | **promoted** |
+| `GRA4150_Lecture8/GRA4150_Lecture8.tex` | concept | `ai-ethics-bias-explainability` | L8 | **promoted** |
+| `GRA4150_Lecture11/GRA4150_Lecture11.tex` | concept | `convolutional-neural-networks` | L11 | **promoted** |
 
 ### Promote First — New Exercises
 
 | Legacy source | Target kind | Proposed target id | Lecture | Status |
 | --- | --- | --- | --- | --- |
-| `GRA4150_Lecture4/GRA4150_Adaline.ipynb` | exercise | `adaline-iris-classification` | L4 | |
-| `GRA4150_Lecture7/GRA4150_MultiLayerPerceptron.ipynb` | exercise | `mlp-classification-lab` | L7 | |
-| `Exercises/GRA4150_Exercise2/` | exercise | `ai-fairness-face-recognition` | L8 | |
-| `GRA4150_Lecture11/GRA4150_CNN.ipynb` | exercise | `cnn-image-classification` | L11 | |
+| `GRA4150_Lecture4/GRA4150_Adaline.ipynb` | exercise | `adaline-iris-classification` | L4 | **promoted** |
+| `GRA4150_Lecture7/GRA4150_MultiLayerPerceptron.ipynb` | exercise | `mlp-classification-lab` | L7 | **promoted** |
+| `Exercises/GRA4150_Exercise2/` | exercise | `ai-fairness-face-recognition` | L8 | **promoted** |
+| `GRA4150_Lecture11/GRA4150_CNN.ipynb` | exercise | `cnn-image-classification` | L11 | **promoted** |
 
 ### Lecture Collection Assembly
 

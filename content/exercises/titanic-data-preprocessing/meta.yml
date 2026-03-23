@@ -8,6 +8,7 @@ title:
   en: Titanic data preprocessing lab
 courses:
   - tem0052
+  - gra4150
 topics:
   - predictive-modelling
   - preprocessing

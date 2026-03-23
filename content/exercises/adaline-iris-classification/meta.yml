@@ -1,0 +1,39 @@
+id: adaline-iris-classification
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Adaline classification on the Iris dataset
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - classification
+  - neural-networks
+tags:
+  - exercise
+  - adaline
+  - iris-dataset
+  - decision-boundary
+  - scikit-learn
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - adaline-and-perceptron
+  - gradient-descent-optimization
+solution_storage: separate-file
+solution_visibility: teacher

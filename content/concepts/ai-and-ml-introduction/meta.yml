@@ -1,0 +1,37 @@
+id: ai-and-ml-introduction
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Introduction to artificial intelligence and machine learning
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - ai-fundamentals
+tags:
+  - ai-history
+  - computer-vision
+  - nlp
+  - supervised-learning
+  - unsupervised-learning
+  - reinforcement-learning
+level: introductory
+prerequisites: []
+related:
+  - ml-preprocessing-pipelines
+  - gradient-descent-optimization
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

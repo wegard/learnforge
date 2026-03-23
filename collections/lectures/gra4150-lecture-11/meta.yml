@@ -1,0 +1,36 @@
+id: gra4150-lecture-11
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 11 — Convolutional Neural Networks
+courses:
+  - gra4150
+topics:
+  - deep-learning
+  - neural-networks
+  - computer-vision
+tags:
+  - lecture
+  - cnn
+  - convolution
+  - pooling
+  - image-classification
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - convolutional-neural-networks
+  - cnn-image-classification

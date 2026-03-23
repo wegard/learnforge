@@ -1,0 +1,42 @@
+## Lab brief
+
+Build and train a convolutional neural network in PyTorch for handwritten digit
+classification on MNIST. The exercise covers defining convolutional and pooling
+layers, training with mini-batch SGD, and comparing the CNN to a fully connected
+baseline.
+
+## Tasks
+
+1. Load the MNIST dataset using `torchvision.datasets.MNIST`. Apply a transform
+   that converts images to tensors and normalizes pixel values.
+2. Create data loaders with a batch size of 64 for both train and test sets.
+3. Define a fully connected baseline: flatten the 28×28 image into a 784-element
+   vector and pass it through two hidden layers (128 and 64 units, ReLU) followed
+   by a 10-class output. Report the total parameter count.
+4. Define a CNN with:
+   - A convolutional layer: 1 input channel, 8 output channels, 3×3 kernel, same
+     padding.
+   - ReLU activation.
+   - 2×2 max pooling.
+   - A second convolutional layer: 8 input channels, 16 output channels, 3×3
+     kernel, same padding.
+   - ReLU activation.
+   - 2×2 max pooling.
+   - Flatten, then a fully connected layer to 10 classes.
+   Report the total parameter count and compare to the baseline.
+5. Train both models for 5 epochs using cross-entropy loss and SGD with a learning
+   rate of 0.01. Plot the training loss curve for each.
+6. Evaluate both models on the test set. Report accuracy and a confusion matrix for
+   each. Which model performs better, and by how much?
+7. (Extension) Visualize the learned filters from the first convolutional layer.
+   What patterns do you see?
+
+## Starter outline
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+```

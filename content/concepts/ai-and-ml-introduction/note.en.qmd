@@ -1,0 +1,62 @@
+## What is artificial intelligence?
+
+Artificial intelligence is the study of building systems that perform tasks normally
+requiring human intelligence. The field has gone through several waves of progress
+since Alan Turing posed the question "Can machines think?" in 1950.
+
+Three paradigm shifts stand out. Rule-based expert systems dominated the 1970s and
+1980s. Statistical learning methods gained ground in the 1990s and 2000s. Deep
+learning, powered by large datasets and GPU hardware, triggered the current wave
+after 2012.
+
+## The three machine learning paradigms
+
+Machine learning is the subfield of AI where systems learn patterns from data rather
+than following hand-coded rules.
+
+**Supervised learning** uses labelled examples. Given input-output pairs, the model
+learns a mapping from inputs to outputs. Regression predicts a continuous value;
+classification predicts a discrete category.
+
+**Unsupervised learning** works with unlabelled data. The model discovers structure
+such as clusters, principal components, or density estimates without knowing the
+correct answer in advance.
+
+**Reinforcement learning** trains an agent to take actions in an environment and
+maximize cumulative reward. It is the paradigm behind game-playing systems and
+robotic control.
+
+::: {.teacher-only}
+Emphasize that most of this course focuses on supervised learning (regression and
+classification) with a detour into unsupervised methods. Reinforcement learning is
+mentioned for context only.
+:::
+
+## AI success stories
+
+**Computer vision** was transformed by deep learning. The ImageNet Large Scale Visual
+Recognition Challenge saw error rates drop from 26% in 2011 to below 3% by 2017,
+surpassing average human performance. All top entries after 2012 used deep
+convolutional neural networks.
+
+**Natural language processing** advanced rapidly with the introduction of transformer
+architectures. Modern language models can summarize, translate, and generate text at
+a level that was unreachable a decade ago.
+
+**Game intelligence** demonstrated that reinforcement learning agents can master
+complex strategy games. AlphaGo defeated the world champion in Go in 2016, a
+milestone once considered decades away.
+
+## Building a machine learning system
+
+Every supervised learning system requires four ingredients:
+
+1. A **dataset** of input-output examples.
+2. A **model** that defines the family of functions we search over.
+3. An **objective function** (loss function) that measures how far predictions are
+   from the truth.
+4. An **optimization algorithm** that adjusts the model parameters to minimize the
+   loss.
+
+The rest of this course fills in each ingredient, starting with linear regression
+and gradient descent.

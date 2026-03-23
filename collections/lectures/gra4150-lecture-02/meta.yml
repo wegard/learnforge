@@ -1,0 +1,34 @@
+id: gra4150-lecture-02
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 2 — ML Fundamentals and Data Preprocessing
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - preprocessing
+  - feature-engineering
+tags:
+  - lecture
+  - preprocessing
+  - data-splitting
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - ml-preprocessing-pipelines
+  - titanic-data-preprocessing

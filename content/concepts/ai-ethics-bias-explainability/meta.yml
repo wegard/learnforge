@@ -1,0 +1,38 @@
+id: ai-ethics-bias-explainability
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: AI ethics, bias, and explainability
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - ai-fundamentals
+tags:
+  - bias
+  - fairness
+  - explainability
+  - shap
+  - shapley-values
+  - gdpr
+  - xai
+level: intermediate
+prerequisites:
+  - ai-and-ml-introduction
+related:
+  - ai-fairness-face-recognition
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

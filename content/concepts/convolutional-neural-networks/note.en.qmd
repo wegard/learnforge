@@ -1,0 +1,75 @@
+## Why fully connected networks fail for images
+
+A standard fully connected network treats every input pixel as an independent
+feature. For a modest 224 × 224 colour image the input dimension is over 150,000.
+Connecting that to a hidden layer of the same size would require more than 22 billion
+parameters in a single layer — far too many to store, let alone train.
+
+Convolutional neural networks solve this by exploiting the spatial structure of
+images: nearby pixels are more related than distant ones, and the same local pattern
+(an edge, a texture) can appear anywhere in the image.
+
+## The convolution operation
+
+A convolution slides a small filter (kernel) across the input and computes a weighted
+sum at each position. For a 1-D input $\mathbf{x}$ and kernel $\mathbf{w}$ of length
+$f$:
+
+$$
+y_i = \sum_{k=0}^{f-1} x_{i+k}\, w_k
+$$
+
+In 2-D the kernel is a small matrix that slides over the height and width of the
+image. The output is called a feature map.
+
+The key insight is that the same kernel weights are shared across all positions. This
+**weight sharing** dramatically reduces the parameter count compared to a fully
+connected layer.
+
+::: {.teacher-only}
+Walk through a concrete 3×3 kernel on a small 5×5 image. Show the element-wise
+multiply-and-sum at each position. Students often find the matrix-multiplication
+view of convolution helpful for connecting to the linear algebra they already know.
+:::
+
+## Padding and stride
+
+**Padding** adds zeros around the border of the input. "Valid" padding (no padding)
+shrinks the output; "same" padding preserves the spatial dimensions.
+
+**Stride** controls how far the kernel moves between positions. A stride of 2
+halves the output dimensions in each direction, providing a form of downsampling.
+
+## Pooling layers
+
+Pooling reduces the spatial dimensions of feature maps while retaining the most
+important information. **Max pooling** takes the maximum value in each local window;
+**average pooling** takes the mean. Pooling makes the representation more compact
+and adds a degree of translation invariance.
+
+## CNN architecture
+
+A typical CNN alternates convolutional layers (feature extraction) with pooling
+layers (downsampling), followed by one or more fully connected layers for
+classification:
+
+1. **Convolutional layers** extract local features. Early layers detect low-level
+   patterns (edges, corners); deeper layers combine them into higher-level concepts
+   (shapes, object parts).
+2. **Pooling layers** reduce spatial dimensions and control overfitting.
+3. **Fully connected layers** map the final feature representation to class scores.
+
+## AlexNet and the deep learning breakthrough
+
+AlexNet (Krizhevsky et al., 2012) won the ImageNet competition by a large margin,
+reducing the top-5 error rate from 26% to 16%. It was the first large-scale CNN
+trained on GPUs and demonstrated that depth, data, and compute could overcome
+traditional computer vision methods. Every top entry in subsequent years used deep
+convolutional networks.
+
+## Tensors
+
+In deep learning, data flows through networks as multi-dimensional arrays called
+tensors. A grayscale image is a 2-D tensor (height × width); a colour image is a
+3-D tensor (height × width × channels). A batch of images adds a fourth dimension.
+Frameworks like PyTorch and TensorFlow operate natively on tensors.

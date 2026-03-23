@@ -1,0 +1,67 @@
+## The optimization problem
+
+Training a machine learning model means finding the parameter values that minimize
+a loss function. For linear regression with mean squared error, the loss is
+
+$$
+L(\mathbf{w}, b) = \frac{1}{2n}\sum_{i=1}^{n}\bigl(y^{(i)} - \hat{y}^{(i)}\bigr)^2
+$$
+
+where $\hat{y}^{(i)} = \mathbf{w}^\top \mathbf{x}^{(i)} + b$. The factor $1/2$ is
+a convention that simplifies the gradient.
+
+## The gradient descent update rule
+
+Gradient descent is an iterative algorithm. At each step it moves the parameters in
+the direction of steepest descent:
+
+$$
+\mathbf{w} \leftarrow \mathbf{w} - \eta\,\nabla_{\mathbf{w}} L(\mathbf{w}, b)
+\qquad
+b \leftarrow b - \eta\,\nabla_{b} L(\mathbf{w}, b)
+$$
+
+The learning rate $\eta$ controls the step size. Too large and the updates overshoot
+the minimum; too small and convergence is impractically slow.
+
+::: {.teacher-only}
+Show the loss-surface visualization with different learning rates. Ask students to
+predict what happens when $\eta$ is 10x too large before showing the divergence plot.
+:::
+
+## The role of feature scaling
+
+When features have very different scales, the loss surface is elongated and gradient
+descent oscillates. Standardizing each feature to zero mean and unit variance
+
+$$
+x_j^{\text{new}} = \frac{x_j - \mu_j}{\sigma_j}
+$$
+
+makes the contours more circular and allows a single learning rate to work well
+across all dimensions.
+
+## Batch, stochastic, and mini-batch variants
+
+**Batch gradient descent** computes the gradient over the entire training set before
+each update. It is stable but expensive for large datasets.
+
+**Stochastic gradient descent (SGD)** updates after each individual example. It is
+noisy but much faster per iteration and can escape shallow local minima.
+
+**Mini-batch gradient descent** is the practical compromise. It computes the gradient
+over a small random subset (batch) of the data, balancing noise and computational
+efficiency. Most deep learning frameworks default to mini-batch training.
+
+## Analytical vs iterative solutions
+
+Linear regression has a closed-form solution via the normal equations:
+
+$$
+\mathbf{w} = (X^\top X)^{-1} X^\top \mathbf{y}
+$$
+
+This is exact but requires inverting a matrix, which becomes expensive when the
+number of features is large or when $X^\top X$ is nearly singular. Gradient descent
+scales better and generalizes to non-linear models where no closed-form solution
+exists.

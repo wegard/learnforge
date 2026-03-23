@@ -1,0 +1,34 @@
+## Lab brief
+
+Build, train, and evaluate a multi-layer perceptron for multi-class classification
+using PyTorch. The exercise covers network definition, training loop mechanics, and
+the effect of architectural choices on performance.
+
+## Tasks
+
+1. Load the Iris dataset (all three classes). Split into 80% train and 20% test
+   with a fixed random seed. Standardize the features.
+2. Define an MLP with one hidden layer of 16 units, ReLU activation, and a 3-class
+   output layer. Use `torch.nn.Module`.
+3. Choose cross-entropy as the loss function and SGD as the optimizer. Train for
+   100 epochs with a learning rate of 0.01 and a batch size of 16.
+4. Plot the training loss curve over epochs.
+5. Evaluate on the test set: report accuracy and a confusion matrix.
+6. Experiment with at least two variations:
+   - Change the hidden layer size (e.g. 4 units vs 64 units).
+   - Change the activation function (e.g. sigmoid or tanh instead of ReLU).
+   Report how each change affects convergence and test accuracy.
+7. (Extension) Add a second hidden layer. Does depth help for this problem? Report
+   the parameter count for each architecture you tried.
+
+## Starter outline
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix
+```

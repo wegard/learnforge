@@ -49,6 +49,7 @@
 - Representative targets expanded to 25, adding `confusion-matrix-figure`
 - BIK2550 Module 3 assembly completion: wired project exercises into `bik2550-m3d3`, added bidirectional `related:` links across all 4 Module 3 concepts
 - Phase 11 kickoff: `gra4150` migration inventory + canonical course shell — 8 lectures mapped, 8 cross-link candidates, 6 new concepts, 4 new exercises planned
+- Phase 11 parallel checkpoint: `gra4150` full "promote first" slice — 8 cross-linked concepts, 2 cross-linked exercises, 6 new concepts, 4 new exercises, 8 lecture collections, plan wiring
 
 ## Non-Goals For This Run
 

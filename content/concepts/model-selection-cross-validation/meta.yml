@@ -8,6 +8,7 @@ title:
   en: Model selection and cross-validation
 courses:
   - tem0052
+  - gra4150
 topics:
   - predictive-modelling
   - model-selection

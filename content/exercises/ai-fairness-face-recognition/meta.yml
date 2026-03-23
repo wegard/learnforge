@@ -1,0 +1,38 @@
+id: ai-fairness-face-recognition
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: AI fairness analysis — face recognition access control
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - ai-fundamentals
+tags:
+  - exercise
+  - fairness
+  - bias
+  - false-positive-rate
+  - sensitivity
+  - specificity
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+exercise_type: conceptual
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - ai-ethics-bias-explainability
+solution_storage: separate-file
+solution_visibility: teacher

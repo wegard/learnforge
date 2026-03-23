@@ -1,0 +1,37 @@
+## Suggested approach
+
+1. Standardize all four Iris features. Convert to `torch.FloatTensor` for features
+   and `torch.LongTensor` for labels.
+2. Define the model:
+   ```python
+   class IrisMLP(nn.Module):
+       def __init__(self, hidden_size=16):
+           super().__init__()
+           self.fc1 = nn.Linear(4, hidden_size)
+           self.relu = nn.ReLU()
+           self.fc2 = nn.Linear(hidden_size, 3)
+
+       def forward(self, x):
+           return self.fc2(self.relu(self.fc1(x)))
+   ```
+3. Training loop with `nn.CrossEntropyLoss()` and `optim.SGD(lr=0.01)`.
+4. Evaluate with `accuracy_score` and `confusion_matrix` from scikit-learn.
+
+## What students should usually find
+
+- A single hidden layer of 16 ReLU units converges within 50–80 epochs and reaches
+  95–100% test accuracy on Iris.
+- Reducing the hidden size to 4 units still works but converges more slowly.
+  Increasing to 64 units adds parameters without clear benefit on this small dataset.
+- Sigmoid activation converges more slowly than ReLU due to gradient saturation.
+  Tanh is typically faster than sigmoid but still slower than ReLU.
+- Adding a second hidden layer does not improve performance on Iris and may slow
+  convergence slightly. The dataset is too small and simple to benefit from depth.
+- Parameter counts: a 4-16-3 network has 4×16+16+16×3+3 = 131 parameters.
+  A 4-64-3 network has 4×64+64+64×3+3 = 515 parameters.
+
+## Teaching emphasis
+
+The point of the exercise is the training mechanics (forward pass, loss, backward
+pass, weight update) rather than achieving a high score. Iris is deliberately chosen
+because it is small enough for students to see the full picture without GPU resources.

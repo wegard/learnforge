@@ -1,0 +1,39 @@
+## Lab brief
+
+Implement the Adaline algorithm from scratch on the Iris dataset to build intuition
+for how gradient descent trains a linear classifier. The exercise progresses from a
+simple two-feature binary problem to a multi-feature extension.
+
+## Tasks
+
+1. Load the Iris dataset and select only Setosa and Versicolor (binary
+   classification). Use sepal length and petal length as features.
+2. Implement Adaline:
+   - Initialize weights and bias to small random values.
+   - Compute the net input $z = \mathbf{w}^\top \mathbf{x} + b$.
+   - Compute the MSE loss.
+   - Update weights and bias using the gradient descent rule.
+   - Track the loss over epochs.
+3. Train with a learning rate of $\eta = 0.01$ for 50 epochs on the raw
+   (unstandardized) features. Plot the loss curve and report the final training
+   accuracy.
+4. Standardize both features to zero mean and unit variance. Retrain with the same
+   learning rate and compare the convergence.
+5. Experiment with at least two other learning rates (e.g. $\eta = 0.1$ and
+   $\eta = 0.0001$). Plot all three loss curves on the same axes and describe what
+   you observe.
+6. Plot the decision boundary in the two-feature space for your best model.
+7. (Extension) Add petal width as a third feature, retrain, and report whether
+   accuracy improves. Explain why visualizing the decision boundary is harder in
+   three dimensions.
+
+## Starter outline
+
+```python
+import numpy as np
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+```
+
+Use NumPy for the implementation. Do not use scikit-learn's classifiers for the
+Adaline steps — the point is to implement the update rule yourself.

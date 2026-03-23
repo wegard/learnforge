@@ -1,0 +1,67 @@
+## Question 1
+
+- Female non-employees: 10/100 = 10% false positive rate.
+- Male non-employees: 10/400 = 2.5% false positive rate.
+
+The system is not fair by this metric. Women who are not employees are four times
+more likely to be incorrectly admitted than men.
+
+## Question 2
+
+**Sensitivity (true positive rate):**
+
+- Women: 95/100 = 95%.
+- Men: 390/400 = 97.5%.
+
+**Specificity (true negative rate):**
+
+- Women: 90/100 = 90%.
+- Men: 390/400 = 97.5%.
+
+The false positive rate in Question 1 only told part of the story. The sensitivity
+and specificity numbers show that the system also has a lower true positive rate for
+women than for men. Different fairness metrics can point in the same direction or
+conflict — here they all suggest worse performance for women.
+
+## Question 3
+
+- Female employees rejected: 5/100 = 5%.
+- Male employees rejected: 10/400 = 2.5%.
+
+By the false negative metric the system is biased against women: a female employee
+is twice as likely to be locked out. This is consistent with the pattern in
+Questions 1 and 2.
+
+## Question 4
+
+Equal error rates (10% FPR and 5% FNR for both genders) satisfy **demographic
+parity** on these two metrics. However, equal rates are not the only definition of
+fairness. If the system is deployed in a context where the cost of a false negative
+is much higher for one group (for example, an employee with a disability who cannot
+easily use an alternative entrance), then equal rates may still produce unequal
+outcomes.
+
+Context matters: what counts as "fair" depends on the application, the stakeholders,
+and the consequences of each type of error.
+
+## Question 5
+
+Using demographic base rates to adjust decision thresholds raises serious ethical
+concerns. Even if the statistical claim is true, building it into the system:
+
+- Treats individuals as members of a group rather than as individuals.
+- Risks reinforcing existing inequalities (if arrest data, not actual crime data,
+  drives the base rates).
+- May violate anti-discrimination law in many jurisdictions.
+
+A security system at a workplace should not apply different standards to employees
+based on gender. The scenario illustrates why fairness in ML is not purely a
+statistical question — it requires normative judgement about what kind of
+distinctions a system should and should not make.
+
+## Teaching emphasis
+
+The progressive structure of the questions shows that no single metric captures
+fairness. Students should leave with the understanding that fairness is
+multi-dimensional, context-dependent, and ultimately requires human judgement about
+values — not just technical optimization.

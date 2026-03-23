@@ -1,0 +1,72 @@
+## Two kinds of bias
+
+In machine learning the word "bias" has two distinct meanings. **Statistical bias**
+is the systematic error that arises when a model is too simple to capture the true
+pattern (the "bias" in bias-variance tradeoff). **Societal bias** is the unfair
+treatment of certain groups that occurs when a model reflects or amplifies
+discriminatory patterns in data or design choices.
+
+This lecture is about the second kind.
+
+## Sources of bias in the ML pipeline
+
+Bias can enter at every stage of a machine learning project:
+
+1. **Data collection.** Historical records may underrepresent certain groups or
+   encode past discrimination. A hospital algorithm trained on spending data
+   systematically underestimated the health needs of Black patients because
+   the healthcare system had historically spent less on their care.
+2. **Data preprocessing.** Imputation and encoding choices carry assumptions.
+   Filling missing salary values with the mean ignores structural pay gaps.
+3. **Feature engineering.** Choosing or weighting features can give dangerous
+   influence to proxies for protected attributes.
+4. **Data splitting.** A training set that is not representative of the deployment
+   population leads to biased performance estimates.
+5. **Model training.** Small or imbalanced datasets can cause the model to memorize
+   majority-group patterns and ignore minority groups.
+6. **Model evaluation.** Aggregate accuracy can hide large disparities across
+   subgroups. A fraud detector with 90% overall accuracy may have only 50%
+   sensitivity for a specific demographic.
+
+::: {.teacher-only}
+The COMPAS case study is effective here. ProPublica showed that COMPAS predicted
+Black defendants would reoffend at a much higher false-positive rate than White
+defendants, even though overall accuracy was similar.
+:::
+
+## Regulation: GDPR and the EU AI Act
+
+The GDPR gives individuals the right to an explanation of automated decisions that
+significantly affect them (Article 22). Recital 71 states that individuals can ask
+"why" for any such decision and request human intervention.
+
+The EU AI Act classifies AI systems by risk level and imposes transparency,
+accountability, and human-oversight requirements on high-risk applications such as
+credit scoring, hiring, and law enforcement.
+
+## Explainable AI
+
+If we cannot understand why a model makes a decision, we cannot audit it for
+fairness. Explainable AI (XAI) provides tools to open the black box.
+
+**Saliency maps and RISE** highlight which parts of an input (for example, which
+pixels in an image) contribute most to the model's prediction. They work without
+access to model internals by masking input regions and observing how the output
+changes.
+
+**Shapley values** come from cooperative game theory. They assign each feature a
+contribution score by averaging its marginal effect across all possible feature
+subsets. The computation is exact but exponential in the number of features.
+
+**SHAP** (SHapley Additive exPlanations) is a practical framework that approximates
+Shapley values efficiently for tree-based models and deep networks. It can explain
+individual predictions and produce summary plots that show which features push the
+prediction up or down.
+
+## The accuracy-interpretability tradeoff
+
+More powerful models (deep networks, large ensembles) tend to be harder to interpret.
+Simpler models (linear regression, shallow decision trees) are easier to explain but
+may sacrifice predictive performance. The right balance depends on the application:
+a model that denies someone parole or a loan needs a higher standard of
+explainability than a model that recommends a movie.

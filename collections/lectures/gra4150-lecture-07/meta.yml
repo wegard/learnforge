@@ -1,0 +1,34 @@
+id: gra4150-lecture-07
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 7 — Multi-Layer Perceptrons and Neural Networks
+courses:
+  - gra4150
+topics:
+  - deep-learning
+  - neural-networks
+tags:
+  - lecture
+  - mlp
+  - backpropagation
+  - activation-functions
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - multi-layer-perceptron
+  - mlp-classification-lab

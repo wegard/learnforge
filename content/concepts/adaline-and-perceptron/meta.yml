@@ -1,0 +1,39 @@
+id: adaline-and-perceptron
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Adaline and the perceptron
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - classification
+  - neural-networks
+tags:
+  - adaline
+  - perceptron
+  - threshold-function
+  - decision-boundary
+  - binary-classification
+level: intermediate
+prerequisites:
+  - gradient-descent-optimization
+  - linear-regression-prediction
+related:
+  - multi-layer-perceptron
+  - logistic-regression-classification
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

@@ -1,0 +1,37 @@
+## Suggested approach
+
+1. Load Iris, filter to the first 100 samples (Setosa + Versicolor), and extract
+   sepal length (column 0) and petal length (column 2).
+2. Encode labels as 0/1. Initialize `w = np.zeros(2)` and `b = 0.0`.
+3. Adaline training loop:
+   ```python
+   for epoch in range(n_epochs):
+       z = X @ w + b
+       errors = y - z
+       w += eta * (X.T @ errors) / n
+       b += eta * errors.mean()
+       loss = (errors ** 2).mean() / 2
+   ```
+4. Without standardization and $\eta = 0.01$, convergence is slow or unstable
+   depending on the feature scales.
+5. After standardization convergence is smooth within 15–20 epochs.
+
+## What students should usually find
+
+- Raw features: the loss curve either diverges ($\eta$ too large) or decreases very
+  slowly ($\eta$ too small for the larger-scale feature).
+- Standardized features: a moderate learning rate ($\eta = 0.01$) converges quickly
+  and stably.
+- $\eta = 0.1$ on standardized data may still converge but with more oscillation.
+  $\eta = 0.0001$ converges but is impractically slow.
+- The decision boundary is a straight line separating the two classes. With
+  standardized features and a well-tuned learning rate, it should achieve near-100%
+  training accuracy on this linearly separable pair.
+- Adding petal width as a third feature should maintain or slightly improve accuracy.
+  The boundary becomes a plane in 3-D, which is harder to visualize.
+
+## Teaching emphasis
+
+The key takeaway is that feature scaling makes gradient descent work reliably, and
+that Adaline's continuous loss surface is what allows gradient-based optimization —
+unlike the perceptron, which has a discontinuous update rule.

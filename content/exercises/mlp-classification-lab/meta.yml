@@ -1,0 +1,39 @@
+id: mlp-classification-lab
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Multi-layer perceptron classification lab
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - deep-learning
+  - neural-networks
+tags:
+  - exercise
+  - mlp
+  - pytorch
+  - classification
+  - sgd
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - multi-layer-perceptron
+  - gradient-descent-optimization
+solution_storage: separate-file
+solution_visibility: teacher

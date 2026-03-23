@@ -1,0 +1,37 @@
+id: convolutional-neural-networks
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Convolutional neural networks
+courses:
+  - gra4150
+topics:
+  - deep-learning
+  - neural-networks
+  - computer-vision
+tags:
+  - cnn
+  - convolution
+  - pooling
+  - alexnet
+  - image-classification
+level: intermediate
+prerequisites:
+  - multi-layer-perceptron
+related:
+  - ai-and-ml-introduction
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

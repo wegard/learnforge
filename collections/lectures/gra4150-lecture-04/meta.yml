@@ -1,0 +1,38 @@
+id: gra4150-lecture-04
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 4 — Bias-Variance Tradeoff and Adaline
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - model-selection
+  - classification
+  - neural-networks
+tags:
+  - lecture
+  - bias-variance
+  - adaline
+  - cross-validation
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - bias-variance-tradeoff
+  - model-selection-cross-validation
+  - adaline-and-perceptron
+  - adaline-iris-classification

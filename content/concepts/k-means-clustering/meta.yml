@@ -8,6 +8,7 @@ title:
   en: K-means clustering
 courses:
   - tem0052
+  - gra4150
 topics:
   - predictive-modelling
   - unsupervised-learning

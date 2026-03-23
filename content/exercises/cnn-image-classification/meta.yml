@@ -1,0 +1,39 @@
+id: cnn-image-classification
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: CNN image classification lab
+courses:
+  - gra4150
+topics:
+  - deep-learning
+  - neural-networks
+  - computer-vision
+tags:
+  - exercise
+  - cnn
+  - pytorch
+  - mnist
+  - image-classification
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - convolutional-neural-networks
+  - multi-layer-perceptron
+solution_storage: separate-file
+solution_visibility: teacher

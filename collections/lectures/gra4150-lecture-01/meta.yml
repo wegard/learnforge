@@ -1,0 +1,33 @@
+id: gra4150-lecture-01
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 1 — Introduction to AI and Machine Learning
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - ai-fundamentals
+tags:
+  - lecture
+  - ai-history
+  - computer-vision
+  - nlp
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - ai-and-ml-introduction

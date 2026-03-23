@@ -1,0 +1,84 @@
+## From single-layer to multi-layer networks
+
+A single-layer network (Adaline, logistic regression) can only represent linear
+decision boundaries. Stacking multiple layers of non-linear transformations lets the
+network approximate arbitrarily complex functions. This is the core idea behind the
+multi-layer perceptron (MLP).
+
+## Architecture
+
+An MLP consists of an input layer, one or more hidden layers, and an output layer.
+In a fully connected feedforward network every unit in one layer connects to every
+unit in the next. For an $L$-layer network the forward pass is
+
+$$
+\mathbf{a}^{(0)} = \mathbf{x}, \qquad
+\mathbf{a}^{(k)} = \sigma\bigl(W^{(k)}\mathbf{a}^{(k-1)} + \mathbf{b}^{(k)}\bigr),
+\quad k = 1, \ldots, L
+$$
+
+where $\sigma$ is a non-linear activation function applied element-wise.
+
+## Activation functions
+
+The activation function introduces non-linearity. Without it, stacking layers would
+collapse into a single linear transformation. Common choices include:
+
+- **Sigmoid:** $\sigma(z) = 1/(1 + e^{-z})$. Outputs in $(0, 1)$. Historically
+  popular but suffers from vanishing gradients in deep networks.
+- **Tanh:** $\sigma(z) = \tanh(z)$. Zero-centred, which helps training, but still
+  saturates for large inputs.
+- **ReLU:** $\sigma(z) = \max(0, z)$. Simple, fast, and the default choice in most
+  modern architectures. Can cause "dead neurons" if units get stuck at zero.
+
+::: {.teacher-only}
+Show the three activation curves side by side. Ask students which one has the
+steepest gradient near zero and why that matters for deep networks.
+:::
+
+## Parameters and hyperparameters
+
+**Parameters** (weights $W^{(k)}$ and biases $\mathbf{b}^{(k)}$) are learned during
+training. The total parameter count for a network with layer dimensions
+$n_0, n_1, \ldots, n_L$ is
+
+$$
+\sum_{k=1}^{L} (n_{k-1} \times n_k + n_k)
+$$
+
+**Hyperparameters** are set before training: the number of layers, the number of
+units per layer, the activation function, the learning rate, and the batch size.
+
+## Forward propagation
+
+Forward propagation is the process of passing an input through the network to
+produce an output. Each layer transforms the previous layer's activations, and the
+final layer produces the prediction used to compute the loss.
+
+## Backpropagation
+
+Backpropagation computes the gradient of the loss with respect to every weight in the
+network using the chain rule. Starting from the output layer, the error signal is
+propagated backwards through each layer:
+
+1. Compute the loss at the output.
+2. Compute the gradient of the loss with respect to the output layer weights.
+3. Propagate the gradient back through each hidden layer using the chain rule.
+4. Update all weights simultaneously using gradient descent.
+
+This is the same gradient descent framework used for linear regression and Adaline,
+extended to handle multiple layers of composition.
+
+## Stochastic gradient descent
+
+Computing the gradient over the full dataset is expensive for large problems.
+Stochastic gradient descent (SGD) approximates the full gradient using a small
+random mini-batch of examples. This makes each update faster and adds noise that can
+help escape poor local minima.
+
+Practical considerations:
+
+- Shuffle the training data at the start of each epoch.
+- Choose a batch size that fits in memory (32, 64, 128 are common).
+- Adaptive learning-rate methods (Adam, RMSProp) adjust the step size per parameter
+  and often converge faster than plain SGD.

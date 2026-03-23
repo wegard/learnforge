@@ -1,0 +1,69 @@
+## From regression to classification
+
+Linear regression predicts a continuous value. Classification predicts a discrete
+label. The simplest bridge between the two is a linear model followed by a threshold
+function: compute a continuous score, then assign the class based on whether the
+score exceeds a cutoff.
+
+## The perceptron
+
+The perceptron (Rosenblatt, 1958) is the simplest neural unit. It computes a
+weighted sum of the inputs, applies a step function, and outputs a binary label:
+
+$$
+\hat{y} = \begin{cases} 1 & \text{if } \mathbf{w}^\top \mathbf{x} + b \geq 0 \\
+0 & \text{otherwise} \end{cases}
+$$
+
+The perceptron learning rule updates the weights only when a prediction is wrong.
+It is guaranteed to converge if the data is linearly separable, but it never
+converges if the classes overlap.
+
+## Adaline: adaptive linear neurons
+
+Adaline (Widrow & Hoff, 1960) improves on the perceptron by using a continuous
+activation during training. The net input is
+
+$$
+z^{(i)} = \mathbf{w}^\top \mathbf{x}^{(i)} + b
+$$
+
+and the training loss is the mean squared error between $z^{(i)}$ and the true
+label $y^{(i)}$. The threshold function is applied only at prediction time, not
+during weight updates.
+
+::: {.teacher-only}
+Stress the key difference: the perceptron updates on the thresholded output
+($y - \hat{y}$), while Adaline updates on the continuous residual ($y - z$). This
+makes Adaline's loss surface smooth and gradient-descent-friendly.
+:::
+
+## Why Adaline matters
+
+Adaline uses exactly the same gradient descent machinery as linear regression. The
+only addition is the threshold at prediction time. This makes it the conceptual
+bridge between regression and neural networks:
+
+1. Linear regression: continuous output, MSE loss, gradient descent.
+2. Adaline: continuous training signal, threshold at prediction, MSE loss, gradient
+   descent.
+3. Logistic regression: sigmoid output, cross-entropy loss, gradient descent.
+4. Multi-layer perceptron: stacked layers of non-linear activations.
+
+Each step adds one idea while keeping the optimization framework intact.
+
+## Decision boundaries
+
+Both the perceptron and Adaline produce linear decision boundaries. In two
+dimensions, the boundary is a line; in higher dimensions, it is a hyperplane. When
+classes are not linearly separable, these models cannot achieve zero training error.
+
+Feature standardization matters here just as it does for regression: when features
+have different scales, the optimization landscape is distorted and gradient descent
+converges slowly or not at all.
+
+## Limitations
+
+Linear classifiers fail when the true decision boundary is curved. Logistic
+regression and multi-layer perceptrons address this by introducing non-linear
+activation functions and stacked layers, which are covered in later lectures.

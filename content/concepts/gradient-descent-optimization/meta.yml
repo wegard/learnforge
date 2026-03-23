@@ -1,0 +1,38 @@
+id: gradient-descent-optimization
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Gradient descent optimization
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - optimization
+tags:
+  - gradient-descent
+  - learning-rate
+  - loss-function
+  - mse
+  - feature-scaling
+level: intermediate
+prerequisites:
+  - linear-regression-prediction
+related:
+  - bias-variance-tradeoff
+  - adaline-and-perceptron
+  - multi-layer-perceptron
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

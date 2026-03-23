@@ -1,0 +1,40 @@
+id: multi-layer-perceptron
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Multi-layer perceptrons and neural networks
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - deep-learning
+  - neural-networks
+tags:
+  - mlp
+  - backpropagation
+  - activation-functions
+  - forward-propagation
+  - sgd
+level: intermediate
+prerequisites:
+  - adaline-and-perceptron
+  - gradient-descent-optimization
+  - logistic-regression-classification
+related:
+  - convolutional-neural-networks
+  - ai-ethics-bias-explainability
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
