@@ -55,7 +55,7 @@ restructuring rather than direct migration.
 | --- | --- | --- |
 | ~~Support Vector Machines~~ | ~~Promoted as `support-vector-machines` concept + `svm-classification-lab` exercise + `tem0052-lecture-08` collection (draft)~~ | ~~done~~ |
 | ~~Gradient Boosting / XGBoost framing~~ | ~~Promoted as `gradient-boosting-methods` concept + `gradient-boosting-classification-lab` exercise + `tem0052-lecture-09` collection (draft)~~ | ~~done~~ |
-| Hierarchical clustering | New description calls for stronger unsupervised coverage than the legacy course appears to provide | concept |
+| ~~Hierarchical clustering~~ | ~~Promoted as `hierarchical-clustering` concept + `hierarchical-clustering-lab` exercise + `tem0052-lecture-10` collection (draft)~~ | ~~done~~ |
 | Responsible ML | Fairness, privacy, transparency, and reproducibility should be new canonical content | concept + curated resources |
 | Semester project brief | New course uses an individual semester project, unlike the older group mini-project setup | assignment / course material |
 | AI workflow guidance | New course description explicitly encourages AI tools and needs fresh policy text and curated resources | syllabus + resources |
@@ -124,6 +124,9 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Concept: `gradient-boosting-methods`
 - Exercise: `gradient-boosting-classification-lab`
 - Lecture collection: `tem0052-lecture-09`
+- Concept: `hierarchical-clustering`
+- Exercise: `hierarchical-clustering-lab`
+- Lecture collection: `tem0052-lecture-10`
 
 ### First concept candidates
 
@@ -159,7 +162,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 1. Extract 1 more reusable figure from the remaining legacy notebooks or slide decks,
    especially if the unsupervised block needs a better visual explanation.
-2. Draft the next fresh-authored concept from the redesign-only queue, likely
-   hierarchical clustering.
+2. Draft the next fresh-authored content from the redesign-only queue: responsible
+   ML, semester project brief, or AI workflow guidance.
 3. Leave the neural-network bridge material in the inbox until the classical-ML core
    is more complete.

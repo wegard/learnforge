@@ -1,0 +1,118 @@
+## Hierarchical clustering reveals structure at multiple scales
+
+K-means requires choosing the number of clusters up front. Hierarchical
+clustering avoids that commitment by producing a tree of nested merges — a
+dendrogram — that shows how observations group at every level of granularity.
+
+That makes it a useful second clustering method in `TEM 0052`: it answers a
+different question than k-means and gives students a tool for exploring cluster
+structure before committing to a flat partition.
+
+## Agglomerative clustering builds the tree bottom-up
+
+The most common variant is agglomerative (bottom-up) clustering:
+
+1. Start with each observation as its own cluster.
+2. Find the two closest clusters and merge them.
+3. Repeat until all observations belong to one cluster.
+
+The result is a binary tree where each internal node represents a merge. The
+height of each merge reflects the distance at which those clusters were joined.
+
+This is different from k-means in two ways: it does not require $K$ in advance,
+and it produces a hierarchy rather than a single partition.
+
+## The linkage rule defines "closest"
+
+The key modelling choice is the linkage criterion — the rule for measuring the
+distance between two clusters:
+
+- **Single linkage**: distance between the two nearest points. Tends to produce
+  elongated, chain-like clusters.
+- **Complete linkage**: distance between the two farthest points. Tends to
+  produce compact, roughly equal-sized clusters.
+- **Average linkage**: mean distance between all pairs of points across the two
+  clusters. A compromise between single and complete.
+- **Ward's method**: minimises the increase in total within-cluster variance at
+  each merge. Tends to produce spherical clusters of similar size, closest in
+  spirit to k-means.
+
+The linkage choice affects the shape and size of the resulting clusters at least
+as much as the data itself. Students should try more than one linkage and
+compare the dendrograms rather than trusting a single default.
+
+::: {.teacher-only}
+Ask students to run the same dataset with single and Ward linkage and compare
+the dendrograms. The visual difference usually makes the point about linkage
+sensitivity better than any formula.
+:::
+
+## The dendrogram is the primary diagnostic
+
+A dendrogram is a tree diagram where:
+
+- each leaf is one observation (or a pre-formed mini-cluster),
+- each horizontal merge line shows which clusters were joined,
+- the height of the merge line shows the distance at which the join happened.
+
+Reading a dendrogram well is a skill. Students should look for:
+
+- large jumps in merge height, which suggest natural cluster boundaries,
+- long vertical stems below a merge, which suggest well-separated groups,
+- and whether the tree structure changes meaningfully under different linkage
+  rules.
+
+To extract a flat partition from the dendrogram, cut the tree at a chosen
+height or specify the desired number of clusters. In scikit-learn,
+`AgglomerativeClustering(n_clusters=k)` does this directly; in SciPy,
+`fcluster(Z, t, criterion='maxclust')` cuts the linkage matrix.
+
+## Scaling and distance metric still matter
+
+Like k-means, hierarchical clustering depends on the distance metric, and
+therefore on feature scale. Euclidean distance is the default, but it assumes
+all features are on comparable scales.
+
+The preprocessing rule is the same: standardise numeric features before
+clustering unless there is a clear reason to weight certain variables more
+heavily.
+
+## When to use hierarchical clustering instead of k-means
+
+The two methods answer different questions:
+
+| | K-means | Hierarchical |
+|---|---|---|
+| Requires $K$ up front | Yes | No (cut later) |
+| Output | Flat partition | Nested tree |
+| Scalability | Fast on large data | Slow on large data ($O(n^2)$ memory) |
+| Cluster shape | Spherical | Depends on linkage |
+| Main diagnostic | Elbow / silhouette | Dendrogram |
+
+Hierarchical clustering is most useful when the number of clusters is unknown,
+the dataset is small enough for the $O(n^2)$ cost, or the nested structure
+itself is informative.
+
+## Where hierarchical clustering fits in `TEM 0052`
+
+Hierarchical clustering extends the unsupervised block from PCA and k-means. It
+gives students a second way to discover groupings:
+
+- k-means optimises a centroid-based objective for a fixed $K$,
+- hierarchical clustering builds a tree and lets the analyst decide where to
+  cut.
+
+Together with PCA for dimensionality reduction, these two clustering methods
+give students a practical unsupervised toolkit for the course.
+
+## What to report
+
+When students present a hierarchical clustering workflow in `TEM 0052`, they
+should usually report:
+
+- the linkage rule and the reasoning behind it,
+- a dendrogram with at least one annotation of where they would cut,
+- the preprocessing rule, especially whether features were standardised,
+- one comparison with k-means on the same data (do the methods broadly agree?),
+- and one short interpretation of what the cluster structure shows and what it
+  does not prove.

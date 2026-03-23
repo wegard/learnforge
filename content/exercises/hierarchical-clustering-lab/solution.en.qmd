@@ -1,0 +1,48 @@
+The safest teacher solution is a reproducible comparison between Ward
+hierarchical clustering and k-means on the Wine dataset, with PCA-based
+visualisation and a dendrogram under two linkage rules.
+
+## Suggested approach
+
+1. Load the Wine dataset and standardise the 13 features with `StandardScaler`.
+2. Compute the Ward linkage matrix with
+   `linkage(X_scaled, method='ward')`.
+3. Plot the dendrogram and visually confirm that the 3-cluster cut corresponds
+   to the largest vertical gaps.
+4. Repeat with `method='average'`. The tree structure should look noticeably
+   different — average linkage often produces less balanced splits on this
+   dataset.
+5. Cut the Ward dendrogram at 3 clusters with
+   `fcluster(Z, t=3, criterion='maxclust')`.
+6. Fit `KMeans(n_clusters=3, random_state=42)` on the same standardised data.
+7. Compare the two partitions with `adjusted_rand_score` and a cross-tabulation
+   using `pd.crosstab`.
+8. Fit `PCA(n_components=2, random_state=42)` and plot both partitions on the
+   first two principal components.
+
+## What students should usually find
+
+- Ward hierarchical clustering and k-means produce broadly similar partitions
+  on the Wine dataset. The adjusted Rand index is typically above 0.8,
+  indicating strong agreement.
+- The Ward dendrogram shows three reasonably well-separated branches. Average
+  linkage may produce a less clean tree with one dominant cluster and two
+  smaller ones.
+- The PCA scatter plot with 3 colours usually shows recognisable separation,
+  though two of the three groups may partially overlap in the 2D projection.
+- The known cultivar labels align reasonably well with the discovered clusters,
+  though the exercise should not frame this as a classification task — the
+  clusters are unsupervised.
+
+## Teaching emphasis
+
+Use the debrief to stress three things:
+
+- the linkage rule is a modelling choice that can change the result
+  substantially — students should compare at least two rules rather than
+  accepting the default,
+- hierarchical clustering and k-means often agree on well-structured data, but
+  the dendrogram gives additional information about nested structure that a flat
+  partition does not,
+- PCA projections can help visualise clusters but can also hide separation that
+  exists in higher dimensions — the 2D plot is a summary, not the full picture.

@@ -1,0 +1,40 @@
+id: hierarchical-clustering
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Hierarchical clustering
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - unsupervised-learning
+  - clustering
+tags:
+  - hierarchical-clustering
+  - dendrogram
+  - agglomerative
+  - linkage
+  - clustering
+level: intermediate
+prerequisites:
+  - k-means-clustering
+related:
+  - k-means-clustering
+  - principal-component-analysis
+  - bias-variance-tradeoff
+  - hierarchical-clustering-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

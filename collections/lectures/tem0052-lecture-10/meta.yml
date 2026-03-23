@@ -1,0 +1,34 @@
+id: tem0052-lecture-10
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 10 - Hierarchical clustering
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - unsupervised-learning
+  - clustering
+tags:
+  - lecture
+  - hierarchical-clustering
+  - dendrogram
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - hierarchical-clustering
+  - hierarchical-clustering-lab

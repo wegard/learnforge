@@ -1,0 +1,56 @@
+## Lab brief
+
+Use the Wine dataset to compare hierarchical clustering with k-means on a
+small, well-structured multivariate dataset.
+The point of the lab is not to recover the known wine classes perfectly.
+The point is to build a reproducible hierarchical clustering workflow, read
+dendrograms under different linkage rules, and compare the results with k-means.
+
+Write the exercise as a normal script, for example
+`hierarchical_clustering_lab.py`, plus a short results note.
+Keep all preprocessing inside the workflow so that the analysis is reproducible.
+
+## Tasks
+
+1. Load the Wine dataset from `sklearn.datasets.load_wine` and standardise the
+   features with `StandardScaler`. The dataset has 178 observations, 13 numeric
+   features, and 3 known cultivar classes.
+2. Compute the linkage matrix using `scipy.cluster.hierarchy.linkage` with
+   Ward's method (`method='ward'`).
+3. Plot the dendrogram using `scipy.cluster.hierarchy.dendrogram`. Annotate or
+   describe where you would cut to obtain 3 clusters.
+4. Repeat the dendrogram with a different linkage rule (e.g. `'average'` or
+   `'complete'`). Briefly describe how the tree structure changes.
+5. Cut the Ward dendrogram at 3 clusters using
+   `scipy.cluster.hierarchy.fcluster` or `AgglomerativeClustering(n_clusters=3)`.
+   Report the cluster sizes.
+6. Fit `KMeans(n_clusters=3)` on the same standardised data and report the
+   cluster sizes.
+7. Compare the two partitions using the adjusted Rand index
+   (`sklearn.metrics.adjusted_rand_score`) and a simple cross-tabulation.
+   Note where the two methods agree and disagree.
+8. Project the data onto the first two principal components using PCA and plot
+   the observations coloured by hierarchical cluster assignment. Repeat for
+   k-means. Do the visual patterns match?
+9. Write one short interpretation section covering:
+   - whether the linkage rule made a meaningful difference,
+   - how well the hierarchical and k-means partitions agree,
+   - whether the PCA projection helps or misleads the cluster interpretation,
+   - and one change you would try next.
+
+## Starter outline
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.cluster.hierarchy import dendrogram, fcluster, linkage
+from sklearn.cluster import AgglomerativeClustering, KMeans
+from sklearn.datasets import load_wine
+from sklearn.decomposition import PCA
+from sklearn.metrics import adjusted_rand_score
+from sklearn.preprocessing import StandardScaler
+```
+
+Keep the workflow deterministic.
+Use a fixed `random_state` for k-means and PCA, and standardise the features
+before any distance-based computation.
