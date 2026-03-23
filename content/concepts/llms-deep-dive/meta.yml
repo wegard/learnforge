@@ -24,6 +24,7 @@ prerequisites:
   - llms-and-next-token-prediction
 related:
   - nlp-text-data-finance
+  - multimodality-in-finance
 outputs:
   - html
   - pdf

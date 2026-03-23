@@ -22,7 +22,9 @@ level: introductory
 prerequisites:
   - llms-deep-dive
   - multimodality-in-finance
-related: []
+related:
+  - multimodality-in-finance
+  - nlp-text-data-finance
 outputs:
   - html
   - pdf

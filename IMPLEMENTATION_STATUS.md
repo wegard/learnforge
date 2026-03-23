@@ -47,6 +47,7 @@
 - BIK2550 figure slice: `credit-decision-tree-figure` promoted for `ml-supervised-learning-overview`
 - BIK2550 figure reuse slice: `bias-variance-tradeoff-figure` extended with `nb` and linked into `ml-model-evaluation-overview`
 - Representative targets expanded to 25, adding `confusion-matrix-figure`
+- BIK2550 Module 3 assembly completion: wired project exercises into `bik2550-m3d3`, added bidirectional `related:` links across all 4 Module 3 concepts
 
 ## Non-Goals For This Run
 

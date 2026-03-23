@@ -21,7 +21,9 @@ tags:
 level: introductory
 prerequisites:
   - llms-deep-dive
-related: []
+related:
+  - llms-deep-dive
+  - ai-applications-finance-summary
 outputs:
   - html
   - pdf

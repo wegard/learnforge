@@ -100,8 +100,9 @@ Tasks that require instructor judgement and cannot be automated.
       and level match what you actually teach
 - [ ] Review exercise briefs and solutions (6 exercises)
       — verify datasets, expected outputs, and time estimates are realistic
-- [ ] Decide lecture item ordering within each lecture collection
-      — current order follows the original slide deck sequence
+- [x] Decide lecture item ordering within each lecture collection
+      — current order follows the original slide deck sequence;
+      M3D3 now includes project exercises after the summary concept
 - [ ] Recreate key figures as SVG for promotion to figure objects
       — the raster images in `course-inbox/BIK2550/images/` cannot be imported
       directly (figure objects require SVG + PDF). Candidates worth recreating:
