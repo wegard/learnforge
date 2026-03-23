@@ -67,6 +67,8 @@ wired into `gra4150` by adding the course to their `courses:` list.
 | `GRA4150_Lecture7/GRA4150_MultiLayerPerceptron.ipynb` | exercise | `mlp-classification-lab` | L7 | **promoted** |
 | `Exercises/GRA4150_Exercise2/` | exercise | `ai-fairness-face-recognition` | L8 | **promoted** |
 | `GRA4150_Lecture11/GRA4150_CNN.ipynb` | exercise | `cnn-image-classification` | L11 | **promoted** |
+| `Exercises/GRA4150_Exercise1/` Section 7 | exercise | `sklearn-logistic-regression-lab` | L5 | **promoted** |
+| `Exercises/GRA4150_Exercise1/` Section 8 | exercise | `wine-regularization-tuning` | L5 | **promoted** |
 
 ### Lecture Collection Assembly
 
@@ -87,7 +89,7 @@ wired into `gra4150` by adding the course to their `courses:` list.
 | --- | --- |
 | `GRA4150_Lecture9_SamsonEsayas.pdf` | Guest lecture — not owned by course maintainer |
 | Lectures 6, 10 | No structured source material in inbox |
-| `Exercises/GRA4150_Exercise1/` | Large multi-part exercise set — break into smaller units in a later wave |
+| `Exercises/GRA4150_Exercise1/` Sections 1–6 | Overlap with existing exercises or theory-only (no solution notebooks); Sections 5/6 covered by `house-prices-regression` and `adaline-iris-classification` |
 | `Mock_exam/` | Exam material, defer until assessment workflow is designed |
 | `Exam_spring2024/`, `Exam_spring2025/` | Exam papers and student submissions, not teaching content |
 | `GRA4150_Lecture3/GRA4150_RegressionAnalysis_wRegularization.ipynb` | Supplementary regularization notebook, covered by `penalized-linear-models` concept |

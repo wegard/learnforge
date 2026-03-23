@@ -52,6 +52,7 @@
 - Phase 11 parallel checkpoint: `gra4150` full "promote first" slice — 8 cross-linked concepts, 2 cross-linked exercises, 6 new concepts, 4 new exercises, 8 lecture collections, plan wiring
 - Representative targets expanded to 28, adding `gra4150`, `gra4150-lecture-03`, and `adaline-iris-classification`
 - Cross-course wiring: bidirectional `related:` links between `gra4150` concepts and `bik2550` neural network concepts/figures
+- GRA4150 Exercise 1 decomposition: promoted `sklearn-logistic-regression-lab` and `wine-regularization-tuning` into `gra4150-lecture-05`
 
 ## Non-Goals For This Run
 

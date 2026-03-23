@@ -1,0 +1,42 @@
+## Lab brief
+
+Compare L1 and L2 regularization on a classification task using the Wine dataset.
+The exercise builds intuition for how the regularization parameter C controls model
+complexity, sparsity, and generalization.
+
+## Tasks
+
+1. Load the Wine dataset with `sklearn.datasets.load_wine`. It has 178 samples,
+   13 features, and 3 classes. Split into 70% train and 30% test with
+   stratification and a fixed random seed. Standardize the features.
+2. Train a logistic regression model with L2 penalty (`penalty='l2'`) and
+   default regularization strength (`C=1.0`). Report train and test accuracy.
+3. Train a logistic regression model with L1 penalty (`penalty='l1'`,
+   `solver='saga'`). Report train and test accuracy and count how many
+   coefficients are exactly zero.
+4. Sweep the regularization parameter C over a logarithmic range from 0.001 to
+   1000 (at least 20 values). For each C value, train both L1 and L2 models and
+   record:
+   - Training accuracy
+   - Test accuracy
+   - Number of non-zero coefficients (for L1)
+5. Plot two figures:
+   - **Accuracy vs C:** training and test accuracy for both L1 and L2 on the same
+     axes (4 curves total).
+   - **Sparsity vs C:** number of non-zero L1 coefficients as a function of C.
+6. Identify the value of C that gives the best test accuracy for each penalty.
+   Are they the same?
+7. For the best L1 model, print the feature names with non-zero coefficients.
+   Which features does the L1 penalty keep? Do they make intuitive sense for
+   distinguishing wine classes?
+
+## Starter outline
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_wine
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+```

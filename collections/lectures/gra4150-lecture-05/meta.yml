@@ -31,3 +31,5 @@ ai:
   generated_fields: []
 items:
   - logistic-regression-classification
+  - sklearn-logistic-regression-lab
+  - wine-regularization-tuning

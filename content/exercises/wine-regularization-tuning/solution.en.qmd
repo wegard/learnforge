@@ -1,0 +1,45 @@
+## Suggested approach
+
+1. Standard split and scaling:
+   ```python
+   X_train, X_test, y_train, y_test = train_test_split(
+       X, y, test_size=0.3, stratify=y, random_state=42
+   )
+   scaler = StandardScaler()
+   X_train_sc = scaler.fit_transform(X_train)
+   X_test_sc = scaler.transform(X_test)
+   ```
+2. Default L2 model: `LogisticRegression(penalty='l2', C=1.0, max_iter=5000)`.
+3. L1 model: `LogisticRegression(penalty='l1', solver='saga', C=1.0, max_iter=5000)`.
+4. Sweep loop:
+   ```python
+   C_values = np.logspace(-3, 3, 25)
+   for C in C_values:
+       lr_l2 = LogisticRegression(penalty='l2', C=C, max_iter=5000)
+       lr_l1 = LogisticRegression(penalty='l1', solver='saga', C=C, max_iter=5000)
+       # fit, score, count nonzero
+   ```
+
+## What students should usually find
+
+- **L2 accuracy:** relatively stable across a wide range of C. Very small C (strong
+  regularization) underfits; very large C approaches the unregularized solution.
+  Best test accuracy is typically around C = 1–10.
+- **L1 accuracy:** similar peak performance to L2 but the accuracy curve has a
+  sharper drop at very small C because L1 aggressively zeros out coefficients.
+- **Sparsity:** at C = 0.001, L1 may zero out most of the 13 × 3 = 39 coefficients
+  (multi-class). As C increases, more coefficients become non-zero. At C = 1000,
+  nearly all coefficients are active.
+- **Best C values:** L1 and L2 often have similar optimal C, but L1 achieves it
+  with fewer active features.
+- **Surviving L1 features:** typically include `proline`, `flavanoids`,
+  `color_intensity`, `alcohol`, and `od280/od315_of_diluted_wines` — features known
+  to be strong discriminators in wine classification literature.
+
+## Teaching emphasis
+
+The key insight is that L1 and L2 achieve similar accuracy but L1 produces a simpler
+model by eliminating irrelevant features. This makes L1 the natural choice when
+interpretability or feature selection matters. The C parameter controls the strength
+of regularization — not the "amount" of regularization — so larger C means *less*
+regularization. This naming convention trips up many students.

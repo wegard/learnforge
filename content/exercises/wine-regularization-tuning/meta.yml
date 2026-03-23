@@ -1,0 +1,41 @@
+id: wine-regularization-tuning
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Wine regularization tuning
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - classification
+  - regularization
+tags:
+  - exercise
+  - scikit-learn
+  - logistic-regression
+  - regularization
+  - l1
+  - l2
+  - wine-dataset
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 45
+concepts:
+  - logistic-regression-classification
+  - penalized-linear-models
+solution_storage: separate-file
+solution_visibility: teacher

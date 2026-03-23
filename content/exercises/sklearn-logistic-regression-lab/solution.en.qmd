@@ -1,0 +1,39 @@
+## Part 1: Iris
+
+1. Use `train_test_split(X, y, test_size=0.3, stratify=y, random_state=42)`.
+   Stratification ensures each class is proportionally represented in both splits.
+2. Fit `StandardScaler` on `X_train` only:
+   ```python
+   scaler = StandardScaler()
+   X_train_sc = scaler.fit_transform(X_train)
+   X_test_sc = scaler.transform(X_test)
+   ```
+   Fitting on the full dataset leaks test-set statistics into preprocessing, giving
+   an optimistic estimate of generalization performance.
+3. `LogisticRegression(max_iter=200).fit(X_train_sc, y_train)` typically achieves
+   97–100% on both train and test for Iris.
+4. On this well-separated dataset, one-vs-rest and multinomial usually agree on all
+   predictions. The differences emerge on harder problems where decision boundaries
+   overlap more.
+5. `predict_proba` returns a matrix of shape (n_samples, 3). Setosa is typically
+   predicted with near-100% confidence; Versicolor and Virginica occasionally share
+   probability mass because their features overlap.
+
+## Part 2: MNIST
+
+6–7. Straightforward data loading and visualization.
+8. Logistic regression on MNIST typically achieves ~91–92% test accuracy with
+   default settings. This is a strong baseline for a linear model on
+   high-dimensional data.
+9. Common confusions: 4/9 (similar stroke shapes), 3/5 (similar curves), 7/1
+   (stroke overlap), 8/3 (loop patterns).
+10. Learning curve typically shows rapid improvement from 100 to 1000 samples,
+    then diminishing returns. At 100 samples accuracy may be around 75–80%; at
+    10,000 it approaches 92%.
+
+## Teaching emphasis
+
+The main takeaways are: (1) the fit/transform separation in preprocessing prevents
+data leakage, (2) logistic regression is a surprisingly strong baseline even for
+high-dimensional image data, and (3) the confusion matrix reveals which classes
+the model struggles to separate — a more informative diagnostic than accuracy alone.
