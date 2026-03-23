@@ -1,13 +1,13 @@
 id: gra4164
-status: draft
+status: approved
 visibility: student
 languages:
   - en
 title:
   en: GRA 4164 - Text as Data
 summary:
-  en: A migration-stage course shell for Text as Data, an introductory NLP course for business students.
+  en: An introductory NLP course for business students covering text representation, topic modelling, word embeddings, transformers, and prompt engineering.
 owners:
   - vegard
   - leif
-updated: 2026-03-19
+updated: 2026-03-23

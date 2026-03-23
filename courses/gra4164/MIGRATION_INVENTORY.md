@@ -163,11 +163,10 @@ Content objects should list relevant concepts from other courses in `related:`:
 - Lecture collection: `gra4164-lecture-10`
 - Lecture collection: `gra4164-lecture-11`
 
-## Next Migration Actions
+## Migration Complete
 
-1. Decide whether the final presentation session should be represented as a
-   canonical collection or remain syllabus-only course structure.
-2. Add a representative `gra4164` target to `representative-targets.yml` so the
-   course is protected by repo-level representative builds as well as its dedicated
-   test file.
-3. Leave all remaining legacy files in the inbox until explicitly promoted.
+The `gra4164` migration is finalized. All 13 concepts, 6 exercises, 11 lecture
+collections, and 4 assignment collections are implemented, tested, and wired into
+the course plan. Session 12 (final group presentations) is syllabus-only by design,
+matching the `edi3400` precedent for sessions without structured teaching content.
+The course status is `approved`.

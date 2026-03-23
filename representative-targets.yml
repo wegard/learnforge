@@ -104,6 +104,11 @@ targets:
     audience: student
     language: en
     format: html
+  - label: GRA4164 assignment page
+    id: gra4164-assignment-01
+    audience: student
+    language: en
+    format: html
   - label: EDI3400 lecture 10a page
     id: edi3400-lecture-10a
     audience: student

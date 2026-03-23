@@ -1,6 +1,6 @@
 # Course Overview
 
-`GRA 4164 Text as Data` is being rebuilt in LearnForge as an English-first course
+`GRA 4164 Text as Data` is an English-first course in LearnForge
 with reusable concepts, exercises, and lecture collections.
 
 The course explores how textual data can be used in quantitative analysis — Natural
@@ -75,5 +75,4 @@ report. The report is presented and discussed before final submission.
 - Course materials are delivered through Jupyter notebooks.
 - The primary textbook is Jurafsky and Martin, *Speech and Language Processing*
   (3rd edition, available online).
-- Course assets are being migrated from legacy notebook and slide material into
-  LearnForge's object model.
+- Course assets are maintained as reusable objects in LearnForge's object model.

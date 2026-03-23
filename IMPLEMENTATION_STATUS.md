@@ -113,7 +113,7 @@ The project supports:
 | `ec202` | `approved` | Legacy/sample baseline | 1 concept, 2 exercises, 1 figure, 4 resources, 1 assignment, 1 lecture | Stable small reference course; not the main migration focus right now |
 | `tem0052` | `draft` | Substantial partial migration | 13 concepts, 6 exercises, 2 figures, 3 assignments, 7 lectures | One of the core migration tracks; strong canonical slice but not yet fully consolidated |
 | `edi3400` | `approved` | Substantial migration | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage in the repo; operationally strong even if still evolving |
-| `gra4164` | `draft` | Broad \"promote first\" slice complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Strong migration coverage; a good candidate for later polish into a reference course |
+| `gra4164` | `approved` | Migration complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Complete NLP course covering text representation through transformers and prompt engineering |
 | `tem00uu` | `draft` | Broad Part A migration complete | 15 concepts, 7 exercises, 8 lectures | Solid canonical slice, but still explicitly partial in scope |
 | `gra4150` | `draft` | Major first canonical slice complete | 14 concepts, 8 exercises, 3 assignments, 8 lectures | Recently accelerated; now materially present rather than just staged |
 | `bik2550` | `draft` | Selective canonical promotion | 17 concepts, 6 exercises, 7 figures, 1 assignment, 6 lectures | Meaningful content exists, especially around figures and Module 3, but migration looks uneven |

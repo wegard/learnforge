@@ -434,8 +434,7 @@ def test_llm_input_output_architecture_concept_links_gra4164_sequence() -> None:
     assert "## From tokens to model input" in assembly.markdown
     assert "## Positional information has to be added explicitly" in assembly.markdown
     assert (
-        "## The model head turns hidden states into next-token probabilities"
-        in assembly.markdown
+        "## The model head turns hidden states into next-token probabilities" in assembly.markdown
     )
     assert "## Output generation is a sampling problem" in assembly.markdown
     assert "## Encoding and decoding refer to different transformer roles" in assembly.markdown
@@ -492,8 +491,7 @@ def test_gra4164_lecture_09_assembly_expands_llm_architecture_training_block() -
         "llm-training-and-finetuning",
     ]
     assert (
-        "## The model head turns hidden states into next-token probabilities"
-        in assembly.markdown
+        "## The model head turns hidden states into next-token probabilities" in assembly.markdown
     )
     assert "## Pretraining is broad; fine-tuning is targeted" in assembly.markdown
     assert "## Lab brief" not in assembly.markdown
@@ -887,10 +885,7 @@ def test_prompt_engineering_reflection_teacher_page_builds_with_solution() -> No
     leakage_report = json.loads(artifact.leakage_report_path.read_text(encoding="utf-8"))
 
     assert "Prompt engineering and marketing reflection" in html
-    assert (
-        "A strong teacher solution should compare prompt variations in a disciplined way"
-        in html
-    )
+    assert "A strong teacher solution should compare prompt variations in a disciplined way" in html
     assert build_manifest["target"]["identifier"] == "prompt-engineering-reflection"
     assert leakage_report["status"] == "not_applicable"
     assert leakage_report["solution_files_found"] == 1
@@ -1039,8 +1034,7 @@ def test_bert_finetuning_text_classification_teacher_page_builds_with_solution()
 
     assert "BERT fine-tuning for text classification" in html
     assert (
-        "A strong teacher solution should frame this as a workflow and evaluation exercise"
-        in html
+        "A strong teacher solution should frame this as a workflow and evaluation exercise" in html
     )
     assert build_manifest["target"]["identifier"] == "bert-finetuning-text-classification"
     assert leakage_report["status"] == "not_applicable"
@@ -1150,7 +1144,8 @@ def test_logistic_regression_classification_is_indexed_with_both_courses() -> No
 
     assert "tem0052" in obj.model.courses
     assert "gra4164" in obj.model.courses
-    assert len(obj.model.courses) == 2
+    assert "gra4150" in obj.model.courses
+    assert len(obj.model.courses) == 3
 
 
 def test_text_regression_classification_assembly_includes_cross_course_related_links() -> None:
