@@ -1,0 +1,44 @@
+id: gradient-boosting-methods
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Gradient boosting methods
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - ensemble-methods
+  - tree-based-methods
+  - model-selection
+tags:
+  - gradient-boosting
+  - xgboost
+  - ensemble
+  - boosting
+  - regularization
+level: intermediate
+prerequisites:
+  - decision-tree-learning
+  - ensemble-methods-introduction
+related:
+  - random-forests
+  - bias-variance-tradeoff
+  - model-selection-cross-validation
+  - penalized-linear-models
+  - gradient-boosting-classification-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

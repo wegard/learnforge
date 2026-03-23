@@ -1,0 +1,62 @@
+## Lab brief
+
+Use the Adult income dataset to compare gradient boosting against a random
+forest baseline on mixed tabular data.
+The point of the lab is not to find the best possible score.
+The point is to build a reproducible boosting workflow, understand how the
+learning rate and number of rounds interact, and decide whether boosting
+improves meaningfully on bagging for this task.
+
+Write the exercise as a normal script, for example
+`gradient_boosting_classification.py`, plus a short results note.
+Use the public UCI or OpenML version of the Adult dataset, or an equivalent
+local course copy.
+Keep imputation and categorical encoding inside the modelling pipeline.
+
+## Tasks
+
+1. Load the Adult income data, clean obvious missing markers such as `?`, and
+   define the binary target with a documented rule such as `income > 50K`.
+2. Create one deterministic, stratified train/test split and keep it fixed for
+   the full exercise.
+3. Build a preprocessing pipeline with `ColumnTransformer` so numerical and
+   categorical predictors are handled separately inside the pipeline.
+4. Fit a `RandomForestClassifier` baseline under the pipeline and report at
+   least: training ROC-AUC, test ROC-AUC, test accuracy, test precision, test
+   recall. This reuses the workflow from the ensemble lab.
+5. Fit a `GradientBoostingClassifier` with a reasonable starting configuration
+   (e.g. `learning_rate=0.1`, `n_estimators=200`, `max_depth=4`). Report the
+   same five metrics.
+6. Use `GridSearchCV` or `RandomizedSearchCV` to tune at least `learning_rate`,
+   `n_estimators`, and `max_depth` together. Use a documented scoring rule such
+   as `scoring='roc_auc'`.
+7. Fit the best boosting configuration on the full training set and report final
+   test metrics.
+8. Compare the tuned boosting model with the random forest in one short results
+   table. Note whether the difference looks meaningful or within noise.
+9. Inspect the boosted model with `feature_importances_` or permutation
+   importance. Report the five most influential predictors and compare with what
+   the random forest found.
+10. Write one short interpretation section covering:
+    - whether boosting improved on the random forest and by how much,
+    - which hyperparameters mattered most during tuning,
+    - whether the performance gain is worth the added tuning complexity,
+    - one change you would try next (e.g. XGBoost, early stopping, a different
+      loss function).
+
+## Starter outline
+
+```python
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+```
+
+Keep the workflow deterministic.
+Use a fixed `random_state` anywhere randomness enters the workflow, and keep
+the preprocessing fit strictly inside the training pipeline.

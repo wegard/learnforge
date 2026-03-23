@@ -1,0 +1,36 @@
+id: tem0052-lecture-09
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 9 - Gradient boosting methods
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - ensemble-methods
+  - tree-based-methods
+  - model-selection
+tags:
+  - lecture
+  - gradient-boosting
+  - ensemble
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - gradient-boosting-methods
+  - gradient-boosting-classification-lab

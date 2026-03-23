@@ -1,0 +1,59 @@
+The safest teacher solution is a reproducible comparison between a random forest
+and a tuned gradient boosting classifier on the same Adult income dataset used
+in the ensemble lab.
+
+## Suggested approach
+
+1. Load the Adult income data into a dataframe, replace `?` with missing
+   values, and define the target as `1` for income above `50K` and `0`
+   otherwise.
+2. Create one deterministic, stratified train/test split such as
+   `test_size=0.2` with `random_state=42`.
+3. Build a preprocessing pipeline with:
+   - median imputation for numerical columns,
+   - most-frequent imputation for categorical columns,
+   - `OneHotEncoder(handle_unknown="ignore", sparse_output=False)` for the
+     categorical branch.
+4. Fit a `RandomForestClassifier(n_estimators=200, random_state=42)` as the
+   baseline.
+5. Fit a default `GradientBoostingClassifier(learning_rate=0.1,
+   n_estimators=200, max_depth=4, random_state=42)`.
+6. Run a grid or randomized search over:
+   - `learning_rate`: `[0.01, 0.05, 0.1, 0.2]`
+   - `n_estimators`: `[100, 200, 500]`
+   - `max_depth`: `[3, 4, 6]`
+   using `GridSearchCV(..., scoring='roc_auc', cv=5)`. A randomized search with
+   20–30 iterations is also acceptable if the full grid is too slow.
+7. Evaluate all three workflows (random forest, default boosting, tuned
+   boosting) on the held-out test set with ROC-AUC, accuracy, precision, and
+   recall.
+8. Inspect the tuned boosting model with `feature_importances_` and compare
+   with the random forest's feature importance ranking.
+
+## What students should usually find
+
+- The random forest and the default gradient boosting model often perform
+  similarly on this dataset, with test ROC-AUC in the 0.90–0.93 range.
+- Tuned gradient boosting sometimes improves by 0.5–1.5 percentage points in
+  ROC-AUC, but the gain depends on the search space and is not guaranteed.
+- A lower learning rate with more rounds typically matches or slightly beats a
+  higher learning rate with fewer rounds, but takes longer to train.
+- Feature importance rankings are broadly similar across methods: `age`,
+  `capital-gain`, `education-num`, `hours-per-week`, and marital or occupation
+  categories tend to dominate.
+- The practical gain from boosting over a well-tuned random forest is often
+  modest on this dataset.
+
+## Teaching emphasis
+
+Use the debrief to stress three things:
+
+- gradient boosting requires more careful tuning than random forests — the
+  learning rate, number of rounds, and tree depth all interact, so a grid search
+  or early stopping is essential rather than optional,
+- a small improvement in ROC-AUC does not automatically justify a more complex
+  model — students should consider training time, interpretability, and
+  reproducibility alongside the metric,
+- the fact that feature importance rankings are similar across methods is a good
+  sign — it suggests the signal structure is consistent rather than an artifact
+  of one particular algorithm.

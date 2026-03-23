@@ -1,0 +1,114 @@
+## Boosting builds the ensemble one tree at a time
+
+Random forests combine many trees trained independently on bootstrap samples.
+Gradient boosting takes a different approach: it builds each tree to correct the
+mistakes of the trees that came before it. The ensemble grows sequentially, not
+in parallel.
+
+This makes gradient boosting one of the strongest tabular-data methods in
+practice and a natural second ensemble method in `TEM 0052` after random
+forests.
+
+## The core idea: fit residuals, not data
+
+Gradient boosting starts from a simple initial prediction — often the training
+mean for regression or the log-odds for classification — and then repeatedly
+fits small trees to the residual errors.
+
+At each step $m$, the algorithm:
+
+1. computes a pseudo-residual for each observation based on the loss gradient,
+2. fits a shallow tree to those pseudo-residuals,
+3. adds the new tree to the ensemble with a scaling factor $\eta$ (the learning
+   rate).
+
+The prediction after $M$ rounds is
+
+$$
+\hat{f}(x) = f_0(x) + \eta \sum_{m=1}^{M} h_m(x)
+$$
+
+where $f_0$ is the initial prediction and each $h_m$ is one shallow tree.
+
+The phrase "gradient" in gradient boosting refers to the fact that the
+pseudo-residuals are the negative gradient of the loss function with respect to
+the current prediction. This generalises the idea beyond squared error to any
+differentiable loss, including log-loss for classification.
+
+## Three controls prevent overfitting
+
+Gradient boosting can overfit if left unchecked. The three main regularisation
+controls are:
+
+- **Learning rate** ($\eta$): smaller values mean each tree contributes less,
+  requiring more trees but usually giving better generalisation. Typical values
+  are between `0.01` and `0.3`.
+- **Number of boosting rounds** ($M$): more rounds reduce training error but
+  eventually increase test error. Early stopping on a validation set is the
+  standard way to choose $M$.
+- **Tree depth**: shallow trees (depth 3–6) are the norm. Each tree is a weak
+  learner by design — the ensemble does the heavy lifting.
+
+These controls interact: a smaller learning rate needs more rounds, and deeper
+trees need stronger regularisation. Grid search or random search with
+cross-validation is the practical approach.
+
+::: {.teacher-only}
+Ask students why a very small learning rate with very many boosting rounds is
+not free — connect this to computational cost and to the risk of fitting noise
+if early stopping is not used.
+:::
+
+## XGBoost and scikit-learn are the standard implementations
+
+In practice, students will use one of two implementations:
+
+- `sklearn.ensemble.GradientBoostingClassifier` (or `Regressor`): built into
+  scikit-learn, straightforward to use inside a pipeline, sufficient for the
+  scale of problems in this course.
+- `xgboost.XGBClassifier` (or `Regressor`): faster, more regularisation
+  options, widely used in applied work and competitions. Integrates with
+  scikit-learn's API.
+
+Both follow the same boosting logic. The main practical differences are speed,
+the available regularisation parameters, and support for missing values. For
+this course, either implementation is acceptable.
+
+## How boosting differs from bagging
+
+Students should be able to explain the distinction clearly:
+
+| | Bagging (random forests) | Boosting (gradient boosting) |
+|---|---|---|
+| Tree training | Independent, parallel | Sequential, corrective |
+| Main variance source | Bootstrap samples + feature subsets | Learning rate + tree depth |
+| Main risk | Under-fitting if trees are too shallow | Over-fitting if too many rounds |
+| Typical tree depth | Deep (often unrestricted) | Shallow (3–6 levels) |
+| Tuning priority | `n_estimators`, `max_features` | `learning_rate`, `n_estimators`, `max_depth` |
+
+Both are ensemble methods. The key difference is that bagging reduces variance
+through averaging, while boosting reduces bias through sequential correction.
+
+## Where gradient boosting fits in `TEM 0052`
+
+Gradient boosting extends the ensemble block from random forests. It shows
+students a second way to combine weak learners:
+
+- random forests fix variance by averaging independent trees,
+- gradient boosting fixes bias by training each tree on the errors of the last.
+
+This positions gradient boosting as one of the strongest methods in the course,
+but also one of the most hyperparameter-sensitive. Students should treat it as a
+tool that rewards careful tuning, not as a default that always wins.
+
+## What to report
+
+When students present a gradient boosting workflow in `TEM 0052`, they should
+usually report:
+
+- the implementation used (scikit-learn or XGBoost),
+- the learning rate, number of rounds, and tree depth,
+- whether early stopping was used and on what validation rule,
+- the evaluation metric and at least one comparison against a simpler baseline,
+- and one short explanation of whether the boosting gain was worth the added
+  tuning complexity relative to a random forest or logistic regression.
