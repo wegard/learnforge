@@ -23,7 +23,7 @@ format:
     code-copy: true
     number-sections: true
   pdf:
-    pdf-engine: pdflatex
+    pdf-engine: tectonic
     toc: true
     colorlinks: true
   revealjs:

@@ -136,7 +136,7 @@ def build_target(
             rendered_output_name,
         ]
         if quarto_format == "pdf":
-            quarto_command.extend(["-M", "pdf-engine:pdflatex"])
+            quarto_command.extend(["-M", "pdf-engine:tectonic"])
 
         result = subprocess.run(
             quarto_command,
@@ -318,9 +318,7 @@ def export_revealjs_pdf(
         )
         if result.returncode == 0 and output_path.exists():
             return candidate_command
-        last_error = (
-            result.stderr.strip() or result.stdout.strip() or "slides-pdf export failed"
-        )
+        last_error = result.stderr.strip() or result.stdout.strip() or "slides-pdf export failed"
 
     raise BuildError(last_error)
 
@@ -702,9 +700,7 @@ def student_site_search_entries(
                         else f"Ressurser for {course_record.model.title[language]}"
                     ),
                     "description": (
-                        "Course resource listing"
-                        if language == "en"
-                        else "Kursressursoversikt"
+                        "Course resource listing" if language == "en" else "Kursressursoversikt"
                     ),
                     "topics": [],
                     "tags": ["resources"],
@@ -891,11 +887,7 @@ def assignment_manifest_details(
             {item.source_path for item in assembly.solution_observations}
         ),
         "included_solution_files": sorted(
-            {
-                item.source_path
-                for item in assembly.solution_observations
-                if item.included_in_output
-            }
+            {item.source_path for item in assembly.solution_observations if item.included_in_output}
         ),
         "generated_artifacts": generated_artifacts,
     }

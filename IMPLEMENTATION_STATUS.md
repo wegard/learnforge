@@ -253,7 +253,7 @@
 - Fixed single-file Quarto build handling to:
   - keep project rendering compatible with the inbox exclusion
   - move rendered `*_files` support directories into exported HTML / Reveal.js outputs
-  - keep PDF-family outputs on `pdflatex`
+  - keep PDF-family outputs on `tectonic`
 - Added regression coverage for the migration-stage course shell:
   - repository validation now expects two tracked courses
   - `tem0052` student HTML builds without dead resource-listing links
