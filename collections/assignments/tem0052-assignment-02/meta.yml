@@ -1,0 +1,35 @@
+id: tem0052-assignment-02
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 2 — Classification and model selection
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - model-selection
+  - cross-validation
+tags:
+  - assignment
+  - classification
+  - naive-bayes
+  - model-selection
+  - scikit-learn
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - spam-filtering-naive-bayes
+  - model-assessment-lab

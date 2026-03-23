@@ -53,6 +53,7 @@
 - Representative targets expanded to 28, adding `gra4150`, `gra4150-lecture-03`, and `adaline-iris-classification`
 - Cross-course wiring: bidirectional `related:` links between `gra4150` concepts and `bik2550` neural network concepts/figures
 - GRA4150 Exercise 1 decomposition: promoted `sklearn-logistic-regression-lab` and `wine-regularization-tuning` into `gra4150-lecture-05`
+- TEM0052 assignment collections: 3 assignments bundling 6 exercises into topical pairs (regression/preprocessing, classification/model selection, ensembles/unsupervised)
 
 ## Non-Goals For This Run
 

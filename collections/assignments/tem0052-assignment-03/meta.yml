@@ -1,0 +1,36 @@
+id: tem0052-assignment-03
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 3 — Ensembles and unsupervised learning
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - ensemble-methods
+  - unsupervised-learning
+  - clustering
+  - dimensionality-reduction
+tags:
+  - assignment
+  - ensemble
+  - pca
+  - k-means
+  - scikit-learn
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - unsupervised-learning-lab
+  - income-classification-ensemble

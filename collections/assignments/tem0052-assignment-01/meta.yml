@@ -1,0 +1,34 @@
+id: tem0052-assignment-01
+kind: collection
+collection_kind: assignment
+status: approved
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 1 — Regression and preprocessing
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - regression
+  - preprocessing
+  - feature-engineering
+tags:
+  - assignment
+  - regression
+  - preprocessing
+  - scikit-learn
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: approved
+ai:
+  generated_fields: []
+items:
+  - titanic-data-preprocessing
+  - house-prices-regression
