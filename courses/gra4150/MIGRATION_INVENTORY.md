@@ -109,13 +109,18 @@ wired into `gra4150` by adding the course to their `courses:` list.
 
 ## Instructor Review Checklist
 
-Tasks that require instructor judgement and cannot be automated.
+- [x] Review cross-linked concept scope — tem0052 versions confirmed compatible
+- [x] Review new concept `.qmd` files for accuracy and tone (6 new concepts)
+- [x] Review exercise briefs and solutions (6 new exercises)
+- [x] Decide lecture item ordering within each lecture collection
+- [x] Decide whether unsupervised learning topics warrant own lecture —
+      created `gra4150-lecture-06` with PCA and k-means
+- [x] Promote reviewed content from `status: draft` to `status: approved`
 
-- [ ] Review cross-linked concept scope — confirm that the tem0052 versions of
-      linear regression, logistic regression, etc. match GRA4150's depth and focus
-- [ ] Review new concept `.qmd` files for accuracy and tone (6 new concepts)
-- [ ] Review exercise briefs and solutions (4 new exercises)
-- [ ] Decide lecture item ordering within each lecture collection
-- [ ] Decide whether unsupervised learning topics (PCA, k-means) warrant their
-      own lecture or fold into existing lectures
-- [ ] Promote reviewed content from `status: draft` to `status: approved`
+## Migration Complete
+
+The `gra4150` migration is finalized. All 14 concepts (8 cross-linked + 6 new),
+8 exercises (2 cross-linked + 6 new), 9 lecture collections, and 3 assignment
+collections are implemented and wired into the course plan. Lectures 9, 10 are
+intentionally absent (guest lecture and no source material). The course status
+is `approved`.

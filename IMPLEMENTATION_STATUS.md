@@ -115,7 +115,7 @@ The project supports:
 | `edi3400` | `approved` | Substantial migration | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage in the repo; operationally strong even if still evolving |
 | `gra4164` | `approved` | Migration complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Complete NLP course covering text representation through transformers and prompt engineering |
 | `tem00uu` | `draft` | Broad Part A migration complete | 15 concepts, 7 exercises, 8 lectures | Solid canonical slice, but still explicitly partial in scope |
-| `gra4150` | `draft` | Major first canonical slice complete | 14 concepts, 8 exercises, 3 assignments, 8 lectures | Recently accelerated; now materially present rather than just staged |
+| `gra4150` | `approved` | Migration complete | 14 concepts, 8 exercises, 3 assignments, 9 lectures | Complete applied ML course covering AI foundations through CNNs and ethics |
 | `bik2550` | `draft` | Selective canonical promotion | 17 concepts, 6 exercises, 7 figures, 1 assignment, 6 lectures | Meaningful content exists, especially around figures and Module 3, but migration looks uneven |
 | `bik2551` | `approved` | Early structured course shell + selective content | 11 concepts, 6 exercises, 2 resources, 1 assignment, 4 lectures | Has a usable structure, but not yet presented as a major migration focus |
 

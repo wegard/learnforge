@@ -5,9 +5,8 @@ applied machine learning skills from first principles through deep learning.
 The course emphasizes both mathematical understanding and practical
 implementation in Python, with applications drawn from finance and business.
 
-This course is being migrated into LearnForge as an English-only course. Legacy
-LaTeX slides and Jupyter notebooks from the `course-inbox/GRA4150_2024/` folder
-serve as reference material; canonical content lives in LearnForge objects.
+This is an English-only course in LearnForge. Canonical content lives in
+reusable LearnForge objects.
 
 ## Knowledge Goals
 
@@ -57,5 +56,4 @@ and applied problem-solving.
 - NumPy, Pandas, and Matplotlib for data handling and visualization
 - scikit-learn for classical ML models and preprocessing
 - PyTorch for neural network implementation
-- Course assets are being migrated from legacy LaTeX/Jupyter notebooks into
-  LearnForge's reusable object model
+- Course assets are maintained as reusable objects in LearnForge's object model

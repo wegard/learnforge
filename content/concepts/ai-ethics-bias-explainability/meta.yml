@@ -1,6 +1,6 @@
 id: ai-ethics-bias-explainability
 kind: concept
-status: draft
+status: approved
 visibility: student
 languages:
   - en
@@ -33,6 +33,6 @@ owners:
   - vegard
 updated: 2026-03-23
 translation_status:
-  en: draft
+  en: approved
 ai:
   generated_fields: []

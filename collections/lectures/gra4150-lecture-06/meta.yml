@@ -1,4 +1,4 @@
-id: gra4150-lecture-02
+id: gra4150-lecture-06
 kind: collection
 collection_kind: lecture
 status: approved
@@ -6,17 +6,19 @@ visibility: student
 languages:
   - en
 title:
-  en: Lecture 2 — ML Fundamentals and Data Preprocessing
+  en: Lecture 6 - Unsupervised Learning
 courses:
   - gra4150
 topics:
-  - machine-learning
-  - preprocessing
-  - feature-engineering
+  - predictive-modelling
+  - unsupervised-learning
+  - clustering
+  - dimensionality-reduction
 tags:
   - lecture
-  - preprocessing
-  - data-splitting
+  - pca
+  - k-means
+  - unsupervised
 outputs:
   - html
   - revealjs
@@ -30,5 +32,5 @@ translation_status:
 ai:
   generated_fields: []
 items:
-  - ml-preprocessing-pipelines
-  - titanic-data-preprocessing
+  - principal-component-analysis
+  - k-means-clustering
