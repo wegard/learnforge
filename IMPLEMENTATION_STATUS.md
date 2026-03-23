@@ -1,1106 +1,232 @@
 # Implementation Status
 
-## Current Milestone
+## Role of This File
 
-- Product direction lock: responsive HTML app-shell refinement with local instructor preview/review mode
-- Stage 5 complete checkpoint: D3 figure path — vendored D3, convention-based detection, bias-variance trade-off figure
-- Stage 4 complete checkpoint: student-only deployment bundle path
-- Phase 8A complete checkpoint: resource curation workflow core
-- Repository maintenance: course inbox staging for legacy-course intake
-- Phase 11 kickoff complete checkpoint: `tem0052` migration inventory + canonical course shell
-- Phase 11 complete checkpoint: `tem0052` first canonical promotion slice
-- Phase 11 complete checkpoint: `tem0052` second concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` second exercise promotion slice
-- Phase 11 complete checkpoint: `tem0052` third concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` fourth concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` fifth concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` sixth concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` lecture 2 assembly slice
-- Phase 11 complete checkpoint: `tem0052` lecture 3 assembly slice
-- Phase 11 complete checkpoint: `tem0052` seventh concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` eighth concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` ninth concept promotion slice
-- Phase 11 complete checkpoint: `tem0052` lecture 7 assembly slice
-- Phase 11 complete checkpoint: `tem0052` third exercise promotion slice
-- Phase 11 complete checkpoint: `tem0052` tenth concept promotion + lecture 3 refresh
-- Phase 11 parallel checkpoint: `edi3400` database concept block formalized through `python-sql-integration`
-- Phase 11 parallel checkpoint: `edi3400` problem-set promotion + lecture block assembly
-- Phase 11 complete checkpoint: `tem0052` fourth exercise promotion + lecture 6 completion
-- GitHub Pages deployment for student site
-- Phase 11 parallel checkpoint: `gra4164` full "promote first" slice — course shell, 13 concepts, 6 exercises, 4 assignment collections, 11 lectures, plan wiring
-- Phase 11 parallel checkpoint: `tem00uu` full "promote first" slice — course shell, 15 concepts, 7 exercises, 8 lectures, plan wiring, Part A complete
-- Cross-course wiring: first multi-course objects (`logistic-regression-classification`, `linear-regression-prediction`, `principal-component-analysis`) shared between `tem0052` and `gra4164`
-- Representative targets expanded to 21, covering all 3 migrated courses (`tem0052`, `gra4164`, `tem00uu`)
-- Phase 11 parallel checkpoint: `edi3400` lecture 10 split (10a web data extraction, 10b time-series analysis) — 2 concepts, 2 exercises, 2 lecture collections
-- Phase 11 parallel checkpoint: `edi3400` assignment collections — 4 assignment packages grouping existing exercises into graded homework
-- Representative targets expanded to 23, adding `edi3400-lecture-10a` and `edi3400-assignment-02`
-- Phase 11 parallel checkpoint: `edi3400` migration finalized — orientation concept, lecture-01 collection, course status upgraded to `approved`
-- Norwegian (nb) draft translations: `edi3400` Part 1 (Python basics, lectures 1–5) — 7 concepts, 6 exercises, 7 lectures, 2 assignments
-- Norwegian (nb) draft translations: `edi3400` Part 2 (third-party libraries, lectures 6–8) — 3 concepts, 4 exercises, 3 lectures, 1 assignment
-- Norwegian (nb) draft translations: `edi3400` Part 3 (advanced topics, lectures 9–10) — 3 concepts, 3 exercises, 3 lectures
-- Norwegian (nb) draft translations: `edi3400` Part 4 (databases, lectures 11–13) — 3 concepts, 1 exercise, 3 lectures, 1 assignment — all 4 parts complete
-- BIK2550 assessment slice: project brief assignment collection plus 3 conceptual project exercises
-- Representative targets expanded to 24, adding `bik2550-project-brief`
-- BIK2550 figure slices: `confusion-matrix-figure`, `training-test-error-figure`, and `gradient-descent-figure` promoted for `ml-model-evaluation-overview`
-- BIK2550 figure slice: `activation-functions-figure` promoted for `neural-networks-introduction`
-- BIK2550 figure slice: `regression-example-figure` promoted for `ml-supervised-learning-overview`
-- BIK2550 figure slice: `credit-decision-tree-figure` promoted for `ml-supervised-learning-overview`
-- BIK2550 figure reuse slice: `bias-variance-tradeoff-figure` extended with `nb` and linked into `ml-model-evaluation-overview`
-- Representative targets expanded to 25, adding `confusion-matrix-figure`
-- BIK2550 Module 3 assembly completion: wired project exercises into `bik2550-m3d3`, added bidirectional `related:` links across all 4 Module 3 concepts
-- Phase 11 kickoff: `gra4150` migration inventory + canonical course shell — 8 lectures mapped, 8 cross-link candidates, 6 new concepts, 4 new exercises planned
-- Phase 11 parallel checkpoint: `gra4150` full "promote first" slice — 8 cross-linked concepts, 2 cross-linked exercises, 6 new concepts, 4 new exercises, 8 lecture collections, plan wiring
-- Representative targets expanded to 28, adding `gra4150`, `gra4150-lecture-03`, and `adaline-iris-classification`
-- Cross-course wiring: bidirectional `related:` links between `gra4150` concepts and `bik2550` neural network concepts/figures
-- GRA4150 Exercise 1 decomposition: promoted `sklearn-logistic-regression-lab` and `wine-regularization-tuning` into `gra4150-lecture-05`
-- TEM0052 assignment collections: 3 assignments bundling 6 exercises into topical pairs (regression/preprocessing, classification/model selection, ensembles/unsupervised)
-- GRA4150 assignment collections: 3 assignments bundling 8 exercises (preprocessing/regression, classification methods, neural networks/AI ethics)
+This file is the concise implementation-facing status document for LearnForge.
 
-## Non-Goals For This Run
+Use the docs as follows:
 
-- No AI-generated resource suggestion ingestion workflow
-- No translation draft workflow
-- No live host-specific deployment step
-- No public teacher deployment target
-- No bulk migration tooling
-- No notebook auto-conversion pipeline
-- No mass import from `course-inbox/`
-- Keep `edi3400` intentionally English-only in this slice
-- No fresh concept authoring (SVM, gradient boosting, etc.)
-- No Norwegian translations for migrated courses
-- No new course migrations beyond `tem0052`, `edi3400`, `gra4164`, `tem00uu`
-- Leave unrelated local draft courses/concepts untouched
-- No browser-based editing surface
-- No frontend framework rewrite
-- No Textual TUI
+- `ROADMAP.md` — canonical product direction, architecture, and design decisions
+- `IMPLEMENTATION_STATUS.md` — current implementation checkpoint and active constraints
+- `README.md` — concise operator-facing overview and setup guide
 
-## Decisions Locked
+This file should stay shorter than a full development log. It is meant to answer:
 
-- `ROADMAP.md` remains the source of truth
-- Python remains the control-plane language
-- The CLI remains thin `Typer`; no TUI
-- Pydantic remains the schema/validation layer
-- Norwegian stays locked to `nb`
-- Quarto remains the build engine for site, slides, and PDF paths
-- Teacher workflow remains terminal-first; browser instructor mode is preview/review only
-- Source of truth remains plain-text files under git
-- One canonical object ID is shared across languages
-- Student/teacher visibility separation stays enforced at assembly/build level
-- HTML UI work should stay static-first and use progressive enhancement rather than a SPA/app server
-- Student-only deployment is the first-class public publishing target
-- Public student publishing is now bundled under `build/publish/student-site/`
-- The public root is a static language chooser plus `/en/` and `/nb/`
-- Student site deployment targets GitHub Pages via manual-dispatch workflow
-- Public publishing remains host-agnostic and manual through `teach publish`
-- Exercise solutions remain in separate `solution.en.qmd` / `solution.nb.qmd` files
-- Representative validation/build targets remain declared in `representative-targets.yml`
-- `teach validate` remains the first-class quality-gate command and writes:
-  - `build/reports/validation-report.json`
-  - `build/reports/build-summary.json`
-- Figure objects remain on the locked `figure.svg` / `figure.pdf` / optional `figure.js` convention with static fallback protection
-- D3 is now the preferred advanced interactive-figure path when simple inline JS is not enough
-- D3 is vendored at `app/web_assets/d3.min.js` — no CDN dependency
-- D3 figures use the `// @learnforge:requires d3` marker convention in `figure.js`
-- Assembly auto-inlines D3 before the figure script; `_d3_inlined` flag prevents double-inlining
-- No shared D3 helper layer yet — each D3 figure is self-contained
-- Resource workflow states are now explicit and validated:
+1. What is implemented?
+2. What is stable?
+3. What is still deferred or risky?
+4. What should happen next?
+
+## Current Checkpoint
+
+LearnForge is now a working internal teaching publication system in an active migration and consolidation phase.
+
+The project has moved beyond bootstrap/prototype status. The core architecture is implemented and exercised across multiple real courses.
+
+### Implemented core
+
+- git-backed, plain-text source of truth
+- Python control plane using `Typer` and `Pydantic`
+- Quarto-based build pipeline for:
+  - HTML
+  - PDF
+  - Reveal.js
+  - slides-PDF
+  - handout
+  - exercise-sheet
+- student / teacher build separation
+- bilingual output model using `en` / `nb`
+- reusable object model covering:
+  - `concept`
+  - `exercise`
+  - `figure`
+  - `resource`
+  - `collection`
+  - `course`
+- first-class assembly for:
+  - course pages
+  - lecture pages
+  - assignment pages
+  - topic listings
+  - resource listings
+- validation, representative build checks, and machine-readable reports
+- student-only publish bundle under `build/publish/student-site/`
+- explicit resource workflow:
   - `candidate`
   - `reviewed`
   - `approved`
   - `published`
-- Resource approval history now lives in metadata as `approval_history` entries with:
-  - `action`
-  - `by`
-  - `acted_on`
-- Time-sensitive resources must declare `review_after`
-- Candidate/reviewed resources must not carry `approved_by` / `approved_on`
-- Approved/published resources must carry:
-  - `summary`
-  - `why_selected`
-  - `approved_by`
-  - `approved_on`
-- Student builds hide stale approved resources in this slice rather than surfacing a warning banner
-- Teacher-facing resource triage uses the synthetic target id `resource-inbox`
-- Resource approval transitions are kept explicit:
-  - `candidate -> reviewed`
-  - `reviewed -> approved`
-  - `approved -> published`
-- The CLI currently implements the narrow editorial controls needed for this slice:
-  - `teach approve <resource-id>`
-  - `teach approve <resource-id> --publish`
-  - `teach stale resources`
+- teacher-content leakage checks during builds
+- reusable figure pipeline with static fallback and optional D3 interactivity
+- migration staging through `course-inbox/`
 
-## Completed Tasks
+## Stable Decisions
 
-- Bootstrap repository, CLI, schemas, sample objects, Quarto project, student/teacher profiles, and representative bootstrap renders
-- Centralized assembly in `app/assembly.py` for object pages, lecture collections, course pages, and metadata-driven listings
-- Student-site MVP:
-  - home page
-  - course pages
-  - lecture pages
-  - exercise pages
-  - concept/resource pages
-  - topic/resource listings
-  - shared navigation, breadcrumbs, search, and language switching
-- Exercise compiler core:
-  - student exercise-sheet compilation
-  - teacher solution-sheet compilation
-  - strict solution separation and leakage reporting
-- Assignment integration:
-  - assignments surfaced on course pages
-  - assignment HTML pages
-  - assignment manifests and navigation
-- Validation + CI hardening:
-  - stronger `teach validate`
-  - machine-readable validation/build summaries
-  - representative target registry
-  - GitHub Actions CI for lint, tests, validation, and representative builds
-- Student-site publish path:
-  - added `teach publish` for clean student-only site bundling
-  - defined `build/publish/student-site/` as the first-class public bundle root
-  - added a static language chooser page plus `/en/` and `/nb/` publish roots
-  - reused the student HTML target surface for both search-index generation and publish bundling
-  - added a manual GitHub Actions artifact workflow for the public student-site bundle
-  - kept teacher HTML, slides, PDFs, handouts, and exercise-sheet outputs outside the public bundle
-- Figure pipeline core:
-  - reusable figure objects
-  - local HTML interactivity with static SVG/PDF fallback
-  - figure usage reporting in manifests
-- D3 figure path (Stage 5):
-  - vendored D3 v7 at `app/web_assets/d3.min.js`
-  - convention-based D3 detection via `// @learnforge:requires d3` marker
-  - assembly auto-inlines D3 before figure scripts with double-inline prevention
-  - `d3_included` tracking in `FigureObservation` and build manifests
-  - validator check for `missing-d3-vendor-asset`
-  - canonical `bias-variance-tradeoff-figure` with interactive complexity slider and decomposition
-  - wired into `bias-variance-tradeoff` concept page and `tem0052-lecture-04`
-  - representative target for D3 figure build validation
-- Phase 8A resource curation workflow core:
-  - finalized the resource workflow model around `candidate`, `reviewed`, `approved`, and `published`
-  - added approval-history support with deterministic `acted_on` metadata
-  - relaxed candidate/reviewed metadata while enforcing stricter approved/published requirements
-  - enforced course/topic linkage for every resource
-  - added repo-level resource workflow reporting to `teach validate`
-  - added stale-resource detection and reporting
-  - added teacher-facing `resource-inbox` HTML assembly target
-  - tightened student publication rules so student outputs exclude:
-    - candidate resources
-    - reviewed resources
-    - stale approved resources
-    - resources that fail publication metadata rules
-  - added `teach approve` for explicit reviewed->approved and approved->published transitions
-  - added `teach stale resources` and `build/reports/stale-resources.json`
-  - added sample resource states covering:
-    - one candidate resource
-    - one reviewed resource
-    - one approved stale resource
-    - one published student-visible resource
-  - extended representative targets with:
-    - student approved resource page
-    - teacher resource inbox
-  - extended tests for:
-    - resource schema validation
-    - stale detection
-    - student exclusion of non-approved/stale resources
-    - teacher inbox rendering
-    - approval CLI behavior
-    - stale-report CLI behavior
-    - validation/build report contents for the resource workflow
-- Added a git-ignored `course-inbox/` staging area for legacy course material intake
-- Locked the intake rule that `course-inbox/` is never scanned as canonical content,
-  indexed for search, or used as a build input
-- Added written intake conventions for per-course subfolders and coarse sorting
-  buckets in `course-inbox/README.md`
-- Added regression coverage to prove validation ignores stray `meta.yml` files under
-  `course-inbox/`
-- Added a tracked `tem0052` migration-stage course shell:
-  - `courses/tem0052/course.yml`
-  - `courses/tem0052/plan.yml`
-  - `courses/tem0052/syllabus.en.qmd`
-- Added a tracked migration inventory in `courses/tem0052/MIGRATION_INVENTORY.md`
-  mapping legacy notebooks, exercises, slide material, and datasets into:
-  - promote first
-  - rewrite fresh
-  - defer
-  - drop or archive
-- Locked the migration-start decisions for `tem0052`:
-  - canonical course id is `tem0052`
-  - migration starts with `en` only
-  - legacy notebooks remain reference material, not source of truth
-  - new canonical material should prefer `.qmd` for exposition and `.py` for reusable code
-- The first promoted `tem0052` lecture is allowed to start from the strongest migrated
-  content block rather than forcing lecture-number order
-- `tem0052` remains intentionally English-only during the current migration stage; missing
-  `nb` variants are accepted as validation warnings rather than blockers
-- `edi3400` starts from the self-contained database block rather than the earlier
-  Python-introduction lectures
-- `edi3400` remains intentionally English-only during the current migration stage
-- The first canonical `edi3400` database block now spans:
-  - `edi3400-lecture-11`
-  - `edi3400-lecture-12`
-  - `edi3400-lecture-13`
-- `sql-python-problem-set` keeps its local SQLite example database as an
-  object-local asset under `content/exercises/sql-python-problem-set/assets/`
-- Generated Quarto source staging now stays under `build/generated/` with target-scoped
-  cleanup instead of whole-tree resets so repeated sequential renders remain stable
-- Generated Quarto source files now use plain `*.qmd` names under a format-specific
-  directory (`.../<audience>/<language>/<format>/<identifier>.qmd`) to avoid Quarto
-  post-processing failures on names like `*.html.qmd`
-- Leakage reporting now treats only actual teacher-only block syntax / rendered
-  teacher-only classes as leakage markers; it no longer flags literal metadata text
-  such as `teacher-only separate file`
-- Hardened the Quarto/build path so `course-inbox/` is excluded from project rendering
-- Fixed single-file Quarto build handling to:
-  - keep project rendering compatible with the inbox exclusion
-  - move rendered `*_files` support directories into exported HTML / Reveal.js outputs
-  - keep PDF-family outputs on `tectonic`
-- Added regression coverage for the migration-stage course shell:
-  - repository validation now expects two tracked courses
-  - `tem0052` student HTML builds without dead resource-listing links
-- Promoted the first canonical `tem0052` concept:
-  - `content/concepts/bias-variance-tradeoff/`
-- Promoted the second canonical `tem0052` concept:
-  - `content/concepts/model-selection-cross-validation/`
-- Promoted the third canonical `tem0052` concept:
-  - `content/concepts/linear-regression-prediction/`
-- Promoted the fourth canonical `tem0052` concept:
-  - `content/concepts/penalized-linear-models/`
-- Promoted the fifth canonical `tem0052` concept:
-  - `content/concepts/logistic-regression-classification/`
-- Promoted the sixth canonical `tem0052` concept:
-  - `content/concepts/knn-supervised-learning/`
-- Promoted the seventh canonical `tem0052` concept:
-  - `content/concepts/decision-tree-learning/`
-- Promoted the eighth canonical `tem0052` concept:
-  - `content/concepts/random-forests/`
-- Promoted the ninth canonical `tem0052` concept:
-  - `content/concepts/ensemble-methods-introduction/`
-- Promoted the tenth canonical `tem0052` concept:
-  - `content/concepts/naive-bayes-classification/`
-- Promoted the first canonical `tem0052` exercise with teacher solution separation:
-  - `content/exercises/model-assessment-lab/`
-  - `solution.en.qmd`
-- Promoted the second canonical `tem0052` exercise with teacher solution separation:
-  - `content/exercises/house-prices-regression/`
-  - `solution.en.qmd`
-- Promoted the third canonical `tem0052` exercise with teacher solution separation:
-  - `content/exercises/spam-filtering-naive-bayes/`
-  - `solution.en.qmd`
-- Assembled the first canonical `tem0052` lecture collection using only promoted objects:
-  - `collections/lectures/tem0052-lecture-05/meta.yml`
-- Assembled the second canonical `tem0052` lecture collection using only promoted objects:
-  - `collections/lectures/tem0052-lecture-02/meta.yml`
-- Assembled the third canonical `tem0052` lecture collection using only promoted objects:
-  - `collections/lectures/tem0052-lecture-03/meta.yml`
-- Assembled the fourth canonical `tem0052` lecture collection using only promoted objects:
-  - `collections/lectures/tem0052-lecture-07/meta.yml`
-- Refreshed `tem0052-lecture-03` into a tighter classification block:
-  - `knn-supervised-learning`
-  - `logistic-regression-classification`
-  - `naive-bayes-classification`
-  - `spam-filtering-naive-bayes`
-- Formalized the draft `edi3400` course shell and migration inventory for the first
-  database-focused migration slice:
-  - `courses/edi3400/course.yml`
-  - `courses/edi3400/plan.yml`
-  - `courses/edi3400/syllabus.en.qmd`
-  - `courses/edi3400/MIGRATION_INVENTORY.md`
-- Formalized the first canonical `edi3400` database concept block:
-  - `content/concepts/relational-database-fundamentals/`
-  - `content/concepts/sql-query-basics/`
-  - `content/concepts/python-sql-integration/`
-- Added regression coverage for the `edi3400` draft course shell and database concept
-  builds:
-  - assembly tests for course + three concepts
-  - student HTML build tests for `edi3400` and `python-sql-integration`
-- Promoted the first canonical `edi3400` exercise with teacher solution separation:
-  - `content/exercises/sql-python-problem-set/`
-  - `content/exercises/sql-python-problem-set/assets/auto_dealership_database.db`
-  - `solution.en.qmd`
-- Assembled the first canonical `edi3400` lecture block using promoted objects only:
-  - `collections/lectures/edi3400-lecture-11/meta.yml`
-  - `collections/lectures/edi3400-lecture-12/meta.yml`
-  - `collections/lectures/edi3400-lecture-13/meta.yml`
-- Wired the current `edi3400` promoted lecture sequence into `courses/edi3400/plan.yml`:
-  - `edi3400-lecture-11`
-  - `edi3400-lecture-12`
-  - `edi3400-lecture-13`
-- Added regression coverage for the `edi3400` problem set and lecture block:
-  - exercise assembly/build checks for student and teacher HTML outputs
-  - lecture assembly/build checks for lectures 11-13
-  - course-page checks for lecture/exercise surfacing
-- Fixed two generic Quarto/reporting issues exposed by the `edi3400` exercise slice:
-  - teacher HTML exercise builds no longer fail on generated-source names like
-    `*.html.qmd`
-  - student leakage reports no longer false-positive on literal metadata text such as
-    `teacher-only separate file`
-- Expanded `tem0052-lecture-05` to include the promoted model-selection concept
-- Linked the promoted exercise to both `tem0052` concepts for direct concept/exercise navigation
-- Linked the promoted house-prices exercise to both current `tem0052` concepts for direct concept/exercise navigation
-- Linked the promoted spam-filtering exercise into the current `tem0052` classification graph:
-  - `bias-variance-tradeoff`
-  - `knn-supervised-learning`
-  - `logistic-regression-classification`
-  - `model-selection-cross-validation`
-- Linked the promoted naive-Bayes concept into the current `tem0052` classification graph:
-  - `bias-variance-tradeoff`
-  - `knn-supervised-learning`
-  - `logistic-regression-classification`
-  - `model-selection-cross-validation`
-  - `spam-filtering-naive-bayes`
-- Linked the promoted linear-regression concept into the current `tem0052` concept/exercise graph:
-  - `bias-variance-tradeoff`
-  - `model-selection-cross-validation`
-  - `house-prices-regression`
-- Linked the promoted penalized-regression concept into the current `tem0052` concept/exercise graph:
-  - `linear-regression-prediction`
-  - `bias-variance-tradeoff`
-  - `model-selection-cross-validation`
-  - `house-prices-regression`
-- Linked the promoted logistic-regression concept into the current `tem0052` concept/exercise graph:
-  - `linear-regression-prediction`
-  - `bias-variance-tradeoff`
-  - `model-selection-cross-validation`
-  - `model-assessment-lab`
-- Linked the promoted kNN concept into the current `tem0052` concept/exercise graph:
-  - `bias-variance-tradeoff`
-  - `model-selection-cross-validation`
-  - `logistic-regression-classification`
-  - `model-assessment-lab`
-- Linked the promoted decision-tree concept into the current `tem0052` concept/exercise graph:
-  - `bias-variance-tradeoff`
-  - `knn-supervised-learning`
-  - `logistic-regression-classification`
-  - `model-selection-cross-validation`
-  - `model-assessment-lab`
-- Linked the promoted random-forests concept into the current `tem0052` concept graph:
-  - `decision-tree-learning`
-  - `bias-variance-tradeoff`
-  - `model-selection-cross-validation`
-- Linked the promoted ensemble-methods concept into the current `tem0052` concept graph:
-  - `decision-tree-learning`
-  - `random-forests`
-  - `bias-variance-tradeoff`
-  - `model-selection-cross-validation`
-- Wired the first lecture into `courses/tem0052/plan.yml`
-- Promoted the fourth canonical `tem0052` exercise with teacher solution separation:
-  - `content/exercises/unsupervised-learning-lab/`
-  - `solution.en.qmd`
-- Wired `unsupervised-learning-lab` into `tem0052-lecture-06` items
-- Wired `k-fold-cross-validation-figure` into `tem0052-lecture-05` items after its parent concept
-- Wired the current promoted lecture sequence into `courses/tem0052/plan.yml`:
-  - `tem0052-lecture-02`
-  - `tem0052-lecture-03`
-  - `tem0052-lecture-05`
-  - `tem0052-lecture-06`
-  - `tem0052-lecture-07`
-- Updated `courses/tem0052/MIGRATION_INVENTORY.md` to record the first promoted slice
-- Added regression coverage for:
-  - `tem0052` course page lecture/exercise surfacing
-  - direct concept/exercise student pages
-  - lecture assembly from promoted object IDs only
-  - representative-target validation for `tem0052-lecture-05`
-- Expanded `tem0052` regression coverage to include:
-  - student course-page surfacing of `house-prices-regression`
-  - concept-page related links to the new exercise
-  - the new student exercise page with teacher solution exclusion
-- Expanded `tem0052` regression coverage to include:
-  - the new `linear-regression-prediction` concept page
-  - concept-page related links to the regression baseline concept
-  - the house-prices exercise page linking back to the new concept
-- Hardened Quarto project/build hygiene for repeated renders by:
-  - excluding `build/generated/**` and other build trees from project render discovery
-  - clearing stale `build/generated/**/*_files` scratch directories before each render
-- Hardened generated-document assembly/build staging further by:
-  - ensuring `build/generated/...` parent directories are created before writing generated `.qmd` files
-  - using in-memory assembled markdown for leakage reports instead of re-reading transient generated files from disk
-  - retrying Quarto renders once when they fail on transient missing-generated-input errors
-- Hardened local-authoring tolerance so new incomplete course shells and draft/review
-  content do not crash repository loading or `teach validate`:
-  - course directories are only indexed once both `course.yml` and `plan.yml` exist
-  - `translation_status: draft` is accepted for in-progress content
-  - draft/review content is skipped by strict validation gates until it is ready for
-    publication checks
-- Replaced whole-tree generated-staging resets with target-scoped cleanup under
-  `build/generated/` after Quarto revealed that hidden generated paths and full-tree
-  resets were unstable in repeated sequential renders
-- Formalized the `gra4164` course shell and migration inventory for the "Text as Data"
-  migration slice:
-  - `courses/gra4164/course.yml`
-  - `courses/gra4164/plan.yml`
-  - `courses/gra4164/syllabus.en.qmd`
-- Promoted 13 canonical `gra4164` concepts covering the full NLP/LLM lecture sequence:
-  - `text-as-data-introduction`, `text-preprocessing-nlp`, `bag-of-words-tfidf-cosine`,
-    `boolean-dictionary-methods-nlp`, `text-regression-classification`,
-    `topic-modeling-lsa-lda`, `ngram-language-models`, `word-embeddings-word2vec`,
-    `llm-introduction-tokenization`, `attention-and-transformers`,
-    `llm-input-output-architecture`, `llm-training-and-finetuning`,
-    `prompt-engineering-for-nlp`
-- Promoted 6 canonical `gra4164` exercises with teacher solution separation:
-  - `sotu-boolean-search-topic-modeling`, `bow-tfidf-shakespeare-lab`,
-    `bigram-language-model-lab`, `word-embeddings-sotu-analysis`,
-    `bert-finetuning-text-classification`, `prompt-engineering-reflection`
-- Assembled 4 `gra4164` assignment collections:
-  - `gra4164-assignment-01` through `gra4164-assignment-04`
-- Assembled 11 `gra4164` lecture collections:
-  - `gra4164-lecture-01` through `gra4164-lecture-11`
-- Formalized the `tem00uu` course shell and migration inventory for the "Blockchain
-  Foundations" migration slice:
-  - `courses/tem00uu/course.yml`
-  - `courses/tem00uu/plan.yml`
-  - `courses/tem00uu/syllabus.en.qmd`
-- Promoted 15 canonical `tem00uu` concepts covering Part A (blockchain foundations)
-- Promoted 7 canonical `tem00uu` exercises with teacher solution separation
-- Assembled 8 `tem00uu` lecture collections:
-  - `tem00uu-lecture-01` through `tem00uu-lecture-08`
-- Wired first cross-course object reuse between `tem0052` and `gra4164`:
-  - `logistic-regression-classification` now lists both `tem0052` and `gra4164` in `courses:`
-  - `linear-regression-prediction` now lists both `tem0052` and `gra4164` in `courses:`
-  - `principal-component-analysis` now lists both `tem0052` and `gra4164` in `courses:`
-  - Bidirectional `related:` links between `tem0052` and `gra4164` concepts
-    (`text-regression-classification` ↔ `logistic-regression-classification`,
-    `text-regression-classification` ↔ `linear-regression-prediction`,
-    `topic-modeling-lsa-lda` ↔ `principal-component-analysis`)
-- Expanded representative targets from 18 to 21 to cover all migrated courses:
-  - `gra4164-lecture-03` (student, en, html)
-  - `tem00uu` (student, en, html)
-  - `tem00uu-lecture-01` (student, en, html)
+The following are treated as locked unless the roadmap is explicitly revised:
 
-## Remaining Tasks
+- `ROADMAP.md` remains the source of truth for direction
+- source of truth remains plain-text files under git
+- teacher workflow remains terminal-first
+- browser instructor mode is preview/review only
+- Quarto remains the build engine
+- one canonical object ID is shared across languages
+- Norwegian remains locked to `nb`
+- student builds must not expose teacher-only material
+- public publishing is student-only by default
+- HTML evolution should remain static-first with progressive enhancement
+- D3 is allowed for advanced figures, but static fallbacks remain mandatory
+- representative validation/build targets remain declared in `representative-targets.yml`
+- PDF-family outputs use `tectonic` as the project default PDF engine
 
-- Stop at this clean consolidation checkpoint
-- Later resource-workflow work remains deferred:
-  - broader course/topic filtering controls beyond the current inbox/listing path
-  - richer approval workflows beyond the narrow `approve` transition command
-  - any AI-assisted resource suggestion ingestion
-- Legacy migration progress and remaining work:
-  - no bulk import scripts/templates yet
-  - no automatic conversion from `course-inbox/` into canonical objects
-  - `tem0052`: thirteen concepts, four exercises, two figures, seven lectures promoted; no resources or project/assignment materials yet
-  - `edi3400`: three promoted database concepts, one problem-set exercise, lectures 11-13; no assignment collections yet
-  - `gra4164`: thirteen concepts, six exercises, four assignment collections, eleven lectures promoted; full "promote first" slice complete
-  - `tem00uu`: fifteen concepts, seven exercises, eight lectures promoted; Part A complete
-  - `edi3400` Norwegian (nb) draft translations complete — all 4 parts, 16 concepts, 14 exercises, 16 lectures, 4 assignments
-  - Fresh concept authoring deferred (SVM, gradient boosting, etc.)
-- Later roadmap phases remain deferred:
-  - Phase 9 AI-assisted draft workflows
-  - migration tooling
-  - deployment/publishing targets
-  - preview/release publishing jobs
-  - Textual TUI work
-- Web surface stages 1–5 are complete; future web work follows the roadmap as needed
+## Current Capability Snapshot
 
-## Blockers
+### Content and migration
 
-- The stable checkpoint path is currently:
-  - sequential `teach build ...`
-  - sequential `teach validate`
-  - focused `pytest` subsets around the edited area
-- The broad Quarto-heavy `pytest -q` sweep is still non-deterministic while new local
-  draft courses/concepts are being added in parallel to this workspace
-- Quarto still expects sequential builds because of shared `site_libs` staging and
-  transient render scratch space
-- Unrelated local draft files remain present in the worktree and should stay out of
-  any narrow checkpoint commit unless they are explicitly part of the active slice
+The system now contains real migration progress rather than only sample data.
 
-## Files Changed
+Notable status:
 
-- `IMPLEMENTATION_STATUS.md`
-- `README.md`
-- `.gitignore`
-- `course-inbox/.gitkeep`
-- `course-inbox/README.md`
-- `_quarto.yml`
-- `app/assembly.py`
-- `app/build.py`
-- `app/cli.py`
-- `app/config.py`
-- `app/indexer.py`
-- `app/models.py`
-- `app/resource_workflow.py`
-- `app/validator.py`
-- `.learnforge-generated/.gitkeep`
-- `content/concepts/model-selection-cross-validation/meta.yml`
-- `content/concepts/model-selection-cross-validation/note.en.qmd`
-- `content/concepts/decision-tree-learning/meta.yml`
-- `content/concepts/decision-tree-learning/note.en.qmd`
-- `content/concepts/random-forests/meta.yml`
-- `content/concepts/random-forests/note.en.qmd`
-- `content/concepts/ensemble-methods-introduction/meta.yml`
-- `content/concepts/ensemble-methods-introduction/note.en.qmd`
-- `content/concepts/linear-regression-prediction/meta.yml`
-- `content/concepts/linear-regression-prediction/note.en.qmd`
-- `content/concepts/penalized-linear-models/meta.yml`
-- `content/concepts/penalized-linear-models/note.en.qmd`
-- `content/concepts/logistic-regression-classification/meta.yml`
-- `content/concepts/logistic-regression-classification/note.en.qmd`
-- `content/concepts/knn-supervised-learning/meta.yml`
-- `content/concepts/knn-supervised-learning/note.en.qmd`
-- `content/concepts/naive-bayes-classification/meta.yml`
-- `content/concepts/naive-bayes-classification/note.en.qmd`
-- `content/concepts/relational-database-fundamentals/meta.yml`
-- `content/concepts/relational-database-fundamentals/note.en.qmd`
-- `content/concepts/sql-query-basics/meta.yml`
-- `content/concepts/sql-query-basics/note.en.qmd`
-- `content/concepts/python-sql-integration/meta.yml`
-- `content/concepts/python-sql-integration/note.en.qmd`
-- `content/resources/angrist-podcast-iv/meta.yml`
-- `content/resources/iv-candidate-newsletter/meta.yml`
-- `content/resources/iv-candidate-newsletter/note.en.qmd`
-- `content/resources/iv-candidate-newsletter/note.nb.qmd`
-- `content/resources/iv-reviewed-primer/meta.yml`
-- `content/resources/iv-reviewed-primer/note.en.qmd`
-- `content/resources/iv-reviewed-primer/note.nb.qmd`
-- `content/resources/iv-policy-brief-stale/meta.yml`
-- `content/resources/iv-policy-brief-stale/note.en.qmd`
-- `content/resources/iv-policy-brief-stale/note.nb.qmd`
-- `courses/tem0052/course.yml`
-- `courses/tem0052/plan.yml`
-- `courses/tem0052/syllabus.en.qmd`
-- `courses/tem0052/MIGRATION_INVENTORY.md`
-- `courses/edi3400/course.yml`
-- `courses/edi3400/plan.yml`
-- `courses/edi3400/syllabus.en.qmd`
-- `courses/edi3400/MIGRATION_INVENTORY.md`
-- `collections/lectures/edi3400-lecture-11/meta.yml`
-- `collections/lectures/edi3400-lecture-12/meta.yml`
-- `collections/lectures/edi3400-lecture-13/meta.yml`
-- `collections/lectures/tem0052-lecture-02/meta.yml`
-- `collections/lectures/tem0052-lecture-03/meta.yml`
-- `collections/lectures/tem0052-lecture-05/meta.yml`
-- `collections/lectures/tem0052-lecture-07/meta.yml`
-- `content/concepts/bias-variance-tradeoff/meta.yml`
-- `content/concepts/bias-variance-tradeoff/note.en.qmd`
-- `content/exercises/model-assessment-lab/meta.yml`
-- `content/exercises/model-assessment-lab/note.en.qmd`
-- `content/exercises/model-assessment-lab/solution.en.qmd`
-- `content/exercises/house-prices-regression/meta.yml`
-- `content/exercises/house-prices-regression/note.en.qmd`
-- `content/exercises/house-prices-regression/solution.en.qmd`
-- `content/exercises/spam-filtering-naive-bayes/meta.yml`
-- `content/exercises/spam-filtering-naive-bayes/note.en.qmd`
-- `content/exercises/spam-filtering-naive-bayes/solution.en.qmd`
-- `content/exercises/sql-python-problem-set/meta.yml`
-- `content/exercises/sql-python-problem-set/note.en.qmd`
-- `content/exercises/sql-python-problem-set/solution.en.qmd`
-- `content/exercises/sql-python-problem-set/assets/auto_dealership_database.db`
-- `representative-targets.yml`
-- `schemas/resource.schema.json`
-- `templates/meta.yml.j2`
-- `tests/test_assembly.py`
-- `tests/test_builds.py`
-- `tests/test_cli.py`
-- `tests/test_edi3400_course.py`
-- `tests/test_schema.py`
-- `tests/test_validation.py`
+- `tem0052` has a substantial promoted canonical slice, including concepts, exercises, lectures, and assignment collections
+- `edi3400` has a promoted course shell and substantial migrated content, including database material and assignment structure
+- `gra4164` has a broad "promote first" slice in place
+- `tem00uu` has a broad Part A migration slice in place
+- `gra4150` now has a canonical course shell, lecture collections, exercises, and assignment collections
+- cross-course object reuse is already happening across migrated material
+- `bik2550` has meaningful figure and assessment-related canonical content wired into the system
 
-## Commands Run
+### Publishing and quality gates
 
-- Repository/status inspection and roadmap review:
-  - `git status --short`
-  - `sed -n '1,260p' IMPLEMENTATION_STATUS.md`
-  - `rg -n "Phase 8|resource approval|candidate|reviewed|published|review_after|stale|approve|resource curation|inbox" ROADMAP.md`
-  - `sed -n '1178,1228p' ROADMAP.md`
-  - `sed -n '780,854p' ROADMAP.md`
-  - `sed -n '1380,1442p' ROADMAP.md`
-- Code inspection:
-  - `sed -n '1,240p' app/models.py`
-  - `sed -n '1,260p' app/cli.py`
-  - `sed -n '1,420p' app/validator.py`
-  - `sed -n '1,260p' app/indexer.py`
-  - `sed -n '1,260p' app/build.py`
-  - `sed -n '1,220p' templates/meta.yml.j2`
-  - `find content/resources -maxdepth 2 -type f | sort`
-- Validation/debugging:
-  - `./.venv/bin/python - <<'PY' ... validate_repository(...) ... PY`
-  - `./.venv/bin/python - <<'PY' ... load_repository(...) ... PY`
-- Formatting/schema/tests/build verification:
-  - `./.venv/bin/python -m app.schema_export`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach validate`
-  - `./.venv/bin/teach build angrist-podcast-iv --audience student --lang en --format html`
-  - `./.venv/bin/teach build resources-ec202 --audience student --lang en --format html`
-  - `./.venv/bin/teach build resource-inbox --audience teacher --lang en --format html`
-  - `./.venv/bin/teach stale resources --today 2026-03-18`
-- Artifact/report inspection:
-  - `./.venv/bin/python - <<'PY' ... inspect validation/build/stale JSON payloads ... PY`
-  - `rg -n "angrist-podcast-iv|iv-candidate-newsletter|iv-reviewed-primer|iv-policy-brief-stale|Resource Inbox|Candidate resources|Reviewed resources|Stale resources" build/exports/student/en/html/listing/resources-ec202/resources-ec202.html build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html build/exports/teacher/en/html/listing/resource-inbox/resource-inbox.html`
-- Course inbox staging:
-  - `sed -n '1,220p' .gitignore`
-  - `sed -n '1,220p' README.md`
-  - `sed -n '1,260p' app/indexer.py`
-  - `sed -n '1,260p' app/config.py`
-  - `sed -n '1,220p' tests/test_schema.py`
-  - `./.venv/bin/python -m pytest -q tests/test_schema.py`
-  - `mkdir -p course-inbox/ec202/notes && printf 'temporary\n' > course-inbox/ec202/notes/sample.txt && git check-ignore -v course-inbox/ec202/notes/sample.txt && rm course-inbox/ec202/notes/sample.txt`
-  - `./.venv/bin/teach validate`
-- `tem0052` migration kickoff:
-  - `find course-inbox/predictive-modelling-with-machine-learning -maxdepth 3 -type f | sort`
-  - `find course-inbox/predictive-modelling-with-machine-learning -maxdepth 3 -type d | sort`
-  - `python3 - <<'PY' ... count extensions and sizes ... PY`
-  - `sed -n '1,220p' course-inbox/predictive-modelling-with-machine-learning/README.md`
-  - `sed -n '1,220p' course-inbox/predictive-modelling-with-machine-learning/tex2026/course_plan_2026.tex`
-  - `sed -n '1,220p' course-inbox/predictive-modelling-with-machine-learning/tex2026/presentation_plan.md`
-  - `python3 - <<'PY' ... inspect notebook titles/imports/dataset references ... PY`
-  - `sed -n '200,245p' app/models.py`
-  - `sed -n '760,860p' app/assembly.py`
-  - `sed -n '2985,3045p' app/assembly.py`
-  - `quarto render --help`
-- `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-- `./.venv/bin/python -m pytest -q tests/test_schema.py tests/test_builds.py`
-- `./.venv/bin/ruff check app tests`
-- `./.venv/bin/python -m pytest -q`
-- `./.venv/bin/teach validate`
-- `edi3400` database concept formalization:
-  - `sed -n '1,260p' courses/edi3400/MIGRATION_INVENTORY.md`
-  - `sed -n '1,220p' courses/edi3400/course.yml`
-  - `sed -n '1,220p' courses/edi3400/plan.yml`
-  - `sed -n '1,220p' courses/edi3400/syllabus.en.qmd`
-  - `sed -n '1,220p' content/concepts/relational-database-fundamentals/meta.yml`
-  - `sed -n '1,220p' content/concepts/relational-database-fundamentals/note.en.qmd`
-  - `sed -n '1,220p' content/concepts/sql-query-basics/meta.yml`
-  - `sed -n '1,220p' content/concepts/sql-query-basics/note.en.qmd`
-  - `sed -n '1,220p' content/concepts/python-sql-integration/meta.yml`
-  - `sed -n '1,260p' content/concepts/python-sql-integration/note.en.qmd`
-  - `./.venv/bin/ruff check tests/test_edi3400_course.py`
-  - `./.venv/bin/python -m pytest -q tests/test_edi3400_course.py`
-  - `./.venv/bin/teach build python-sql-integration --audience student --lang en --format html`
-  - `./.venv/bin/teach build edi3400 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `edi3400` problem-set promotion + lecture block assembly:
-  - `git status --short`
-  - `find content/exercises/sql-python-problem-set -maxdepth 3 -type f | sort`
-  - `find collections/lectures -maxdepth 2 -path '*/edi3400-*' -type f | sort`
-  - `sed -n '1,240p' content/exercises/sql-python-problem-set/meta.yml`
-  - `sed -n '1,320p' content/exercises/sql-python-problem-set/note.en.qmd`
-  - `sed -n '1,320p' content/exercises/sql-python-problem-set/solution.en.qmd`
-  - `sed -n '1,220p' collections/lectures/edi3400-lecture-11/meta.yml`
-  - `sed -n '1,220p' collections/lectures/edi3400-lecture-12/meta.yml`
-  - `sed -n '1,220p' collections/lectures/edi3400-lecture-13/meta.yml`
-  - `sed -n '1,120p' courses/edi3400/plan.yml`
-  - `./.venv/bin/ruff check app/assembly.py app/build.py tests/test_edi3400_course.py`
-  - `./.venv/bin/python -m pytest -q tests/test_edi3400_course.py`
-  - `./.venv/bin/teach build sql-python-problem-set --audience student --lang en --format html`
-  - `./.venv/bin/teach build sql-python-problem-set --audience teacher --lang en --format html`
-  - `./.venv/bin/teach build edi3400-lecture-11 --audience student --lang en --format html`
-  - `./.venv/bin/teach build assignment-01 --audience student --lang en --format exercise-sheet`
-  - `./.venv/bin/teach validate`
-- `tem0052` first canonical promotion:
-  - `mkdir -p content/concepts/bias-variance-tradeoff content/exercises/model-assessment-lab collections/lectures/tem0052-lecture-05`
-  - `./.venv/bin/teach build bias-variance-tradeoff --audience student --lang en --format html`
-  - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-05 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-05 --audience teacher --lang en --format revealjs`
-  - `./.venv/bin/teach build lecture-04 --audience student --lang en --format revealjs`
-  - `./.venv/bin/teach build lecture-04 --audience student --lang en --format pdf`
-  - `./.venv/bin/python -m pytest -q tests/test_schema.py tests/test_assembly.py tests/test_builds.py tests/test_validation.py`
-  - `./.venv/bin/python -m pytest -q -x`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach validate`
-- `tem0052` second concept promotion:
-  - `python3 - <<'PY' ... inspect notebooks/08_Information_criteria_and_cross_validation.ipynb ... PY`
-  - `mkdir -p content/concepts/model-selection-cross-validation`
-  - `./.venv/bin/teach build model-selection-cross-validation --audience student --lang en --format html`
-  - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-05 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/python -m pytest -q tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach validate`
-- `tem0052` second exercise promotion:
-  - `sed -n '1,240p' courses/tem0052/MIGRATION_INVENTORY.md`
-  - `sed -n '1,240p' content/exercises/model-assessment-lab/meta.yml`
-  - `sed -n '1,260p' course-inbox/predictive-modelling-with-machine-learning/exercises/to_students/03_Predicting_house_prices.ipynb`
-  - `sed -n '1,260p' course-inbox/predictive-modelling-with-machine-learning/exercises/VHL_solutions/03_Predicting_house_prices_VHL.ipynb`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach validate`
-- `tem0052` third concept promotion:
-  - `sed -n '1,240p' courses/tem0052/MIGRATION_INVENTORY.md`
-  - `sed -n '1,260p' course-inbox/predictive-modelling-with-machine-learning/notebooks/02_OLS.ipynb`
-  - `python3 - <<'PY' ... summarize notebook markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach validate`
-- `tem0052` fourth concept promotion:
-  - `rg -n "penalized|regulari[sz]" courses/tem0052/MIGRATION_INVENTORY.md content/concepts content/exercises -g 'meta.yml' -g 'note.en.qmd'`
-  - `python - <<'PY' ... summarize notebooks/05_Regularised_regressions.ipynb markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build penalized-linear-models --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` fifth concept promotion:
-  - `rg -n "logistic-regression-classification|logistic|classification" courses/tem0052/MIGRATION_INVENTORY.md content/concepts content/exercises -g 'meta.yml' -g 'note.en.qmd'`
-  - `python - <<'PY' ... summarize notebooks/06_Logistic_regression.ipynb markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build logistic-regression-classification --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` sixth concept promotion:
-  - `rg -n "knn-supervised-learning|knn|nearest neighbors|classification" courses/tem0052/MIGRATION_INVENTORY.md content/concepts content/exercises -g 'meta.yml' -g 'note.en.qmd'`
-  - `python - <<'PY' ... summarize notebooks/03_Supervised_learning_with_kNN.ipynb markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build knn-supervised-learning --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` lecture 2 assembly:
-  - `sed -n '1,240p' courses/tem0052/plan.yml`
-  - `sed -n '1,240p' collections/lectures/tem0052-lecture-05/meta.yml`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build tem0052-lecture-02 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-02 --audience teacher --lang en --format revealjs`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` lecture 3 assembly:
-  - `sed -n '1,160p' courses/tem0052/plan.yml`
-  - `sed -n '1,220p' collections/lectures/tem0052-lecture-02/meta.yml`
-  - `sed -n '1,220p' collections/lectures/tem0052-lecture-05/meta.yml`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build tem0052-lecture-03 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-03 --audience teacher --lang en --format revealjs`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` seventh concept promotion:
-  - `sed -n '1,220p' courses/tem0052/MIGRATION_INVENTORY.md`
-  - `sed -n '1,220p' content/concepts/logistic-regression-classification/meta.yml`
-  - `sed -n '1,220p' content/concepts/knn-supervised-learning/meta.yml`
-  - `sed -n '1,260p' content/concepts/knn-supervised-learning/note.en.qmd`
-  - `rg -n "Decision tree|tree" course-inbox/predictive-modelling-with-machine-learning/tex2026 course-inbox/predictive-modelling-with-machine-learning/notebooks/07_Decision_trees.ipynb`
-  - `python - <<'PY' ... summarize notebooks/07_Decision_trees.ipynb markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build decision-tree-learning --audience student --lang en --format html`
-  - `./.venv/bin/teach build model-assessment-lab --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` eighth concept promotion:
-  - `sed -n '1,220p' content/concepts/decision-tree-learning/meta.yml`
-  - `sed -n '1,260p' content/concepts/decision-tree-learning/note.en.qmd`
-  - `rg -n "Random Forest|forest|bagging|ensemble" course-inbox/predictive-modelling-with-machine-learning/notebooks/12_Introducing_ensemble_methods.ipynb course-inbox/predictive-modelling-with-machine-learning/notebooks/13_Random_forests.ipynb course-inbox/predictive-modelling-with-machine-learning/tex2026`
-  - `python - <<'PY' ... summarize notebooks/12_Introducing_ensemble_methods.ipynb and 13_Random_forests.ipynb markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build random-forests --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` ninth concept promotion:
-  - `sed -n '1,220p' content/concepts/random-forests/meta.yml`
-  - `sed -n '1,260p' content/concepts/random-forests/note.en.qmd`
-  - `python - <<'PY' ... summarize notebooks/12_Introducing_ensemble_methods.ipynb markdown cells ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build ensemble-methods-introduction --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` lecture 7 assembly:
-  - `sed -n '1,220p' collections/lectures/tem0052-lecture-02/meta.yml`
-  - `sed -n '1,220p' collections/lectures/tem0052-lecture-03/meta.yml`
-  - `sed -n '1,220p' collections/lectures/tem0052-lecture-05/meta.yml`
-  - `sed -n '1,220p' courses/tem0052/plan.yml`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q`
-  - `./.venv/bin/teach build tem0052-lecture-07 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-07 --audience teacher --lang en --format revealjs`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` third exercise promotion:
-  - `rg -n "spam|naive bayes|Naive Bayes" courses/tem0052/MIGRATION_INVENTORY.md content collections tests course-inbox/predictive-modelling-with-machine-learning -S`
-  - `sed -n '1,240p' content/exercises/house-prices-regression/note.en.qmd`
-  - `sed -n '1,260p' content/exercises/house-prices-regression/solution.en.qmd`
-  - `python - <<'PY' ... inspect exercises/to_students/02_Spam_filtering_with_naive_bayes.ipynb ... PY`
-  - `python - <<'PY' ... inspect exercises/VHL_solutions/02_Spam_filtering_with_naive_bayes_VHL.ipynb ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q tests/test_cli.py tests/test_schema.py tests/test_validation.py tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts`
-  - `./.venv/bin/teach build spam-filtering-naive-bayes --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
-- `tem0052` supporting naive-Bayes concept promotion + lecture 3 refresh:
-  - `git status --short`
-  - `rg -n "spam-filtering-naive-bayes|naive-bayes|tem0052-lecture-03" content collections courses/tem0052 tests IMPLEMENTATION_STATUS.md`
-  - `sed -n '1,240p' courses/tem0052/MIGRATION_INVENTORY.md`
-  - `sed -n '1,260p' IMPLEMENTATION_STATUS.md`
-  - `sed -n '1,220p' content/concepts/logistic-regression-classification/meta.yml`
-  - `sed -n '1,260p' content/concepts/logistic-regression-classification/note.en.qmd`
-  - `sed -n '1,220p' content/concepts/knn-supervised-learning/meta.yml`
-  - `sed -n '1,220p' collections/lectures/tem0052-lecture-03/meta.yml`
-  - `sed -n '1,220p' content/exercises/spam-filtering-naive-bayes/meta.yml`
-  - `python3 - <<'PY' ... inspect legacy spam-filtering notebook markdown ... PY`
-  - `./.venv/bin/ruff check app tests`
-  - `./.venv/bin/python -m pytest -q tests/test_assembly.py::test_tem0052_lecture_03_assembly_expands_classification_block tests/test_assembly.py::test_naive_bayes_concept_links_tem0052_classification_content tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly tests/test_builds.py::test_tem0052_lecture_03_build_contains_classification_block`
-  - `./.venv/bin/teach build naive-bayes-classification --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-03 --audience student --lang en --format html`
-  - `./.venv/bin/teach build tem0052-lecture-03 --audience teacher --lang en --format revealjs`
-  - `./.venv/bin/teach build tem0052 --audience student --lang en --format html`
-  - `./.venv/bin/teach validate`
+The project supports:
 
-## Test / Build Results
+- validation through `teach validate`
+- representative build coverage
+- build manifests and dependency manifests
+- leakage reports
+- stale-resource reporting
+- student-site publish bundling suitable for static deployment
+- GitHub Pages-oriented student-site deployment path
 
-- Latest validation pass on the current working tree:
-  - `Validated 108 objects and 7 courses. Errors: 3. Warnings: 55.`
-  - `Representative targets: 12/15 passed`
-  - current warnings are expected from:
-    - the sample stale approved resource
-    - intentionally English-only student-visible `tem0052` and `edi3400` objects
-    - additional in-progress local authoring content outside this migration slice
-  - current errors are outside the `edi3400` problem-set slice:
-    - one unrelated representative assignment PDF compile failure
-    - two unrelated `BIK2550` representative targets requesting unsupported `nb`
-      lecture builds
-- Validation passed with warnings on the current working tree:
-  - `Validated 41 objects and 5 courses. Errors: 0. Warnings: 15.`
-  - `Representative targets: 13/13 passed`
-  - current warnings are expected from:
-    - the sample stale approved resource
-    - English-only `tem0052` student-visible objects
-    - new local draft-authoring content outside this migration slice
-- Lint passed:
-  - `All checks passed!`
-- Focused `edi3400` database-slice tests passed:
-  - `14 passed in 29.15s` for `tests/test_edi3400_course.py`
-- Isolated `edi3400` builds passed:
-  - `teach build python-sql-integration --audience student --lang en --format html`
-  - `teach build edi3400 --audience student --lang en --format html`
-  - `teach build sql-python-problem-set --audience student --lang en --format html`
-  - `teach build sql-python-problem-set --audience teacher --lang en --format html`
-  - `teach build edi3400-lecture-11 --audience student --lang en --format html`
-  - `teach build assignment-01 --audience student --lang en --format exercise-sheet`
-- Focused `tem0052` concept/lecture tests passed after the lecture refresh:
-  - `5 passed in 52.58s` for
-    - `tests/test_assembly.py::test_tem0052_lecture_03_assembly_expands_classification_block`
-    - `tests/test_assembly.py::test_naive_bayes_concept_links_tem0052_classification_content`
-    - `tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts`
-    - `tests/test_builds.py::test_tem0052_concept_and_exercise_student_pages_build_cleanly`
-    - `tests/test_builds.py::test_tem0052_lecture_03_build_contains_classification_block`
-- Focused tests passed for the edited area:
-  - `26 passed in 134.32s (0:02:14)` for
-    - `tests/test_cli.py`
-    - `tests/test_schema.py`
-    - `tests/test_validation.py`
-    - `tests/test_assembly.py::test_spam_filtering_exercise_links_tem0052_classification_concepts`
-- Isolated builds passed:
-  - `teach build spam-filtering-naive-bayes --audience student --lang en --format html`
-  - `teach build tem0052 --audience student --lang en --format html`
-- Full `pytest -q` is currently non-deterministic under active local authoring changes
-  and broader Quarto staging churn, so it is not the reliable gate for this checkpoint
-- Course inbox regression checks passed:
-  - `11 passed in 0.31s` for `tests/test_schema.py`
-  - `git check-ignore` confirmed `course-inbox/ec202/notes/sample.txt` is ignored by `.gitignore`
-  - `teach validate` still passed with `Errors: 0. Warnings: 7. Representative targets: 13/13 passed`
-- `tem0052` migration kickoff checks passed:
-  - `30 passed in 48.25s` for `tests/test_schema.py tests/test_builds.py`
-  - `teach build tem0052 --audience student --lang en --format html` succeeded
-  - Quarto render remains isolated from `course-inbox/`
-- Validation JSON report:
-  - `build/reports/validation-report.json`
-- Build summary JSON:
-  - `build/reports/build-summary.json`
-- Stale-resource report:
-  - `build/reports/stale-resources.json`
-  - `stale_resource_count: 1`
-  - `iv-policy-brief-stale` reported as review-due
-- Resource workflow summary in validation report:
-  - `status_counts: candidate=1, reviewed=1, approved=1, published=1`
-  - `student_visible_resource_ids: ['angrist-podcast-iv']`
-  - `student_exclusion_count: 3`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/naive-bayes-classification/naive-bayes-classification.html`
-  - `build/reports/builds/student/en/html/concept/naive-bayes-classification/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/naive-bayes-classification/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/naive-bayes-classification/teacher-leakage-report.json`
-- Refreshed `tem0052` lecture artifact paths:
-  - `build/exports/student/en/html/collection/tem0052-lecture-03/tem0052-lecture-03.html`
-  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-03/tem0052-lecture-03.html`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/build-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/teacher-leakage-report.json`
-- Updated `tem0052` course artifact paths:
-  - `build/exports/student/en/html/course/tem0052/tem0052.html`
-  - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
-  - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/course/tem0052/teacher-leakage-report.json`
-- `edi3400` database concept artifact paths:
-  - `build/exports/student/en/html/concept/python-sql-integration/python-sql-integration.html`
-  - `build/reports/builds/student/en/html/concept/python-sql-integration/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/python-sql-integration/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/python-sql-integration/teacher-leakage-report.json`
-- `edi3400` problem-set artifact paths:
-  - `build/exports/student/en/html/exercise/sql-python-problem-set/sql-python-problem-set.html`
-  - `build/reports/builds/student/en/html/exercise/sql-python-problem-set/build-manifest.json`
-  - `build/reports/builds/student/en/html/exercise/sql-python-problem-set/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/exercise/sql-python-problem-set/teacher-leakage-report.json`
-  - `build/exports/teacher/en/html/exercise/sql-python-problem-set/sql-python-problem-set.html`
-  - `build/reports/builds/teacher/en/html/exercise/sql-python-problem-set/build-manifest.json`
-  - `build/reports/builds/teacher/en/html/exercise/sql-python-problem-set/dependency-manifest.json`
-  - `build/reports/builds/teacher/en/html/exercise/sql-python-problem-set/teacher-leakage-report.json`
-- `edi3400` course artifact paths:
-  - `build/exports/student/en/html/course/edi3400/edi3400.html`
-  - `build/reports/builds/student/en/html/course/edi3400/build-manifest.json`
-  - `build/reports/builds/student/en/html/course/edi3400/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/course/edi3400/teacher-leakage-report.json`
-- `edi3400` lecture artifact paths:
-  - `build/exports/student/en/html/collection/edi3400-lecture-11/edi3400-lecture-11.html`
-  - `build/reports/builds/student/en/html/collection/edi3400-lecture-11/build-manifest.json`
-  - `build/reports/builds/student/en/html/collection/edi3400-lecture-11/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/collection/edi3400-lecture-11/teacher-leakage-report.json`
-  - `build/exports/student/en/html/collection/edi3400-lecture-12/edi3400-lecture-12.html`
-  - `build/exports/student/en/html/collection/edi3400-lecture-13/edi3400-lecture-13.html`
-- `edi3400` tracked migration inventory:
-  - `courses/edi3400/MIGRATION_INVENTORY.md`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/ensemble-methods-introduction/ensemble-methods-introduction.html`
-  - `build/reports/builds/student/en/html/concept/ensemble-methods-introduction/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/ensemble-methods-introduction/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/ensemble-methods-introduction/teacher-leakage-report.json`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/random-forests/random-forests.html`
-  - `build/reports/builds/student/en/html/concept/random-forests/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/random-forests/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/random-forests/teacher-leakage-report.json`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/decision-tree-learning/decision-tree-learning.html`
-  - `build/reports/builds/student/en/html/concept/decision-tree-learning/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/decision-tree-learning/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/decision-tree-learning/teacher-leakage-report.json`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/penalized-linear-models/penalized-linear-models.html`
-  - `build/reports/builds/student/en/html/concept/penalized-linear-models/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/penalized-linear-models/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/penalized-linear-models/teacher-leakage-report.json`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/logistic-regression-classification/logistic-regression-classification.html`
-  - `build/reports/builds/student/en/html/concept/logistic-regression-classification/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/logistic-regression-classification/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/logistic-regression-classification/teacher-leakage-report.json`
-- New `tem0052` concept artifact paths:
-  - `build/exports/student/en/html/concept/knn-supervised-learning/knn-supervised-learning.html`
-  - `build/reports/builds/student/en/html/concept/knn-supervised-learning/build-manifest.json`
-  - `build/reports/builds/student/en/html/concept/knn-supervised-learning/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/concept/knn-supervised-learning/teacher-leakage-report.json`
-- New `tem0052` lecture artifact paths:
-  - `build/exports/student/en/html/collection/tem0052-lecture-07/tem0052-lecture-07.html`
-  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-07/tem0052-lecture-07.html`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-07/build-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-07/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-07/teacher-leakage-report.json`
-- New `tem0052` lecture artifact paths:
-  - `build/exports/student/en/html/collection/tem0052-lecture-02/tem0052-lecture-02.html`
-  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-02/tem0052-lecture-02.html`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-02/build-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-02/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-02/teacher-leakage-report.json`
-- New `tem0052` lecture artifact paths:
-  - `build/exports/student/en/html/collection/tem0052-lecture-03/tem0052-lecture-03.html`
-  - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-03/tem0052-lecture-03.html`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/build-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/dependency-manifest.json`
-  - `build/reports/builds/student/en/html/collection/tem0052-lecture-03/teacher-leakage-report.json`
-- Updated `tem0052` course artifact paths:
-  - `build/exports/student/en/html/course/tem0052/tem0052.html`
-  - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
-  - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
-- Representative resource outputs verified:
-  - Student approved resource page:
-    - `build/exports/student/en/html/resource/angrist-podcast-iv/angrist-podcast-iv.html`
-    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/build-manifest.json`
-    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/resource/angrist-podcast-iv/teacher-leakage-report.json`
-  - Student resource listing with exclusions:
-    - `build/exports/student/en/html/listing/resources-ec202/resources-ec202.html`
-    - `build/reports/builds/student/en/html/listing/resources-ec202/build-manifest.json`
-    - `build/reports/builds/student/en/html/listing/resources-ec202/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/listing/resources-ec202/teacher-leakage-report.json`
-    - `included_resource_ids: ['angrist-podcast-iv']`
-    - `excluded_resources: iv-candidate-newsletter, iv-reviewed-primer, iv-policy-brief-stale`
-  - Teacher resource inbox:
-    - `build/exports/teacher/en/html/listing/resource-inbox/resource-inbox.html`
-    - `build/reports/builds/teacher/en/html/listing/resource-inbox/build-manifest.json`
-    - `build/reports/builds/teacher/en/html/listing/resource-inbox/dependency-manifest.json`
-    - `build/reports/builds/teacher/en/html/listing/resource-inbox/teacher-leakage-report.json`
-- Existing representative outputs remained green through `teach validate`:
-  - student concept page
-  - student topic listing
-  - student assignment HTML
-  - student exercise sheet
-  - `tem0052` student lecture HTML
-  - teacher lecture slides
-  - teacher figure PDF fallback
-  - teacher solution sheet
-- `tem0052` promoted outputs verified:
-  - Student concept page:
-    - `build/exports/student/en/html/concept/model-selection-cross-validation/model-selection-cross-validation.html`
-    - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/build-manifest.json`
-    - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/concept/model-selection-cross-validation/teacher-leakage-report.json`
-  - Student concept page:
-    - `build/exports/student/en/html/concept/linear-regression-prediction/linear-regression-prediction.html`
-    - `build/reports/builds/student/en/html/concept/linear-regression-prediction/build-manifest.json`
-    - `build/reports/builds/student/en/html/concept/linear-regression-prediction/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/concept/linear-regression-prediction/teacher-leakage-report.json`
-  - Student concept page:
-    - `build/exports/student/en/html/concept/bias-variance-tradeoff/bias-variance-tradeoff.html`
-    - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/build-manifest.json`
-    - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/concept/bias-variance-tradeoff/teacher-leakage-report.json`
-  - Student exercise page:
-    - `build/exports/student/en/html/exercise/model-assessment-lab/model-assessment-lab.html`
-    - `build/reports/builds/student/en/html/exercise/model-assessment-lab/build-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/model-assessment-lab/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/model-assessment-lab/teacher-leakage-report.json`
-  - Student exercise page:
-    - `build/exports/student/en/html/exercise/house-prices-regression/house-prices-regression.html`
-    - `build/reports/builds/student/en/html/exercise/house-prices-regression/build-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/house-prices-regression/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/house-prices-regression/teacher-leakage-report.json`
-  - Student exercise page:
-    - `build/exports/student/en/html/exercise/spam-filtering-naive-bayes/spam-filtering-naive-bayes.html`
-    - `build/reports/builds/student/en/html/exercise/spam-filtering-naive-bayes/build-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/spam-filtering-naive-bayes/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/exercise/spam-filtering-naive-bayes/teacher-leakage-report.json`
-  - Student course page:
-    - `build/exports/student/en/html/course/tem0052/tem0052.html`
-    - `build/reports/builds/student/en/html/course/tem0052/build-manifest.json`
-    - `build/reports/builds/student/en/html/course/tem0052/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/course/tem0052/teacher-leakage-report.json`
-  - Student lecture page:
-    - `build/exports/student/en/html/collection/tem0052-lecture-05/tem0052-lecture-05.html`
-    - `build/reports/builds/student/en/html/collection/tem0052-lecture-05/build-manifest.json`
-    - `build/reports/builds/student/en/html/collection/tem0052-lecture-05/dependency-manifest.json`
-    - `build/reports/builds/student/en/html/collection/tem0052-lecture-05/teacher-leakage-report.json`
-  - Teacher lecture slides:
-    - `build/exports/teacher/en/revealjs/collection/tem0052-lecture-05/tem0052-lecture-05.html`
-    - `build/reports/builds/teacher/en/revealjs/collection/tem0052-lecture-05/build-manifest.json`
-    - `build/reports/builds/teacher/en/revealjs/collection/tem0052-lecture-05/dependency-manifest.json`
-    - `build/reports/builds/teacher/en/revealjs/collection/tem0052-lecture-05/teacher-leakage-report.json`
-  - Tracked migration inventory:
-    - `courses/tem0052/MIGRATION_INVENTORY.md`
+## Per-Course Migration Snapshot
 
-## CI Workflow Files Added
+| Course | Repo status | Migration state | Canonical coverage snapshot | Notes |
+|---|---|---|---|---|
+| `ec202` | `approved` | Legacy/sample baseline | 1 concept, 2 exercises, 1 figure, 4 resources, 1 assignment, 1 lecture | Stable small reference course; not the main migration focus right now |
+| `tem0052` | `draft` | Substantial partial migration | 13 concepts, 6 exercises, 2 figures, 3 assignments, 7 lectures | One of the core migration tracks; strong canonical slice but not yet fully consolidated |
+| `edi3400` | `approved` | Substantial migration | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage in the repo; operationally strong even if still evolving |
+| `gra4164` | `draft` | Broad \"promote first\" slice complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Strong migration coverage; a good candidate for later polish into a reference course |
+| `tem00uu` | `draft` | Broad Part A migration complete | 15 concepts, 7 exercises, 8 lectures | Solid canonical slice, but still explicitly partial in scope |
+| `gra4150` | `draft` | Major first canonical slice complete | 14 concepts, 8 exercises, 3 assignments, 8 lectures | Recently accelerated; now materially present rather than just staged |
+| `bik2550` | `draft` | Selective canonical promotion | 17 concepts, 6 exercises, 7 figures, 1 assignment, 6 lectures | Meaningful content exists, especially around figures and Module 3, but migration looks uneven |
+| `bik2551` | `approved` | Early structured course shell + selective content | 11 concepts, 6 exercises, 2 resources, 1 assignment, 4 lectures | Has a usable structure, but not yet presented as a major migration focus |
 
-- `.github/workflows/ci.yml` (from the earlier validation/CI slice; unchanged in this run)
-- `.github/workflows/publish-student-site.yml` (manual student-only publish artifact workflow)
+### Migration-state legend
 
-## Test Suite Fix (post HTML shell transition)
+- **Legacy/sample baseline** — small stable course surface, mainly useful as a reference or seed
+- **Selective canonical promotion** — some real canonical content exists, but coverage is uneven
+- **Major first canonical slice complete** — the course now has a meaningful reusable core in place
+- **Substantial partial migration** — a large share of the course has been promoted, but the course is not yet fully consolidated
+- **Broad \"promote first\" slice complete** — the first migration pass is broad and structurally strong, though later cleanup/polish remains
+- **Broad Part A migration complete** — a major subsection is canonical, but the whole course is not yet done
 
-- Fixed 9 test regressions introduced by commit `1ebc886` (responsive HTML shell):
-  - Updated heading assertions in `test_assembly.py` and `test_gra4164_course.py` from
-    markdown `## Heading` to HTML `<h2>Heading</h2>` for format-dispatched sections
-  - Fixed figure snapshot fragment extraction to account for `<section>` wrapper around
-    the `<h2>Used in these courses</h2>` delimiter
-  - Updated target count assertion in `test_validation.py` from 15 to 16 (new
-    `bik2550-m3d1` representative target)
-- Zero production code changes — all fixes in test expectations
+## Active Constraints and Risks
 
-## Next Recommended Step
-- Start Stage 5 of the web roadmap locked in `ROADMAP.md`
-- Formalize D3 as the preferred advanced interactive-figure path using object-local assets
-- Keep `figure.svg` and `figure.pdf` mandatory when interactivity exists
-- Add shared D3 helpers only after at least two figures demonstrate real reuse
-- Keep the anti-bloat guardrails explicit during this slice:
-  - no frontend framework rewrite
-  - no browser editing
-  - no public teacher deployment
-  - no shared D3 helper layer until reuse is proven
+The project is healthy, but not fully consolidated.
+
+### Main constraints
+
+- documentation has historically lagged behind implementation
+- migration progress is uneven across courses
+- some status/history information had grown too verbose and hard to scan
+- Quarto-heavy workflows still prefer sequential builds because of shared staging behavior
+- broad all-at-once test/build sweeps are less trustworthy than focused validation around the edited slice
+
+### Practical interpretation
+
+LearnForge is not blocked at the architecture level.
+
+The main challenge now is operational and editorial:
+
+- consolidate docs
+- reduce drift between intent and implementation
+- complete or tighten migration slices
+- improve confidence and ergonomics around ongoing course promotion
+
+## Deferred / Not In Scope Right Now
+
+These remain intentionally deferred unless the roadmap changes:
+
+- browser-based editing
+- frontend framework rewrite / SPA architecture
+- Textual TUI work
+- database-backed architecture
+- bulk migration tooling from `course-inbox/`
+- notebook auto-conversion pipeline
+- public teacher deployment target
+- richer AI-assisted ingestion/publishing workflows
+- automatic publishing of AI-generated content
+
+## What Is Actually Strong Right Now
+
+The strongest parts of the project are:
+
+1. **Architecture coherence**
+   - the stack fits the problem well
+   - plain text + git + Quarto + thin Python control plane is still the right call
+
+2. **Content model**
+   - reusable learning objects are doing real work across courses
+   - the system is no longer course-folder glue pretending to be reusable
+
+3. **Build discipline**
+   - validation and representative targets are in place
+   - publish bundles, manifests, and leakage checks make the system auditable
+
+4. **Migration strategy**
+   - `course-inbox/` creates a clean boundary between staging and canonical content
+   - promotion into reusable objects is happening in a structured way
+
+## What Needs The Most Attention Next
+
+The next high-value work is consolidation rather than foundational engineering.
+
+Priority order:
+
+1. **Documentation hygiene**
+   - keep `README.md`, `IMPLEMENTATION_STATUS.md`, and `ROADMAP.md` in distinct roles
+   - avoid stale summaries that undersell or misdescribe the real system
+
+2. **Migration clarity**
+   - make it easier to see which courses are:
+     - staged
+     - partially promoted
+     - substantially migrated
+     - effectively reference-quality
+
+3. **Reference-course quality**
+   - at least one course should become clearly polished end-to-end
+   - that matters more than many half-finished migration slices
+
+4. **Build/test confidence**
+   - continue tightening deterministic representative checks around the real workflows you use most
+
+## Recent Checkpoint Highlights
+
+Recent work worth preserving at the summary level:
+
+- student-only publish bundle and deployment path established
+- resource curation workflow implemented with explicit approval states
+- D3 figure path added with vendored asset and static fallback discipline
+- multiple courses migrated into canonical LearnForge structures
+- cross-course object reuse established
+- `gra4150` received a major promotion slice, including assignment collections
+- PDF default standardized on `tectonic` and verified with a representative build
+
+## Recommended Next Step
+
+Immediate next step: continue documentation consolidation and then tighten migration visibility.
+
+A good follow-up would be one of:
+
+- add a short per-course migration status table somewhere canonical
+- define what qualifies a course as "migrated" vs "partial" vs "staged"
+- choose one course to finish as the polished reference implementation
