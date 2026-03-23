@@ -1,0 +1,51 @@
+The safest teacher solution is a modest, fully reproducible comparison between
+a logistic regression baseline and two SVM variants on a clean binary
+classification task.
+
+## Suggested approach
+
+1. Load the Breast Cancer Wisconsin dataset into feature and target arrays.
+   The dataset has 569 observations, 30 numeric features, and a binary target
+   (malignant vs. benign).
+2. Create one deterministic, stratified train/test split such as `test_size=0.2`
+   with `random_state=42`.
+3. Build a pipeline with `StandardScaler` followed by the classifier. Scaling
+   is critical — without it, SVM performance and convergence degrade noticeably.
+4. Fit a `LogisticRegression(random_state=42, max_iter=1000)` baseline and
+   report test accuracy, precision, recall, and ROC-AUC.
+5. Fit `SVC(kernel='linear', random_state=42)` and report the same metrics.
+6. Fit `SVC(kernel='rbf', random_state=42)` with a small grid search over
+   `C` (e.g. `[0.1, 1, 10, 100]`) and `gamma` (e.g. `['scale', 0.01, 0.1]`)
+   using `GridSearchCV(..., scoring='roc_auc', cv=5)`.
+7. Compare the three workflows in a results table.
+8. Report `svc_linear.n_support_` for the linear SVM.
+
+## What students should usually find
+
+- Logistic regression is already strong on this dataset because the features
+  are numeric, reasonably scaled after standardisation, and the classes are
+  fairly well separated.
+- A linear SVM typically performs comparably to logistic regression, sometimes
+  with a small accuracy or AUC improvement.
+- The RBF SVM may add a marginal gain or perform similarly. The Breast Cancer
+  dataset does not strongly reward non-linear boundaries.
+- The number of support vectors for the linear SVM is usually a moderate
+  fraction of the training set, indicating that the margin is not extremely
+  tight — consistent with some class overlap.
+
+## Teaching emphasis
+
+Use the debrief to stress three things:
+
+- feature scaling is not optional for SVM — unlike tree-based methods, the
+  margin geometry depends directly on feature magnitudes,
+- the $C$ parameter controls the bias-variance tradeoff in the same way that
+  the regularisation parameter does for penalised regression: small $C$ means
+  wider margin with more violations (more bias, less variance),
+- a more complex kernel is not automatically better — on this dataset, the
+  linear model is already competitive, and model selection via cross-validation
+  should determine whether the added complexity is justified.
+
+A strong teacher solution should compare prompt variations in a disciplined way,
+but the core message is that students can build, tune, evaluate, and interpret
+the full SVM workflow rather than just reporting a single accuracy number.

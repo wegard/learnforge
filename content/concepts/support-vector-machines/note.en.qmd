@@ -1,0 +1,103 @@
+## SVMs find the widest margin between classes
+
+Logistic regression draws a decision boundary and assigns probabilities.
+A support vector machine takes a different view: find the boundary that leaves
+the most room between the two classes. That room is the margin, and the data
+points closest to it — the support vectors — are the only observations that
+determine where the boundary sits.
+
+This makes SVMs a useful alternative when the goal is a clean separation rather
+than calibrated probabilities, and a natural next step in `TEM 0052` after
+logistic regression.
+
+## The maximum-margin classifier
+
+Given labelled training data with $y_i \in \{-1, +1\}$, a linear SVM solves
+
+$$
+\min_{w, b} \;\frac{1}{2}\|w\|^2 \quad\text{subject to}\quad y_i(w^\top x_i + b) \geq 1 \;\;\forall\, i.
+$$
+
+The constraint forces every observation to fall on the correct side of the
+boundary with at least a unit distance on the scaled margin. The points where
+the constraint binds — where $y_i(w^\top x_i + b) = 1$ — are the support
+vectors. All other data points could move without changing the solution.
+
+This is why feature scaling matters more for SVMs than for tree-based methods.
+The margin depends on $\|w\|$, and that depends on the feature scales.
+
+## Soft margins let the model tolerate noise
+
+Real data rarely separates perfectly. The soft-margin extension introduces slack
+variables $\xi_i \geq 0$ and a penalty parameter $C$:
+
+$$
+\min_{w, b, \xi} \;\frac{1}{2}\|w\|^2 + C\sum_i \xi_i \quad\text{subject to}\quad y_i(w^\top x_i + b) \geq 1 - \xi_i.
+$$
+
+The parameter $C$ plays the same role as inverse regularisation in penalised
+linear models: large $C$ penalises misclassifications more and pushes toward a
+narrow margin, while small $C$ accepts more margin violations and favours a
+wider margin. The connection to the bias-variance tradeoff is direct: small $C$
+means more bias and less variance, large $C$ means less bias and more variance.
+
+In scikit-learn, `SVC(kernel='linear', C=1.0)` uses this formulation. Tuning
+$C$ with cross-validation is essential rather than optional.
+
+::: {.teacher-only}
+Ask students: if you set $C$ very large on noisy data, what happens to the
+number of support vectors and the generalisation error? Connect this to what
+they saw with the regularisation parameter in penalised regression.
+:::
+
+## Kernels extend SVM to non-linear boundaries
+
+When the classes are not linearly separable, a kernel function replaces the dot
+product $w^\top x_i$ with a similarity measure computed in a richer feature
+space — without ever constructing that space explicitly.
+
+The two most common choices:
+
+- **Polynomial kernel** $K(x_i, x_j) = (\gamma\, x_i^\top x_j + r)^d$: adds
+  interaction features up to degree $d$.
+- **RBF kernel** $K(x_i, x_j) = \exp(-\gamma\|x_i - x_j\|^2)$: measures local
+  similarity. The parameter $\gamma$ controls how far the influence of a single
+  training point reaches.
+
+The kernel choice is a modelling decision. A linear kernel often works well on
+high-dimensional data with many features. An RBF kernel can capture non-linear
+structure but adds a second hyperparameter ($\gamma$) that must be tuned
+alongside $C$.
+
+Students do not need the full reproducing-kernel Hilbert-space theory. They need
+to understand that the kernel choice controls model flexibility in the same way
+that tree depth or the number of estimators controls flexibility in tree-based
+methods.
+
+## Where SVMs fit in `TEM 0052`
+
+SVMs connect several course threads:
+
+- the linear-model logic from logistic regression,
+- the regularisation idea from penalised models (via $C$),
+- the bias-variance tradeoff from model assessment,
+- and the model-selection discipline from cross-validation (since both $C$ and
+  the kernel parameters need tuning).
+
+SVMs are not probability estimators by default, so they fill a different slot
+than logistic regression. They are worth comparing when the task is about
+classification accuracy rather than calibrated probabilities, and when the
+feature space is high-dimensional enough that a linear boundary may already be
+effective.
+
+## What to report
+
+When students present an SVM workflow in `TEM 0052`, they should usually report:
+
+- the kernel choice and the reasoning behind it,
+- the $C$ value (and $\gamma$ for RBF) and how they were selected,
+- the preprocessing rule, especially feature scaling,
+- the evaluation rule and at least one comparison against a simpler baseline,
+- the number of support vectors as a diagnostic of how tight the margin is,
+- and one short explanation of whether the SVM improved on simpler alternatives
+  or whether a logistic regression baseline was already sufficient.

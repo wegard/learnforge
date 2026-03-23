@@ -53,7 +53,7 @@ restructuring rather than direct migration.
 
 | Topic | Reason | Planned target kind |
 | --- | --- | --- |
-| Support Vector Machines | Mentioned in course description but not represented as a clear reusable lecture object in the legacy repo | concept + exercise later |
+| ~~Support Vector Machines~~ | ~~Promoted as `support-vector-machines` concept + `svm-classification-lab` exercise + `tem0052-lecture-08` collection (draft)~~ | ~~done~~ |
 | Gradient Boosting / XGBoost framing | Legacy material hints at boosting but the new course needs a cleaner dedicated treatment | concept + exercise later |
 | Hierarchical clustering | New description calls for stronger unsupervised coverage than the legacy course appears to provide | concept |
 | Responsible ML | Fairness, privacy, transparency, and reproducibility should be new canonical content | concept + curated resources |
@@ -118,6 +118,9 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - Lecture collection: `tem0052-lecture-05`
 - Lecture collection: `tem0052-lecture-06`
 - Lecture collection: `tem0052-lecture-07`
+- Concept: `support-vector-machines`
+- Exercise: `svm-classification-lab`
+- Lecture collection: `tem0052-lecture-08`
 
 ### First concept candidates
 
@@ -153,7 +156,7 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 
 1. Extract 1 more reusable figure from the remaining legacy notebooks or slide decks,
    especially if the unsupervised block needs a better visual explanation.
-2. Draft the first fresh-authored concept from the redesign-only queue, likely
-   support vector machines, gradient boosting, or hierarchical clustering.
+2. Draft the next fresh-authored concept from the redesign-only queue, likely
+   gradient boosting or hierarchical clustering.
 3. Leave the neural-network bridge material in the inbox until the classical-ML core
    is more complete.

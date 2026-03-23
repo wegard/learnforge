@@ -1,0 +1,35 @@
+id: tem0052-lecture-08
+kind: collection
+collection_kind: lecture
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Lecture 8 - Support vector machines
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - linear-models
+  - model-selection
+tags:
+  - lecture
+  - svm
+  - classification
+outputs:
+  - html
+  - revealjs
+  - pdf
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - support-vector-machines
+  - svm-classification-lab

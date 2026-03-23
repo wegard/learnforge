@@ -1,0 +1,55 @@
+## Lab brief
+
+Use the Breast Cancer Wisconsin dataset to build a reproducible SVM
+classification workflow and compare it against a logistic regression baseline.
+The point of the lab is not to chase the best possible score.
+The point is to see how the kernel choice and the regularisation parameter $C$
+affect the decision boundary, and whether the added complexity of SVM improves
+on a simpler linear classifier.
+
+Write the exercise as a normal script, for example `svm_classification_lab.py`,
+plus a short results note.
+Keep all preprocessing inside the modelling pipeline so that nothing leaks
+across the train/test boundary.
+
+## Tasks
+
+1. Load the Breast Cancer Wisconsin dataset from
+   `sklearn.datasets.load_breast_cancer` and define the binary target.
+2. Create one deterministic, stratified train/test split and keep it fixed for
+   the full exercise.
+3. Build a preprocessing pipeline with `StandardScaler`. Feature scaling is
+   essential for SVM — the margin depends directly on feature magnitudes.
+4. Fit a logistic regression baseline inside the pipeline and report test
+   accuracy, precision, recall, and ROC-AUC.
+5. Fit a linear SVM (`SVC(kernel='linear')`) inside the same pipeline structure
+   and report the same four metrics.
+6. Fit an RBF SVM (`SVC(kernel='rbf')`) and tune $C$ and $\gamma$ with
+   `GridSearchCV` using a documented scoring rule. Report the best
+   hyperparameters and the same four test metrics.
+7. Compare all three models in one short results table and note whether the
+   differences look meaningful or within noise.
+8. For the linear SVM, report how many training points are support vectors
+   (use `.n_support_`). Explain briefly what a high or low support vector count
+   says about the margin.
+9. Write one short interpretation section covering:
+   - whether the kernel choice made a practical difference on this dataset,
+   - how $C$ tuning affected the result,
+   - whether the SVM improved meaningfully over logistic regression,
+   - and one change you would try next.
+
+## Starter outline
+
+```python
+from sklearn.datasets import load_breast_cancer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+```
+
+Keep the workflow deterministic.
+Use a fixed `random_state` anywhere randomness enters the workflow, and keep
+the scaler fit strictly inside the training pipeline.

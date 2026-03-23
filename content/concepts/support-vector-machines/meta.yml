@@ -1,0 +1,43 @@
+id: support-vector-machines
+kind: concept
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Support vector machines
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - linear-models
+  - model-selection
+tags:
+  - svm
+  - kernel
+  - margin
+  - regularization
+  - classification
+level: intermediate
+prerequisites:
+  - logistic-regression-classification
+related:
+  - logistic-regression-classification
+  - model-selection-cross-validation
+  - bias-variance-tradeoff
+  - penalized-linear-models
+  - decision-tree-learning
+  - svm-classification-lab
+outputs:
+  - html
+  - pdf
+  - revealjs
+  - handout
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []

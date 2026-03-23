@@ -1,0 +1,41 @@
+id: svm-classification-lab
+kind: exercise
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: SVM classification lab
+courses:
+  - tem0052
+topics:
+  - predictive-modelling
+  - classification
+  - linear-models
+  - model-selection
+tags:
+  - exercise
+  - scikit-learn
+  - svm
+  - kernel
+  - classification
+outputs:
+  - html
+  - pdf
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+exercise_type: coding
+difficulty: medium
+estimated_time_minutes: 60
+concepts:
+  - support-vector-machines
+  - logistic-regression-classification
+  - model-selection-cross-validation
+solution_storage: separate-file
+solution_visibility: teacher
