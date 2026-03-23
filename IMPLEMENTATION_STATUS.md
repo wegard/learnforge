@@ -50,6 +50,8 @@
 - BIK2550 Module 3 assembly completion: wired project exercises into `bik2550-m3d3`, added bidirectional `related:` links across all 4 Module 3 concepts
 - Phase 11 kickoff: `gra4150` migration inventory + canonical course shell — 8 lectures mapped, 8 cross-link candidates, 6 new concepts, 4 new exercises planned
 - Phase 11 parallel checkpoint: `gra4150` full "promote first" slice — 8 cross-linked concepts, 2 cross-linked exercises, 6 new concepts, 4 new exercises, 8 lecture collections, plan wiring
+- Representative targets expanded to 28, adding `gra4150`, `gra4150-lecture-03`, and `adaline-iris-classification`
+- Cross-course wiring: bidirectional `related:` links between `gra4150` concepts and `bik2550` neural network concepts/figures
 
 ## Non-Goals For This Run
 

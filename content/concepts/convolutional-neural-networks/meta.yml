@@ -23,6 +23,7 @@ prerequisites:
   - multi-layer-perceptron
 related:
   - ai-and-ml-introduction
+  - deep-learning-architectures-overview
 outputs:
   - html
   - pdf

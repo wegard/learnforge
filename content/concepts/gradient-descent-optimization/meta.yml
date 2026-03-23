@@ -24,6 +24,7 @@ related:
   - bias-variance-tradeoff
   - adaline-and-perceptron
   - multi-layer-perceptron
+  - gradient-descent-figure
 outputs:
   - html
   - pdf

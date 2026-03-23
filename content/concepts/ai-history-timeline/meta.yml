@@ -21,6 +21,7 @@ prerequisites:
   - what-is-ai-overview
 related:
   - generative-ai-introduction
+  - ai-and-ml-introduction
 outputs:
   - html
   - pdf

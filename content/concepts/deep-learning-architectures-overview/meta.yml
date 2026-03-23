@@ -21,7 +21,8 @@ tags:
 level: introductory
 prerequisites:
   - neural-networks-introduction
-related: []
+related:
+  - convolutional-neural-networks
 outputs:
   - html
   - pdf

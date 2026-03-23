@@ -124,3 +124,18 @@ targets:
     audience: student
     language: en
     format: html
+  - label: GRA4150 course page
+    id: gra4150
+    audience: student
+    language: en
+    format: html
+  - label: GRA4150 lecture page
+    id: gra4150-lecture-03
+    audience: student
+    language: en
+    format: html
+  - label: GRA4150 exercise page
+    id: adaline-iris-classification
+    audience: student
+    language: en
+    format: html

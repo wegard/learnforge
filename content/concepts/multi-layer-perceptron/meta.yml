@@ -26,6 +26,8 @@ prerequisites:
 related:
   - convolutional-neural-networks
   - ai-ethics-bias-explainability
+  - neural-networks-introduction
+  - activation-functions-figure
 outputs:
   - html
   - pdf

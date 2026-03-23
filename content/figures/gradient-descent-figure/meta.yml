@@ -8,6 +8,7 @@ title:
   nb: Gradientnedstigning
 concepts:
   - ml-model-evaluation-overview
+  - gradient-descent-optimization
 courses:
   - bik2550
 topics:

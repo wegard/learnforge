@@ -25,6 +25,7 @@ prerequisites:
 related:
   - multi-layer-perceptron
   - logistic-regression-classification
+  - neural-networks-introduction
 outputs:
   - html
   - pdf
