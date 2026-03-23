@@ -1,0 +1,35 @@
+id: gra4150-assignment-03
+kind: collection
+collection_kind: assignment
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 3 — Neural networks and AI ethics
+courses:
+  - gra4150
+topics:
+  - deep-learning
+  - neural-networks
+  - ai-fundamentals
+tags:
+  - assignment
+  - mlp
+  - cnn
+  - fairness
+  - pytorch
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - mlp-classification-lab
+  - ai-fairness-face-recognition
+  - cnn-image-classification

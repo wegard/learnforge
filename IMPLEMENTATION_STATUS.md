@@ -54,6 +54,7 @@
 - Cross-course wiring: bidirectional `related:` links between `gra4150` concepts and `bik2550` neural network concepts/figures
 - GRA4150 Exercise 1 decomposition: promoted `sklearn-logistic-regression-lab` and `wine-regularization-tuning` into `gra4150-lecture-05`
 - TEM0052 assignment collections: 3 assignments bundling 6 exercises into topical pairs (regression/preprocessing, classification/model selection, ensembles/unsupervised)
+- GRA4150 assignment collections: 3 assignments bundling 8 exercises (preprocessing/regression, classification methods, neural networks/AI ethics)
 
 ## Non-Goals For This Run
 

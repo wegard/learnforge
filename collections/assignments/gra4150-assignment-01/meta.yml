@@ -1,0 +1,34 @@
+id: gra4150-assignment-01
+kind: collection
+collection_kind: assignment
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: Assignment 1 — Preprocessing and regression
+courses:
+  - gra4150
+topics:
+  - machine-learning
+  - preprocessing
+  - regression
+  - regularization
+tags:
+  - assignment
+  - preprocessing
+  - regression
+  - scikit-learn
+outputs:
+  - html
+  - exercise-sheet
+owners:
+  - vegard
+updated: 2026-03-23
+translation_status:
+  en: draft
+ai:
+  generated_fields: []
+items:
+  - titanic-data-preprocessing
+  - house-prices-regression
