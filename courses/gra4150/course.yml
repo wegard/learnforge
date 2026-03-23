@@ -1,0 +1,16 @@
+id: gra4150
+status: draft
+visibility: student
+languages:
+  - en
+title:
+  en: GRA 4150 - Machine Learning for Finance
+summary:
+  en: >-
+    A migration-stage course shell for Machine Learning for Finance,
+    a graduate-level applied ML course covering AI foundations,
+    regression, classification, neural networks, and CNNs
+    with Python and scikit-learn/PyTorch.
+owners:
+  - vegard
+updated: 2026-03-23

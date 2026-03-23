@@ -1,0 +1,61 @@
+# Course Overview
+
+GRA 4150 Machine Learning for Finance is a graduate-level course that builds
+applied machine learning skills from first principles through deep learning.
+The course emphasizes both mathematical understanding and practical
+implementation in Python, with applications drawn from finance and business.
+
+This course is being migrated into LearnForge as an English-only course. Legacy
+LaTeX slides and Jupyter notebooks from the `course-inbox/GRA4150_2024/` folder
+serve as reference material; canonical content lives in LearnForge objects.
+
+## Knowledge Goals
+
+- Understand the three machine learning paradigms: supervised, unsupervised, and reinforcement learning
+- Explain linear regression, gradient descent, and regularization techniques
+- Describe the progression from linear classifiers (Adaline, logistic regression) to multi-layer perceptrons
+- Understand the bias-variance tradeoff and its implications for model selection
+- Explain convolutional neural network architectures and their components
+- Identify sources of bias in AI systems and articulate fairness-accuracy tradeoffs
+
+## Skills Goals
+
+- Implement regression and classification models using scikit-learn
+- Build and train neural networks using PyTorch
+- Preprocess data with appropriate scaling, encoding, and splitting strategies
+- Evaluate models using cross-validation, learning curves, and appropriate metrics
+- Analyze fairness properties of classification systems
+
+## General Competence
+
+- Critically assess when machine learning is appropriate for a given problem
+- Communicate model choices and limitations to non-technical stakeholders
+- Apply ethical reasoning to AI system design and deployment
+
+## Planned Content Areas
+
+- AI history, applications, and paradigm overview
+- Data preprocessing and feature engineering
+- Linear regression, polynomial regression, and regularization
+- Gradient descent optimization
+- Adaline, perceptron, and threshold classifiers
+- Logistic regression and multi-class classification
+- Multi-layer perceptrons and backpropagation
+- AI ethics, bias, fairness, and explainability (SHAP, XAI)
+- Convolutional neural networks and image classification
+
+## Teaching Format
+
+Weekly lectures combining theory presentation with live coding demonstrations.
+Two structured exercise sets cover mathematical foundations and practical
+implementation. A three-hour digital exam assesses both conceptual understanding
+and applied problem-solving.
+
+## Tools and Workflow
+
+- Python is the primary programming language
+- NumPy, Pandas, and Matplotlib for data handling and visualization
+- scikit-learn for classical ML models and preprocessing
+- PyTorch for neural network implementation
+- Course assets are being migrated from legacy LaTeX/Jupyter notebooks into
+  LearnForge's reusable object model
