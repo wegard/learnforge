@@ -1,8 +1,7 @@
 # Course Overview
 
-`TEM 0052 Predictive Modelling with Machine Learning` is being rebuilt in LearnForge as
-an English-first course with reusable concepts, figures, exercises, and lecture
-collections.
+`TEM 0052 Predictive Modelling with Machine Learning` is an English-first course in
+LearnForge with reusable concepts, figures, exercises, and lecture collections.
 
 The course focuses on traditional machine-learning methods and the statistical
 principles behind predictive modelling before introducing a short conceptual bridge to
@@ -68,5 +67,4 @@ results.
 - Generative AI tools may be used as workflow assistants, but students remain fully
   responsible for the statistical quality, correctness, and ethical compliance of
   their work.
-- Course assets are being migrated from legacy notebook and slide material into
-  LearnForge's object model.
+- Course assets are maintained as reusable objects in LearnForge's object model.

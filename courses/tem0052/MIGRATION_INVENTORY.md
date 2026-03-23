@@ -158,11 +158,13 @@ Build the first LearnForge checkpoint for `tem0052` around the classical-ML core
 - `tem0052-lecture-06` unsupervised learning with PCA + k-means
 - `tem0052-lecture-07` ensemble methods + random forests
 
-## Next Migration Actions
+## Migration Complete
 
-1. Extract 1 more reusable figure from the remaining legacy notebooks or slide decks,
-   especially if the unsupervised block needs a better visual explanation.
-2. Draft the next fresh-authored content from the redesign-only queue: responsible
-   ML, semester project brief, or AI workflow guidance.
-3. Leave the neural-network bridge material in the inbox until the classical-ML core
-   is more complete.
+The `tem0052` ML content migration is finalized. All 16 concepts, 9 exercises,
+10 lecture collections, and 3 assignment collections are implemented and wired
+into the course plan. The course status is `approved`.
+
+Three Rewrite Fresh topics remain as future enhancements (responsible ML,
+semester project brief, AI workflow guidance) and the neural-network bridge
+material stays in the inbox. These are not blockers for the current course
+surface.
