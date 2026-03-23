@@ -1,5 +1,5 @@
 id: ec202
-status: approved
+status: archived
 visibility: student
 languages:
   - en
@@ -8,8 +8,8 @@ title:
   en: EC202 - Applied Econometrics
   nb: EC202 - Anvendt okonometri
 summary:
-  en: A sample course landing page assembled from reusable teaching objects.
-  nb: En eksempelbasert kursside satt sammen av gjenbrukbare undervisningsobjekter.
+  en: A sample course used as a test fixture. Not an active teaching course.
+  nb: Et eksempelkurs brukt som testgrunnlag. Ikke et aktivt undervisningskurs.
 owners:
   - vegard
-updated: 2026-03-18
+updated: 2026-03-23

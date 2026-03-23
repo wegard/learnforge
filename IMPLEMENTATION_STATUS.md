@@ -110,7 +110,7 @@ The project supports:
 
 | Course | Repo status | Migration state | Canonical coverage snapshot | Notes |
 |---|---|---|---|---|
-| `ec202` | `approved` | Legacy/sample baseline | 1 concept, 2 exercises, 1 figure, 4 resources, 1 assignment, 1 lecture | Stable small reference course; not the main migration focus right now |
+| `ec202` | `archived` | Test fixture only | 1 concept, 2 exercises, 1 figure, 4 resources, 1 assignment, 1 lecture | Sample course used as a test fixture; not an active teaching course |
 | `tem0052` | `approved` | Migration complete | 16 concepts, 9 exercises, 2 figures, 3 assignments, 10 lectures | Complete ML course covering regression through gradient boosting and unsupervised learning |
 | `edi3400` | `approved` | Substantial migration | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage in the repo; operationally strong even if still evolving |
 | `gra4164` | `approved` | Migration complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Complete NLP course covering text representation through transformers and prompt engineering |
