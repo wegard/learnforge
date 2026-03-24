@@ -300,8 +300,10 @@ def test_assignment_student_sheet_matches_snapshot() -> None:
         root=REPO_ROOT,
     )
     snapshot = (
-        REPO_ROOT / "tests" / "snapshots" / "assignment-01.student.en.exercise-sheet.qmd"
-    ).read_text(encoding="utf-8").rstrip()
+        (REPO_ROOT / "tests" / "snapshots" / "assignment-01.student.en.exercise-sheet.qmd")
+        .read_text(encoding="utf-8")
+        .rstrip()
+    )
 
     assert assignment_snapshot_fragment(assembly.markdown) == snapshot
 
@@ -359,8 +361,10 @@ def test_topic_listing_matches_snapshot() -> None:
         root=REPO_ROOT,
     )
     snapshot = (
-        REPO_ROOT / "tests" / "snapshots" / "topic-causal-inference.student.en.html.qmd"
-    ).read_text(encoding="utf-8").rstrip()
+        (REPO_ROOT / "tests" / "snapshots" / "topic-causal-inference.student.en.html.qmd")
+        .read_text(encoding="utf-8")
+        .rstrip()
+    )
 
     assert topic_snapshot_fragment(assembly.markdown) == snapshot
 
@@ -783,8 +787,10 @@ def test_student_figure_page_matches_snapshot() -> None:
         root=REPO_ROOT,
     )
     snapshot = (
-        REPO_ROOT / "tests" / "snapshots" / "iv-dag-figure.student.en.html.qmd"
-    ).read_text(encoding="utf-8").rstrip()
+        (REPO_ROOT / "tests" / "snapshots" / "iv-dag-figure.student.en.html.qmd")
+        .read_text(encoding="utf-8")
+        .rstrip()
+    )
 
     assert figure_snapshot_fragment(assembly.markdown) == snapshot
 
@@ -899,8 +905,8 @@ def test_student_shell_references_external_assets_on_nested_pages() -> None:
     assert 'class="lf-shell-toggle"' in assembly.markdown
     assert 'id="lf-shell-nav"' in assembly.markdown
     assert 'id="lf-shell-search"' in assembly.markdown
-    assert 'class="lf-view-switch"' in assembly.markdown
-    assert "teacher/en/html/course/ec202/ec202.html" in assembly.markdown
+    assert 'class="lf-view-switch"' not in assembly.markdown
+    assert "teacher/en/html/course/ec202/ec202.html" not in assembly.markdown
     assert 'data-empty-results-message="No matching pages."' in assembly.markdown
     assert (
         'data-search-unavailable-message="Search index is not available for this page yet."'

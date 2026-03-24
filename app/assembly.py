@@ -261,7 +261,7 @@ class AssemblyBuilder:
             for course in sorted(self.index.courses.values(), key=lambda item: item.model.id)
             if not self._exclude_from_audience(course.model.visibility)
             and self.language in course.model.languages
-            and course.model.status in {"approved", "published"}
+            and course.model.status in {"approved", "published", "archived"}
         ]
         topics = collect_topics(
             [
@@ -1768,7 +1768,16 @@ class AssemblyBuilder:
 
         if target.kind == "course":
             course_record = self.index.courses.get(target.identifier)
-            if course_record is None or language not in course_record.model.languages:
+            if course_record is None:
+                return None
+            if self.audience == "student":
+                if not (
+                    course_record.model.visibility not in {"private", "teacher"}
+                    and course_record.model.status in {"approved", "published"}
+                    and language in course_record.model.languages
+                ):
+                    return None
+            elif language not in course_record.model.languages:
                 return None
             return self._page_href_for_variant(
                 current_output=current_output,

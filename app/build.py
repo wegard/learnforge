@@ -752,7 +752,7 @@ def student_visible_courses(
         record
         for record in sorted(index.courses.values(), key=lambda item: item.model.id)
         if record.model.visibility not in {"private", "teacher"}
-        and record.model.status in {"approved", "published"}
+        and record.model.status in {"approved", "published", "archived"}
         and language in record.model.languages
     ]
 

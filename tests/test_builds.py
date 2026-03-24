@@ -77,8 +77,8 @@ def test_course_page_build_contains_generated_listings() -> None:
     assert "../../listing/topic-causal-inference/topic-causal-inference.html" in html
     assert "../../listing/resources-ec202/resources-ec202.html" in html
     assert "../../exercise/ex-iv-concept-check/ex-iv-concept-check.html" in html
-    assert 'class="lf-view-switch"' in html
-    assert "../../../../../teacher/en/html/course/ec202/ec202.html" in html
+    assert 'class="lf-view-switch"' not in html
+    assert "../../../../../teacher/en/html/course/ec202/ec202.html" not in html
     assert "topic-causal-inference" in build_manifest["referenced_listing_targets"]
     assert "resources-ec202" in build_manifest["referenced_listing_targets"]
     assert "../../assets/learnforge-shell.css" in html

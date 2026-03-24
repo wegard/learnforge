@@ -27,7 +27,7 @@ def test_validation_report_json_includes_build_summary(tmp_path: Path) -> None:
     assert "resource_workflow" in payload
     assert payload["resource_workflow"]["status_counts"]["candidate"] >= 1
     assert build_summary["status"] == "skipped"
-    assert build_summary["target_count"] == 25
+    assert build_summary["target_count"] == 28
 
 
 def test_validator_reports_missing_reference(tmp_path: Path) -> None:
@@ -143,7 +143,7 @@ def test_load_representative_targets_returns_expected_registry() -> None:
     assert ("resource-inbox", "teacher", "en", "html") in target_keys
     assert ("lecture-04", "teacher", "nb", "revealjs") in target_keys
     assert ("bik2550-project-brief", "teacher", "nb", "html") in target_keys
-    assert ("confusion-matrix-figure", "teacher", "nb", "html") in target_keys
+    assert ("confusion-matrix-figure", "student", "nb", "html") in target_keys
     assert ("assignment-01", "student", "en", "exercise-sheet") in target_keys
     assert ("assignment-01", "teacher", "en", "exercise-sheet") in target_keys
 
@@ -230,7 +230,7 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
         for target in report.build_summary["targets"]
         if target["target_id"] == "confusion-matrix-figure"
         and target["format"] == "html"
-        and target["audience"] == "teacher"
+        and target["audience"] == "student"
     )
 
     assert concept_target["integrity"]["status"] == "passed"
@@ -247,9 +247,9 @@ def test_full_validation_build_summary_tracks_representative_outputs() -> None:
     assert resource_page_target["status"] == "passed"
     assert resource_inbox_target["status"] == "passed"
     assert bik2550_assignment_target["status"] == "passed"
-    assert bik2550_assignment_target["leakage_status"] == "clean"
+    assert bik2550_assignment_target["leakage_status"] == "not_applicable"
     assert bik2550_figure_target["status"] == "passed"
-    assert bik2550_figure_target["leakage_status"] == "not_applicable"
+    assert bik2550_figure_target["leakage_status"] == "clean"
     assert assignment_html_target["leakage_status"] == "clean"
     assert Path(REPO_ROOT / concept_target["output_path"]).exists()
 
