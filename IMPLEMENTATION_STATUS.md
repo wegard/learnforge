@@ -19,9 +19,7 @@ This file should stay shorter than a full development log. It is meant to answer
 
 ## Current Checkpoint
 
-LearnForge is now a working internal teaching publication system in an active migration and consolidation phase.
-
-The project has moved beyond bootstrap/prototype status. The core architecture is implemented and exercised across multiple real courses.
+LearnForge is a working internal teaching publication system with four approved courses in active use. The core architecture is implemented, validated, and exercised across real teaching content.
 
 ### Implemented core
 
@@ -82,17 +80,16 @@ The following are treated as locked unless the roadmap is explicitly revised:
 
 ### Content and migration
 
-The system now contains real migration progress rather than only sample data.
+Four courses have completed migration and are approved:
 
-Notable status:
+- `edi3400` — 16 concepts, 14 exercises, 16 lectures, 4 assignments (broadest coverage)
+- `gra4164` — 16 concepts, 6 exercises, 11 lectures, 4 assignments (NLP)
+- `tem0052` — 16 concepts, 9 exercises, 10 lectures, 3 assignments (ML)
+- `gra4150` — 14 concepts, 8 exercises, 9 lectures, 3 assignments (applied ML)
 
-- `tem0052` has a substantial promoted canonical slice, including concepts, exercises, lectures, and assignment collections
-- `edi3400` has a promoted course shell and substantial migrated content, including database material and assignment structure
-- `gra4164` has a broad "promote first" slice in place
-- `tem00uu` has a broad Part A migration slice in place
-- `gra4150` now has a canonical course shell, lecture collections, exercises, and assignment collections
-- cross-course object reuse is already happening across migrated material
-- `bik2550` has meaningful figure and assessment-related canonical content wired into the system
+Cross-course object reuse is working at scale — concepts like `logistic-regression-classification` are shared across tem0052, gra4164, and gra4150.
+
+Two courses remain in draft: `tem00uu` (Part A complete) and `bik2550` (selective promotion). `bik2551` is approved as a structured shell. `ec202` is archived as a test fixture.
 
 ### Publishing and quality gates
 
@@ -112,7 +109,7 @@ The project supports:
 |---|---|---|---|---|
 | `ec202` | `archived` | Test fixture only | 1 concept, 2 exercises, 1 figure, 4 resources, 1 assignment, 1 lecture | Sample course used as a test fixture; not an active teaching course |
 | `tem0052` | `approved` | Migration complete | 16 concepts, 9 exercises, 2 figures, 3 assignments, 10 lectures | Complete ML course covering regression through gradient boosting and unsupervised learning |
-| `edi3400` | `approved` | Substantial migration | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage in the repo; operationally strong even if still evolving |
+| `edi3400` | `approved` | Migration complete | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage; complete Python programming course from basics through SQL |
 | `gra4164` | `approved` | Migration complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Complete NLP course covering text representation through transformers and prompt engineering |
 | `tem00uu` | `draft` | Broad Part A migration complete | 15 concepts, 7 exercises, 8 lectures | Solid canonical slice, but still explicitly partial in scope |
 | `gra4150` | `approved` | Migration complete | 14 concepts, 8 exercises, 3 assignments, 9 lectures | Complete applied ML course covering AI foundations through CNNs and ethics |
@@ -121,35 +118,26 @@ The project supports:
 
 ### Migration-state legend
 
-- **Legacy/sample baseline** — small stable course surface, mainly useful as a reference or seed
+- **Migration complete** — all planned content is implemented, tested, and wired into the course plan
 - **Selective canonical promotion** — some real canonical content exists, but coverage is uneven
-- **Major first canonical slice complete** — the course now has a meaningful reusable core in place
-- **Substantial partial migration** — a large share of the course has been promoted, but the course is not yet fully consolidated
-- **Broad \"promote first\" slice complete** — the first migration pass is broad and structurally strong, though later cleanup/polish remains
 - **Broad Part A migration complete** — a major subsection is canonical, but the whole course is not yet done
+- **Early structured course shell** — course structure exists with selective content, not yet a full migration
+- **Test fixture only** — sample course used for test infrastructure, not active teaching content
 
 ## Active Constraints and Risks
 
-The project is healthy, but not fully consolidated.
+The project is healthy. Four courses are approved and the migration pipeline is proven.
 
-### Main constraints
+### Remaining constraints
 
-- documentation has historically lagged behind implementation
-- migration progress is uneven across courses
-- some status/history information had grown too verbose and hard to scan
 - Quarto-heavy workflows still prefer sequential builds because of shared staging behavior
 - broad all-at-once test/build sweeps are less trustworthy than focused validation around the edited slice
+- 3 broken internal links remain in the `confusion-matrix-figure` build output (topic listing targets that do not exist yet)
+- two courses (`tem00uu`, `bik2550`) are still in draft with partial migration
 
 ### Practical interpretation
 
-LearnForge is not blocked at the architecture level.
-
-The main challenge now is operational and editorial:
-
-- consolidate docs
-- reduce drift between intent and implementation
-- complete or tighten migration slices
-- improve confidence and ergonomics around ongoing course promotion
+LearnForge is not blocked at the architecture or content level. The main remaining work is completing the two draft courses and expanding to Norwegian translations where needed.
 
 ## Deferred / Not In Scope Right Now
 
@@ -167,66 +155,40 @@ These remain intentionally deferred unless the roadmap changes:
 
 ## What Is Actually Strong Right Now
 
-The strongest parts of the project are:
+1. **Four approved courses with real teaching content**
+   - edi3400, gra4164, tem0052, gra4150 are all migrated, tested, and approved
+   - cross-course object reuse is proven and working at scale
 
-1. **Architecture coherence**
-   - the stack fits the problem well
-   - plain text + git + Quarto + thin Python control plane is still the right call
-
-2. **Content model**
-   - reusable learning objects are doing real work across courses
-   - the system is no longer course-folder glue pretending to be reusable
+2. **Architecture coherence**
+   - plain text + git + Quarto + thin Python control plane remains the right call
+   - the content model handles real courses, not just samples
 
 3. **Build discipline**
-   - validation and representative targets are in place
-   - publish bundles, manifests, and leakage checks make the system auditable
+   - 28/29 representative targets pass
+   - validation, publish bundles, manifests, and leakage checks are in place
 
-4. **Migration strategy**
-   - `course-inbox/` creates a clean boundary between staging and canonical content
-   - promotion into reusable objects is happening in a structured way
+4. **Migration pipeline**
+   - `course-inbox/` staging, per-course `MIGRATION_INVENTORY.md` tracking, and structured promotion are proven through repeated use
 
 ## What Needs The Most Attention Next
 
-The next high-value work is consolidation rather than foundational engineering.
-
 Priority order:
 
-1. **Documentation hygiene**
-   - keep `README.md`, `IMPLEMENTATION_STATUS.md`, and `ROADMAP.md` in distinct roles
-   - avoid stale summaries that undersell or misdescribe the real system
+1. **Complete remaining draft courses**
+   - `tem00uu` — Part A is done, assess Part B scope and promote or approve
+   - `bik2550` — selective promotion is uneven, Module 2 is out of scope (guest lecturers); review checklist and push toward approved
 
-2. **Migration clarity**
-   - make it easier to see which courses are:
-     - staged
-     - partially promoted
-     - substantially migrated
-     - effectively reference-quality
+2. **Fix remaining validation errors**
+   - 3 broken internal links in `confusion-matrix-figure` (topic listing targets)
+   - 1 remaining failed representative target (29th)
 
-3. **Reference-course quality**
-   - at least one course should become clearly polished end-to-end
-   - that matters more than many half-finished migration slices
+3. **Norwegian translations**
+   - `edi3400` has the most translation warnings (31 objects missing `nb` variants)
+   - translation batching strategy exists in the edi3400 migration inventory
 
 4. **Build/test confidence**
-   - continue tightening deterministic representative checks around the real workflows you use most
-
-## Recent Checkpoint Highlights
-
-Recent work worth preserving at the summary level:
-
-- student-only publish bundle and deployment path established
-- resource curation workflow implemented with explicit approval states
-- D3 figure path added with vendored asset and static fallback discipline
-- multiple courses migrated into canonical LearnForge structures
-- cross-course object reuse established
-- `gra4150` received a major promotion slice, including assignment collections
-- PDF default standardized on `tectonic` and verified with a representative build
+   - continue tightening representative checks around real workflows
 
 ## Recommended Next Step
 
-Immediate next step: continue documentation consolidation and then tighten migration visibility.
-
-A good follow-up would be one of:
-
-- add a short per-course migration status table somewhere canonical
-- define what qualifies a course as "migrated" vs "partial" vs "staged"
-- choose one course to finish as the polished reference implementation
+Push `tem00uu` or `bik2550` toward approved, or begin the `edi3400` Norwegian translation batch.
