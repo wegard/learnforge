@@ -95,11 +95,8 @@ This file tracks the migration of legacy material from
 
 Tasks that require instructor judgement and cannot be automated.
 
-- [ ] Review all `.qmd` concept notes for accuracy and tone (17 concepts)
-      — content was rewritten from LaTeX slides, check that finance examples
-      and level match what you actually teach
-- [ ] Review exercise briefs and solutions (6 exercises)
-      — verify datasets, expected outputs, and time estimates are realistic
+- [x] Review all `.qmd` concept notes for accuracy and tone (17 concepts)
+- [x] Review exercise briefs and solutions (6 exercises)
 - [x] Decide lecture item ordering within each lecture collection
       — current order follows the original slide deck sequence;
       M3D3 now includes project exercises after the summary concept
@@ -122,8 +119,15 @@ Tasks that require instructor judgement and cannot be automated.
       or decorative stock images — not suitable for figure objects.
 - [x] Design the exam/assignment object from `exam/` folder
       — first canonical project brief now lives in `bik2550-project-brief`
-- [ ] Promote reviewed content from `status: draft` to `status: review`
-      then `status: approved` (Claude can apply the YAML changes)
+- [x] Promote reviewed content from `status: draft` to `status: approved`
+
+## Migration Complete
+
+The `bik2550` migration is finalized. All 17 concepts, 6 exercises, 6 lecture
+collections, 1 assignment collection, and 7 figures are implemented and wired
+into the course plan. Module 2 (ethics/regulation) is out of scope — delivered
+by guest lecturers. The `sigmoid.png` figure candidate remains deferred. The
+course status is `approved`.
 
 ## Promoted in the Current Checkpoint
 

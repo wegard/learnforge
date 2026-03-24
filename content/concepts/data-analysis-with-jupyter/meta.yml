@@ -1,6 +1,6 @@
 id: data-analysis-with-jupyter
 kind: concept
-status: draft
+status: approved
 visibility: student
 languages:
   - nb
@@ -31,6 +31,6 @@ owners:
   - vegard
 updated: 2026-03-19
 translation_status:
-  nb: draft
+  nb: approved
 ai:
   generated_fields: []

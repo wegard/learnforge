@@ -1,5 +1,5 @@
 id: bik2550
-status: draft
+status: approved
 visibility: student
 languages:
   - nb
@@ -9,4 +9,4 @@ summary:
   nb: Executive-kurs om kunstig intelligens i finansnæringen ved BI. Dekker grunnleggende AI-teknologi, maskinlæring, nevrale nettverk, NLP og multimodalitet med fokus på anvendelser i finans.
 owners:
   - vegard
-updated: 2026-03-19
+updated: 2026-03-24

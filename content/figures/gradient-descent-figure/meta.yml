@@ -1,6 +1,6 @@
 id: gradient-descent-figure
 kind: figure
-status: draft
+status: approved
 visibility: student
 languages:
   - nb
@@ -27,7 +27,7 @@ owners:
   - vegard
 updated: 2026-03-21
 translation_status:
-  nb: draft
+  nb: approved
 ai:
   generated_fields: []
 caption:
