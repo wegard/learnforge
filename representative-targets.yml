@@ -19,11 +19,6 @@ targets:
     audience: student
     language: en
     format: html
-  - label: Student resource listing
-    id: resources-ec202
-    audience: student
-    language: en
-    format: html
   - label: Student approved resource page
     id: angrist-podcast-iv
     audience: student
@@ -96,7 +91,7 @@ targets:
     format: html
   - label: BIK2550 figure preview
     id: confusion-matrix-figure
-    audience: teacher
+    audience: student
     language: nb
     format: html
   - label: GRA4164 lecture page

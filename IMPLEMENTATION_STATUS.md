@@ -132,12 +132,11 @@ The project is healthy. Four courses are approved and the migration pipeline is 
 
 - Quarto-heavy workflows still prefer sequential builds because of shared staging behavior
 - broad all-at-once test/build sweeps are less trustworthy than focused validation around the edited slice
-- 3 broken internal links remain in the `confusion-matrix-figure` build output (topic listing targets that do not exist yet)
-- two courses (`tem00uu`, `bik2550`) are still in draft with partial migration
+- teacher-audience figure builds generate topic listing links that may not exist as built artifacts (known limitation)
 
 ### Practical interpretation
 
-LearnForge is not blocked at the architecture or content level. The main remaining work is completing the two draft courses and expanding to Norwegian translations where needed.
+LearnForge is not blocked at the architecture or content level. All active courses are approved. The main remaining work is Norwegian translations and ongoing content refinement.
 
 ## Deferred / Not In Scope Right Now
 
@@ -174,21 +173,19 @@ These remain intentionally deferred unless the roadmap changes:
 
 Priority order:
 
-1. **Complete remaining draft courses**
-   - `tem00uu` — Part A is done, assess Part B scope and promote or approve
-   - `bik2550` — selective promotion is uneven, Module 2 is out of scope (guest lecturers); review checklist and push toward approved
-
-2. **Fix remaining validation errors**
-   - 3 broken internal links in `confusion-matrix-figure` (topic listing targets)
-   - 1 remaining failed representative target (29th)
-
-3. **Norwegian translations**
+1. **Norwegian translations**
    - `edi3400` has the most translation warnings (31 objects missing `nb` variants)
    - translation batching strategy exists in the edi3400 migration inventory
 
-4. **Build/test confidence**
+2. **Content refinement**
+   - `tem0052` has 3 deferred course-framing topics (responsible ML, semester project brief, AI workflow guidance)
+   - `bik2550` has 1 deferred figure candidate (`sigmoid.png`)
+   - review and refine existing content based on teaching experience
+
+3. **Build/test confidence**
    - continue tightening representative checks around real workflows
+   - teacher-audience topic listing links are a known limitation
 
 ## Recommended Next Step
 
-Push `tem00uu` or `bik2550` toward approved, or begin the `edi3400` Norwegian translation batch.
+Begin Norwegian translation batches for `edi3400`, or refine content based on teaching feedback.
