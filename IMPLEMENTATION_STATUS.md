@@ -111,7 +111,7 @@ The project supports:
 | `tem0052` | `approved` | Migration complete | 16 concepts, 9 exercises, 2 figures, 3 assignments, 10 lectures | Complete ML course covering regression through gradient boosting and unsupervised learning |
 | `edi3400` | `approved` | Migration complete | 16 concepts, 14 exercises, 4 assignments, 16 lectures | Broadest course-level coverage; complete Python programming course from basics through SQL |
 | `gra4164` | `approved` | Migration complete | 16 concepts, 6 exercises, 4 assignments, 11 lectures | Complete NLP course covering text representation through transformers and prompt engineering |
-| `tem00uu` | `draft` | Broad Part A migration complete | 15 concepts, 7 exercises, 8 lectures | Solid canonical slice, but still explicitly partial in scope |
+| `tem00uu` | `archived` | Broad Part A migration complete | 15 concepts, 7 exercises, 8 lectures | Experimental course, not in active development |
 | `gra4150` | `approved` | Migration complete | 14 concepts, 8 exercises, 3 assignments, 9 lectures | Complete applied ML course covering AI foundations through CNNs and ethics |
 | `bik2550` | `approved` | Migration complete | 17 concepts, 6 exercises, 7 figures, 1 assignment, 6 lectures | Complete executive AI-in-finance course covering Modules 1 and 3; Module 2 out of scope (guest lecturers) |
 | `bik2551` | `approved` | Early structured course shell + selective content | 11 concepts, 6 exercises, 2 resources, 1 assignment, 4 lectures | Has a usable structure, but not yet presented as a major migration focus |

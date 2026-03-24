@@ -1,12 +1,12 @@
 id: tem00uu
-status: draft
+status: archived
 visibility: student
 languages:
   - en
 title:
   en: TEM 00UU - Foundations of Cryptocurrency and Blockchain
 summary:
-  en: A draft LearnForge course shell for the future Foundations of Cryptocurrency and Blockchain migration.
+  en: Experimental course with partial migration (Part A). Not in active development.
 owners:
   - vegard
-updated: 2026-03-19
+updated: 2026-03-24
