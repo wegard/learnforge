@@ -26,8 +26,9 @@ dev = [
 [project.scripts]
 teach = "app.cli:app"
 
-[tool.setuptools]
-packages = ["app"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"
