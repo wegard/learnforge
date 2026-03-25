@@ -17,7 +17,7 @@ class LearnForgeApp(App):
     BINDINGS = [
         ("q", "quit", "Quit"),
         ("question_mark", "help", "Help"),
-        ("l", "toggle_language", "Language"),
+        ("L", "toggle_language", "Language"),
     ]
 
     def __init__(self, *, default_language: str = "en") -> None:
@@ -41,8 +41,8 @@ class LearnForgeApp(App):
 
     def action_help(self) -> None:
         self.notify(
-            "q: quit  Esc: back  Enter: drill in  Tab: switch panel\n"
-            "e: edit note  m: edit meta  s: edit solution  l: language",
+            "hjkl: navigate  q: quit  Esc: back  Enter: drill in  Tab: switch panel\n"
+            "e: edit note  m: edit meta  s: edit solution  L: language",
             title="Keys",
         )
 

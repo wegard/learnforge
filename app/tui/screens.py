@@ -39,6 +39,10 @@ class DashboardScreen(Screen):
         Binding("enter", "select", "Drill in", show=True),
         Binding("escape", "app.quit", "Quit", priority=True),
         Binding("tab", "focus_next", "Switch panel"),
+        Binding("j", "cursor_down", "Down", show=False),
+        Binding("k", "cursor_up", "Up", show=False),
+        Binding("l", "select", "Drill in", show=False),
+        Binding("h", "app.quit", "Quit", show=False),
     ]
 
     def compose(self):
@@ -82,6 +86,21 @@ class DashboardScreen(Screen):
     def refresh_data(self) -> None:
         self._populate()
 
+    def action_select(self) -> None:
+        focused = self.focused
+        if isinstance(focused, ListView):
+            focused.action_select_cursor()
+
+    def action_cursor_down(self) -> None:
+        focused = self.focused
+        if isinstance(focused, ListView):
+            focused.action_cursor_down()
+
+    def action_cursor_up(self) -> None:
+        focused = self.focused
+        if isinstance(focused, ListView):
+            focused.action_cursor_up()
+
     def on_list_view_selected(self, event: ListView.Selected) -> None:
         item = event.item
         if isinstance(item, CourseListItem):
@@ -101,6 +120,10 @@ class CourseScreen(Screen):
         Binding("e", "edit_syllabus", "Edit syllabus"),
         Binding("escape", "pop", "Back", priority=True),
         Binding("tab", "focus_next", "Switch panel"),
+        Binding("j", "cursor_down", "Down", show=False),
+        Binding("k", "cursor_up", "Up", show=False),
+        Binding("l", "select", "Drill in", show=False),
+        Binding("h", "pop", "Back", show=False),
     ]
 
     def __init__(self, course_id: str) -> None:
@@ -162,6 +185,21 @@ class CourseScreen(Screen):
     def refresh_data(self) -> None:
         self._populate()
 
+    def action_select(self) -> None:
+        focused = self.focused
+        if isinstance(focused, ListView):
+            focused.action_select_cursor()
+
+    def action_cursor_down(self) -> None:
+        focused = self.focused
+        if isinstance(focused, ListView):
+            focused.action_cursor_down()
+
+    def action_cursor_up(self) -> None:
+        focused = self.focused
+        if isinstance(focused, ListView):
+            focused.action_cursor_up()
+
     def on_list_view_selected(self, event: ListView.Selected) -> None:
         item = event.item
         if isinstance(item, CollectionListItem):
@@ -186,6 +224,10 @@ class CollectionScreen(Screen):
         Binding("enter", "select_row", "Details", show=True),
         Binding("e", "edit_meta", "Edit meta.yml"),
         Binding("escape", "pop", "Back", priority=True),
+        Binding("j", "cursor_down", "Down", show=False),
+        Binding("k", "cursor_up", "Up", show=False),
+        Binding("l", "select_row", "Details", show=False),
+        Binding("h", "pop", "Back", show=False),
     ]
 
     def __init__(self, collection_id: str) -> None:
@@ -244,6 +286,12 @@ class CollectionScreen(Screen):
     def refresh_data(self) -> None:
         self._populate()
 
+    def action_cursor_down(self) -> None:
+        self.query_one("#items-table", DataTable).action_cursor_down()
+
+    def action_cursor_up(self) -> None:
+        self.query_one("#items-table", DataTable).action_cursor_up()
+
     def action_select_row(self) -> None:
         table = self.query_one("#items-table", DataTable)
         if table.row_count == 0:
@@ -267,10 +315,13 @@ class CollectionScreen(Screen):
 
 class ObjectDetailScreen(Screen):
     BINDINGS = [
-        Binding("e", "edit_note", "Edit note"),
-        Binding("m", "edit_meta", "Edit meta.yml"),
-        Binding("s", "edit_solution", "Edit solution"),
+        Binding("e", "edit_note", "Edit note", priority=True),
+        Binding("m", "edit_meta", "Edit meta.yml", priority=True),
+        Binding("s", "edit_solution", "Edit solution", priority=True),
         Binding("escape", "pop", "Back", priority=True),
+        Binding("j", "scroll_down", "Down", show=False, priority=True),
+        Binding("k", "scroll_up", "Up", show=False, priority=True),
+        Binding("h", "pop", "Back", show=False, priority=True),
     ]
 
     def __init__(self, object_id: str) -> None:
@@ -350,21 +401,26 @@ class ObjectDetailScreen(Screen):
             css_class = f"status-{m.status}" if label == "Status" else ""
             container.mount(Static(f"  {label + ':':<{max_label + 2}} {value}", classes=css_class))
 
-        # File listing
+        # File actions
         container.mount(Static(""))
-        container.mount(Static("  Files:", classes="panel-title"))
-        files = []
-        for file_lang in m.languages:
-            note = obj.note_path(file_lang)
-            if note.exists():
-                files.append(note.name)
-        files.append("meta.yml")
+        container.mount(Static("  Actions:", classes="panel-title"))
+        lang = self.app.resolve_language(m.languages)
+        note = obj.note_path(lang)
+        note_label = note.name if note.exists() else f"note.{lang}.qmd (missing)"
+        container.mount(Static(f"    [e]  Edit {note_label}"))
+        container.mount(Static("    [m]  Edit meta.yml"))
         if isinstance(m, Exercise):
-            for file_lang in m.languages:
-                sol = obj.solution_path(file_lang)
-                if sol.exists():
-                    files.append(sol.name)
-        container.mount(Static(f"    {' · '.join(files)}"))
+            sol = obj.solution_path(lang)
+            sol_label = sol.name if sol.exists() else f"solution.{lang}.qmd (missing)"
+            container.mount(Static(f"    [s]  Edit {sol_label}"))
+        if len(m.languages) > 1:
+            container.mount(Static(f"    [L]  Switch language (current: {lang})"))
+
+    def action_scroll_down(self) -> None:
+        self.query_one("#detail-body", VerticalScroll).scroll_down()
+
+    def action_scroll_up(self) -> None:
+        self.query_one("#detail-body", VerticalScroll).scroll_up()
 
     def refresh_data(self) -> None:
         self._populate()

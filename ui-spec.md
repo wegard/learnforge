@@ -259,20 +259,22 @@ An object needs attention if **any** of these conditions hold:
 | `q`     | Quit the application       |
 | `Esc`   | Go back one screen / quit on Dashboard |
 | `?`     | Show help overlay          |
-| `l`     | Toggle language (en ↔ nb)  |
+| `L`     | Toggle language (en ↔ nb)  |
+| `j`/`k` | Navigate down/up (vim-style) |
+| `h`/`l` | Go back / drill in (vim-style) |
 
 ### Dashboard Screen
 
 | Key     | Action                              |
 |---------|-------------------------------------|
-| `Enter` | Drill into selected course          |
+| `Enter`/`l` | Drill into selected course     |
 | `Tab`   | Switch focus: courses ↔ attention   |
 
 ### Course Screen
 
 | Key     | Action                              |
 |---------|-------------------------------------|
-| `Enter` | Drill into selected collection      |
+| `Enter`/`l` | Drill into selected collection |
 | `e`     | Edit course syllabus in nvim        |
 | `Tab`   | Switch focus: lectures ↔ assignments|
 
@@ -280,7 +282,7 @@ An object needs attention if **any** of these conditions hold:
 
 | Key     | Action                              |
 |---------|-------------------------------------|
-| `Enter` | Open object detail                  |
+| `Enter`/`l` | Open object detail             |
 | `e`     | Edit collection meta.yml in nvim    |
 
 ### Object Detail Screen
@@ -290,6 +292,7 @@ An object needs attention if **any** of these conditions hold:
 | `e`     | Edit note file in nvim              |
 | `m`     | Edit meta.yml in nvim               |
 | `s`     | Edit solution file (exercises only) |
+| `j`/`k` | Scroll content down/up             |
 
 ---
 
