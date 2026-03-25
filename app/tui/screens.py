@@ -37,7 +37,7 @@ def _styled_status(status: str) -> Text:
 class DashboardScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
-        Binding("escape", "quit", "Quit"),
+        Binding("escape", "app.quit", "Quit", priority=True),
         Binding("tab", "focus_next", "Switch panel"),
     ]
 
@@ -99,7 +99,7 @@ class CourseScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
         Binding("e", "edit_syllabus", "Edit syllabus"),
-        Binding("escape", "pop", "Back"),
+        Binding("escape", "pop", "Back", priority=True),
         Binding("tab", "focus_next", "Switch panel"),
     ]
 
@@ -185,7 +185,7 @@ class CollectionScreen(Screen):
     BINDINGS = [
         Binding("enter", "select_row", "Details", show=True),
         Binding("e", "edit_meta", "Edit meta.yml"),
-        Binding("escape", "pop", "Back"),
+        Binding("escape", "pop", "Back", priority=True),
     ]
 
     def __init__(self, collection_id: str) -> None:
@@ -270,7 +270,7 @@ class ObjectDetailScreen(Screen):
         Binding("e", "edit_note", "Edit note"),
         Binding("m", "edit_meta", "Edit meta.yml"),
         Binding("s", "edit_solution", "Edit solution"),
-        Binding("escape", "pop", "Back"),
+        Binding("escape", "pop", "Back", priority=True),
     ]
 
     def __init__(self, object_id: str) -> None:
