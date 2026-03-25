@@ -1,0 +1,90 @@
+/* LearnForge TUI */
+
+/* --- Layout --- */
+
+#dashboard-panels, #course-panels {
+    height: 1fr;
+}
+
+.panel {
+    width: 1fr;
+    border: solid $secondary;
+    margin: 0 1;
+    padding: 0 1;
+}
+
+.panel-title {
+    text-style: bold;
+    padding: 1 0 0 1;
+    color: $text;
+}
+
+#course-title, #collection-title, #object-title {
+    text-style: bold;
+    padding: 1 2;
+    background: $primary-background;
+    color: $text;
+    width: 100%;
+}
+
+/* --- Stats footer --- */
+
+#dashboard-footer-stats, #course-footer-stats, #collection-footer-stats {
+    dock: bottom;
+    height: 1;
+    padding: 0 1;
+    background: $surface;
+    color: $text-muted;
+}
+
+/* --- DataTable --- */
+
+#items-table {
+    height: 1fr;
+    margin: 0 1;
+}
+
+/* --- Object detail --- */
+
+#detail-body {
+    height: 1fr;
+    padding: 1 2;
+}
+
+/* --- Status colors --- */
+
+.status-approved, .status-published {
+    color: $success;
+}
+
+.status-draft {
+    color: $warning;
+}
+
+.status-review {
+    color: #5599ff;
+}
+
+.status-candidate, .status-reviewed {
+    color: $warning;
+}
+
+.status-archived {
+    color: $text-disabled;
+}
+
+/* --- Attention --- */
+
+.attention-reason {
+    color: $text-muted;
+}
+
+/* --- ListView --- */
+
+ListView {
+    height: 1fr;
+}
+
+ListView > ListItem {
+    padding: 0;
+}

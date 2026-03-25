@@ -31,9 +31,7 @@ def _parse_iso_date(value: str | None, *, option_name: str) -> date | None:
     try:
         return date.fromisoformat(value)
     except ValueError as exc:
-        raise typer.BadParameter(
-            f"{option_name} must be an ISO date like 2026-03-18"
-        ) from exc
+        raise typer.BadParameter(f"{option_name} must be an ISO date like 2026-03-18") from exc
 
 
 @app.command()
@@ -90,9 +88,7 @@ def validate(
         if report.search_index_path:
             typer.echo(f"Search index: {report.search_index_path}")
         for issue in report.issues:
-            typer.echo(
-                f"[{issue.severity}:{issue.code}] {issue.path}: {issue.message}"
-            )
+            typer.echo(f"[{issue.severity}:{issue.code}] {issue.path}: {issue.message}")
     raise typer.Exit(code=0 if report.ok else 1)
 
 
@@ -211,6 +207,18 @@ def open(
 
 
 @app.command()
+def tui(
+    lang: str = typer.Option("en", "--lang", case_sensitive=False),
+) -> None:
+    """Launch the interactive dashboard."""
+    if lang not in LANGUAGES:
+        raise typer.BadParameter(f"lang must be one of {LANGUAGES}")
+    from app.tui import launch
+
+    launch(default_language=lang)
+
+
+@app.command()
 def search(query: str = typer.Argument(..., help="Free-text query.")) -> None:
     results, index_path = search_repository(query, REPO_ROOT)
     typer.echo(f"Search index: {index_path.relative_to(REPO_ROOT)}")
@@ -285,9 +293,7 @@ def approve_resource(
         typer.echo(str(exc), err=True)
         raise typer.Exit(code=1) from exc
 
-    typer.echo(
-        f"Updated {model.id} -> {model.status} in {meta_path.relative_to(REPO_ROOT)}"
-    )
+    typer.echo(f"Updated {model.id} -> {model.status} in {meta_path.relative_to(REPO_ROOT)}")
     if model.approved_by and model.approved_on:
         typer.echo(f"Approval metadata: {model.approved_by} on {model.approved_on.isoformat()}")
 
