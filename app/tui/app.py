@@ -42,7 +42,7 @@ class LearnForgeApp(App):
     def action_help(self) -> None:
         self.notify(
             "hjkl: navigate  q: quit  Esc: back  Enter: drill in  Tab: switch panel\n"
-            "e: edit note  m: edit meta  s: edit solution  L: language",
+            "s: schedule  e: edit note  m: edit meta  L: language",
             title="Keys",
         )
 

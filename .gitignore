@@ -34,3 +34,6 @@ _freeze/*
 course-inbox/*
 !course-inbox/.gitkeep
 !course-inbox/README.md
+
+# Local teaching schedule (not committed)
+.learnforge-schedule.yml

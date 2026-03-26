@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import datetime
+
 from rich.text import Text
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
@@ -7,6 +9,13 @@ from textual.screen import Screen
 from textual.widgets import DataTable, Footer, Header, Label, ListView, Static
 
 from app.models import Collection, Concept, Exercise, Figure, Resource
+from app.tui.schedule import (
+    _SCHEDULE_TEMPLATE,
+    FlatEvent,
+    flatten_schedule,
+    load_schedule,
+    schedule_path,
+)
 from app.tui.widgets import AttentionListItem, CollectionListItem, CourseListItem
 
 # ---------------------------------------------------------------------------
@@ -37,6 +46,7 @@ def _styled_status(status: str) -> Text:
 class DashboardScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
+        Binding("s", "schedule", "Schedule"),
         Binding("escape", "app.quit", "Quit", priority=True),
         Binding("tab", "app.focus_next", "Switch panel"),
         Binding("shift+tab", "app.focus_previous", "Switch panel", show=False),
@@ -79,14 +89,33 @@ class DashboardScreen(Screen):
         total_objects = len(idx.repo_index.objects)
         total_attention = len(idx.attention_items)
         total_courses = len(idx.active_courses)
+
+        next_up = ""
+        schedule, _ = load_schedule()
+        if schedule.courses:
+            flat = flatten_schedule(schedule, idx.repo_index, self.app.language, future_only=True)
+            if flat:
+                ev = flat[0]
+                delta = (ev.date - datetime.date.today()).days
+                if delta == 0:
+                    when = "today"
+                elif delta == 1:
+                    when = "tomorrow"
+                else:
+                    when = f"in {delta}d"
+                next_up = f" · next: {ev.course_id} {ev.event_type} {when}"
+
         stats = self.query_one("#dashboard-footer-stats", Static)
         stats.update(
             f"  {total_courses} courses · {total_objects} objects · "
-            f"{total_attention} need attention       lang: {self.app.language}"
+            f"{total_attention} need attention{next_up}"
         )
 
     def refresh_data(self) -> None:
         self._populate()
+
+    def action_schedule(self) -> None:
+        self.app.push_screen(ScheduleScreen())
 
     def action_select(self) -> None:
         focused = self.focused
@@ -109,6 +138,140 @@ class DashboardScreen(Screen):
             self.app.push_screen(CourseScreen(item.course_id))
         elif isinstance(item, AttentionListItem):
             self.app.push_screen(ObjectDetailScreen(item.object_id))
+
+
+# ---------------------------------------------------------------------------
+# Schedule
+# ---------------------------------------------------------------------------
+
+_EVENT_TYPE_STYLES: dict[str, str] = {
+    "lecture": "",
+    "exam": "bold red",
+    "exam-upload-deadline": "yellow",
+    "grading-deadline": "yellow",
+    "assignment-deadline": "yellow",
+    "other": "dim",
+}
+
+_EVENT_TYPE_SHORT: dict[str, str] = {
+    "lecture": "lecture",
+    "exam": "exam",
+    "exam-upload-deadline": "deadline",
+    "grading-deadline": "deadline",
+    "assignment-deadline": "deadline",
+    "other": "other",
+}
+
+
+class ScheduleScreen(Screen):
+    BINDINGS = [
+        Binding("enter", "drill_in", "Material", show=True),
+        Binding("e", "edit_schedule", "Edit schedule"),
+        Binding("f", "toggle_filter", "All/Future"),
+        Binding("escape", "pop", "Back", priority=True),
+        Binding("j", "cursor_down", "Down", show=False),
+        Binding("k", "cursor_up", "Up", show=False),
+        Binding("l", "drill_in", "Material", show=False),
+        Binding("h", "pop", "Back", show=False),
+    ]
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._future_only = True
+        self._flat_events: list[FlatEvent] = []
+        self._schedule_error: str | None = None
+
+    def compose(self):
+        yield Header()
+        yield Label("Teaching Schedule", id="schedule-title")
+        yield DataTable(id="schedule-table")
+        yield Static(id="schedule-footer-stats")
+        yield Footer()
+
+    def on_mount(self) -> None:
+        table = self.query_one("#schedule-table", DataTable)
+        table.cursor_type = "row"
+        table.add_columns("Date", "Time", "Course", "Type", "What", "Room")
+        self._populate()
+
+    def _populate(self) -> None:
+        schedule, error = load_schedule()
+        self._schedule_error = error
+
+        if error:
+            self.notify(
+                "Schedule file has errors — press e to fix",
+                severity="warning",
+            )
+
+        idx = self.app.tui_index
+        self._flat_events = flatten_schedule(
+            schedule,
+            idx.repo_index,
+            self.app.language,
+            future_only=self._future_only,
+        )
+
+        table = self.query_one("#schedule-table", DataTable)
+        table.clear()
+
+        for i, ev in enumerate(self._flat_events):
+            date_str = ev.date.strftime("%Y-%m-%d")
+            time_str = ev.time.strftime("%H:%M") if ev.time else ""
+            type_style = _EVENT_TYPE_STYLES.get(ev.event_type, "")
+            type_label = _EVENT_TYPE_SHORT.get(ev.event_type, ev.event_type)
+
+            table.add_row(
+                date_str,
+                time_str,
+                ev.course_id,
+                Text(type_label, style=type_style),
+                ev.display_label,
+                ev.room or "",
+                key=str(i),
+            )
+
+        courses_seen = {ev.course_id for ev in self._flat_events}
+        filter_label = "upcoming" if self._future_only else "all"
+        stats = self.query_one("#schedule-footer-stats", Static)
+        stats.update(
+            f"  {len(self._flat_events)} {filter_label} events"
+            f" across {len(courses_seen)} course{'s' if len(courses_seen) != 1 else ''}"
+        )
+
+    def refresh_data(self) -> None:
+        self._populate()
+
+    def action_cursor_down(self) -> None:
+        self.query_one("#schedule-table", DataTable).action_cursor_down()
+
+    def action_cursor_up(self) -> None:
+        self.query_one("#schedule-table", DataTable).action_cursor_up()
+
+    def action_drill_in(self) -> None:
+        table = self.query_one("#schedule-table", DataTable)
+        if table.row_count == 0:
+            return
+        row_key, _ = table.coordinate_to_cell_key(table.cursor_coordinate)
+        idx = int(row_key.value)
+        ev = self._flat_events[idx]
+        if ev.collection_id:
+            self.app.push_screen(CollectionScreen(ev.collection_id))
+        else:
+            self.notify("No linked material for this event", severity="information")
+
+    def action_edit_schedule(self) -> None:
+        path = schedule_path()
+        if not path.exists():
+            path.write_text(_SCHEDULE_TEMPLATE, encoding="utf-8")
+        self.app.edit_file(path)
+
+    def action_toggle_filter(self) -> None:
+        self._future_only = not self._future_only
+        self._populate()
+
+    def action_pop(self) -> None:
+        self.app.pop_screen()
 
 
 # ---------------------------------------------------------------------------
