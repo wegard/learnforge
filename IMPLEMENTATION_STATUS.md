@@ -57,6 +57,7 @@ LearnForge is a working internal teaching publication system with four approved 
 - teacher-content leakage checks during builds
 - reusable figure pipeline with static fallback and optional D3 interactivity
 - migration staging through `course-inbox/`
+- terminal dashboard (`teach tui`) for browsing courses, spotting content needing attention, drilling into objects, and opening files in the editor
 
 ## Stable Decisions
 
@@ -144,7 +145,6 @@ These remain intentionally deferred unless the roadmap changes:
 
 - browser-based editing
 - frontend framework rewrite / SPA architecture
-- Textual TUI work
 - database-backed architecture
 - bulk migration tooling from `course-inbox/`
 - notebook auto-conversion pipeline
@@ -168,6 +168,11 @@ These remain intentionally deferred unless the roadmap changes:
 
 4. **Migration pipeline**
    - `course-inbox/` staging, per-course `MIGRATION_INVENTORY.md` tracking, and structured promotion are proven through repeated use
+
+5. **Terminal dashboard (`teach tui`)**
+   - Textual-based TUI for browsing courses, collections, and objects
+   - Two-panel dashboard with attention tracking and drill-down navigation
+   - Editor integration via `$EDITOR` with automatic index reload on return
 
 ## What Needs The Most Attention Next
 

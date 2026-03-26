@@ -38,7 +38,8 @@ class DashboardScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
         Binding("escape", "app.quit", "Quit", priority=True),
-        Binding("tab", "focus_next", "Switch panel"),
+        Binding("tab", "app.focus_next", "Switch panel"),
+        Binding("shift+tab", "app.focus_previous", "Switch panel", show=False),
         Binding("j", "cursor_down", "Down", show=False),
         Binding("k", "cursor_up", "Up", show=False),
         Binding("l", "select", "Drill in", show=False),
@@ -59,6 +60,7 @@ class DashboardScreen(Screen):
 
     def on_mount(self) -> None:
         self._populate()
+        self.query_one("#course-list").focus()
 
     def _populate(self) -> None:
         idx = self.app.tui_index
@@ -119,7 +121,8 @@ class CourseScreen(Screen):
         Binding("enter", "select", "Drill in", show=True),
         Binding("e", "edit_syllabus", "Edit syllabus"),
         Binding("escape", "pop", "Back", priority=True),
-        Binding("tab", "focus_next", "Switch panel"),
+        Binding("tab", "app.focus_next", "Switch panel"),
+        Binding("shift+tab", "app.focus_previous", "Switch panel", show=False),
         Binding("j", "cursor_down", "Down", show=False),
         Binding("k", "cursor_up", "Up", show=False),
         Binding("l", "select", "Drill in", show=False),
@@ -158,6 +161,7 @@ class CourseScreen(Screen):
 
     def on_mount(self) -> None:
         self._populate()
+        self.query_one("#lecture-list").focus()
 
     def _populate(self) -> None:
         idx = self.app.tui_index

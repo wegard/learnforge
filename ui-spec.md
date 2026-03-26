@@ -268,7 +268,8 @@ An object needs attention if **any** of these conditions hold:
 | Key     | Action                              |
 |---------|-------------------------------------|
 | `Enter`/`l` | Drill into selected course     |
-| `Tab`   | Switch focus: courses ↔ attention   |
+| `Tab`   | Switch focus: courses → attention   |
+| `Shift+Tab` | Switch focus: attention → courses |
 
 ### Course Screen
 
@@ -276,7 +277,8 @@ An object needs attention if **any** of these conditions hold:
 |---------|-------------------------------------|
 | `Enter`/`l` | Drill into selected collection |
 | `e`     | Edit course syllabus in nvim        |
-| `Tab`   | Switch focus: lectures ↔ assignments|
+| `Tab`   | Switch focus: lectures → assignments|
+| `Shift+Tab` | Switch focus: assignments → lectures |
 
 ### Collection Screen
 
@@ -320,23 +322,25 @@ app/
 - `course_attention_count(course_id, index)` → `int`
 
 **`app.py`** — Application shell:
-- Holds `tui_index` and `default_language` as app state
-- `action_edit_file(path)`: suspend → nvim → reload → notify screen
-- Posts `DataReloaded` message after editor returns
+- Holds `tui_index` and `language` as app state
+- `edit_file(path)`: suspend → launch `$EDITOR` → reload index → call `screen.refresh_data()`
+- `action_toggle_language()`: cycles between `en` and `nb`, refreshes current screen
+- `action_help()`: shows key binding overlay via notification
 
 **`screens.py`** — Four screen classes:
 - Each receives its context (course_id, collection_id, object_id) via constructor
-- Each implements `on_data_reloaded()` to refresh after edits
-- Each composes widgets from `widgets.py`
+- Each implements `refresh_data()` to repopulate after edits or language changes
+- Dashboard and Course screens explicitly focus the left panel on mount
 
 **`widgets.py`** — Reusable display components:
-- `CourseListItem(ListItem)` — course row with attention badge
-- `CollectionListItem(ListItem)` — collection row with attention badge
-- `AttentionBadge(Static)` — inline `(N!)` indicator
+- `CourseListItem(ListItem)` — course row with inline attention badge
+- `CollectionListItem(ListItem)` — collection row with inline attention badge
+- `AttentionListItem(ListItem)` — attention panel row showing object ID, kind, and reasons
 
 **`learnforge.tcss`** — Layout and color rules:
 - Two-column layout for Dashboard and Course screens
-- Status color tokens: `$success` (approved), `$warning` (draft), `$error` (stale)
+- Panel focus indication via `:focus-within` (accent border and title on active panel)
+- Status colors: `$success` (approved/published), `$warning` (draft/candidate/reviewed), `#5599ff` (review)
 - Responsive sizing with `fr` units (works at 80+ column terminals)
 
 ---
@@ -380,35 +384,18 @@ everything the TUI requires.
 - Attention counts bubble correctly from items → collections → courses
 - Missing object IDs in collections handled gracefully (shown as "missing")
 
-**`tests/test_tui_screens.py`** — Textual pilot tests (headless):
-- Dashboard shows exactly the non-archived courses
-- Enter on a course pushes CourseScreen
-- Escape pops back to Dashboard
-- CollectionScreen DataTable row count matches items list
-- Object Detail shows correct metadata fields
+Textual pilot tests for screen navigation are not yet implemented.
 
 ---
 
-## 13. Implementation Phases
+## 13. Implementation Status
 
-### Phase 1: Data layer + CLI hook
-- Add `textual` dependency
-- Create `app/tui/data.py` with `TUIIndex` and attention logic
-- Create `app/tui/__init__.py` with `launch()`
-- Add `teach tui` command to `app/cli.py`
-- Write `tests/test_tui_data.py`
+All planned phases are complete:
 
-### Phase 2: Screens (top-down)
-- `app/tui/app.py` — LearnForgeApp with suspend/reload
-- `app/tui/screens.py` — all four screens
-- `app/tui/widgets.py` — list items and badges
-
-### Phase 3: Styling
-- `app/tui/learnforge.tcss` — layout, colors, responsive sizing
-- Polish status indicators and attention badges
-
-### Phase 4: Testing
-- `tests/test_tui_screens.py` — pilot tests for navigation flow
+- Data layer (`app/tui/data.py`), CLI hook (`teach tui`), and unit tests (`tests/test_tui_data.py`)
+- All four screens with vim-style navigation and editor integration
+- Custom list item widgets with inline attention badges
+- Textual CSS with panel focus indication, status colors, and responsive sizing
 
 ---
 

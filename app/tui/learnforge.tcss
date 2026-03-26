@@ -13,10 +13,18 @@
     padding: 0 1;
 }
 
+.panel:focus-within {
+    border: solid $accent;
+}
+
 .panel-title {
     text-style: bold;
     padding: 1 0 0 1;
-    color: $text;
+    color: $text-muted;
+}
+
+.panel:focus-within .panel-title {
+    color: $accent;
 }
 
 #course-title, #collection-title, #object-title {

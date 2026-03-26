@@ -16,6 +16,7 @@ The system currently supports:
 - explicit resource approval workflow (`candidate` -> `reviewed` -> `approved` -> `published`)
 - student-only publish bundling for static deployment
 - migration of legacy course material through a controlled `course-inbox/` staging area
+- terminal dashboard (`teach tui`) for browsing courses, tracking attention items, and editing content
 
 ## Documentation Map
 
@@ -24,6 +25,8 @@ Use the docs by role:
 - `README.md` — front door: what the project is, how it is structured, and how to run it
 - `ROADMAP.md` — source of truth for product direction, architecture, and locked design decisions
 - `IMPLEMENTATION_STATUS.md` — current milestone, completed work, and recent checkpoint history
+- `PYTHON_ENVIRONMENT.md` — environment setup, dependencies, and tooling
+- `ui-spec.md` — terminal dashboard design and navigation reference
 
 If these files disagree, treat:
 
@@ -42,15 +45,16 @@ LearnForge is beyond the bootstrap/prototype stage. The core architecture is in 
 - reusable figures with static fallback and optional D3 interactivity
 - validation reports, build manifests, dependency manifests, and representative target coverage
 - student-site publish bundle under `build/publish/student-site/`
-- multiple migrated or partially migrated courses, including cross-course object reuse
+- six approved courses with proven cross-course object reuse
+- terminal dashboard (`teach tui`) for browsing and editing content
 
-This repo is now best understood as a working internal publishing system that is still in an active migration and consolidation phase.
+This repo is now best understood as a working internal publishing system in an active content-refinement phase.
 
 ## Repository Shape
 
 ```text
 learnforge/
-├── app/                  # CLI, assembly, validation, build orchestration
+├── app/                  # CLI, TUI, assembly, validation, build orchestration
 ├── content/              # canonical reusable learning objects
 ├── collections/          # lectures, assignments, and other object groupings
 ├── courses/              # course metadata, plans, syllabi, migration inventories
@@ -100,6 +104,7 @@ Most day-to-day work should go through `teach` or the `Makefile` wrappers.
 ```bash
 make validate
 make test
+./scripts/run-in-env.sh teach tui                              # interactive dashboard
 ./scripts/run-in-env.sh teach build home --audience student --lang en --format html
 ./scripts/run-in-env.sh teach build lecture-04 --audience teacher --lang nb --format pdf
 ./scripts/run-in-env.sh teach build lecture-04 --audience teacher --lang nb --format revealjs
@@ -137,9 +142,9 @@ Important rules:
 
 ## Near-Term Priorities
 
-The main engineering challenge is no longer foundational architecture. It is consolidation:
+The main engineering challenge is no longer foundational architecture. It is consolidation and content refinement:
 
-- finishing migrations cleanly
-- keeping the docs honest
-- tightening the path from staged legacy material to canonical reusable objects
+- Norwegian translations (especially `edi3400`)
+- refining content based on teaching feedback
+- tightening representative build checks around real workflows
 - refining the student-facing HTML shell without abandoning the static-first approach
