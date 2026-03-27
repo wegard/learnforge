@@ -81,6 +81,13 @@
     color: $text-disabled;
 }
 
+/* --- Section headers --- */
+
+.section-header {
+    text-style: bold;
+    color: $text-muted;
+}
+
 /* --- Attention --- */
 
 .attention-reason {

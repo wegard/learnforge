@@ -16,7 +16,17 @@ from app.tui.schedule import (
     load_schedule,
     schedule_path,
 )
-from app.tui.widgets import AttentionListItem, CollectionListItem, CourseListItem
+from app.tui.teaching import (
+    _TEACHING_TEMPLATE,
+    load_teaching,
+    teaching_path,
+)
+from app.tui.widgets import (
+    AttentionListItem,
+    CollectionListItem,
+    CourseListItem,
+    SectionHeaderItem,
+)
 
 # ---------------------------------------------------------------------------
 # Status helpers
@@ -47,6 +57,7 @@ class DashboardScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
         Binding("s", "schedule", "Schedule"),
+        Binding("t", "edit_teaching", "Teaching"),
         Binding("escape", "app.quit", "Quit", priority=True),
         Binding("tab", "app.focus_next", "Switch panel"),
         Binding("shift+tab", "app.focus_previous", "Switch panel", show=False),
@@ -74,12 +85,54 @@ class DashboardScreen(Screen):
 
     def _populate(self) -> None:
         idx = self.app.tui_index
+        teaching, _ = load_teaching()
+
+        # Partition courses by teaching status
+        active: list[tuple[str, str, int]] = []
+        upcoming: list[tuple[str, str, int]] = []
+        discontinued: list[tuple[str, str, int]] = []
+        other: list[tuple[str, str, int]] = []
+
+        for course in idx.active_courses:
+            cid = course.model.id
+            count = idx.course_attention_counts.get(cid, 0)
+            entry = (cid, course.model.status, count)
+            ct = teaching.courses.get(cid)
+            if ct is None:
+                other.append(entry)
+            elif ct.teaching_status == "active":
+                active.append(entry)
+            elif ct.teaching_status == "upcoming":
+                upcoming.append(entry)
+            elif ct.teaching_status == "discontinued":
+                discontinued.append(entry)
+            else:
+                other.append(entry)
 
         course_lv = self.query_one("#course-list", ListView)
         course_lv.clear()
-        for course in idx.active_courses:
-            count = idx.course_attention_counts.get(course.model.id, 0)
-            course_lv.append(CourseListItem(course.model.id, course.model.status, count))
+
+        has_teaching = bool(teaching.courses)
+
+        if has_teaching:
+            sections: list[tuple[str, list[tuple[str, str, int]]]] = []
+            if active:
+                sections.append(("ACTIVE", active))
+            if upcoming:
+                sections.append(("UPCOMING", upcoming))
+            if other:
+                sections.append(("OTHER", other))
+            if discontinued:
+                sections.append(("DISCONTINUED", discontinued))
+
+            for section_label, courses in sections:
+                course_lv.append(SectionHeaderItem(section_label))
+                for cid, status, count in courses:
+                    course_lv.append(CourseListItem(cid, status, count))
+        else:
+            for course in idx.active_courses:
+                count = idx.course_attention_counts.get(course.model.id, 0)
+                course_lv.append(CourseListItem(course.model.id, course.model.status, count))
 
         attn_lv = self.query_one("#attention-list", ListView)
         attn_lv.clear()
@@ -88,7 +141,6 @@ class DashboardScreen(Screen):
 
         total_objects = len(idx.repo_index.objects)
         total_attention = len(idx.attention_items)
-        total_courses = len(idx.active_courses)
 
         next_up = ""
         schedule, _ = load_schedule()
@@ -105,17 +157,27 @@ class DashboardScreen(Screen):
                     when = f"in {delta}d"
                 next_up = f" · next: {ev.course_id} {ev.event_type} {when}"
 
+        parts = []
+        if active:
+            parts.append(f"{len(active)} active")
+        if upcoming:
+            parts.append(f"{len(upcoming)} upcoming")
+        parts.append(f"{total_objects} objects")
+        parts.append(f"{total_attention} need attention")
         stats = self.query_one("#dashboard-footer-stats", Static)
-        stats.update(
-            f"  {total_courses} courses · {total_objects} objects · "
-            f"{total_attention} need attention{next_up}"
-        )
+        stats.update(f"  {' · '.join(parts)}{next_up}")
 
     def refresh_data(self) -> None:
         self._populate()
 
     def action_schedule(self) -> None:
         self.app.push_screen(ScheduleScreen())
+
+    def action_edit_teaching(self) -> None:
+        path = teaching_path()
+        if not path.exists():
+            path.write_text(_TEACHING_TEMPLATE, encoding="utf-8")
+        self.app.edit_file(path)
 
     def action_select(self) -> None:
         focused = self.focused

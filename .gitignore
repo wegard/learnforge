@@ -35,5 +35,6 @@ course-inbox/*
 !course-inbox/.gitkeep
 !course-inbox/README.md
 
-# Local teaching schedule (not committed)
+# Local teaching data (not committed)
 .learnforge-schedule.yml
+.learnforge-teaching.yml

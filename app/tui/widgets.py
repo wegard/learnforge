@@ -30,6 +30,17 @@ class CollectionListItem(ListItem):
         yield Static(f"  {self.collection_id}{badge}")
 
 
+class SectionHeaderItem(ListItem):
+    """Non-interactive section header inside a ListView."""
+
+    def __init__(self, label: str) -> None:
+        self.section_label = label
+        super().__init__(disabled=True)
+
+    def compose(self):
+        yield Static(f"  {self.section_label}", classes="section-header")
+
+
 class AttentionListItem(ListItem):
     """A row in the Dashboard attention panel."""
 
