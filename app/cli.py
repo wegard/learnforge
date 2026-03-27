@@ -325,5 +325,84 @@ def stale_resources(
         )
 
 
+@app.command("new-delivery")
+def new_delivery(
+    course_id: str = typer.Argument(..., help="Course identifier."),
+    term: str = typer.Option(..., "--term", help="Term identifier, e.g. spring-2026."),
+    lang: str = typer.Option("en", "--lang", case_sensitive=False),
+    start: str | None = typer.Option(None, "--start", help="First lecture date YYYY-MM-DD."),
+) -> None:
+    """Scaffold a new delivery manifest from an existing course plan."""
+    from app.delivery import scaffold_delivery
+
+    if lang not in LANGUAGES:
+        raise typer.BadParameter(f"lang must be one of {LANGUAGES}")
+    start_date = _parse_iso_date(start, option_name="--start")
+    try:
+        manifest_path = scaffold_delivery(
+            course_id,
+            term=term,
+            language=lang,
+            start_date=start_date,
+            root=REPO_ROOT,
+        )
+    except ValueError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(f"Created delivery manifest: {manifest_path.relative_to(REPO_ROOT)}")
+
+
+@app.command("delivery-status")
+def delivery_status_cmd(
+    manifest_id: str = typer.Argument(..., help="Delivery manifest identifier."),
+    json_output: bool = typer.Option(False, "--json", help="Print as JSON."),
+) -> None:
+    """Show delivery status overview."""
+    from app.delivery import delivery_status_json, format_delivery_status
+
+    try:
+        if json_output:
+            typer.echo(json.dumps(delivery_status_json(manifest_id, root=REPO_ROOT), indent=2))
+        else:
+            typer.echo(format_delivery_status(manifest_id, root=REPO_ROOT))
+    except ValueError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command("deliver")
+def deliver(
+    manifest_id: str = typer.Argument(..., help="Delivery manifest identifier."),
+    ready_only: bool = typer.Option(False, "--ready-only", help="Build only ready lectures."),
+    lecture: str | None = typer.Option(None, "--lecture", help="Build a single lecture."),
+) -> None:
+    """Build all lectures and assignments for a delivery manifest."""
+    from app.delivery import build_delivery
+
+    try:
+        result = build_delivery(
+            manifest_id,
+            root=REPO_ROOT,
+            ready_only=ready_only,
+            lecture_filter=lecture,
+        )
+    except (ValueError, BuildError) as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(f"Delivery build: {result.manifest_id}")
+    typer.echo(
+        f"Built {len(result.built_lectures)} lectures, {len(result.built_assignments)} assignments"
+    )
+    if result.skipped_lectures:
+        typer.echo(f"Skipped lectures: {', '.join(result.skipped_lectures)}")
+    if result.skipped_assignments:
+        typer.echo(f"Skipped assignments: {', '.join(result.skipped_assignments)}")
+    typer.echo(f"Total artifacts: {len(result.artifacts)}")
+    if result.delivery_report_path:
+        typer.echo(f"Report: {result.delivery_report_path.relative_to(REPO_ROOT)}")
+
+
 if __name__ == "__main__":
     app()

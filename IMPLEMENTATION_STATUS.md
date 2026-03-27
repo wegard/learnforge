@@ -178,19 +178,26 @@ These remain intentionally deferred unless the roadmap changes:
 
 Priority order:
 
-1. **Norwegian translations**
+1. **Delivery manifests** (in progress)
+   - semester-specific course delivery planning and classroom readiness tracking
+   - new commands: `teach deliver`, `teach delivery-status`, `teach new-delivery`
+   - new directory: `deliveries/` for manifest YAML files
+   - delivery builds output to `build/deliveries/` (gitignored)
+   - spec: `DELIVERY-MANIFESTS.md`
+
+2. **Norwegian translations**
    - `edi3400` has the most translation warnings (31 objects missing `nb` variants)
    - translation batching strategy exists in the edi3400 migration inventory
 
-2. **Content refinement**
+3. **Content refinement**
    - `tem0052` has 3 deferred course-framing topics (responsible ML, semester project brief, AI workflow guidance)
    - `bik2550` has 1 deferred figure candidate (`sigmoid.png`)
    - review and refine existing content based on teaching experience
 
-3. **Build/test confidence**
+4. **Build/test confidence**
    - continue tightening representative checks around real workflows
    - teacher-audience topic listing links are a known limitation
 
 ## Recommended Next Step
 
-Begin Norwegian translation batches for `edi3400`, or refine content based on teaching feedback.
+Implement delivery manifests (see `DELIVERY-MANIFESTS.md`), then begin Norwegian translation batches for `edi3400`.

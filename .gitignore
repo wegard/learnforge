@@ -22,6 +22,8 @@ build/generated/*
 !.learnforge-generated/.gitkeep
 build/index/*
 !build/index/.gitkeep
+build/deliveries/*
+!build/deliveries/.gitkeep
 build/reports/*
 !build/reports/.gitkeep
 

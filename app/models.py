@@ -176,9 +176,7 @@ class Resource(BaseContentModel):
             for field_name in ("summary", "why_selected"):
                 value = getattr(self, field_name)
                 if set(value) != language_set:
-                    raise ValueError(
-                        f"approved/published resources require localized {field_name}"
-                    )
+                    raise ValueError(f"approved/published resources require localized {field_name}")
                 if any(not text.strip() for text in value.values()):
                     raise ValueError(
                         f"approved/published resources require non-empty {field_name} values"
@@ -230,6 +228,46 @@ class CoursePlan(BaseModel):
 
     lectures: list[str] = Field(default_factory=list)
     assignments: list[str] = Field(default_factory=list)
+
+
+class DeliveryLecture(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    lecture: str
+    date: date
+    ready: bool = False
+    title_override: str | None = None
+    notes: str | None = None
+    additions: list[str] = Field(default_factory=list)
+    removals: list[str] = Field(default_factory=list)
+
+
+class DeliveryAssignment(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    assignment: str
+    due_date: date
+    ready: bool = False
+
+
+class DeliveryManifest(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    id: str = Field(pattern=SLUG_PATTERN)
+    course: str
+    term: str
+    language: Language
+    status: Literal["active", "archived"] = "active"
+    created: date
+    updated: date
+
+    lectures: list[DeliveryLecture] = Field(default_factory=list)
+    assignments: list[DeliveryAssignment] = Field(default_factory=list)
+
+    default_formats: list[OutputFormat] = Field(
+        default_factory=lambda: ["html", "revealjs", "pdf", "handout"]
+    )
+    default_audiences: list[Audience] = Field(default_factory=lambda: ["student", "teacher"])
 
 
 class RepresentativeTarget(BaseModel):

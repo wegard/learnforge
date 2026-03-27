@@ -1,8 +1,8 @@
 # Teaching Knowledge & Publication System — Implementation Roadmap
 
-Status: Draft v1  
-Owner: Vegard  
-Primary users: instructor, students  
+Status: Draft v1
+Owner: Vegard
+Primary users: instructor, students
 Source of truth: Git repository with plain-text content
 
 ---
@@ -83,6 +83,7 @@ Git repository
 ├── content objects (concepts, examples, exercises, figures, resources)
 ├── collections (lectures, modules, assignments, reading lists)
 ├── course definitions
+├── delivery manifests (semester-specific delivery plans)
 ├── schemas + validation rules
 ├── Quarto project + custom formats + Lua filters
 ├── teacher CLI/TUI
@@ -255,6 +256,10 @@ teaching/
 │   │   ├── syllabus.nb.qmd
 │   │   └── plan.yml
 │   └── ds401/
+│
+├── deliveries/
+│   ├── tem0052-spring-2026.yml
+│   └── ...
 │
 ├── schemas/
 │   ├── base-object.schema.json
@@ -561,6 +566,10 @@ teach stale translations
 teach doctor
 teach reindex
 teach report coverage
+teach new-delivery tem0052 --term spring-2026 --lang en --start 2026-01-20
+teach delivery-status tem0052-spring-2026
+teach deliver tem0052-spring-2026 --ready-only
+teach deliver tem0052-spring-2026 --lecture tem0052-lecture-03
 ```
 
 ## 10.2 CLI responsibilities
@@ -1293,6 +1302,37 @@ Each phase below has deliverables, work packages, and exit criteria.
 
 - one real course runs end-to-end in the new system
 - reused objects appear in at least two course contexts
+
+---
+
+## Phase 11.5 — Delivery manifests
+
+### Deliverables
+
+- delivery manifest schema and data model
+- semester-specific delivery planning
+- classroom readiness tracking
+- delivery build pipeline
+- `teach deliver`, `teach delivery-status`, `teach new-delivery`
+
+### Work packages
+
+- define delivery manifest schema (`DeliveryManifest`, `DeliveryLecture`, `DeliveryAssignment`)
+- add `deliveries/` directory for manifest YAML files
+- implement manifest loading and validation in the indexer/validator
+- add `DeliveryContext` to the assembly pipeline for per-lecture overrides (additions, removals, date injection, title override)
+- implement `teach new-delivery` to scaffold manifests from course plans
+- implement `teach delivery-status` for readiness overview
+- implement `teach deliver` to build all lectures for a delivery manifest
+- delivery build output to `build/deliveries/` (gitignored, separate from ad-hoc builds)
+- delivery report generation
+
+### Exit criteria
+
+- instructor can scaffold a delivery manifest from an existing course plan
+- delivery status shows per-lecture readiness with warnings for unapproved content
+- `teach deliver --ready-only` builds all ready lectures with date injection
+- all existing tests continue to pass
 
 ---
 

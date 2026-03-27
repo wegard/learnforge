@@ -13,6 +13,7 @@ from app.assembly import (
     SOLUTION_BLOCK_MARKER,
     AssemblyDocument,
     AssemblyError,
+    DeliveryContext,
     assemble_target,
     build_output_name,
     collect_topics,
@@ -87,6 +88,8 @@ def build_target(
     index: RepositoryIndex | None = None,
     sync_html_shell_assets: bool = True,
     sync_student_search_index: bool = True,
+    delivery_context: DeliveryContext | None = None,
+    delivery_output_root: Path | None = None,
 ) -> BuildArtifact:
     assembly: AssemblyDocument | None = None
     build_index: RepositoryIndex | None = index
@@ -109,6 +112,8 @@ def build_target(
                 language=language,
                 output_format=output_format,
                 root=root,
+                delivery_context=delivery_context,
+                delivery_output_root=delivery_output_root,
             )
         except AssemblyError as exc:
             raise BuildError(str(exc)) from exc

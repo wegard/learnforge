@@ -13,7 +13,14 @@ from pydantic import ValidationError
 from app.assembly import collect_topics, planned_target_output_path
 from app.build import BuildError, build_target, is_student_visible_in_language
 from app.config import LANGUAGES, REPO_ROOT, reports_dir
-from app.indexer import IndexedObject, LoadError, load_repository, load_yaml, write_search_index
+from app.indexer import (
+    IndexedObject,
+    LoadError,
+    RepositoryIndex,
+    load_repository,
+    load_yaml,
+    write_search_index,
+)
 from app.models import (
     Collection,
     Concept,
@@ -97,6 +104,7 @@ class ValidationReport:
     translation_coverage: dict[str, object] = field(default_factory=dict)
     resource_workflow: dict[str, object] = field(default_factory=dict)
     category_counts: dict[str, int] = field(default_factory=dict)
+    delivery_count: int = 0
     representative_target_count: int = 0
     representative_target_failure_count: int = 0
 
@@ -143,6 +151,148 @@ def _add_issue(
             category=category,
         )
     )
+
+
+def _validate_deliveries(
+    index: RepositoryIndex,
+    issues: list[ValidationIssue],
+    root: Path,
+) -> None:
+    for delivery in index.deliveries.values():
+        manifest = delivery.model
+        manifest_path = delivery.manifest_path
+
+        if manifest.course not in index.courses:
+            _add_issue(
+                issues,
+                code="delivery-missing-course",
+                message=f"delivery references unknown course {manifest.course}",
+                path=manifest_path,
+                root=root,
+                object_id=manifest.id,
+                category="cross-reference",
+            )
+
+        prev_date = None
+        for entry in manifest.lectures:
+            record = index.objects.get(entry.lecture)
+            if record is None or not isinstance(record.model, Collection):
+                _add_issue(
+                    issues,
+                    code="delivery-missing-lecture",
+                    message=f"delivery references unknown lecture collection {entry.lecture}",
+                    path=manifest_path,
+                    root=root,
+                    object_id=manifest.id,
+                    category="cross-reference",
+                )
+                continue
+            if record.model.collection_kind != "lecture":
+                _add_issue(
+                    issues,
+                    code="delivery-wrong-collection-kind",
+                    message=(
+                        f"{entry.lecture} is a {record.model.collection_kind} collection, "
+                        "expected lecture"
+                    ),
+                    path=manifest_path,
+                    root=root,
+                    object_id=manifest.id,
+                    category="cross-reference",
+                )
+
+            for addition_id in entry.additions:
+                if addition_id not in index.objects:
+                    _add_issue(
+                        issues,
+                        code="delivery-missing-addition",
+                        message=f"addition {addition_id} in {entry.lecture} does not exist",
+                        path=manifest_path,
+                        root=root,
+                        object_id=manifest.id,
+                        category="cross-reference",
+                    )
+
+            for removal_id in entry.removals:
+                if removal_id not in record.model.items:
+                    _add_issue(
+                        issues,
+                        code="delivery-invalid-removal",
+                        message=(
+                            f"removal {removal_id} in {entry.lecture} is not in "
+                            "the collection items"
+                        ),
+                        path=manifest_path,
+                        root=root,
+                        object_id=manifest.id,
+                        category="cross-reference",
+                    )
+
+            if prev_date is not None and entry.date < prev_date:
+                _add_issue(
+                    issues,
+                    code="delivery-dates-not-chronological",
+                    message=(
+                        f"lecture {entry.lecture} date {entry.date} "
+                        f"is before previous date {prev_date}"
+                    ),
+                    path=manifest_path,
+                    root=root,
+                    object_id=manifest.id,
+                    severity="warning",
+                    category="editorial",
+                )
+            prev_date = entry.date
+
+            if entry.ready:
+                items_to_check = [
+                    item_id for item_id in record.model.items if item_id not in set(entry.removals)
+                ] + list(entry.additions)
+                for item_id in items_to_check:
+                    item_record = index.objects.get(item_id)
+                    if item_record and getattr(item_record.model, "status", None) not in {
+                        "approved",
+                        "published",
+                    }:
+                        _add_issue(
+                            issues,
+                            code="delivery-ready-unapproved-content",
+                            message=(
+                                f"lecture {entry.lecture} is ready but {item_id} "
+                                f"has status {item_record.model.status}"
+                            ),
+                            path=manifest_path,
+                            root=root,
+                            object_id=manifest.id,
+                            severity="warning",
+                            category="editorial",
+                        )
+
+        for entry in manifest.assignments:
+            record = index.objects.get(entry.assignment)
+            if record is None or not isinstance(record.model, Collection):
+                _add_issue(
+                    issues,
+                    code="delivery-missing-assignment",
+                    message=f"delivery references unknown assignment collection {entry.assignment}",
+                    path=manifest_path,
+                    root=root,
+                    object_id=manifest.id,
+                    category="cross-reference",
+                )
+            elif record.model.collection_kind != "assignment":
+                _add_issue(
+                    issues,
+                    code="delivery-wrong-collection-kind",
+                    message=(
+                        f"{entry.assignment} is a {record.model.collection_kind} collection, "
+                        "expected assignment"
+                    ),
+                    path=manifest_path,
+                    root=root,
+                    object_id=manifest.id,
+                    category="cross-reference",
+                )
 
 
 def validate_repository(
@@ -376,17 +526,16 @@ def validate_repository(
                         )
 
         if isinstance(model, Resource):
-            if (
-                model.visibility in {"student", "public"}
-                and model.status in {"approved", "published"}
-            ):
+            if model.visibility in {"student", "public"} and model.status in {
+                "approved",
+                "published",
+            }:
                 if not model.approved_by or not model.approved_on:
                     _add_issue(
                         issues,
                         code="missing-approval-metadata",
                         message=(
-                            "student-visible approved resources need approved_by and "
-                            "approved_on"
+                            "student-visible approved resources need approved_by and approved_on"
                         ),
                         path=record_path,
                         root=root,
@@ -533,8 +682,7 @@ def validate_repository(
                     issues,
                     code="missing-assignment",
                     message=(
-                        "course plan references unknown assignment collection "
-                        f"{assignment_id}"
+                        f"course plan references unknown assignment collection {assignment_id}"
                     ),
                     path=record.plan_path,
                     root=root,
@@ -582,6 +730,8 @@ def validate_repository(
                     category="cross-reference",
                 )
 
+    _validate_deliveries(index, issues, root)
+
     translation_coverage = _collect_translation_coverage(index=index, root=root, issues=issues)
     resource_workflow = build_resource_workflow_summary(index=index, language="en")
     representative_targets, representative_target_issues = _load_representative_targets(root)
@@ -628,6 +778,7 @@ def validate_repository(
         translation_coverage=translation_coverage,
         resource_workflow=resource_workflow,
         category_counts=category_counts,
+        delivery_count=len(index.deliveries),
         representative_target_count=len(representative_targets),
         representative_target_failure_count=int(build_summary.get("failure_count", 0)),
     )
@@ -731,8 +882,7 @@ def _collect_translation_coverage(
     fully_approved_target_count = 0
 
     course_languages: dict[str, list[str]] = {
-        cid: list(crec.model.languages)
-        for cid, crec in index.courses.items()
+        cid: list(crec.model.languages) for cid, crec in index.courses.items()
     }
 
     for record in index.objects.values():
@@ -919,8 +1069,7 @@ def _mark_build_summary_skipped(summary: dict[str, object], *, reason: str) -> d
     summary["status"] = "skipped"
     summary["skipped_count"] = summary["target_count"]
     summary["targets"] = [
-        {**target, "status": "skipped", "reason": reason}
-        for target in summary.get("targets", [])
+        {**target, "status": "skipped", "reason": reason} for target in summary.get("targets", [])
     ]
     return summary
 
@@ -1057,9 +1206,7 @@ def _check_build_artifact_integrity(
 
     expected_output_path = str(artifact.output_path.relative_to(root))
     if build_manifest.get("output_path") != expected_output_path:
-        manifest_issues.append(
-            "build manifest output_path does not match rendered artifact path"
-        )
+        manifest_issues.append("build manifest output_path does not match rendered artifact path")
     if not artifact.output_path.exists():
         manifest_issues.append("rendered output file is missing")
     if not artifact.build_manifest_path.exists():

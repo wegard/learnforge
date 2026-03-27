@@ -12,6 +12,7 @@ from app.config import (
     COLLECTION_DIRS,
     CONTENT_KIND_DIRS,
     REPO_ROOT,
+    deliveries_dir,
     index_dir,
     object_note_filename,
     solution_note_filename,
@@ -22,6 +23,7 @@ from app.models import (
     ContentModel,
     CourseDefinition,
     CoursePlan,
+    DeliveryManifest,
     Exercise,
     Figure,
     Resource,
@@ -78,9 +80,20 @@ class IndexedCourse:
 
 
 @dataclass(slots=True)
+class IndexedDelivery:
+    manifest_path: Path
+    model: DeliveryManifest
+
+    @property
+    def id(self) -> str:
+        return self.model.id
+
+
+@dataclass(slots=True)
 class RepositoryIndex:
     objects: dict[str, IndexedObject]
     courses: dict[str, IndexedCourse]
+    deliveries: dict[str, IndexedDelivery]
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -106,6 +119,13 @@ def iter_course_paths(root: Path = REPO_ROOT) -> list[Path]:
         for path in (root / "courses").glob("*/course.yml")
         if (path.parent / "plan.yml").exists()
     )
+
+
+def iter_delivery_paths(root: Path = REPO_ROOT) -> list[Path]:
+    path = deliveries_dir(root)
+    if not path.exists():
+        return []
+    return sorted(path.glob("*.yml"))
 
 
 def load_repository(
@@ -152,11 +172,24 @@ def load_repository(
         except (OSError, ValueError, ValidationError) as exc:
             errors.append(LoadError(path=course_path, message=str(exc)))
 
+    deliveries: dict[str, IndexedDelivery] = {}
+    for manifest_path in iter_delivery_paths(root):
+        try:
+            model = DeliveryManifest.model_validate(load_yaml(manifest_path))
+            if model.id in deliveries:
+                raise ValueError(f"duplicate delivery id: {model.id}")
+            deliveries[model.id] = IndexedDelivery(
+                manifest_path=manifest_path,
+                model=model,
+            )
+        except (OSError, ValueError, ValidationError) as exc:
+            errors.append(LoadError(path=manifest_path, message=str(exc)))
+
     if errors and not collect_errors:
         first_error = errors[0]
         raise ValueError(f"{first_error.path}: {first_error.message}")
 
-    return RepositoryIndex(objects=objects, courses=courses), errors
+    return RepositoryIndex(objects=objects, courses=courses, deliveries=deliveries), errors
 
 
 def write_search_index(index: RepositoryIndex, root: Path = REPO_ROOT) -> Path:

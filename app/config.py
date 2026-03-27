@@ -23,7 +23,9 @@ COLLECTION_DIRS = {
     "reading-list": "collections/reading-lists",
 }
 
+DELIVERIES_DIR = REPO_ROOT / "deliveries"
 BUILD_DIR = REPO_ROOT / "build"
+DELIVERIES_BUILD_DIR = BUILD_DIR / "deliveries"
 EXPORTS_DIR = BUILD_DIR / "exports"
 GENERATED_DIR = BUILD_DIR / "generated"
 INDEX_DIR = BUILD_DIR / "index"
@@ -64,3 +66,11 @@ def publish_dir(root: Path = REPO_ROOT) -> Path:
 
 def reports_dir(root: Path = REPO_ROOT) -> Path:
     return build_dir(root) / "reports"
+
+
+def deliveries_dir(root: Path = REPO_ROOT) -> Path:
+    return root / "deliveries"
+
+
+def deliveries_build_dir(root: Path = REPO_ROOT) -> Path:
+    return build_dir(root) / "deliveries"

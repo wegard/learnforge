@@ -3,7 +3,8 @@ from __future__ import annotations
 import hashlib
 import os
 import re
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
+from datetime import date
 from html import escape
 from pathlib import Path
 
@@ -141,6 +142,16 @@ class BuildTargetRef:
 
 
 @dataclass(slots=True)
+class DeliveryContext:
+    date: date
+    term: str
+    manifest_id: str
+    title_override: str | None = None
+    additions: list[str] = field(default_factory=list)
+    removals: list[str] = field(default_factory=list)
+
+
+@dataclass(slots=True)
 class AssemblyDocument:
     target: BuildTargetRef
     audience: str
@@ -199,6 +210,8 @@ def assemble_target(
     language: str,
     output_format: str,
     root: Path = REPO_ROOT,
+    delivery_context: DeliveryContext | None = None,
+    delivery_output_root: Path | None = None,
 ) -> AssemblyDocument:
     builder = AssemblyBuilder(
         index=index,
@@ -206,6 +219,8 @@ def assemble_target(
         language=language,
         output_format=output_format,
         root=root,
+        delivery_context=delivery_context,
+        delivery_output_root=delivery_output_root,
     )
     return builder.assemble(target_id)
 
@@ -219,12 +234,16 @@ class AssemblyBuilder:
         language: str,
         output_format: str,
         root: Path,
+        delivery_context: DeliveryContext | None = None,
+        delivery_output_root: Path | None = None,
     ) -> None:
         self.index = index
         self.audience = audience
         self.language = language
         self.output_format = output_format
         self.root = root
+        self.delivery_context = delivery_context
+        self.delivery_output_root = delivery_output_root
         self.file_dependencies: dict[tuple[str, str], FileDependency] = {}
         self.dependency_edges: list[DependencyEdge] = []
         self.leakage_observations: list[LeakageObservation] = []
@@ -545,11 +564,14 @@ class AssemblyBuilder:
 
         item_entries: list[ListingEntry] = []
         parts: list[str] = []
+        title = record.model.title[self.language]
+        if self.delivery_context and self.delivery_context.title_override:
+            title = self.delivery_context.title_override
         target = BuildTargetRef(
             identifier=record.model.id,
             kind="collection",
             output_category="collection",
-            title=record.model.title[self.language],
+            title=title,
         )
         if self.output_format == "html":
             course_entries = self._course_related_entries_for_record(record)
@@ -563,7 +585,13 @@ class AssemblyBuilder:
             parts.append(self._render_collection_summary(record))
             parts.append("## Lecture Notes" if self.language == "en" else "## Forelesningsnotater")
 
-        for item_id in record.model.items:
+        items = list(record.model.items)
+        if self.delivery_context:
+            removals_set = set(self.delivery_context.removals)
+            items = [i for i in items if i not in removals_set]
+            items.extend(self.delivery_context.additions)
+
+        for item_id in items:
             item_record = self.index.objects[item_id]
             if self._exclude_from_audience(item_record.model.visibility):
                 continue
@@ -1318,14 +1346,15 @@ class AssemblyBuilder:
     ) -> AssemblyDocument:
         generated_path = self._generated_path(target.output_category, target.identifier)
         planned_output_path = self._planned_output_path(target.output_category, target.identifier)
-        frontmatter = render_frontmatter(
-            {
-                "title": target.title,
-                "lang": self.language,
-                "audience": self.audience,
-                "language_variant": self.language,
-            }
-        )
+        frontmatter_payload = {
+            "title": target.title,
+            "lang": self.language,
+            "audience": self.audience,
+            "language_variant": self.language,
+        }
+        if self.delivery_context:
+            frontmatter_payload["date"] = self.delivery_context.date.isoformat()
+        frontmatter = render_frontmatter(frontmatter_payload)
         body = markdown_body.rstrip()
         if self.audience in {"student", "teacher"} and self.output_format == "html":
             body = self._render_html_site_document(target=target, markdown_body=body)
@@ -3675,6 +3704,20 @@ class AssemblyBuilder:
         return path
 
     def _planned_output_path(self, output_category: str, identifier: str) -> Path:
+        if self.delivery_output_root:
+            base = self.delivery_output_root / self.audience / self.language / self.output_format
+            path = (
+                base
+                / output_category
+                / identifier
+                / build_output_name(
+                    identifier,
+                    self.output_format,
+                    audience=self.audience,
+                )
+            )
+            path.parent.mkdir(parents=True, exist_ok=True)
+            return path
         path = planned_output_path(
             self.root,
             audience=self.audience,
