@@ -20,14 +20,23 @@ class CourseListItem(ListItem):
 class CollectionListItem(ListItem):
     """A row in the Course lectures/assignments list."""
 
-    def __init__(self, collection_id: str, attention_count: int) -> None:
+    def __init__(
+        self, collection_id: str, attention_count: int, *, ready: bool | None = None
+    ) -> None:
         self.collection_id = collection_id
         self._attention_count = attention_count
+        self._ready = ready
         super().__init__()
 
     def compose(self):
         badge = f"  ({self._attention_count}!)" if self._attention_count > 0 else ""
-        yield Static(f"  {self.collection_id}{badge}")
+        if self._ready is True:
+            ready_tag = "  [green]ready[/]"
+        elif self._ready is False:
+            ready_tag = "  [red]not ready[/]"
+        else:
+            ready_tag = ""
+        yield Static(f"  {self.collection_id}{badge}{ready_tag}")
 
 
 class SectionHeaderItem(ListItem):

@@ -56,6 +56,7 @@ def _styled_status(status: str) -> Text:
 class DashboardScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
+        Binding("r", "toggle_course_status", "Toggle status"),
         Binding("s", "schedule", "Schedule"),
         Binding("t", "edit_teaching", "Teaching"),
         Binding("tab", "app.focus_next", "Switch panel"),
@@ -177,6 +178,34 @@ class DashboardScreen(Screen):
             path.write_text(_TEACHING_TEMPLATE, encoding="utf-8")
         self.app.edit_file(path)
 
+    def action_toggle_course_status(self) -> None:
+        import yaml
+
+        focused = self.focused
+        if not isinstance(focused, ListView):
+            return
+        highlighted = focused.highlighted_child
+        if not isinstance(highlighted, CourseListItem):
+            return
+        course_id = highlighted.course_id
+
+        idx = self.app.tui_index
+        course = idx.repo_index.courses.get(course_id)
+        if course is None:
+            return
+
+        new_status = "approved" if course.model.status == "draft" else "draft"
+        course.model.status = new_status
+
+        payload = yaml.safe_load(course.course_path.read_text(encoding="utf-8"))
+        payload["status"] = new_status
+        course.course_path.write_text(
+            yaml.safe_dump(payload, sort_keys=False, allow_unicode=True),
+            encoding="utf-8",
+        )
+        self.notify(f"{course_id}: {new_status}")
+        self._populate()
+
     def action_select(self) -> None:
         focused = self.focused
         if isinstance(focused, ListView):
@@ -251,7 +280,7 @@ class ScheduleScreen(Screen):
     def on_mount(self) -> None:
         table = self.query_one("#schedule-table", DataTable)
         table.cursor_type = "row"
-        table.add_columns("Date", "Time", "Course", "Type", "What", "Room")
+        table.add_columns("Date", "Time", "Course", "Type", "What", "Room", "Ready")
         self._populate()
 
     def _populate(self) -> None:
@@ -275,11 +304,31 @@ class ScheduleScreen(Screen):
         table = self.query_one("#schedule-table", DataTable)
         table.clear()
 
+        # Build ready lookup from delivery manifests: (course_id, collection_id) -> bool
+        ready_lookup: dict[tuple[str, str], bool] = {}
+        for delivery in idx.repo_index.deliveries.values():
+            m = delivery.model
+            if m.status != "active":
+                continue
+            for entry in m.lectures:
+                ready_lookup[(m.course, entry.lecture)] = entry.ready
+            for entry in m.assignments:
+                ready_lookup[(m.course, entry.assignment)] = entry.ready
+
         for i, ev in enumerate(self._flat_events):
             date_str = ev.date.strftime("%Y-%m-%d")
             time_str = ev.time.strftime("%H:%M") if ev.time else ""
             type_style = _EVENT_TYPE_STYLES.get(ev.event_type, "")
             type_label = _EVENT_TYPE_SHORT.get(ev.event_type, ev.event_type)
+
+            ready_key = (ev.course_id, ev.collection_id) if ev.collection_id else None
+            if ready_key and ready_key in ready_lookup:
+                is_ready = ready_lookup[ready_key]
+                ready_cell = (
+                    Text("ready", style="green") if is_ready else Text("not ready", style="red")
+                )
+            else:
+                ready_cell = Text("")
 
             table.add_row(
                 date_str,
@@ -288,6 +337,7 @@ class ScheduleScreen(Screen):
                 Text(type_label, style=type_style),
                 ev.display_label,
                 ev.room or "",
+                ready_cell,
                 key=str(i),
             )
 
@@ -342,6 +392,7 @@ class ScheduleScreen(Screen):
 class CourseScreen(Screen):
     BINDINGS = [
         Binding("enter", "select", "Drill in", show=True),
+        Binding("r", "toggle_ready", "Toggle ready"),
         Binding("e", "edit_syllabus", "Edit syllabus"),
         Binding("escape", "pop", "Back", priority=True),
         Binding("tab", "app.focus_next", "Switch panel"),
@@ -390,17 +441,28 @@ class CourseScreen(Screen):
         idx = self.app.tui_index
         course = idx.repo_index.courses[self.course_id]
 
+        # Build ready lookup from active delivery manifests for this course
+        ready_lookup: dict[str, bool] = {}
+        for delivery in idx.repo_index.deliveries.values():
+            m = delivery.model
+            if m.course != self.course_id or m.status != "active":
+                continue
+            for entry in m.lectures:
+                ready_lookup[entry.lecture] = entry.ready
+            for entry in m.assignments:
+                ready_lookup[entry.assignment] = entry.ready
+
         lec_lv = self.query_one("#lecture-list", ListView)
         lec_lv.clear()
         for coll_id in course.plan.lectures:
             count = idx.collection_attention_counts.get(coll_id, 0)
-            lec_lv.append(CollectionListItem(coll_id, count))
+            lec_lv.append(CollectionListItem(coll_id, count, ready=ready_lookup.get(coll_id)))
 
         asn_lv = self.query_one("#assignment-list", ListView)
         asn_lv.clear()
         for coll_id in course.plan.assignments:
             count = idx.collection_attention_counts.get(coll_id, 0)
-            asn_lv.append(CollectionListItem(coll_id, count))
+            asn_lv.append(CollectionListItem(coll_id, count, ready=ready_lookup.get(coll_id)))
 
         stats = self.query_one("#course-footer-stats", Static)
         stats.update(
@@ -434,6 +496,38 @@ class CourseScreen(Screen):
 
     def action_pop(self) -> None:
         self.app.pop_screen()
+
+    def action_toggle_ready(self) -> None:
+        from app.delivery import toggle_ready
+
+        focused = self.focused
+        if not isinstance(focused, ListView):
+            return
+        highlighted = focused.highlighted_child
+        if not isinstance(highlighted, CollectionListItem):
+            return
+        coll_id = highlighted.collection_id
+
+        # Find the active delivery manifest for this course
+        idx = self.app.tui_index
+        delivery = None
+        for d in idx.repo_index.deliveries.values():
+            if d.model.course == self.course_id and d.model.status == "active":
+                delivery = d
+                break
+        if delivery is None:
+            self.notify("No active delivery manifest for this course", severity="warning")
+            return
+
+        try:
+            new_value = toggle_ready(delivery, coll_id)
+        except ValueError:
+            self.notify(f"{coll_id} not in delivery manifest", severity="warning")
+            return
+
+        label = "ready" if new_value else "not ready"
+        self.notify(f"{coll_id}: {label}")
+        self._populate()
 
     def action_edit_syllabus(self) -> None:
         course = self.app.tui_index.repo_index.courses[self.course_id]

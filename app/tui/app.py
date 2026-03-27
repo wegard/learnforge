@@ -52,6 +52,8 @@ class LearnForgeApp(App):
         with self.suspend():
             subprocess.run([editor, str(path)], cwd=REPO_ROOT, check=False)
         self.tui_index = load_tui_index(REPO_ROOT)
+        self.refresh(repaint=True)
+        self.screen.refresh(repaint=True)
         if hasattr(self.screen, "refresh_data"):
             self.screen.refresh_data()
 

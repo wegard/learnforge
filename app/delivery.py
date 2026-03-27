@@ -86,6 +86,55 @@ def scaffold_delivery(
     return manifest_path
 
 
+def toggle_ready(
+    delivery: IndexedDelivery,
+    collection_id: str,
+) -> bool:
+    """Toggle the ready flag for a lecture or assignment and write back to disk.
+
+    Returns the new ready value.
+    """
+    manifest = delivery.model
+    path = delivery.manifest_path
+
+    # Find the entry and toggle
+    new_value: bool | None = None
+    for entry in manifest.lectures:
+        if entry.lecture == collection_id:
+            entry.ready = not entry.ready
+            new_value = entry.ready
+            break
+    if new_value is None:
+        for entry in manifest.assignments:
+            if entry.assignment == collection_id:
+                entry.ready = not entry.ready
+                new_value = entry.ready
+                break
+
+    if new_value is None:
+        raise ValueError(f"{collection_id} not found in delivery {manifest.id}")
+
+    # Update the timestamp
+    manifest.updated = date.today()
+
+    # Write back
+    payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+    payload["updated"] = manifest.updated.isoformat()
+    for entry_data in payload.get("lectures", []):
+        if entry_data.get("lecture") == collection_id:
+            entry_data["ready"] = new_value
+            break
+    for entry_data in payload.get("assignments", []):
+        if entry_data.get("assignment") == collection_id:
+            entry_data["ready"] = new_value
+            break
+    path.write_text(
+        yaml.safe_dump(payload, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+    return new_value
+
+
 def _load_delivery(
     manifest_id: str,
     *,

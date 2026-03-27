@@ -1,0 +1,38 @@
+id: bik2550-spring-2026
+course: bik2550
+term: spring-2026
+language: nb
+status: active
+created: '2026-03-27'
+updated: '2026-03-27'
+lectures:
+- lecture: bik2550-m1d1
+  date: '2026-01-19'
+  ready: false
+- lecture: bik2550-m1d2
+  date: '2026-01-26'
+  ready: false
+- lecture: bik2550-m1d3
+  date: '2026-02-02'
+  ready: false
+- lecture: bik2550-m3d1
+  date: '2026-02-09'
+  ready: false
+- lecture: bik2550-m3d2
+  date: '2026-02-16'
+  ready: false
+- lecture: bik2550-m3d3
+  date: '2026-02-23'
+  ready: false
+assignments:
+- assignment: bik2550-project-brief
+  due_date: '2026-03-02'
+  ready: false
+default_formats:
+- html
+- revealjs
+- pdf
+- handout
+default_audiences:
+- student
+- teacher

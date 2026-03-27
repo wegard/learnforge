@@ -1,0 +1,56 @@
+id: tem0052-fall-2026
+course: tem0052
+term: fall-2026
+language: en
+status: active
+created: '2026-03-27'
+updated: '2026-03-27'
+lectures:
+- lecture: tem0052-lecture-01
+  date: '2026-08-17'
+  ready: false
+- lecture: tem0052-lecture-02
+  date: '2026-08-24'
+  ready: false
+- lecture: tem0052-lecture-03
+  date: '2026-08-31'
+  ready: false
+- lecture: tem0052-lecture-04
+  date: '2026-09-07'
+  ready: false
+- lecture: tem0052-lecture-05
+  date: '2026-09-14'
+  ready: false
+- lecture: tem0052-lecture-06
+  date: '2026-09-21'
+  ready: false
+- lecture: tem0052-lecture-07
+  date: '2026-09-28'
+  ready: false
+- lecture: tem0052-lecture-08
+  date: '2026-10-05'
+  ready: false
+- lecture: tem0052-lecture-09
+  date: '2026-10-12'
+  ready: false
+- lecture: tem0052-lecture-10
+  date: '2026-10-19'
+  ready: false
+assignments:
+- assignment: tem0052-assignment-01
+  due_date: '2026-10-26'
+  ready: false
+- assignment: tem0052-assignment-02
+  due_date: '2026-11-09'
+  ready: false
+- assignment: tem0052-assignment-03
+  due_date: '2026-11-23'
+  ready: false
+default_formats:
+- html
+- revealjs
+- pdf
+- handout
+default_audiences:
+- student
+- teacher
