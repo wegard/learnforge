@@ -58,13 +58,11 @@ class DashboardScreen(Screen):
         Binding("enter", "select", "Drill in", show=True),
         Binding("s", "schedule", "Schedule"),
         Binding("t", "edit_teaching", "Teaching"),
-        Binding("escape", "app.quit", "Quit", priority=True),
         Binding("tab", "app.focus_next", "Switch panel"),
         Binding("shift+tab", "app.focus_previous", "Switch panel", show=False),
         Binding("j", "cursor_down", "Down", show=False),
         Binding("k", "cursor_up", "Up", show=False),
         Binding("l", "select", "Drill in", show=False),
-        Binding("h", "app.quit", "Quit", show=False),
     ]
 
     def compose(self):

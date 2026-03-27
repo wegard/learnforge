@@ -85,7 +85,6 @@
 
 .section-header {
     text-style: bold;
-    color: $text-muted;
 }
 
 /* --- Attention --- */

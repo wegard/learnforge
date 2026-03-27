@@ -33,12 +33,22 @@ class CollectionListItem(ListItem):
 class SectionHeaderItem(ListItem):
     """Non-interactive section header inside a ListView."""
 
+    SECTION_COLORS: dict[str, str] = {
+        "ACTIVE": "green",
+        "UPCOMING": "orange1",
+        "DISCONTINUED": "grey62",
+    }
+
     def __init__(self, label: str) -> None:
         self.section_label = label
         super().__init__(disabled=True)
 
     def compose(self):
-        yield Static(f"  {self.section_label}", classes="section-header")
+        color = self.SECTION_COLORS.get(self.section_label)
+        if color:
+            yield Static(f"  [{color}]{self.section_label}[/]", classes="section-header")
+        else:
+            yield Static(f"  {self.section_label}", classes="section-header")
 
 
 class AttentionListItem(ListItem):
